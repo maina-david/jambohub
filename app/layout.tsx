@@ -6,8 +6,8 @@ import { siteConfig } from "@/config/site"
 import { absoluteUrl, cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
-import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import NextTopLoader from 'nextjs-toploader'
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -82,11 +82,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontHeading.variable
         )}
       >
+        <NextTopLoader showSpinner={false} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
           <Analytics />
           <Toaster />
-          <TailwindIndicator />
         </ThemeProvider>
       </body>
     </html>
