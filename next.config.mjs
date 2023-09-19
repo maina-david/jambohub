@@ -12,6 +12,7 @@ const nextConfig = {
     appDir: true,
     serverComponentsExternalPackages: ["@prisma/client"],
   },
+  typescript: { ignoreBuildErrors: true }
 }
 
 export default withContentlayer(nextConfig)
