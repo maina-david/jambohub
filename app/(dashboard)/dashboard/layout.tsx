@@ -27,15 +27,17 @@ export default async function DashboardLayout({
       <header className="sticky top-0 z-40 border-b bg-background">
         <div className="container flex h-16 items-center justify-between py-4">
           <CompanySwitcher />
-          <MainNav items={dashboardConfig.mainNav} />
-          <ModeToggle />
-          <UserAccountNav
-            user={{
-              name: user.name,
-              image: user.image,
-              email: user.email,
-            }}
-          />
+          <div className="ml-auto flex items-center space-x-4">
+            <MainNav items={dashboardConfig.mainNav} />
+            <ModeToggle />
+            <UserAccountNav
+              user={{
+                name: user.name,
+                image: user.image,
+                email: user.email,
+              }}
+            />
+          </div>
         </div>
       </header>
       <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
