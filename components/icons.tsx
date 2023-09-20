@@ -23,10 +23,14 @@ import {
   Twitter,
   User,
   X,
-  type Icon as LucideIcon,
 } from "lucide-react"
+import dynamicIconImports from 'lucide-react/dynamicIconImports'
 
-export type Icon = LucideIcon
+interface IconProps extends LucideProps {
+  name: keyof typeof dynamicIconImports;
+}
+
+export type Icon = IconProps
 
 export const Icons = {
   logo: Command,
