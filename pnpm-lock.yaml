@@ -67,7 +67,7 @@ specifiers:
   eslint-plugin-react: ^7.33.2
   eslint-plugin-tailwindcss: ^3.13.0
   husky: ^8.0.3
-  lucide-react: ^0.92.0
+  lucide-react: ^0.279.0
   mdast-util-toc: ^6.1.1
   next: 13.3.2-canary.13
   next-auth: 4.22.1
@@ -156,7 +156,7 @@ dependencies:
   concurrently: 8.2.1
   contentlayer: 0.3.4
   date-fns: 2.30.0
-  lucide-react: 0.92.0_sh5qlbywuemxd2y3xkrw2y2kr4
+  lucide-react: 0.279.0_react@18.2.0
   next: 13.3.2-canary.13_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.22.1_w7ndrecjiwjrwibs6koyocy534
   next-contentlayer: 0.3.4_2kjlqg3xxy2fsuzvwml3nc5s6u
@@ -5770,13 +5770,11 @@ packages:
     dependencies:
       yallist: 4.0.0
 
-  /lucide-react/0.92.0_sh5qlbywuemxd2y3xkrw2y2kr4:
-    resolution: {integrity: sha512-rKnAxjhDPvvmKvvij+oeA+qJicQwXf+4hfANIrMPlDiBKJfrDv1HGF496ZiTBevcrRJ/8/C3rrnUb77EAhHHlA==}
+  /lucide-react/0.279.0_react@18.2.0:
+    resolution: {integrity: sha512-LJ8g66+Bxc3t3x9vKTeK3wn3xucrOQGfJ9ou9GsBwCt2offsrT2BB90XrTrIzE1noYYDe2O8jZaRHi6sAHXNxw==}
     peerDependencies:
-      prop-types: ^15.7.2
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
-      prop-types: 15.8.1
       react: 18.2.0
     dev: false
 
