@@ -15,19 +15,39 @@ export const dashboardConfig: DashboardConfig = {
   ],
   sidebarNav: [
     {
-      title: "Posts",
+      title: "Home",
       href: "/dashboard",
-      icon: "post",
+      icon: "home",
     },
     {
-      title: "Billing",
-      href: "/billing",
-      icon: "billing",
+      title: "Chats",
+      href: "/chats",
+      icon: "chat",
     },
     {
-      title: "Settings",
-      href: "/settings",
-      icon: "settings",
+      title: "Campaigns",
+      href: "/campaigns",
+      icon: "campaign",
+    },
+    {
+      title: "Leads",
+      href: "/leads",
+      icon: "home",
+    },
+    {
+      title: "ChatFlow",
+      href: "/chatflow",
+      icon: "flow",
+    },
+    {
+      title: "Channels",
+      href: "/channels",
+      icon: "channels",
+    },
+    {
+      title: "Teams",
+      href: "/teams",
+      icon: "user"
     },
   ],
 }

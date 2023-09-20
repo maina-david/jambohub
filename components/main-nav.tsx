@@ -37,6 +37,7 @@ export function MainNav({ items, children }: MainNavProps) {
               {item.title}
             </Link>
           ))}
+
         </nav>
       ) : null}
       <button

@@ -28,20 +28,22 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     resolver: zodResolver(userAuthSchema),
   })
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false)
   const [isTwitterLoading, setIsTwitterLoading] = React.useState<boolean>(false)
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false)
   const [isFacebookLoading, setIsFacebookLoading] = React.useState<boolean>(false)
   const searchParams = useSearchParams()
+  const callbackUrl = searchParams?.get("from") || "/dashboard"
 
   async function onSubmit(data: FormData) {
     setIsLoading(true)
 
-    const signInResult = await signIn("email", {
+    const signInResult = await signIn("credentials", {
       email: data.email.toLowerCase(),
-      redirect: false,
-      callbackUrl: searchParams?.get("from") || "/dashboard",
+      password: data.password,
+      callbackUrl: callbackUrl,
     })
+
+    console.log(signInResult)
 
     setIsLoading(false)
 
@@ -53,10 +55,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       })
     }
 
-    return toast({
-      title: "Check your email",
-      description: "We sent you a login link. Be sure to check your spam too.",
-    })
   }
 
   return (
@@ -74,8 +72,38 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading || isGitHubLoading}
+              disabled={
+                isLoading ||
+                isTwitterLoading ||
+                isFacebookLoading ||
+                isGoogleLoading
+              }
               {...register("email")}
+            />
+            {errors?.email && (
+              <p className="px-1 text-xs text-red-600">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="password">
+              Password
+            </Label>
+            <Input
+              id="password"
+              placeholder="***********"
+              type="password"
+              autoCapitalize="none"
+              autoComplete="password"
+              autoCorrect="off"
+              disabled={
+                isLoading ||
+                isTwitterLoading ||
+                isFacebookLoading ||
+                isGoogleLoading
+              }
+              {...register("password")}
             />
             {errors?.email && (
               <p className="px-1 text-xs text-red-600">
@@ -87,7 +115,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In with Email
+            Sign In
           </button>
         </div>
       </form>
@@ -101,22 +129,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={() => {
-          setIsGitHubLoading(true)
-          signIn("github")
-        }}
-        disabled={isLoading || isGitHubLoading}
-      >
-        {isGitHubLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Github
-      </button>
       <button
         type="button"
         className={cn(buttonVariants({ variant: "outline" }))}
@@ -138,7 +150,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         className={cn(buttonVariants({ variant: "outline" }))}
         onClick={() => {
           setIsFacebookLoading(true)
-          signIn("facebook")
+          signIn("facebook", { callbackUrl })
         }}
         disabled={isLoading || isFacebookLoading}
       >
@@ -154,7 +166,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         className={cn(buttonVariants({ variant: "outline" }))}
         onClick={() => {
           setIsGoogleLoading(true)
-          signIn("google")
+          signIn("google", { callbackUrl })
         }}
         disabled={isLoading || isGoogleLoading}
       >

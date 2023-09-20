@@ -5,6 +5,7 @@ import GitHubProvider from "next-auth/providers/github"
 import TwitterProvider from "next-auth/providers/twitter"
 import GoogleProvider from "next-auth/providers/google"
 import FacebookProvider from "next-auth/providers/facebook"
+import CredentialsProvider from "next-auth/providers/credentials"
 
 import { createTransport } from "nodemailer"
 
@@ -17,6 +18,9 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db as any),
   session: {
     strategy: "jwt",
+  },
+  jwt: {
+    secret: env.NEXTAUTH_SECRET,
   },
   pages: {
     signIn: "/login",
@@ -79,6 +83,28 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: "Email", type: "email", placeholder: "name@example.com" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials.password) {
+          return null
+        }
+
+        // const { email, password } = credentials as { email: string, password: string }
+
+        const user = { id: 1, email: 'test@test.com', name: 'Test Account' }
+
+        return {
+          id: user.id + '',
+          email: user.email,
+          name: user.name
+        }
+      }
+    }),
   ],
   callbacks: {
     async session({ token, session }) {
@@ -92,25 +118,25 @@ export const authOptions: NextAuthOptions = {
       return session
     },
     async jwt({ token, user }) {
-      const dbUser = await db.user.findFirst({
-        where: {
-          email: token.email,
-        },
-      })
+      // const dbUser = await db.user.findFirst({
+      //   where: {
+      //     email: token.email,
+      //   },
+      // })
 
-      if (!dbUser) {
-        if (user) {
-          token.id = user?.id
-        }
-        return token
+      // if (!dbUser) {
+      if (user) {
+        token.id = user?.id
       }
+      return token
+      // }
 
-      return {
-        id: dbUser.id,
-        name: dbUser.name,
-        email: dbUser.email,
-        picture: dbUser.image,
-      }
+      // return {
+      //   id: dbUser.id,
+      //   name: dbUser.name,
+      //   email: dbUser.email,
+      //   picture: dbUser.image,
+      // }
     },
   },
 }
