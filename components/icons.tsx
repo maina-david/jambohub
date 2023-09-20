@@ -30,7 +30,8 @@ import {
   ScreenShareIcon,
   Workflow,
   Activity,
-  AirplayIcon
+  AirplayIcon,
+  LayoutDashboardIcon
 } from "lucide-react"
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
 
@@ -43,6 +44,7 @@ export type Icon = IconProps
 export const Icons = {
   logo: Command,
   home: HomeIcon,
+  dashboard: LayoutDashboardIcon,
   chat: MessageSquare,
   campaign: AirplayIcon,
   channels: ScreenShareIcon,
