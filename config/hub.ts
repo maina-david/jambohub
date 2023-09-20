@@ -5,6 +5,7 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: "Documentation",
       href: "/docs",
+      disabled: true,
     },
     {
       title: "Support",
@@ -20,12 +21,12 @@ export const dashboardConfig: DashboardConfig = {
     },
     {
       title: "Billing",
-      href: "/dashboard/billing",
+      href: "/billing",
       icon: "billing",
     },
     {
       title: "Settings",
-      href: "/dashboard/settings",
+      href: "/settings",
       icon: "settings",
     },
   ],
