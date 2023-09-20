@@ -96,7 +96,43 @@ export default async function IndexPage() {
               <div className="space-y-2">
                 <h3 className="font-bold">Automated Responses</h3>
                 <p className="text-sm text-muted-foreground">
-                  Build automated response workflows and conditional logic.
+                  Build automated response workflows with conditional logic and triggers.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 4: Message Routing */}
+          <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
+              <div className="space-y-2">
+                <h3 className="font-bold">Message Routing</h3>
+                <p className="text-sm text-muted-foreground">
+                  Intelligent routing of incoming messages to relevant workflows or human agents for efficient handling.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 5: User Management */}
+          <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
+              <div className="space-y-2">
+                <h3 className="font-bold">User Management</h3>
+                <p className="text-sm text-muted-foreground">
+                  User authentication, role-based access control, and customizable user profiles.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 6: Analytics and Reporting */}
+          <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
+              <div className="space-y-2">
+                <h3 className="font-bold">Analytics and Reporting</h3>
+                <p className="text-sm text-muted-foreground">
+                  Track campaign performance, conversation analytics, and user engagement.
                 </p>
               </div>
             </div>
