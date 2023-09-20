@@ -31,8 +31,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isTwitterLoading, setIsTwitterLoading] = React.useState<boolean>(false)
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false)
   const [isFacebookLoading, setIsFacebookLoading] = React.useState<boolean>(false)
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams?.get("from") || "/dashboard"
 
   async function onSubmit(data: FormData) {
     setIsLoading(true)
@@ -40,10 +38,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const signInResult = await signIn("credentials", {
       email: data.email.toLowerCase(),
       password: data.password,
-      callbackUrl: callbackUrl,
     })
-
-    console.log(signInResult)
 
     setIsLoading(false)
 
@@ -150,7 +145,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         className={cn(buttonVariants({ variant: "outline" }))}
         onClick={() => {
           setIsFacebookLoading(true)
-          signIn("facebook", { callbackUrl })
+          signIn("facebook")
         }}
         disabled={isLoading || isFacebookLoading}
       >
@@ -166,7 +161,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         className={cn(buttonVariants({ variant: "outline" }))}
         onClick={() => {
           setIsGoogleLoading(true)
-          signIn("google", { callbackUrl })
+          signIn("google")
         }}
         disabled={isLoading || isGoogleLoading}
       >
