@@ -149,6 +149,22 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         )}{" "}
         Facebook
       </button>
+      <button
+        type="button"
+        className={cn(buttonVariants({ variant: "outline" }))}
+        onClick={() => {
+          setIsGoogleLoading(true)
+          signIn("google")
+        }}
+        disabled={isLoading || isGoogleLoading}
+      >
+        {isGoogleLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <Icons.google className="mr-2 h-4 w-4" />
+        )}{" "}
+        Google
+      </button>
     </div>
   )
 }
