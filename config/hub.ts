@@ -32,7 +32,7 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: "Leads",
       href: "/leads",
-      icon: "home",
+      icon: "activity",
     },
     {
       title: "ChatFlow",

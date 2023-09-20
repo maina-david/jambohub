@@ -26,10 +26,11 @@ import {
   Facebook,
   MailIcon,
   HomeIcon,
-  MailOpen,
-  SpeakerIcon,
+  MessageSquare,
   ScreenShareIcon,
-  Rotate3DIcon
+  Workflow,
+  Activity,
+  AirplayIcon
 } from "lucide-react"
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
 
@@ -42,10 +43,11 @@ export type Icon = IconProps
 export const Icons = {
   logo: Command,
   home: HomeIcon,
-  chat: MailOpen,
-  campaign: SpeakerIcon,
+  chat: MessageSquare,
+  campaign: AirplayIcon,
   channels: ScreenShareIcon,
-  flow: Rotate3DIcon,
+  activity: Activity,
+  flow: Workflow,
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,
