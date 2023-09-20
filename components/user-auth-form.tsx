@@ -15,6 +15,8 @@ import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
+import { SocialIcon } from 'react-social-icons'
+
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 type FormData = z.infer<typeof userAuthSchema>
@@ -125,9 +127,15 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         disabled={isLoading || isTwitterLoading}
       >
         {isTwitterLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          <Icons.spinner
+            className="mr-2 h-4 w-4 animate-spin"
+          />
         ) : (
-            <Icons.twitter className="mr-2 h-4 w-4" />
+          <SocialIcon
+            className="mr-2 h-4 w-4"
+            color="currentColor"
+            url="https://twitter.com"
+          />
         )}{" "}
         Twitter
       </button>
