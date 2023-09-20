@@ -12,11 +12,7 @@ export default withAuth(
 
     if (isAuthPage) {
       if (isAuth) {
-        let from = req.nextUrl.pathname;
-        if (!from){
-          return NextResponse.redirect(new URL("/dashboard", req.url))
-        }
-        return NextResponse.redirect(new URL(`/${encodeURIComponent(from)}`, req.url))
+        return NextResponse.redirect(new URL("/dashboard", req.url))
       }
 
       return null
