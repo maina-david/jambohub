@@ -49,6 +49,7 @@ specifiers:
   '@tailwindcss/line-clamp': ^0.4.4
   '@tailwindcss/typography': ^0.5.10
   '@types/node': ^18.17.17
+  '@types/nodemailer': ^6.4.10
   '@types/react': 18.0.15
   '@types/react-dom': 18.0.6
   '@typescript-eslint/parser': ^5.62.0
@@ -187,6 +188,7 @@ devDependencies:
   '@tailwindcss/line-clamp': 0.4.4_tailwindcss@3.3.3
   '@tailwindcss/typography': 0.5.10_tailwindcss@3.3.3
   '@types/node': 18.17.17
+  '@types/nodemailer': 6.4.10
   '@types/react': 18.0.15
   '@types/react-dom': 18.0.6
   autoprefixer: 10.4.15_postcss@8.4.30
@@ -1121,7 +1123,7 @@ packages:
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.10
-      '@types/node': 18.17.17
+      '@types/node': 20.4.7
     dev: false
 
   /@grpc/proto-loader/0.7.10:
@@ -3221,6 +3223,11 @@ packages:
 
   /@types/node/20.4.7:
     resolution: {integrity: sha512-bUBrPjEry2QUTsnuEjzjbS7voGWCc30W0qzgMf90GPeDGFRakvrz47ju+oqDAKCXLUCe39u57/ORMl/O/04/9g==}
+
+  /@types/nodemailer/6.4.10:
+    resolution: {integrity: sha512-oPW/IdhkU3FyZc1dzeqmS+MBjrjZNiiINnrEOrWALzccJlP5xTlbkNr2YnTnnyj9Eqm5ofjRoASEbrCYpA7BrA==}
+    dependencies:
+      '@types/node': 20.4.7
     dev: true
 
   /@types/normalize-package-data/2.4.1:
@@ -7088,7 +7095,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.17.17
+      '@types/node': 20.4.7
       long: 5.2.3
     dev: false
 
