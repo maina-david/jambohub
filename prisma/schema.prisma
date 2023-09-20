@@ -1,13 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
@@ -26,11 +23,9 @@ model Account {
   session_state     String?
   createdAt         DateTime @default(now()) @map(name: "created_at")
   updatedAt         DateTime @default(now()) @map(name: "updated_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-  @@map(name: "accounts")
 }
 
 model Session {
@@ -39,29 +34,27 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map(name: "sessions")
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
-
-  accounts Account[]
-  sessions Session[]
-  Post     Post[]
-
-  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
-  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
-  stripePriceId          String?   @map(name: "stripe_price_id")
-  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
-
-  @@map(name: "users")
+  id                     String     @id @default(cuid())
+  name                   String?
+  email                  String?    @unique
+  emailVerified          DateTime?
+  image                  String?
+  status                 Boolean    @default(true)
+  createdAt              DateTime   @default(now()) @map(name: "created_at")
+  updatedAt              DateTime   @default(now()) @map(name: "updated_at")
+  accounts               Account[]
+  sessions               Session[]
+  company                Company[]
+  teams                  UserTeam[]
+  leads                  Lead[]
+  chats                  Chat[]
+  stripeCustomerId       String?    @unique @map(name: "stripe_customer_id")
+  stripeSubscriptionId   String?    @unique @map(name: "stripe_subscription_id")
+  stripePriceId          String?    @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd DateTime?  @map(name: "stripe_current_period_end")
 }
 
 model VerificationToken {
@@ -70,19 +63,155 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-  @@map(name: "verification_tokens")
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   Json?
-  published Boolean  @default(false)
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
-  authorId  String
+model Company {
+  id                   String                 @id @default(cuid())
+  name                 String
+  active               Boolean                @default(false)
+  createdAt            DateTime               @default(now()) @map(name: "created_at")
+  updatedAt            DateTime               @default(now()) @map(name: "updated_at")
+  ownerId              String
+  status               Boolean                @default(true)
+  owner                User                   @relation(fields: [ownerId], references: [id])
+  channels             Channel[]
+  chatflows            Chatflow[]
+  teams                Team[]
+  settings             CompanySettings[]
+  leads                Lead[]
+  campaigns            Campaign[]
+  chats                Chat[]
+  notificationSettings NotificationSettings[]
+}
 
-  author User @relation(fields: [authorId], references: [id])
+model Chatflow {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  companyId   String
+  status      Boolean @default(true)
+  company     Company @relation(fields: [companyId], references: [id])
+}
 
-  @@map(name: "posts")
+enum ChannelType {
+  WHATSAPP
+  TWITTER
+  FACEBOOK
+  SMS
+}
+
+model Channel {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  status      Boolean     @default(true)
+  companyId   String
+  type        ChannelType
+  authDetails Json
+  teams       Team[]      @relation("ChannelToTeams")
+  chats       Chat[]
+  company     Company     @relation(fields: [companyId], references: [id])
+}
+
+model Team {
+  id        String     @id @default(cuid())
+  name      String
+  companyId String
+  status    Boolean    @default(true)
+  company   Company    @relation(fields: [companyId], references: [id])
+  channels  Channel[]  @relation("ChannelToTeams")
+  members   UserTeam[]
+}
+
+model UserTeam {
+  id     String  @id @default(cuid())
+  userId String
+  teamId String
+  status Boolean @default(true)
+  user   User    @relation(fields: [userId], references: [id])
+  team   Team    @relation(fields: [teamId], references: [id])
+
+  @@unique([userId, teamId])
+}
+
+model CompanySettings {
+  id                     String               @id @default(cuid())
+  companyId              String
+  company                Company              @relation(fields: [companyId], references: [id])
+  timeZone               String
+  language               String               @default("EN")
+  currency               String
+  notificationSettingsId String
+  notificationSettings   NotificationSettings @relation(fields: [notificationSettingsId], references: [id])
+}
+
+model NotificationSettings {
+  id                 String            @id @default(cuid())
+  emailNotifications Boolean           @default(true)
+  pushNotifications  Boolean           @default(true)
+  smsNotifications   Boolean           @default(true)
+  companyId          String
+  company            Company           @relation(fields: [companyId], references: [id])
+  CompanySettings    CompanySettings[]
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CONVERTED
+  LOST
+}
+
+model Lead {
+  id               String     @id @default(cuid())
+  firstName        String
+  lastName         String
+  email            String     @unique
+  phone            String?
+  jobTitle         String?
+  status           LeadStatus
+  source           String?
+  conversionDetail String?
+  createdAt        DateTime   @default(now()) @map(name: "created_at")
+  updatedAt        DateTime   @default(now()) @map(name: "updated_at")
+  companyId        String
+  ownerId          String?
+  company          Company    @relation(fields: [companyId], references: [id])
+  owner            User?      @relation(fields: [ownerId], references: [id])
+  Chat             Chat[]
+}
+
+model Campaign {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  status      CampaignStatus
+  companyId   String
+  company     Company        @relation(fields: [companyId], references: [id])
+}
+
+enum CampaignStatus {
+  PLANNED
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELED
+}
+
+model Chat {
+  id          String   @id @default(cuid())
+  channelId   String
+  channel     Channel  @relation(fields: [channelId], references: [id])
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id])
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  leadId      String
+  lead        Lead     @relation(fields: [leadId], references: [id])
+  externalRef String
+  message     String
+  timestamp   DateTime @default(now())
 }
