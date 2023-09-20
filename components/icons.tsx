@@ -23,6 +23,7 @@ import {
   Twitter,
   User,
   X,
+  Facebook,
 } from "lucide-react"
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
 
@@ -72,5 +73,6 @@ export const Icons = {
     </svg>
   ),
   twitter: Twitter,
+  facebook: Facebook,
   check: Check,
 }

@@ -3,6 +3,9 @@ import { NextAuthOptions } from "next-auth"
 import EmailProvider from "next-auth/providers/email"
 import GitHubProvider from "next-auth/providers/github"
 import TwitterProvider from "next-auth/providers/twitter"
+import GoogleProvider from "next-auth/providers/google"
+import FacebookProvider from "next-auth/providers/facebook"
+
 import { createTransport } from "nodemailer"
 
 import { env } from "@/env.mjs"
@@ -27,6 +30,14 @@ export const authOptions: NextAuthOptions = {
       clientId: env.TWITTER_ID,
       clientSecret: env.TWITTER_SECRET,
       version: "2.0",
+    }),
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET
+    }),
+    FacebookProvider({
+      clientId: env.FACEBOOK_CLIENT_ID,
+      clientSecret: env.FACEBOOK_CLIENT_SECRET
     }),
     EmailProvider({
       server: {

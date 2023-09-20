@@ -30,6 +30,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false)
   const [isTwitterLoading, setIsTwitterLoading] = React.useState<boolean>(false)
+  const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false)
+  const [isFacebookLoading, setIsFacebookLoading] = React.useState<boolean>(false)
   const searchParams = useSearchParams()
 
   async function onSubmit(data: FormData) {
@@ -119,7 +121,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         type="button"
         className={cn(buttonVariants({ variant: "outline" }))}
         onClick={() => {
-          setIsGitHubLoading(true)
+          setIsTwitterLoading(true)
           signIn("twitter")
         }}
         disabled={isLoading || isTwitterLoading}
@@ -130,6 +132,22 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           <Icons.twitter className="mr-2 h-4 w-4" />
         )}{" "}
         Twitter
+      </button>
+      <button
+        type="button"
+        className={cn(buttonVariants({ variant: "outline" }))}
+        onClick={() => {
+          setIsFacebookLoading(true)
+          signIn("facebook")
+        }}
+        disabled={isLoading || isFacebookLoading}
+      >
+        {isFacebookLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <Icons.facebook className="mr-2 h-4 w-4" />
+        )}{" "}
+        Facebook
       </button>
     </div>
   )
