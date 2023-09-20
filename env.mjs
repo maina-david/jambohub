@@ -19,7 +19,7 @@ export const env = createEnv({
     EMAIL_SERVER_USER: z.string().min(1),
     EMAIL_SERVER_PASSWORD: z.string().min(1),
     EMAIL_SERVER_HOST: z.string().min(1),
-    EMAIL_SERVER_PORT: z.number().min(1),
+    EMAIL_SERVER_PORT: z.string().min(1),
     EMAIL_FROM: z.string().min(1),
   },
   client: {
