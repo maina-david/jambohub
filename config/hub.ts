@@ -35,8 +35,8 @@ export const dashboardConfig: DashboardConfig = {
       icon: "activity",
     },
     {
-      title: "ChatFlow",
-      href: "/chatflow",
+      title: "ChatFlows",
+      href: "/chatflows",
       icon: "flow",
     },
     {
