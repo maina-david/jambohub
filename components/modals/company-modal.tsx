@@ -133,7 +133,7 @@ export const CompanyModal = () => {
                   render={() => (
                     <FormItem>
                       <FormControl>
-                        <Checkbox checked={false} id="defaultCompany" />
+                        <Checkbox id="defaultCompany" />
                       </FormControl>
                       <FormLabel
                         htmlFor="defaultCompany"
