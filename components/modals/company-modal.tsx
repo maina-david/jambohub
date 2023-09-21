@@ -130,18 +130,28 @@ export const CompanyModal = () => {
               )}
             />
             <div className="flex items-center space-x-2 space-y-2">
-              <Checkbox id="defaultCompany" />
-              <label
-                htmlFor="defaultCompany"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Set as default company?
-              </label>
+              <FormField
+                control={form.control}
+                name="defaultCompany"
+                render={({ field: { onChange, value } }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Checkbox checked={value} onChange={onChange} />
+                    </FormControl>
+                    <FormLabel
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Set as default company?
+                    </FormLabel>
+                    <FormDescription>
+                      This is your company display name.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-            <DialogFooter>
-              <Button disabled={loading} variant="outline" onClick={companyModal.onClose}>
-                Cancel
-              </Button>
+            <DialogFooter>=
               <Button
                 disabled={loading}
                 type="submit">
