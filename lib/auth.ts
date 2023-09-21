@@ -66,37 +66,10 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture
-      }
 
-      return session
-    },
-    async jwt({ token, user }) {
-      const dbUser = await db.user.findFirst({
-        where: {
-          email: token.email,
-        },
-      })
-
-      if (!dbUser) {
-        if (user) {
-          token.id = user?.id
-        }
-        return token
-      }
-
-      return {
-        id: dbUser.id,
-        name: dbUser.name,
-        email: dbUser.email,
-        picture: dbUser.image,
-      }
-    },
-    async signIn({ user }) {
-      if (user && user.email) {
-        // Check if the user has a subscription plan
         const dbUser = await db.user.findFirst({
           where: {
-            email: user.email,
+            id: token.id,
           },
           include: {
             Subscription: true, // Include the user's subscription
@@ -126,7 +99,29 @@ export const authOptions: NextAuthOptions = {
           })
         }
       }
-      return true
+
+      return session
+    },
+    async jwt({ token, user }) {
+      const dbUser = await db.user.findFirst({
+        where: {
+          email: token.email,
+        },
+      })
+
+      if (!dbUser) {
+        if (user) {
+          token.id = user?.id
+        }
+        return token
+      }
+
+      return {
+        id: dbUser.id,
+        name: dbUser.name,
+        email: dbUser.email,
+        picture: dbUser.image,
+      }
     },
   },
 }
