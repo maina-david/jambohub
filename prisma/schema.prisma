@@ -37,32 +37,23 @@ model Session {
 }
 
 model User {
-  id                     String     @id @default(cuid())
-  name                   String?
-  email                  String?    @unique
-  emailVerified          DateTime?
-  image                  String?
-  status                 Boolean    @default(true)
-  createdAt              DateTime   @default(now()) @map(name: "created_at")
-  updatedAt              DateTime   @default(now()) @map(name: "updated_at")
-  accounts               Account[]
-  sessions               Session[]
-  company                Company[]
-  teams                  UserTeam[]
-  leads                  Lead[]
-  chats                  Chat[]
-  stripeCustomerId       String?    @unique @map(name: "stripe_customer_id")
-  stripeSubscriptionId   String?    @unique @map(name: "stripe_subscription_id")
-  stripePriceId          String?    @map(name: "stripe_price_id")
-  stripeCurrentPeriodEnd DateTime?  @map(name: "stripe_current_period_end")
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
+  id             String        @id @default(cuid())
+  name           String?
+  email          String?       @unique
+  emailVerified  DateTime?
+  image          String?
+  status         Boolean       @default(true)
+  createdAt      DateTime      @default(now()) @map(name: "created_at")
+  updatedAt      DateTime      @default(now()) @map(name: "updated_at")
+  accounts       Account[]
+  sessions       Session[]
+  ownedCompanies Company[]     @relation("Owner")
+  teams          UserTeam[]
+  leads          Lead[]
+  chats          Chat[]
+  companies      Company[]     @relation("UserCompany")
+  UserCompany    UserCompany[]
+  Subscription   Subscription?
 }
 
 model Company {
@@ -71,10 +62,10 @@ model Company {
   active               Boolean                @default(false)
   createdAt            DateTime               @default(now()) @map(name: "created_at")
   updatedAt            DateTime               @default(now()) @map(name: "updated_at")
-  ownerId              String
+  owner                User?                  @relation("Owner", fields: [ownerId], references: [id])
+  ownerId              String?
   status               Boolean                @default(true)
   default              Boolean                @default(false)
-  owner                User                   @relation(fields: [ownerId], references: [id])
   channels             Channel[]
   chatflows            Chatflow[]
   teams                Team[]
@@ -83,6 +74,45 @@ model Company {
   campaigns            Campaign[]
   chats                Chat[]
   notificationSettings NotificationSettings[]
+  users                User[]                 @relation("UserCompany")
+  UserCompany          UserCompany[]
+}
+
+model UserCompany {
+  id        String  @id @default(cuid())
+  userId    String
+  companyId String
+  user      User    @relation(fields: [userId], references: [id])
+  company   Company @relation(fields: [companyId], references: [id])
+
+  @@unique([userId, companyId])
+}
+
+enum SubscriptionPlan {
+  FREE
+  PRO
+}
+
+model Subscription {
+  id           String           @id @default(cuid())
+  userId       String           @unique
+  user         User             @relation(fields: [userId], references: [id])
+  plan         SubscriptionPlan @default(FREE)
+  maxCompanies Int
+  maxUsers     Int
+  monthlyPrice Int?
+  currentPeriodEnd DateTime
+  active       Boolean          @default(true)
+  createdAt    DateTime         @default(now()) @map(name: "created_at")
+  updatedAt    DateTime         @default(now()) @map(name: "updated_at")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
 
 model Chatflow {
@@ -183,6 +213,14 @@ model Lead {
   Chat             Chat[]
 }
 
+enum CampaignStatus {
+  PLANNED
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELED
+}
+
 model Campaign {
   id          String         @id @default(cuid())
   name        String
@@ -192,14 +230,6 @@ model Campaign {
   status      CampaignStatus
   companyId   String
   company     Company        @relation(fields: [companyId], references: [id])
-}
-
-enum CampaignStatus {
-  PLANNED
-  ACTIVE
-  PAUSED
-  COMPLETED
-  CANCELED
 }
 
 model Chat {

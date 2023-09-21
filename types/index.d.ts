@@ -17,15 +17,15 @@ export type SidebarNavItem = {
   external?: boolean
   icon?: keyof typeof Icons
 } & (
-  | {
+    | {
       href: string
       items?: never
     }
-  | {
+    | {
       href?: string
       items: NavLink[]
     }
-)
+  )
 
 export type SiteConfig = {
   name: string
@@ -52,14 +52,16 @@ export type DashboardConfig = {
   sidebarNav: SidebarNavItem[]
 }
 
-export type SubscriptionPlan = {
-  name: string
-  description: string
-  stripePriceId: string
+export enum SubscriptionPlan {
+  FREE = "FREE",
+  PRO = "PRO",
 }
 
-export type UserSubscriptionPlan = SubscriptionPlan &
-  Pick<User, "stripeCustomerId" | "stripeSubscriptionId"> & {
-    stripeCurrentPeriodEnd: number
-    isPro: boolean
-  }
+export type UserSubscriptionPlan = {
+  plan: SubscriptionPlan
+  maxCompanies: number
+  maxUsers: number
+  monthlyPrice?: number
+  active: boolean
+}
+

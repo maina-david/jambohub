@@ -3,7 +3,7 @@ import * as z from "zod"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { RequiresProPlanError } from "@/lib/exceptions"
+import { MaximumPlanResourcesError, RequiresActivePlanError, RequiresProPlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 
 const companyCreateSchema = z.object({
@@ -48,17 +48,23 @@ export async function POST(req: Request) {
     const { user } = session
     const subscriptionPlan = await getUserSubscriptionPlan(user.id)
 
-    // If user is on a free plan.
-    // Check if user has reached limit of 3 posts.
-    if (!subscriptionPlan?.isPro) {
+    if (!subscriptionPlan) {
+      throw new RequiresActivePlanError()
+    }
+
+    if (subscriptionPlan.plan === "FREE") {
+      throw new RequiresProPlanError()
+    }
+
+    if (subscriptionPlan.plan === "PRO") {
       const count = await db.company.count({
         where: {
           ownerId: user.id,
         },
       })
 
-      if (count >= 3) {
-        throw new RequiresProPlanError()
+      if (count >= subscriptionPlan.maxCompanies) {
+        throw new MaximumPlanResourcesError()
       }
     }
 
@@ -68,7 +74,7 @@ export async function POST(req: Request) {
     const company = await db.company.create({
       data: {
         name: body.name,
-        ownerId: session.user.id,
+        ownerId: user.id,
       },
       select: {
         id: true,
@@ -76,6 +82,7 @@ export async function POST(req: Request) {
     })
 
     return new Response(JSON.stringify(company))
+
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
@@ -85,6 +92,15 @@ export async function POST(req: Request) {
       return new Response("Requires Pro Plan", { status: 402 })
     }
 
+    if (error instanceof RequiresActivePlanError) {
+      return new Response("Requires Active Plan", { status: 403 })
+    }
+
+    if (error instanceof MaximumPlanResourcesError) {
+      return new Response("Exceeded Maximum Company Limit", { status: 403 })
+    }
+
     return new Response(null, { status: 500 })
   }
 }
+
