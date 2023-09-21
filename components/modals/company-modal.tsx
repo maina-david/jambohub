@@ -134,11 +134,8 @@ export const CompanyModal = () => {
                     <FormLabel
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
-                      Set as default company?
+                      {" "}Set as default company?
                     </FormLabel>
-                    <FormDescription>
-                      This is your company display name.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
