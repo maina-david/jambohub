@@ -147,14 +147,14 @@ export const CompanyModal = () => {
                 Set as default company?
               </label>
             </div>
+            <DialogFooter>
+              <Button disabled={loading} variant="outline" onClick={companyModal.onClose}>
+                Cancel
+              </Button>
+              <Button disabled={loading} type="submit">Continue</Button>
+            </DialogFooter>
           </form>
         </Form>
-        <DialogFooter>
-          <Button disabled={loading} variant="outline" onClick={companyModal.onClose}>
-            Cancel
-          </Button>
-          <Button disabled={loading} type="submit">Continue</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
 
