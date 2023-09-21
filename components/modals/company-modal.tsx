@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Checkbox } from "../ui/checkbox"
+import { Icons } from "../icons"
 
 
 
@@ -43,23 +44,57 @@ export const CompanyModal = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await axios.post('/api/companies', {
         ...values,
-      })
-      window.location.assign(`/${response.data.id}`)
+      });
+      window.location.assign(`/${response.data.id}`);
     } catch (error) {
-      toast({
-        title: "Something went wrong.",
-        description: "Your company was not created. Please try again.",
-        variant: "destructive",
-      })
+      if (error.response) {
+        // Handle specific HTTP error codes
+        const status = error.response.status;
+        if (status === 402) {
+          toast({
+            title: "Requires Pro Plan",
+            description: "You need a Pro Plan to create more companies.",
+            variant: "destructive",
+          });
+        } else if (status === 403) {
+          toast({
+            title: "Exceeded Maximum Company Limit",
+            description: "You've reached the maximum company limit for your plan.",
+            variant: "destructive",
+          });
+        } else if (status === 422) {
+          // Handle validation errors
+          const validationErrors = error.response.data;
+          toast({
+            title: "Validation Error",
+            description: "Please correct the following errors: " + validationErrors.join(", "),
+            variant: "destructive",
+          });
+        } else {
+          // Handle other unexpected errors
+          toast({
+            title: "Something went wrong.",
+            description: "Your company was not created. Please try again.",
+            variant: "destructive",
+          });
+        }
+      } else {
+        // Handle other unexpected errors
+        toast({
+          title: "Something went wrong.",
+          description: "Your company was not created. Please try again.",
+          variant: "destructive",
+        });
+      }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
+
 
   const onChange = (open: boolean) => {
     if (!open) {
@@ -107,7 +142,13 @@ export const CompanyModal = () => {
               <Button disabled={loading} variant="outline" onClick={companyModal.onClose}>
                 Cancel
               </Button>
-              <Button disabled={loading} type="submit">Continue</Button>
+              <Button
+                disabled={loading}
+                type="submit">
+                {loading && (
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                )}{" "}Continue
+              </Button>
             </DialogFooter>
           </form>
         </Form>
