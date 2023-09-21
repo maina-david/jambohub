@@ -9,7 +9,7 @@ import { useState } from "react"
 
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { useCompanyModal } from "@/hooks/use-company-modal"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -91,6 +91,9 @@ export const CompanyModal = () => {
                   <FormControl>
                     <Input disabled={loading} placeholder="Enter company name" {...field} />
                   </FormControl>
+                  <FormDescription>
+                    This is your company display name.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
