@@ -50,7 +50,9 @@ export const CompanyModal = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true)
-      const response = await axios.post('/api/companies', values)
+      const response = await axios.post('/api/companies', {
+        ...values,
+      })
       window.location.assign(`/${response.data.id}`)
     } catch (error) {
       toast({
