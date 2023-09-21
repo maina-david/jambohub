@@ -13,13 +13,6 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { useCompanyModal } from "@/hooks/use-company-modal"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Checkbox } from "../ui/checkbox"
 import { Icons } from "../icons"
 
@@ -151,7 +144,7 @@ export const CompanyModal = () => {
                 )}
               />
             </div>
-            <DialogFooter>=
+            <DialogFooter>
               <Button
                 disabled={loading}
                 type="submit">
