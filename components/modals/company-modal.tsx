@@ -22,9 +22,14 @@ import {
 } from "@/components/ui/select"
 import { Checkbox } from "../ui/checkbox"
 
+enum SubscriptionPlanEnum {
+  free = "free",
+  pro = "pro"
+}
+
 const formSchema = z.object({
   name: z.string().min(1),
-  plan: z.string().min(1),
+  plan: z.enum(["free", "pro"]),
   defaultCompany: z.boolean()
 })
 
@@ -37,7 +42,7 @@ export const CompanyModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      plan: "",
+      plan: "free",
       defaultCompany: false,
     },
   })
@@ -103,15 +108,11 @@ export const CompanyModal = () => {
                         <SelectContent>
                           <SelectItem value="free">
                             <span className="font-medium">Free</span> -{" "}
-                            <span className="text-muted-foreground">
-                              Trial for two weeks
-                            </span>
+                            <span className="text-muted-foreground">Trial for two weeks</span>
                           </SelectItem>
                           <SelectItem value="pro">
                             <span className="font-medium">Pro</span> -{" "}
-                            <span className="text-muted-foreground">
-                              KES 1500/month per user
-                            </span>
+                            <span className="text-muted-foreground">KES 1500/month per user</span>
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -119,6 +120,7 @@ export const CompanyModal = () => {
                   </FormItem>
                 )}
               />
+
               <div className="flex items-center space-x-2">
                 <FormField
                   control={form.control}
