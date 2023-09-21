@@ -103,7 +103,7 @@ export const authOptions: NextAuthOptions = {
           },
         })
 
-        if (!dbUser || !dbUser.Subscription) {
+        if (dbUser && !dbUser.Subscription) {
           // If the user doesn't have a subscription, create a free plan for them
           // Calculate the current date and time
           const currentDate = new Date()
@@ -117,7 +117,7 @@ export const authOptions: NextAuthOptions = {
 
           await db.subscription.create({
             data: {
-              userId: user.id,
+              userId: dbUser.id,
               plan: "FREE",
               maxCompanies: 1,
               maxUsers: 1,
