@@ -62,21 +62,22 @@ export const CompanyModal = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      setLoading(true)
-      const response = await axios.post('/api/companies', {
-        ...values,
-      })
-      window.location.assign(`/${response.data.id}`)
-    } catch (error) {
-      toast({
-        title: "Something went wrong.",
-        description: "Your company was not created. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setLoading(false)
-    }
+    console.log(values)
+    // try {
+    //   setLoading(true)
+    //   const response = await axios.post('/api/companies', {
+    //     ...values,
+    //   })
+    //   window.location.assign(`/${response.data.id}`)
+    // } catch (error) {
+    //   toast({
+    //     title: "Something went wrong.",
+    //     description: "Your company was not created. Please try again.",
+    //     variant: "destructive",
+    //   })
+    // } finally {
+    //   setLoading(false)
+    // }
   }
 
   const onChange = (open: boolean) => {
@@ -137,26 +138,15 @@ export const CompanyModal = () => {
                 )}
               />
             </div>
-            <FormField
-              control={form.control}
-              name="defaultCompany"
-              render={() => (
-                <div className="flex items-center space-x-2">
-                  <FormItem>
-                    <FormControl>
-                      <Checkbox id="defaultCompany" />
-                    </FormControl>
-                    <FormLabel
-                      htmlFor="defaultCompany"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Set as default?
-                    </FormLabel>
-                    <FormMessage />
-                  </FormItem>
-                </div>
-              )}
-            />
+            <div className="flex items-center space-x-2">
+              <Checkbox id="defaultCompany" />
+              <label
+                htmlFor="defaultCompany"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Set as default company?
+              </label>
+            </div>
           </form>
         </Form>
         <DialogFooter>
