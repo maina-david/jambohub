@@ -7,12 +7,12 @@ import { useForm } from "react-hook-form"
 import { toast } from "@/components/ui/use-toast"
 import { useState } from "react"
 
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-
+import { Modal } from "@/components/ui/modal"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { useCompanyModal } from "@/hooks/use-company-modal"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
   Select,
   SelectContent,
@@ -58,21 +58,14 @@ export const CompanyModal = () => {
     }
   }
 
-  const onChange = (open: boolean) => {
-    if (!open) {
-      companyModal.onClose()
-    }
-  }
-
   return (
-    <Dialog open={companyModal.isOpen} onOpenChange={onChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Create company</DialogTitle>
-          <DialogDescription>
-            Add a new company to manage channels and teams.
-          </DialogDescription>
-        </DialogHeader>
+    <Modal
+      title="Create company"
+      description="Add a new company to manage channels and teams."
+      isOpen={companyModal.isOpen}
+      onClose={companyModal.onClose}
+    >
+      <div>
         <div className="space-y-4 py-2 pb-4">
           <div className="space-y-2">
             <Form {...form}>
@@ -145,14 +138,7 @@ export const CompanyModal = () => {
             </Form>
           </div>
         </div>
-        <DialogFooter>
-          <Button disabled={loading} variant="outline" onClick={companyModal.onClose}>
-            Cancel
-          </Button>
-          <Button disabled={loading} type="submit">Continue</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-
+      </div>
+    </Modal>
   )
 }

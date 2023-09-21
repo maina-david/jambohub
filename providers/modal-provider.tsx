@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { CompanyModal } from "@/components/modals/company-modal";
+import { CompanyModal } from "@/components/modals/company-modal-achive";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
