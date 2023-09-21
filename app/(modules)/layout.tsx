@@ -1,5 +1,4 @@
 import { redirect } from 'next/navigation'
-import * as React from "react"
 import { getCurrentUser, getCurrentUserCompanies } from "@/lib/session"
 
 interface DashboardLayoutProps {
@@ -10,8 +9,6 @@ export default async function RootLayout({
   children,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser()
-
-  const [showNewCompanyDialog, setShowNewCompanyDialog] = React.useState(false)
 
   if (!user) {
     return redirect('/login')
