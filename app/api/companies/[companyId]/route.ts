@@ -3,11 +3,11 @@ import * as z from "zod"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { postPatchSchema } from "@/lib/validations/post"
+import { companyPatchSchema } from "@/lib/validations/company"
 
 const routeContextSchema = z.object({
   params: z.object({
-    postId: z.string(),
+    companyId: z.string(),
   }),
 })
 
@@ -19,15 +19,15 @@ export async function DELETE(
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this post.
-    if (!(await verifyCurrentUserHasAccessToPost(params.postId))) {
+    // Check if the user has access to this company.
+    if (!(await verifyCurrentUserHasAccessToCompany(params.companyId))) {
       return new Response(null, { status: 403 })
     }
 
-    // Delete the post.
-    await db.post.delete({
+    // Delete the company.
+    await db.company.delete({
       where: {
-        id: params.postId as string,
+        id: params.companyId as string,
       },
     })
 
@@ -49,24 +49,23 @@ export async function PATCH(
     // Validate route params.
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this post.
-    if (!(await verifyCurrentUserHasAccessToPost(params.postId))) {
+    // Check if the user has access to this company.
+    if (!(await verifyCurrentUserHasAccessToCompany(params.companyId))) {
       return new Response(null, { status: 403 })
     }
 
     // Get the request body and validate it.
     const json = await req.json()
-    const body = postPatchSchema.parse(json)
+    const body = companyPatchSchema.parse(json)
 
-    // Update the post.
+    // Update the company.
     // TODO: Implement sanitization for content.
-    await db.post.update({
+    await db.company.update({
       where: {
-        id: params.postId,
+        id: params.companyId,
       },
       data: {
-        title: body.title,
-        content: body.content,
+        name: body.name,
       },
     })
 
@@ -80,12 +79,12 @@ export async function PATCH(
   }
 }
 
-async function verifyCurrentUserHasAccessToPost(postId: string) {
+async function verifyCurrentUserHasAccessToCompany(companyId: string) {
   const session = await getServerSession(authOptions)
-  const count = await db.post.count({
+  const count = await db.company.count({
     where: {
-      id: postId,
-      authorId: session?.user.id,
+      id: companyId,
+      ownerId: session?.user.id,
     },
   })
 

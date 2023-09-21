@@ -6,9 +6,8 @@ import { db } from "@/lib/db"
 import { RequiresProPlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 
-const postCreateSchema = z.object({
-  title: z.string(),
-  content: z.string().optional(),
+const companyCreateSchema = z.object({
+  name: z.string(),
 })
 
 export async function GET() {
@@ -20,19 +19,19 @@ export async function GET() {
     }
 
     const { user } = session
-    const posts = await db.post.findMany({
+    const companies = await db.company.findMany({
       select: {
         id: true,
-        title: true,
-        published: true,
+        name: true,
+        active: true,
         createdAt: true,
       },
       where: {
-        authorId: user.id,
+        ownerId: user.id,
       },
     })
 
-    return new Response(JSON.stringify(posts))
+    return new Response(JSON.stringify(companies))
   } catch (error) {
     return new Response(null, { status: 500 })
   }
@@ -52,9 +51,9 @@ export async function POST(req: Request) {
     // If user is on a free plan.
     // Check if user has reached limit of 3 posts.
     if (!subscriptionPlan?.isPro) {
-      const count = await db.post.count({
+      const count = await db.company.count({
         where: {
-          authorId: user.id,
+          ownerId: user.id,
         },
       })
 
@@ -64,20 +63,19 @@ export async function POST(req: Request) {
     }
 
     const json = await req.json()
-    const body = postCreateSchema.parse(json)
+    const body = companyCreateSchema.parse(json)
 
-    const post = await db.post.create({
+    const company = await db.company.create({
       data: {
-        title: body.title,
-        content: body.content,
-        authorId: session.user.id,
+        name: body.name,
+        ownerId: session.user.id,
       },
       select: {
         id: true,
       },
     })
 
-    return new Response(JSON.stringify(post))
+    return new Response(JSON.stringify(company))
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
