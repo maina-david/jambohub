@@ -73,85 +73,81 @@ export const CompanyModal = () => {
             Add a new company to manage channels and teams.
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4 py-2 pb-4">
-          <div className="space-y-2">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="Enter company name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="space-y-2">
+              <FormField
+                control={form.control}
+                name="plan"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Subscription plan</FormLabel>
+                    <FormControl>
+                      <Select {...field}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a plan" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="free">
+                            <span className="font-medium">Free</span> -{" "}
+                            <span className="text-muted-foreground">
+                              Trial for two weeks
+                            </span>
+                          </SelectItem>
+                          <SelectItem value="pro">
+                            <span className="font-medium">Pro</span> -{" "}
+                            <span className="text-muted-foreground">
+                              KES 1500/month per user
+                            </span>
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center space-x-2">
                 <FormField
                   control={form.control}
-                  name="name"
-                  render={({ field }) => (
+                  name="defaultCompany"
+                  render={() => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input disabled={loading} placeholder="Enter company name" {...field} />
+                        <Checkbox checked={false} id="defaultCompany" />
                       </FormControl>
+                      <FormLabel
+                        htmlFor="defaultCompany"
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        Set as default?
+                      </FormLabel>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <div className="space-y-2">
-                  <FormField
-                    control={form.control}
-                    name="plan"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Subscription plan</FormLabel>
-                        <FormControl>
-                          <Select {...field}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a plan" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="free">
-                                <span className="font-medium">Free</span> -{" "}
-                                <span className="text-muted-foreground">
-                                  Trial for two weeks
-                                </span>
-                              </SelectItem>
-                              <SelectItem value="pro">
-                                <span className="font-medium">Pro</span> -{" "}
-                                <span className="text-muted-foreground">
-                                  KES 1500/month per user
-                                </span>
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <div className="flex items-center space-x-2">
-                    <FormField
-                      control={form.control}
-                      name="defaultCompany"
-                      render={() => (
-                        <FormItem>
-                          <FormControl>
-                            <Checkbox checked={false} id="defaultCompany" />
-                          </FormControl>
-                          <FormLabel
-                            htmlFor="defaultCompany"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            Set as default?
-                          </FormLabel>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-                <div className="flex w-full items-center justify-end space-x-2 pt-6">
-                  <Button disabled={loading} variant="outline" onClick={companyModal.onClose}>
-                    Cancel
-                  </Button>
-                  <Button disabled={loading} type="submit">Continue</Button>
-                </div>
-              </form>
-            </Form>
-          </div>
-        </div>
+              </div>
+            </div>
+            <div className="flex w-full items-center justify-end space-x-2 pt-6">
+              <Button disabled={loading} variant="outline" onClick={companyModal.onClose}>
+                Cancel
+              </Button>
+              <Button disabled={loading} type="submit">Continue</Button>
+            </div>
+          </form>
+        </Form>
         <DialogFooter>
           <Button disabled={loading} variant="outline" onClick={companyModal.onClose}>
             Cancel
