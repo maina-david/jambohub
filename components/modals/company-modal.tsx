@@ -22,10 +22,24 @@ import {
 } from "@/components/ui/select"
 import { Checkbox } from "../ui/checkbox"
 
-enum SubscriptionPlanEnum {
-  free = "free",
-  pro = "pro"
-}
+let SubscriptionPlans = [
+  {
+    label: (
+      <span className="font-medium">
+        Free - <span className="text-muted-foreground">Trial for two weeks</span>
+      </span>
+    ),
+    value: "free",
+  },
+  {
+    label: (
+      <span className="font-medium">
+        Pro - <span className="text-muted-foreground">KES 1500/month per user</span>
+      </span>
+    ),
+    value: "pro",
+  },
+]
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -37,6 +51,7 @@ export const CompanyModal = () => {
   const companyModal = useCompanyModal()
 
   const [loading, setLoading] = useState(false)
+  const [subscriptionPlanValue, setSubscriptionPlanValue] = useState(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -111,14 +126,11 @@ export const CompanyModal = () => {
                           <SelectValue placeholder="Select a plan" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="free">
-                            <span className="font-medium">Free</span> -{" "}
-                            <span className="text-muted-foreground">Trial for two weeks</span>
-                          </SelectItem>
-                          <SelectItem value="pro">
-                            <span className="font-medium">Pro</span> -{" "}
-                            <span className="text-muted-foreground">KES 1500/month per user</span>
-                          </SelectItem>
+                          {SubscriptionPlans.map((plan) => (
+                            <SelectItem key={plan.value} value={plan.value}>
+                              {plan.label}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </FormControl>
