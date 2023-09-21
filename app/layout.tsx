@@ -3,11 +3,12 @@ import localFont from "next/font/local"
 
 import "@/styles/globals.css"
 import { siteConfig } from "@/config/site"
-import { absoluteUrl, cn } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
 import NextTopLoader from 'nextjs-toploader'
+import { ModalProvider } from "@/providers/modal-provider"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -84,6 +85,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       >
         <NextTopLoader showSpinner={false} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ModalProvider />
           {children}
           <Analytics />
           <Toaster />
