@@ -43,7 +43,7 @@ let SubscriptionPlans = [
 
 const formSchema = z.object({
   name: z.string().min(1),
-  plan: z.enum(["free", "pro"]),
+  plan: z.enum(['free', 'pro']),
   defaultCompany: z.boolean()
 })
 
@@ -56,7 +56,6 @@ export const CompanyModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      plan: undefined,
       defaultCompany: false,
     },
   })
