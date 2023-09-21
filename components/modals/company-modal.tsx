@@ -22,28 +22,10 @@ import {
 } from "@/components/ui/select"
 import { Checkbox } from "../ui/checkbox"
 
-let SubscriptionPlans = [
-  {
-    label: (
-      <span className="font-medium">
-        Free - <span className="text-muted-foreground">Trial for two weeks</span>
-      </span>
-    ),
-    value: "free",
-  },
-  {
-    label: (
-      <span className="font-medium">
-        Pro - <span className="text-muted-foreground">KES 1500/month per user</span>
-      </span>
-    ),
-    value: "pro",
-  },
-]
+
 
 const formSchema = z.object({
   name: z.string().min(1),
-  plan: z.enum(['free', 'pro']),
   defaultCompany: z.boolean()
 })
 
@@ -62,21 +44,21 @@ export const CompanyModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values)
-    // try {
-    //   setLoading(true)
-    //   const response = await axios.post('/api/companies', {
-    //     ...values,
-    //   })
-    //   window.location.assign(`/${response.data.id}`)
-    // } catch (error) {
-    //   toast({
-    //     title: "Something went wrong.",
-    //     description: "Your company was not created. Please try again.",
-    //     variant: "destructive",
-    //   })
-    // } finally {
-    //   setLoading(false)
-    // }
+    try {
+      setLoading(true)
+      const response = await axios.post('/api/companies', {
+        ...values,
+      })
+      window.location.assign(`/${response.data.id}`)
+    } catch (error) {
+      toast({
+        title: "Something went wrong.",
+        description: "Your company was not created. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   const onChange = (open: boolean) => {
@@ -112,31 +94,6 @@ export const CompanyModal = () => {
                 </FormItem>
               )}
             />
-            <div className="space-y-2">
-              <FormField
-                control={form.control}
-                name="plan"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Subscription plan</FormLabel>
-                    <FormControl>
-                      <Select {...field}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a plan" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {SubscriptionPlans.map((plan) => (
-                            <SelectItem key={plan.value} value={plan.value}>
-                              {plan.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
             <div className="flex items-center space-x-2">
               <Checkbox id="defaultCompany" />
               <label
