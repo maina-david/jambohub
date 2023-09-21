@@ -11,15 +11,15 @@ import { UserAccountNav } from "@/components/user-account-nav"
 import { ModeToggle } from "@/components/mode-toggle"
 import CompanySwitcher from "@/components/company-switcher"
 
-interface DashboardLayoutProps {
+interface CompanyLayoutProps {
   children?: React.ReactNode
   params: { companyId: string }
 }
 
-export default async function DashboardLayout({
+export default async function CompanyLayout({
   children,
   params
-}: DashboardLayoutProps) {
+}: CompanyLayoutProps) {
   const user = await getCurrentUser()
   const companies = await getCurrentUserCompanies()
   if (!user) {
