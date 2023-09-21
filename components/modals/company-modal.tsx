@@ -51,7 +51,6 @@ export const CompanyModal = () => {
   const companyModal = useCompanyModal()
 
   const [loading, setLoading] = useState(false)
-  const [subscriptionPlanValue, setSubscriptionPlanValue] = useState(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
