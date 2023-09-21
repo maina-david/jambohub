@@ -137,26 +137,26 @@ export const CompanyModal = () => {
                 )}
               />
             </div>
-            <div className="flex items-center space-x-2">
-              <FormField
-                control={form.control}
-                name="defaultCompany"
-                render={() => (
+            <FormField
+              control={form.control}
+              name="defaultCompany"
+              render={() => (
+                <div className="flex items-center space-x-2">
                   <FormItem>
+                    <FormControl>
+                      <Checkbox id="defaultCompany" />
+                    </FormControl>
                     <FormLabel
                       htmlFor="defaultCompany"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
                       Set as default?
                     </FormLabel>
-                    <FormControl>
-                      <Checkbox id="defaultCompany" />
-                    </FormControl>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
-            </div>
+                </div>
+              )}
+            />
           </form>
         </Form>
         <DialogFooter>
