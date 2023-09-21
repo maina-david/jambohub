@@ -73,6 +73,7 @@ model Company {
   updatedAt            DateTime               @default(now()) @map(name: "updated_at")
   ownerId              String
   status               Boolean                @default(true)
+  default              Boolean                @default(false)
   owner                User                   @relation(fields: [ownerId], references: [id])
   channels             Channel[]
   chatflows            Chatflow[]

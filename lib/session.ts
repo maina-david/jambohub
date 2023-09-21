@@ -18,6 +18,19 @@ export async function getCurrentUserCompanies() {
       ownerId: user.id,
     },
   })
-  
+
   return companies
+}
+
+export async function getCurrentUserSelectedCompany(companyId: string) {
+  const user = (await getCurrentUser()) as User
+  const company = await db.company.findFirst({
+    where: {
+      id: companyId,
+      ownerId: user.id,
+    }
+  }
+  )
+
+  return company
 }

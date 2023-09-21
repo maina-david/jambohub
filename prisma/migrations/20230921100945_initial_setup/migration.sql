@@ -1,13 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `accounts` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `posts` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `sessions` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `users` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `verification_tokens` table. If the table is not empty, all the data it contains will be lost.
-
-*/
 -- CreateEnum
 CREATE TYPE "ChannelType" AS ENUM ('WHATSAPP', 'TWITTER', 'FACEBOOK', 'SMS');
 
@@ -16,30 +6,6 @@ CREATE TYPE "LeadStatus" AS ENUM ('NEW', 'CONTACTED', 'QUALIFIED', 'CONVERTED', 
 
 -- CreateEnum
 CREATE TYPE "CampaignStatus" AS ENUM ('PLANNED', 'ACTIVE', 'PAUSED', 'COMPLETED', 'CANCELED');
-
--- DropForeignKey
-ALTER TABLE "accounts" DROP CONSTRAINT "accounts_userId_fkey";
-
--- DropForeignKey
-ALTER TABLE "posts" DROP CONSTRAINT "posts_authorId_fkey";
-
--- DropForeignKey
-ALTER TABLE "sessions" DROP CONSTRAINT "sessions_userId_fkey";
-
--- DropTable
-DROP TABLE "accounts";
-
--- DropTable
-DROP TABLE "posts";
-
--- DropTable
-DROP TABLE "sessions";
-
--- DropTable
-DROP TABLE "users";
-
--- DropTable
-DROP TABLE "verification_tokens";
 
 -- CreateTable
 CREATE TABLE "Account" (
@@ -105,6 +71,7 @@ CREATE TABLE "Company" (
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "ownerId" TEXT NOT NULL,
     "status" BOOLEAN NOT NULL DEFAULT true,
+    "default" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Company_pkey" PRIMARY KEY ("id")
 );
