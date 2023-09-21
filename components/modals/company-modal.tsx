@@ -5,22 +5,29 @@ import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "@/components/ui/use-toast"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 import { Modal } from "@/components/ui/modal"
-import { Input } from "@/components/ui/input"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { useCompanyModal } from "@/hooks/use-company-modal"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const formSchema = z.object({
   name: z.string().min(1),
+  plan: z.string().min(1),
 })
 
 export const CompanyModal = () => {
   const companyModal = useCompanyModal()
-  const router = useRouter()
 
   const [loading, setLoading] = useState(false)
 
@@ -28,6 +35,7 @@ export const CompanyModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      plan: "",
     },
   })
 
@@ -66,12 +74,44 @@ export const CompanyModal = () => {
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input disabled={loading} placeholder="E-Commerce" {...field} />
+                        <Input disabled={loading} placeholder="Enter company name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+                <div className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name="plan"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Subscription plan</FormLabel>
+                        <FormControl>
+                          <Select {...field}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a plan" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="free">
+                                <span className="font-medium">Free</span> -{" "}
+                                <span className="text-muted-foreground">
+                                  Trial for two weeks
+                                </span>
+                              </SelectItem>
+                              <SelectItem value="pro">
+                                <span className="font-medium">Pro</span> -{" "}
+                                <span className="text-muted-foreground">
+                                  KES 1500/month per user
+                                </span>
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <div className="flex w-full items-center justify-end space-x-2 pt-6">
                   <Button disabled={loading} variant="outline" onClick={companyModal.onClose}>
                     Cancel
