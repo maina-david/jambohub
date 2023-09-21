@@ -56,7 +56,7 @@ export const CompanyModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      plan: "free",
+      plan: undefined,
       defaultCompany: false,
     },
   })
