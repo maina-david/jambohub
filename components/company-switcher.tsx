@@ -44,7 +44,7 @@ export default function CompanySwitcher({ className, items = [] }: CompanySwitch
 
   const onCompanySelect = (company: { value: string, label: string }) => {
     setOpen(false);
-    router.push(`/${company.value}`);
+    router.push(`/${company.value}/dashboard`);
   };
 
   return (

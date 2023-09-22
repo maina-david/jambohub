@@ -43,17 +43,19 @@ export default async function CompanyLayout({
               {siteConfig.name}
             </span>
           </Link>
-          <CompanySwitcher items={companies} />
-          <div className="ml-auto flex items-center space-x-4">
-            <MainNav items={dashboardConfig.mainNav} />
-            <ModeToggle />
-            <UserAccountNav
-              user={{
-                name: user.name,
-                image: user.image,
-                email: user.email,
-              }}
-            />
+          <div className="flex h-16 items-center px-4">
+            <CompanySwitcher items={companies} />
+            <div className="ml-auto flex items-center space-x-4">
+              <MainNav items={dashboardConfig.mainNav} />
+              <ModeToggle />
+              <UserAccountNav
+                user={{
+                  name: user.name,
+                  image: user.image,
+                  email: user.email,
+                }}
+              />
+            </div>
           </div>
         </div>
       </header>
