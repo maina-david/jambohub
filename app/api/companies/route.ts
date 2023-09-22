@@ -61,8 +61,7 @@ export async function POST(req: Request) {
     if (count >= subscriptionPlan.maxCompanies) {
       if (subscriptionPlan.plan === "FREE") {
         throw new RequiresProPlanError()
-      }
-      if (subscriptionPlan.plan === "PRO") {
+      } else if (subscriptionPlan.plan === "PRO") {
         throw new MaximumPlanResourcesError()
       }
     }
