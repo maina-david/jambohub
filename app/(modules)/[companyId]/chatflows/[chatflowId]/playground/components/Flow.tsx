@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react'
 import ReactFlow, {
   addEdge,
   FitViewOptions,
@@ -11,48 +11,70 @@ import ReactFlow, {
   OnNodesChange,
   OnEdgesChange,
   OnConnect,
-  DefaultEdgeOptions,
-  NodeTypes,
-} from 'reactflow';
+  Controls,
+  MiniMap,
+} from 'reactflow'
 
-import CustomNode from './CustomNode';
+import 'reactflow/dist/base.css'
 
-const initialNodes: Node[] = [
-  { id: '1', data: { label: 'Node 1' }, position: { x: 5, y: 5 } },
-  { id: '2', data: { label: 'Node 2' }, position: { x: 5, y: 100 } },
-];
+import './tailwind-config.js'
+import CustomNode from './CustomNode'
 
-const initialEdges: Edge[] = [{ id: 'e1-2', source: '1', target: '2' }];
-
-const fitViewOptions: FitViewOptions = {
-  padding: 0.2,
-};
-
-const defaultEdgeOptions: DefaultEdgeOptions = {
-  animated: true,
-};
-
-const nodeTypes: NodeTypes = {
+const nodeTypes = {
   custom: CustomNode,
-};
+}
 
-export default function Flow() {
-  const [nodes, setNodes] = useState<Node[]>(initialNodes);
-  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+const initialNodes = [
+  {
+    id: '1',
+    type: 'custom',
+    data: { name: 'Jane Doe', job: 'CEO', emoji: '😎' },
+    position: { x: 0, y: 50 },
+  },
+  {
+    id: '2',
+    type: 'custom',
+    data: { name: 'Tyler Weary', job: 'Designer', emoji: '🤓' },
+
+    position: { x: -200, y: 200 },
+  },
+  {
+    id: '3',
+    type: 'custom',
+    data: { name: 'Kristi Price', job: 'Developer', emoji: '🤩' },
+    position: { x: 200, y: 200 },
+  },
+]
+
+const initialEdges = [
+  {
+    id: 'e1-2',
+    source: '1',
+    target: '2',
+  },
+  {
+    id: 'e1-3',
+    source: '1',
+    target: '3',
+  },
+]
+
+const Flow = () => {
+  const [nodes, setNodes] = useState<Node[]>(initialNodes)
+  const [edges, setEdges] = useState<Edge[]>(initialEdges)
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
-  );
+  )
   const onEdgesChange: OnEdgesChange = useCallback(
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     [setEdges]
-  );
+  )
   const onConnect: OnConnect = useCallback(
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
-  );
-
+  )
   return (
     <ReactFlow
       nodes={nodes}
@@ -60,10 +82,14 @@ export default function Flow() {
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
-      fitView
-      fitViewOptions={fitViewOptions}
-      defaultEdgeOptions={defaultEdgeOptions}
       nodeTypes={nodeTypes}
-    />
-  );
+      fitView
+      className="bg-teal-50"
+    >
+      <MiniMap />
+      <Controls />
+    </ReactFlow>
+  )
 }
+
+export default Flow

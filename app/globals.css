@@ -74,8 +74,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-.react-flow-container {
-  width: 100vw;
-  height: 100vh;
-}
