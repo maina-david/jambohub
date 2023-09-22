@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Account {
@@ -113,17 +113,17 @@ enum SubscriptionPlan {
 }
 
 model Subscription {
-  id           String           @id @default(cuid())
-  userId       String           @unique
-  user         User             @relation(fields: [userId], references: [id])
-  plan         SubscriptionPlan @default(FREE)
-  maxCompanies Int
-  maxUsers     Int
-  monthlyPrice Int?
+  id               String           @id @default(cuid())
+  userId           String           @unique
+  user             User             @relation(fields: [userId], references: [id])
+  plan             SubscriptionPlan @default(FREE)
+  maxCompanies     Int
+  maxUsers         Int
+  monthlyPrice     Int?
   currentPeriodEnd DateTime
-  active       Boolean          @default(true)
-  createdAt    DateTime         @default(now()) @map(name: "created_at")
-  updatedAt    DateTime         @default(now()) @map(name: "updated_at")
+  active           Boolean          @default(true)
+  createdAt        DateTime         @default(now()) @map(name: "created_at")
+  updatedAt        DateTime         @default(now()) @map(name: "updated_at")
 }
 
 model VerificationToken {
@@ -156,12 +156,16 @@ model UserTeam {
 }
 
 model Chatflow {
-  id          String  @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
   description String?
+  nodes       Json?
   companyId   String
-  status      Boolean @default(true)
-  company     Company @relation(fields: [companyId], references: [id])
+  published   Boolean  @default(false)
+  status      Boolean  @default(true)
+  company     Company  @relation(fields: [companyId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
 }
 
 enum ChannelType {
