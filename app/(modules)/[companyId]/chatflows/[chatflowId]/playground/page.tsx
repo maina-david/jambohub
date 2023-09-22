@@ -23,6 +23,7 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
 } from 'reactflow'
+import Flow from "./components/Flow"
 
 export const metadata: Metadata = {
   title: "Playground",
@@ -52,10 +53,9 @@ export default function PlaygroundPage() {
             <div className="md:order-1">
               <div className="mt-0 border-0 p-0">
                 <div className="flex h-full flex-col space-y-4">
-                  <Textarea
-                    placeholder="This is where react flow nodes will be"
-                    className="min-h-[400px] flex-1 p-4 md:min-h-[700px] lg:min-h-[700px]"
-                  />
+                  <div className="flex-1 p-4">
+                    <Flow />
+                  </div>
                 </div>
               </div>
             </div>
