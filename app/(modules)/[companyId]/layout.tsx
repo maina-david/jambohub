@@ -1,5 +1,3 @@
-import { notFound } from "next/navigation"
-
 import * as React from "react"
 
 import { dashboardConfig } from "@/config/hub"
@@ -26,8 +24,11 @@ export default async function CompanyLayout({
     return redirect('/login')
   }
 
-  // const company = await getCurrentUserSelectedCompany(params.companyId)
+  const company = await getCurrentUserSelectedCompany(params.companyId)
 
+  if (!company){
+    return redirect('/home')
+  }
 
   return (
     <div className="flex min-h-screen flex-col space-y-6">
