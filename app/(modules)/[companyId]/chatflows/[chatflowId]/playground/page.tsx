@@ -51,12 +51,8 @@ export default function PlaygroundPage() {
               <TopPSelector defaultValue={[0.9]} />
             </div>
             <div className="md:order-1">
-              <div className="mt-0 border-0 p-0">
-                <div className="flex h-full flex-col space-y-4">
-                  <div className="min-h-[400px] flex-1 p-4 md:min-h-[700px] lg:min-h-[700px]">
-                    <Flow />
-                  </div>
-                </div>
+              <div className="flex h-full flex-col space-y-4">
+                <Flow />
               </div>
             </div>
           </div>
