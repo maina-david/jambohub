@@ -10,6 +10,7 @@ import { SideNav } from "@/components/nav"
 import { UserAccountNav } from "@/components/user-account-nav"
 import { ModeToggle } from "@/components/mode-toggle"
 import { siteConfig } from "@/config/site"
+import CompanySwitcher from "@/components/company-switcher"
 
 interface CompanyLayoutProps {
   children?: React.ReactNode
@@ -42,8 +43,9 @@ export default async function CompanyLayout({
               {siteConfig.name}
             </span>
           </Link>
+          <CompanySwitcher items={companies} className="hidden items-center space-x-2 md:flex" />
           <div className="ml-auto flex items-center space-x-4">
-            <MainNav companies={companies} items={dashboardConfig.mainNav} />
+            <MainNav items={dashboardConfig.mainNav} />
             <ModeToggle />
             <UserAccountNav
               user={{
