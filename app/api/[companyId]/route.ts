@@ -59,7 +59,6 @@ export async function PATCH(
     const body = companyPatchSchema.parse(json)
 
     // Update the company.
-    // TODO: Implement sanitization for content.
     await db.company.update({
       where: {
         id: params.companyId,

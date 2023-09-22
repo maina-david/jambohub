@@ -7,6 +7,7 @@ import { teamPatchSchema } from "@/lib/validations/team"
 
 const routeContextSchema = z.object({
   params: z.object({
+    companyId: z.string(),
     teamId: z.string(),
   }),
 })
@@ -22,6 +23,10 @@ export async function DELETE(
     // Check if the user has access to this team.
     if (!(await verifyCurrentUserHasAccessToteam(params.teamId))) {
       return new Response(null, { status: 403 })
+    }
+
+    if (!(await verifyTeamBelongsToCompany(params.companyId, params.teamId))) {
+      return new Response(null, { status: 422 })
     }
 
     // Delete the team.
@@ -54,12 +59,15 @@ export async function PATCH(
       return new Response(null, { status: 403 })
     }
 
+    if (!(await verifyTeamBelongsToCompany(params.companyId, params.teamId))) {
+      return new Response(null, { status: 422 })
+    }
+
     // Get the request body and validate it.
     const json = await req.json()
     const body = teamPatchSchema.parse(json)
 
     // Update the team.
-    // TODO: Implement sanitization for content.
     await db.team.update({
       where: {
         id: params.teamId,
@@ -89,6 +97,22 @@ async function verifyCurrentUserHasAccessToteam(teamId: string) {
   })
 
   if (!team || team.company.ownerId !== session?.user.id) {
+    return false
+  }
+
+  return true
+
+}
+
+async function verifyTeamBelongsToCompany(companyId: string, teamId: string) {
+  const team = await db.team.findUnique({
+    where: {
+      id: teamId,
+      companyId: companyId
+    }
+  })
+
+  if (!team) {
     return false
   }
 
