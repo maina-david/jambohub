@@ -1,7 +1,8 @@
 import { Metadata } from "next"
 
+import React, { useCallback } from 'react'
+
 import { Separator } from "@/components/ui/separator"
-import { Textarea } from "@/components/ui/textarea"
 
 import { MaxLengthSelector } from "./components/maxlength-selector"
 import { ModelSelector } from "./components/model-selector"
@@ -12,6 +13,8 @@ import { TemperatureSelector } from "./components/temperature-selector"
 import { TopPSelector } from "./components/top-p-selector"
 import { models, types } from "./data/models"
 import { presets } from "./data/presets"
+
+import Flow from "./components/Flow"
 
 export const metadata: Metadata = {
   title: "Playground",
@@ -41,10 +44,7 @@ export default function PlaygroundPage() {
             <div className="md:order-1">
               <div className="mt-0 border-0 p-0">
                 <div className="flex h-full flex-col space-y-4">
-                  <Textarea
-                    placeholder="This is where react flow nodes will be"
-                    className="min-h-[400px] flex-1 p-4 md:min-h-[700px] lg:min-h-[700px]"
-                  />
+                  <Flow />
                 </div>
               </div>
             </div>
