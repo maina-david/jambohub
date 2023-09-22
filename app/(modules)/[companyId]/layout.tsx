@@ -4,7 +4,7 @@ import { dashboardConfig } from "@/config/hub"
 import { redirect } from 'next/navigation'
 import { getCurrentUser, getCurrentUserCompanies, getCurrentUserSelectedCompany } from "@/lib/session"
 import { MainNav } from "@/components/main-nav"
-import { DashboardNav } from "@/components/nav"
+import { SideNav } from "@/components/nav"
 import { UserAccountNav } from "@/components/user-account-nav"
 import { ModeToggle } from "@/components/mode-toggle"
 import CompanySwitcher from "@/components/company-switcher"
@@ -36,7 +36,7 @@ export default async function CompanyLayout({
         <div className="container flex h-16 items-center justify-between py-4">
           <CompanySwitcher items={companies} />
           <div className="ml-auto flex items-center space-x-4">
-            <MainNav items={dashboardConfig.mainNav} />
+            <MainNav />
             <ModeToggle />
             <UserAccountNav
               user={{
@@ -50,7 +50,7 @@ export default async function CompanyLayout({
       </header>
       <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
         <aside className="hidden w-[200px] flex-col md:flex">
-          <DashboardNav items={dashboardConfig.sidebarNav} />
+          <SideNav />
         </aside>
         <main className="flex w-full flex-1 flex-col overflow-hidden">
           {children}
