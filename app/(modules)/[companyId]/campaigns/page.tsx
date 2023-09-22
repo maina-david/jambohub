@@ -4,7 +4,7 @@ export const metadata = {
   title: "Campaigns",
 }
 
-function CampaignsPage() {
+function CampaignsPage({ params }: { params: { slug: string } }) {
   return (
     <div>CampaignsPage</div>
   )

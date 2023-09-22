@@ -4,7 +4,7 @@ export const metadata = {
   title: "Channels",
 }
 
-function ChannelsPage() {
+function ChannelsPage({ params }: { params: { slug: string } }) {
   return (
     <div>ChannelsPage</div>
   )

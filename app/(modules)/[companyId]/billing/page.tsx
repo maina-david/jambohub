@@ -1,6 +1,6 @@
 import React from 'react'
 
-function BillingPage() {
+function BillingPage({ params }: { params: { slug: string } }) {
   return (
     <div>BillingPage</div>
   )

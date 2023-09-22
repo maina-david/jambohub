@@ -4,7 +4,7 @@ export const metadata = {
   title: "Leads",
 }
 
-function LeadsPage() {
+function LeadsPage({ params }: { params: { slug: string } }) {
   return (
     <div>LeadsPage</div>
   )

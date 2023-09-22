@@ -4,7 +4,7 @@ export const metadata = {
   title: "Teams",
 }
 
-function TeamsPage() {
+function TeamsPage({ params }: { params: { slug: string } }) {
   return (
     <div>TeamsPage</div>
   )
