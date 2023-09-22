@@ -9,6 +9,7 @@ import { MainNav } from "@/components/main-nav"
 import { SideNav } from "@/components/nav"
 import { UserAccountNav } from "@/components/user-account-nav"
 import { ModeToggle } from "@/components/mode-toggle"
+import { siteConfig } from "@/config/site"
 
 interface CompanyLayoutProps {
   children?: React.ReactNode
