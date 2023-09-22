@@ -24,7 +24,7 @@ export function SideNav({
   const routes: SidebarNavItem[] = [
     {
       title: "Dashboard",
-      href: `/${companyId}`,
+      href: `/${companyId}/dashboard`,
       icon: "dashboard",
     },
     {
