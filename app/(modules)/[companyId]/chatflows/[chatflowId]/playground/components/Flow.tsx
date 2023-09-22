@@ -17,7 +17,6 @@ import ReactFlow, {
 
 import 'reactflow/dist/base.css'
 
-import './tailwind-config.js'
 import CustomNode from './CustomNode'
 
 const nodeTypes = {
