@@ -26,11 +26,11 @@ export default async function CompanyLayout({
     return notFound()
   }
 
-  const company = await getCurrentUserSelectedCompany(params.companyId)
+  // const company = await getCurrentUserSelectedCompany(params.companyId)
 
-  if (!company) {
-    return redirect('/home')
-  }
+  // if (!company) {
+  //   return redirect('/home')
+  // }
 
   return (
     <div className="flex min-h-screen flex-col space-y-6">
