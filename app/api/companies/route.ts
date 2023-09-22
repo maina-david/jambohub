@@ -66,7 +66,6 @@ export async function POST(req: Request) {
       }
     }
 
-
     const json = await req.json()
     const body = companyCreateSchema.parse(json)
 
