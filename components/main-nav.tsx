@@ -7,6 +7,7 @@ import {
   useParams,
   usePathname
 } from "next/navigation"
+import CompanySwitcher from "@/components/company-switcher"
 
 import { MainNavItem } from "types"
 import { cn } from "@/lib/utils"
@@ -17,9 +18,10 @@ import { siteConfig } from "@/config/site"
 interface MainNavProps {
   items?: MainNavItem[]
   children?: React.ReactNode
+  companies?: Record<string, any>[]
 }
 
-export function MainNav({ items, children }: MainNavProps) {
+export function MainNav({ companies, items, children }: MainNavProps) {
   const params = useParams()
   const segment = useSelectedLayoutSegment()
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false)
@@ -32,6 +34,7 @@ export function MainNav({ items, children }: MainNavProps) {
           {siteConfig.name}
         </span>
       </Link>
+      <CompanySwitcher items={companies} />
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
           {items?.map((item, index) => (

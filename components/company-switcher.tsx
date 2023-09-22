@@ -25,7 +25,7 @@ import { useParams, useRouter } from "next/navigation"
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
 interface CompanySwitcherProps extends PopoverTriggerProps {
-  items: Record<string, any>[];
+  items?: Record<string, any>[];
 }
 
 export default function CompanySwitcher({ className, items = [] }: CompanySwitcherProps) {
