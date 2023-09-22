@@ -34,7 +34,7 @@ export default async function MarketingLayout({
             <ModeToggle />
             <nav>
               {user ? (<Link
-                href="/dashboard"
+                href="/home"
                 className={cn(
                   buttonVariants({ variant: "secondary", size: "sm" }),
                   "px-4"
