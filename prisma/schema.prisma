@@ -58,7 +58,6 @@ model User {
 model Company {
   id                   String                 @id @default(cuid())
   name                 String
-  active               Boolean                @default(false)
   createdAt            DateTime               @default(now()) @map(name: "created_at")
   updatedAt            DateTime               @default(now()) @map(name: "updated_at")
   owner                User?                  @relation("Owner", fields: [ownerId], references: [id])

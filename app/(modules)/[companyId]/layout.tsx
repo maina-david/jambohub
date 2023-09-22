@@ -26,7 +26,7 @@ export default async function CompanyLayout({
 
   const company = await getCurrentUserSelectedCompany(params.companyId)
 
-  if (!company){
+  if (!company) {
     return redirect('/home')
   }
 
@@ -36,7 +36,7 @@ export default async function CompanyLayout({
         <div className="container flex h-16 items-center justify-between py-4">
           <CompanySwitcher items={companies} />
           <div className="ml-auto flex items-center space-x-4">
-            <MainNav />
+            <MainNav items={dashboardConfig.mainNav} />
             <ModeToggle />
             <UserAccountNav
               user={{
