@@ -25,9 +25,9 @@ export default async function RootLayout({
 
   // Now, 'selectedCompany' will hold the default company, or null if no companies are available
 
-  // if (selectedCompany) {
-  //   return redirect(`/${selectedCompany.id}`)
-  // }
+  if (selectedCompany) {
+    return redirect(`/${selectedCompany.id}`)
+  }
 
   return (
     <>
