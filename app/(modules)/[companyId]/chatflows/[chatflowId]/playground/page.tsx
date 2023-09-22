@@ -43,7 +43,9 @@ export default function PlaygroundPage() {
             </div>
             <div className="md:order-1">
               <div className="mt-0 border-0 p-0">
-                <Flow />
+                <div className="flex h-full flex-col space-y-4">
+                  <Flow />
+                </div>
               </div>
             </div>
           </div>
