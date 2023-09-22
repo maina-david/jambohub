@@ -1,3 +1,5 @@
+'use client'
+
 import { memo, FC, CSSProperties } from 'react';
 import { Handle, Position, NodeProps, NodeResizer } from 'reactflow';
 
