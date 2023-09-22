@@ -52,21 +52,21 @@ export async function POST(req: Request) {
       throw new RequiresActivePlanError()
     }
 
-    if (subscriptionPlan.plan === "FREE") {
-      throw new RequiresProPlanError()
-    }
+    const count = await db.company.count({
+      where: {
+        ownerId: user.id,
+      },
+    })
 
-    if (subscriptionPlan.plan === "PRO") {
-      const count = await db.company.count({
-        where: {
-          ownerId: user.id,
-        },
-      })
-
-      if (count >= subscriptionPlan.maxCompanies) {
+    if (count >= subscriptionPlan.maxCompanies) {
+      if (subscriptionPlan.plan === "FREE") {
+        throw new RequiresProPlanError()
+      }
+      if (subscriptionPlan.plan === "PRO") {
         throw new MaximumPlanResourcesError()
       }
     }
+
 
     const json = await req.json()
     const body = companyCreateSchema.parse(json)
