@@ -12,7 +12,6 @@ import ReactFlow, {
   OnEdgesChange,
   OnConnect,
   Controls,
-  MiniMap,
 } from 'reactflow'
 
 import 'reactflow/dist/base.css'
@@ -85,7 +84,6 @@ const Flow = () => {
       fitView
       className="bg-teal-50"
     >
-      <MiniMap />
       <Controls />
     </ReactFlow>
   )
