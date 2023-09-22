@@ -3,11 +3,11 @@ import * as z from "zod"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { companyPatchSchema } from "@/lib/validations/company"
+import { teamPatchSchema } from "@/lib/validations/team"
 
 const routeContextSchema = z.object({
   params: z.object({
-    companyId: z.string(),
+    teamId: z.string(),
   }),
 })
 
@@ -19,15 +19,15 @@ export async function DELETE(
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this company.
-    if (!(await verifyCurrentUserHasAccessToCompany(params.companyId))) {
+    // Check if the user has access to this team.
+    if (!(await verifyCurrentUserHasAccessToteam(params.teamId))) {
       return new Response(null, { status: 403 })
     }
 
-    // Delete the company.
-    await db.company.delete({
+    // Delete the team.
+    await db.team.delete({
       where: {
-        id: params.companyId as string,
+        id: params.teamId as string,
       },
     })
 
@@ -49,20 +49,20 @@ export async function PATCH(
     // Validate route params.
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this company.
-    if (!(await verifyCurrentUserHasAccessToCompany(params.companyId))) {
+    // Check if the user has access to this team.
+    if (!(await verifyCurrentUserHasAccessToteam(params.teamId))) {
       return new Response(null, { status: 403 })
     }
 
     // Get the request body and validate it.
     const json = await req.json()
-    const body = companyPatchSchema.parse(json)
+    const body = teamPatchSchema.parse(json)
 
-    // Update the company.
+    // Update the team.
     // TODO: Implement sanitization for content.
-    await db.company.update({
+    await db.team.update({
       where: {
-        id: params.companyId,
+        id: params.teamId,
       },
       data: {
         name: body.name,
@@ -79,14 +79,19 @@ export async function PATCH(
   }
 }
 
-async function verifyCurrentUserHasAccessToCompany(companyId: string) {
+async function verifyCurrentUserHasAccessToteam(teamId: string) {
   const session = await getServerSession(authOptions)
-  const count = await db.company.count({
+  const team = await db.team.findUnique({
     where: {
-      id: companyId,
-      ownerId: session?.user.id,
+      id: teamId,
     },
+    include: { company: true }
   })
 
-  return count > 0
+  if (!team || team.company.ownerId !== session?.user.id) {
+    return false
+  }
+
+  return true
+
 }

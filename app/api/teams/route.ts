@@ -66,12 +66,8 @@ export async function POST(req: Request) {
       },
     })
 
-    if (count >= subscriptionPlan.maxUsers) {
-      if (subscriptionPlan.plan === "FREE") {
-        throw new RequiresProPlanError()
-      } else if (subscriptionPlan.plan === "PRO") {
-        throw new MaximumPlanResourcesError()
-      }
+    if (count >= subscriptionPlan.maxUsers || subscriptionPlan.plan === "FREE") {
+      throw new RequiresProPlanError()
     }
 
     const team = await db.team.create({
@@ -97,10 +93,6 @@ export async function POST(req: Request) {
 
     if (error instanceof RequiresActivePlanError) {
       return new Response("Requires Active Plan", { status: 403 })
-    }
-
-    if (error instanceof MaximumPlanResourcesError) {
-      return new Response("Exceeded Maximum team Limit", { status: 403 })
     }
 
     return new Response(null, { status: 500 })
