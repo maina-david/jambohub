@@ -1,4 +1,4 @@
-import { Metadata } from "next"
+"use client"
 
 import React, { useCallback } from 'react'
 
@@ -16,9 +16,6 @@ import { presets } from "./data/presets"
 
 import Flow from "./components/Flow"
 
-export const metadata: Metadata = {
-  title: "Playground",
-}
 
 export default function PlaygroundPage() {
   return (
