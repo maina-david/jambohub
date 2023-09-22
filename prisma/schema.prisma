@@ -76,6 +76,27 @@ model Company {
   UserCompany          UserCompany[]
 }
 
+model CompanySettings {
+  id                     String               @id @default(cuid())
+  companyId              String
+  company                Company              @relation(fields: [companyId], references: [id])
+  timeZone               String
+  language               String               @default("EN")
+  currency               String
+  notificationSettingsId String
+  notificationSettings   NotificationSettings @relation(fields: [notificationSettingsId], references: [id])
+}
+
+model NotificationSettings {
+  id                 String            @id @default(cuid())
+  emailNotifications Boolean           @default(true)
+  pushNotifications  Boolean           @default(true)
+  smsNotifications   Boolean           @default(true)
+  companyId          String
+  company            Company           @relation(fields: [companyId], references: [id])
+  CompanySettings    CompanySettings[]
+}
+
 model UserCompany {
   id        String  @id @default(cuid())
   userId    String
@@ -113,6 +134,27 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model Team {
+  id        String     @id @default(cuid())
+  name      String
+  companyId String
+  status    Boolean    @default(true)
+  company   Company    @relation(fields: [companyId], references: [id])
+  channels  Channel[]  @relation("ChannelToTeams")
+  members   UserTeam[]
+}
+
+model UserTeam {
+  id     String  @id @default(cuid())
+  userId String
+  teamId String
+  status Boolean @default(true)
+  user   User    @relation(fields: [userId], references: [id])
+  team   Team    @relation(fields: [teamId], references: [id])
+
+  @@unique([userId, teamId])
+}
+
 model Chatflow {
   id          String  @id @default(cuid())
   name        String
@@ -140,48 +182,6 @@ model Channel {
   teams       Team[]      @relation("ChannelToTeams")
   chats       Chat[]
   company     Company     @relation(fields: [companyId], references: [id])
-}
-
-model Team {
-  id        String     @id @default(cuid())
-  name      String
-  companyId String
-  status    Boolean    @default(true)
-  company   Company    @relation(fields: [companyId], references: [id])
-  channels  Channel[]  @relation("ChannelToTeams")
-  members   UserTeam[]
-}
-
-model UserTeam {
-  id     String  @id @default(cuid())
-  userId String
-  teamId String
-  status Boolean @default(true)
-  user   User    @relation(fields: [userId], references: [id])
-  team   Team    @relation(fields: [teamId], references: [id])
-
-  @@unique([userId, teamId])
-}
-
-model CompanySettings {
-  id                     String               @id @default(cuid())
-  companyId              String
-  company                Company              @relation(fields: [companyId], references: [id])
-  timeZone               String
-  language               String               @default("EN")
-  currency               String
-  notificationSettingsId String
-  notificationSettings   NotificationSettings @relation(fields: [notificationSettingsId], references: [id])
-}
-
-model NotificationSettings {
-  id                 String            @id @default(cuid())
-  emailNotifications Boolean           @default(true)
-  pushNotifications  Boolean           @default(true)
-  smsNotifications   Boolean           @default(true)
-  companyId          String
-  company            Company           @relation(fields: [companyId], references: [id])
-  CompanySettings    CompanySettings[]
 }
 
 enum LeadStatus {

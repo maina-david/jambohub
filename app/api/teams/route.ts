@@ -6,12 +6,12 @@ import { db } from "@/lib/db"
 import { MaximumPlanResourcesError, RequiresActivePlanError, RequiresProPlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 
-const companyCreateSchema = z.object({
+const teamCreateSchema = z.object({
   name: z.string(),
-  default: z.boolean()
+  companyId: z.string()
 })
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions)
 
@@ -19,20 +19,22 @@ export async function GET() {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    const { user } = session
-    const companies = await db.company.findMany({
+    const json = await req.json()
+
+    const companyId = json.companyId
+
+    const teams = await db.team.findMany({
       select: {
         id: true,
         name: true,
-        active: true,
-        createdAt: true,
+        status: true
       },
       where: {
-        ownerId: user.id,
+        companyId: companyId
       },
     })
 
-    return new Response(JSON.stringify(companies))
+    return new Response(JSON.stringify(teams))
   } catch (error) {
     return new Response(null, { status: 500 })
   }
@@ -53,13 +55,18 @@ export async function POST(req: Request) {
       throw new RequiresActivePlanError()
     }
 
-    const count = await db.company.count({
+    const json = await req.json()
+    const body = teamCreateSchema.parse(json)
+
+    const companyId = body.companyId
+
+    const count = await db.team.count({
       where: {
-        ownerId: user.id,
+        companyId: companyId,
       },
     })
 
-    if (count >= subscriptionPlan.maxCompanies) {
+    if (count >= subscriptionPlan.maxUsers) {
       if (subscriptionPlan.plan === "FREE") {
         throw new RequiresProPlanError()
       } else if (subscriptionPlan.plan === "PRO") {
@@ -67,20 +74,17 @@ export async function POST(req: Request) {
       }
     }
 
-    const json = await req.json()
-    const body = companyCreateSchema.parse(json)
-
-    const company = await db.company.create({
+    const team = await db.team.create({
       data: {
         name: body.name,
-        ownerId: user.id,
+        companyId: companyId,
       },
       select: {
         id: true,
       },
     })
 
-    return new Response(JSON.stringify(company))
+    return new Response(JSON.stringify(team))
 
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -96,7 +100,7 @@ export async function POST(req: Request) {
     }
 
     if (error instanceof MaximumPlanResourcesError) {
-      return new Response("Exceeded Maximum Company Limit", { status: 403 })
+      return new Response("Exceeded Maximum team Limit", { status: 403 })
     }
 
     return new Response(null, { status: 500 })
