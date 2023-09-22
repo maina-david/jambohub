@@ -1,5 +1,7 @@
 import * as React from "react"
 
+import Link from "next/link"
+import { Icons } from "@/components/icons"
 import { dashboardConfig } from "@/config/hub"
 import { redirect } from 'next/navigation'
 import { getCurrentUser, getCurrentUserCompanies, getCurrentUserSelectedCompany } from "@/lib/session"
@@ -33,8 +35,14 @@ export default async function CompanyLayout({
     <div className="flex min-h-screen flex-col space-y-6">
       <header className="sticky top-0 z-40 border-b bg-background">
         <div className="container flex h-16 items-center justify-between py-4">
-          <MainNav companies={companies} items={dashboardConfig.mainNav} />
+          <Link href={`/${params.companyId}`} className="hidden items-center space-x-2 md:flex">
+            <Icons.logo />
+            <span className="hidden font-bold sm:inline-block">
+              {siteConfig.name}
+            </span>
+          </Link>
           <div className="ml-auto flex items-center space-x-4">
+            <MainNav companies={companies} items={dashboardConfig.mainNav} />
             <ModeToggle />
             <UserAccountNav
               user={{

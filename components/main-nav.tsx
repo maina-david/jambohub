@@ -28,12 +28,6 @@ export function MainNav({ companies, items, children }: MainNavProps) {
 
   return (
     <div className="flex gap-6 md:gap-10">
-      <Link href={params?.companyId ? `/${params.companyId}` : '/'} className="hidden items-center space-x-2 md:flex">
-        <Icons.logo />
-        <span className="hidden font-bold sm:inline-block">
-          {siteConfig.name}
-        </span>
-      </Link>
       <CompanySwitcher items={companies} />
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">

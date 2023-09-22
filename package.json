@@ -82,6 +82,7 @@
     "react-hook-form": "^7.46.1",
     "react-social-icons": "^6.3.0",
     "react-textarea-autosize": "^8.5.3",
+    "reactflow": "^11.8.3",
     "sharp": "^0.31.3",
     "shiki": "^0.11.1",
     "stripe": "^11.18.0",
