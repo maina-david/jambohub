@@ -17,7 +17,7 @@ const StartNode = () => {
           START
         </p>
         <p className="text-sm text-muted-foreground">
-          Drag this to the playground to start building your flow.
+          Drag this to the playground to get started.
         </p>
       </div>
     </div>
