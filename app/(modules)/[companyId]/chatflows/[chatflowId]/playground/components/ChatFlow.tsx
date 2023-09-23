@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import ReactFlow, {
   addEdge,
   FitViewOptions,
@@ -12,6 +12,7 @@ import ReactFlow, {
   OnEdgesChange,
   OnConnect,
   Controls,
+  ReactFlowProvider,
 } from 'reactflow'
 
 import 'reactflow/dist/base.css'
@@ -59,6 +60,7 @@ const initialEdges = [
 ]
 
 const ChatFlow = () => {
+  const reactFlowWrapper = useRef(null)
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
   const [edges, setEdges] = useState<Edge[]>(initialEdges)
 
@@ -76,25 +78,27 @@ const ChatFlow = () => {
   )
   return (
     <div className="container h-full py-6">
-      <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-        <Aside />
-        <div className="md:order-1">
-          <div className="flex h-full flex-col space-y-4">
-            <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
-              onConnect={onConnect}
-              nodeTypes={nodeTypes}
-              fitView
-              className="bg-teal-50"
-            >
-              <Controls />
-            </ReactFlow>
+      <ReactFlowProvider>
+        <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
+          <Aside />
+          <div className="md:order-1">
+            <div className="flex h-full flex-col space-y-4">
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                nodeTypes={nodeTypes}
+                fitView
+                className="bg-teal-50"
+              >
+                <Controls />
+              </ReactFlow>
+            </div>
           </div>
         </div>
-      </div>
+      </ReactFlowProvider>
     </div>
   )
 }
