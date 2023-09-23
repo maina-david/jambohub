@@ -25,27 +25,27 @@ import { useParams, useRouter } from "next/navigation"
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
 interface CompanySwitcherProps extends PopoverTriggerProps {
-  items?: Record<string, any>[];
+  items?: Record<string, any>[]
 }
 
 export default function CompanySwitcher({ className, items = [] }: CompanySwitcherProps) {
-  const companyModal = useCompanyModal();
-  const params = useParams();
-  const router = useRouter();
+  const companyModal = useCompanyModal()
+  const params = useParams()
+  const router = useRouter()
 
   const formattedItems = items.map((item) => ({
     label: item.name,
     value: item.id
-  }));
+  }))
 
-  const currentCompany = formattedItems.find((item) => item.value === params?.companyId);
+  const currentCompany = formattedItems.find((item) => item.value === params?.companyId)
 
   const [open, setOpen] = React.useState(false)
 
   const onCompanySelect = (company: { value: string, label: string }) => {
-    setOpen(false);
-    router.push(`/${company.value}/dashboard`);
-  };
+    setOpen(false)
+    router.push(`/${company.value}/dashboard`)
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -106,5 +106,5 @@ export default function CompanySwitcher({ className, items = [] }: CompanySwitch
         </Command>
       </PopoverContent>
     </Popover>
-  );
-};
+  )
+}

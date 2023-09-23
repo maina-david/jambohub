@@ -3,27 +3,13 @@ import { Metadata } from "next"
 import React, { useCallback } from 'react'
 
 import { Separator } from "@/components/ui/separator"
-import { Textarea } from "@/components/ui/textarea"
 
-import { MaxLengthSelector } from "./components/maxlength-selector"
-import { ModelSelector } from "./components/model-selector"
 import { PresetActions } from "./components/preset-actions"
 import { PresetSave } from "./components/preset-save"
 import { PresetSelector } from "./components/preset-selector"
-import { TemperatureSelector } from "./components/temperature-selector"
-import { TopPSelector } from "./components/top-p-selector"
-import { models, types } from "./data/models"
 import { presets } from "./data/presets"
 
-import ReactFlow, {
-  addEdge,
-  MiniMap,
-  Controls,
-  Background,
-  useNodesState,
-  useEdgesState,
-} from 'reactflow'
-import Flow from "./components/Flow"
+import ChatFlow from "./components/ChatFlow"
 
 export const metadata: Metadata = {
   title: "Playground",
@@ -44,17 +30,7 @@ export default function PlaygroundPage() {
         <Separator />
         <div className="container h-full py-6">
           <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-            <div className="hidden flex-col space-y-4 sm:flex md:order-2">
-              <ModelSelector types={types} models={models} />
-              <TemperatureSelector defaultValue={[0.56]} />
-              <MaxLengthSelector defaultValue={[256]} />
-              <TopPSelector defaultValue={[0.9]} />
-            </div>
-            <div className="md:order-1">
-              <div className="flex h-full flex-col space-y-4">
-                <Flow />
-              </div>
-            </div>
+            <ChatFlow />
           </div>
         </div>
       </div>

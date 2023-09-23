@@ -31,13 +31,15 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isTwitterLoading, setIsTwitterLoading] = React.useState<boolean>(false)
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false)
   const [isFacebookLoading, setIsFacebookLoading] = React.useState<boolean>(false)
+  const searchParams = useSearchParams()
 
   async function onSubmit(data: FormData) {
     setIsLoading(true)
 
-    const signInResult = await signIn("credentials", {
+    const signInResult = await signIn("email", {
       email: data.email.toLowerCase(),
-      password: data.password,
+      redirect: false,
+      callbackUrl: searchParams?.get("from") || "/home",
     })
 
     setIsLoading(false)
@@ -49,6 +51,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         variant: "destructive",
       })
     }
+
+    return toast({
+      title: "Check your email",
+      description: "We sent you a login link. Be sure to check your spam too.",
+    })
 
   }
 
@@ -81,36 +88,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               </p>
             )}
           </div>
-          <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="password">
-              Password
-            </Label>
-            <Input
-              id="password"
-              placeholder="***********"
-              type="password"
-              autoCapitalize="none"
-              autoComplete="password"
-              autoCorrect="off"
-              disabled={
-                isLoading ||
-                isTwitterLoading ||
-                isFacebookLoading ||
-                isGoogleLoading
-              }
-              {...register("password")}
-            />
-            {errors?.email && (
-              <p className="px-1 text-xs text-red-600">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
           <button className={cn(buttonVariants())} disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In
+            Sign In with Email
           </button>
         </div>
       </form>

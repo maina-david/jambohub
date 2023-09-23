@@ -15,6 +15,7 @@ import ReactFlow, {
 } from 'reactflow'
 
 import 'reactflow/dist/base.css'
+import Aside from './Aside'
 
 import CustomNode from './CustomNode'
 
@@ -57,7 +58,7 @@ const initialEdges = [
   },
 ]
 
-const Flow = () => {
+const ChatFlow = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
   const [edges, setEdges] = useState<Edge[]>(initialEdges)
 
@@ -74,19 +75,26 @@ const Flow = () => {
     [setEdges]
   )
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-      nodeTypes={nodeTypes}
-      fitView
-      className="bg-teal-50"
-    >
-      <Controls />
-    </ReactFlow>
+    <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
+      <Aside />
+      <div className="md:order-1">
+        <div className="flex h-full flex-col space-y-4">
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            nodeTypes={nodeTypes}
+            fitView
+            className="bg-teal-50"
+          >
+            <Controls />
+          </ReactFlow>
+        </div>
+      </div>
+    </div>
   )
 }
 
-export default Flow
+export default ChatFlow
