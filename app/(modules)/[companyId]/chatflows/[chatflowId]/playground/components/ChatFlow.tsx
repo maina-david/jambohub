@@ -76,6 +76,7 @@ const ChatFlow = () => {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   )
+  
   return (
     <div className="container h-full py-6">
       <ReactFlowProvider>
