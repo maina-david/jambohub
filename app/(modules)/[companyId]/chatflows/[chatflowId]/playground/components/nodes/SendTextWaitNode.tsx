@@ -25,13 +25,12 @@ const SendTextWaitNode = () => {
         <p className="text-sm text-muted-foreground">
           Your message to the user and await response.
         </p>
+        <Select disabled>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select option" />
+          </SelectTrigger>
+        </Select>
       </div>
-      <Select disabled>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select option" />
-        </SelectTrigger>
-      </Select>
-
     </div>
   )
 }
