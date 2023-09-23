@@ -8,7 +8,6 @@ import { getUserSubscriptionPlan } from "@/lib/subscription"
 
 const companyCreateSchema = z.object({
   name: z.string(),
-  default: z.boolean()
 })
 
 export async function GET() {

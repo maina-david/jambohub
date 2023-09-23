@@ -16,11 +16,8 @@ import { Input } from "@/components/ui/input"
 import { Checkbox } from "../ui/checkbox"
 import { Icons } from "../icons"
 
-
-
 const formSchema = z.object({
-  name: z.string().min(1),
-  defaultCompany: z.boolean()
+  name: z.string().min(1)
 })
 
 export const CompanyModal = () => {
@@ -32,7 +29,6 @@ export const CompanyModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      defaultCompany: false,
     },
   })
 
@@ -122,25 +118,6 @@ export const CompanyModal = () => {
                 </FormItem>
               )}
             />
-            <div className="flex items-center space-x-2 space-y-2">
-              <FormField
-                control={form.control}
-                name="defaultCompany"
-                render={({ field: { onChange, value } }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Checkbox checked={value} onChange={onChange} />
-                    </FormControl>
-                    <FormLabel
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      {" "}Set as default company?
-                    </FormLabel>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
             <DialogFooter>
               <Button
                 disabled={loading}
