@@ -24,7 +24,12 @@ const SendTextNodeWait = () => {
       <div
         className="grid w-full gap-1.5"
       >
-        <Label htmlFor="message-2">Send Text And Wait</Label>
+        <p className="text-sm font-medium leading-none">
+          Send Text And Wait
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Drag this node to send text to user and await response.
+        </p>
         <Textarea disabled placeholder="Type your message here." id="message-2" />
         <Select>
           <SelectTrigger className="w-[180px]">

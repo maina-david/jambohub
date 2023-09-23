@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 
 const SendTextNode = () => {
@@ -19,7 +18,12 @@ const SendTextNode = () => {
       <div
         className="grid w-full gap-1.5"
       >
-        <Label htmlFor="message-2">Send Text</Label>
+        <p className="text-sm font-medium leading-none">
+          Send Text
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Drag this node to send text to user.
+        </p>
         <Textarea disabled placeholder="Type your message here." id="message-2" />
       </div>
     </div>

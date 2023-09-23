@@ -19,7 +19,12 @@ const SendAttachmentNode = () => {
       <div
         className="grid w-full max-w-sm items-center gap-1.5"
       >
-        <Label htmlFor="attachment">Send Attachment</Label>
+        <p className="text-sm font-medium leading-none">
+          Send Attachment
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Drag this node to send an attachment to user.
+        </p>
         <Input disabled id="attachment" type="file" />
       </div>
     </div>
