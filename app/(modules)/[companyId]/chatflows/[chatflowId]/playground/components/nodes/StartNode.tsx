@@ -8,10 +8,10 @@ const StartNode = () => {
 
   return (
     <div
-    className="flex items-center space-x-4 rounded-md border p-4"
+      className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
       draggable
       onDragStart={(event) => onDragStart(event)}
-      >
+    >
       <div className="space-y-1">
         <p className="text-sm font-medium leading-none">
           START
