@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Icons } from "../icons"
 import { ToastAction } from "../ui/toast"
+import Link from "next/link"
 
 const formSchema = z.object({
   name: z.string().min(1)
@@ -48,7 +49,13 @@ export const CompanyModal = () => {
             title: "Requires Pro Plan",
             description: "You need a Pro Plan to create more companies.",
             variant: "destructive",
-            action: <ToastAction altText="Upgrade now">Upgrade now</ToastAction>,
+            action: <ToastAction
+              altText="Upgrade now"
+            >
+              <Link href={'/billing'}>
+                Upgrade now
+              </Link>
+            </ToastAction>,
           });
         } else if (status === 403) {
           toast({
