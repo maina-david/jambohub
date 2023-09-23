@@ -3,11 +3,15 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import {
   Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
 
-const SendTextWaitNode = () => {
+const SendTextNode = () => {
   const onDragStart = (event: React.DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData('application/reactflow', 'custom')
     event.dataTransfer.effectAllowed = 'move'
@@ -19,10 +23,12 @@ const SendTextWaitNode = () => {
       draggable
       onDragStart={(event) => onDragStart(event)}
     >
-      <div className="grid w-full gap-1.5">
-        <Label htmlFor="message-2">Send Text And Wait</Label>
+      <div
+        className="grid w-full gap-1.5"
+      >
+        <Label htmlFor="message-2">Send Text</Label>
         <Textarea disabled placeholder="Type your message here." id="message-2" />
-        <Select disabled>
+        <Select>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select option" />
           </SelectTrigger>
@@ -32,4 +38,4 @@ const SendTextWaitNode = () => {
   )
 }
 
-export default SendTextWaitNode
+export default SendTextNode
