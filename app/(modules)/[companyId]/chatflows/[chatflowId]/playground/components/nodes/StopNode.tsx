@@ -1,27 +1,26 @@
 import React from 'react'
 
-const StopNode = () => {
-  const onDragStart = (event: React.DragEvent<HTMLDivElement>) => {
-    event.dataTransfer.setData('application/reactflow', 'custom')
-    event.dataTransfer.effectAllowed = 'move'
+interface StopNodeProps {
+  draggable?: boolean
+}
+
+export default function StopNode({ draggable }: StopNodeProps) {
+  const handleDragStop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.dataTransfer.setData('text/plain', 'Some data to drag')
   }
 
   return (
     <div
-      className="dndnode flex cursor-grab items-center space-x-4 rounded-md border p-4"
-      draggable
-      onDragStart={(event) => onDragStart(event)}
+      className="space-y-1"
+      draggable={draggable}
+      onDragStart={handleDragStop}
     >
-      <div className="space-y-1">
-        <p className="text-sm font-medium leading-none">
-          STOP
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Drag to the play ground to signify the end of your flow
-        </p>
-      </div>
+      <p className="text-sm font-medium leading-none">
+        STOP
+      </p>
+      <p className="text-sm text-muted-foreground">
+        Drag this to the playground to signify end of yor flow.
+      </p>
     </div>
   )
 }
-
-export default StopNode
