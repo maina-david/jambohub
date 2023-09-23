@@ -3,6 +3,7 @@ import SendAttachment from './nodes/SendAttachmentNode'
 import SendText from './nodes/SendTextNode'
 import SendTextWait from './nodes/SendTextWaitNode'
 import StartNode from './nodes/StartNode'
+import StopNode from './nodes/StopNode'
 
 export default function Aside() {
   return (
@@ -11,6 +12,7 @@ export default function Aside() {
       <SendText />
       <SendTextWait />
       <SendAttachment />
+      <StopNode />
     </div>
   )
 }
