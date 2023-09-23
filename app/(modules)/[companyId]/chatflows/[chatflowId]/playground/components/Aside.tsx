@@ -1,7 +1,7 @@
 import React from 'react'
-import SendAttachment from './nodes/SendAttachment'
-import SendText from './nodes/SendText'
-import SendTextWait from './nodes/SendTextWait'
+import SendAttachment from './nodes/SendAttachmentNode'
+import SendText from './nodes/SendTextNode'
+import SendTextWait from './nodes/SendTextWaitNode'
 import StartNode from './nodes/StartNode'
 
 export default function Aside() {

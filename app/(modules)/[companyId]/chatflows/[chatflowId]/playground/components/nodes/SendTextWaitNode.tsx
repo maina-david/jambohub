@@ -7,7 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const SendTextWait = () => {
+const SendTextWaitNode = () => {
   const onDragStart = (event: React.DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData('application/reactflow', 'custom')
     event.dataTransfer.effectAllowed = 'move'
@@ -15,7 +15,6 @@ const SendTextWait = () => {
 
   return (
     <div
-      className="grid gap-4"
       draggable
       onDragStart={(event) => onDragStart(event)}
     >
@@ -36,4 +35,4 @@ const SendTextWait = () => {
   )
 }
 
-export default SendTextWait
+export default SendTextWaitNode
