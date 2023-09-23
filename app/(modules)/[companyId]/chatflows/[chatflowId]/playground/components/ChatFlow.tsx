@@ -9,8 +9,6 @@ import SendTextNodeWait from './nodes/SendTextWaitNode'
 import SendAttachmentNode from './nodes/SendAttachmentNode'
 import StopNode from './nodes/StopNode'
 import AssignToTeam from './nodes/AssignToTeam'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
 
 const ChatFlow: React.FC = () => {
   const drawflowRef = useRef<HTMLDivElement | null>(null)
@@ -48,20 +46,13 @@ const ChatFlow: React.FC = () => {
   return (
     <div className="container h-full py-6">
       <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-        <div className="flex h-full flex-col space-y-4 md:order-2">
-          <ScrollArea className='rounded-md border'>
-            <StartNode />
-            <Separator className="my-2" />
-            <SendTextNode />
-            <Separator className="my-2" />
-            <SendTextNodeWait />
-            <Separator className="my-2" />
-            <SendAttachmentNode />
-            <Separator className="my-2" />
-            <AssignToTeam />
-            <Separator className="my-2" />
-            <StopNode />
-          </ScrollArea>
+        <div className="hidden flex-col space-y-4 sm:flex md:order-2">
+          <StartNode draggable />
+          <SendTextNode />
+          <SendTextNodeWait />
+          <SendAttachmentNode />
+          <AssignToTeam />
+          <StopNode draggable />
         </div>
         <div className="md:order-1">
           <div className="flex h-full flex-col space-y-4">
