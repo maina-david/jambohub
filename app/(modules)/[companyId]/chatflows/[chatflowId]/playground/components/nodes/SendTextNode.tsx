@@ -19,9 +19,6 @@ const SendTextNode = () => {
       >
         <Label htmlFor="message-2">Send Text</Label>
         <Textarea disabled placeholder="Type your message here." id="message-2" />
-        <p className="text-sm text-muted-foreground">
-          Your message to the user.
-        </p>
       </div>
     </div>
   )
