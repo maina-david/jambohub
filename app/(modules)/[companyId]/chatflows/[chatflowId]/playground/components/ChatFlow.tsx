@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useRef } from 'react'
 import Drawflow from 'drawflow'
 import 'drawflow/dist/drawflow.min.css'
