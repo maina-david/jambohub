@@ -48,7 +48,7 @@ const ChatFlow: React.FC = () => {
     <div className="container h-full py-6">
       <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
         <div className="hidden flex-col space-y-4 sm:flex md:order-2">
-          <ScrollArea className='rounded-md border p-4'>
+          <ScrollArea className='rounded-md border'>
             <StartNode />
             <SendTextNode />
             <SendTextNodeWait />
