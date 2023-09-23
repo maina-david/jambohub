@@ -26,7 +26,7 @@ const AssignToTeam = () => {
           Assign To Team
         </p>
         <p className="text-sm text-muted-foreground">
-          Drag this to the playground to assign team to user.
+          Drag this to assign team to user.
         </p>
         <Select>
           <SelectTrigger className="w-[180px]">

@@ -22,7 +22,7 @@ const SendTextNode = () => {
           Send Text
         </p>
         <p className="text-sm text-muted-foreground">
-          Drag this node to send text to user.
+          Drag this to send text to user.
         </p>
         <Textarea disabled placeholder="Type your message here." id="message-2" />
       </div>

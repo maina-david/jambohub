@@ -28,7 +28,7 @@ const SendTextNodeWait = () => {
           Send Text And Wait
         </p>
         <p className="text-sm text-muted-foreground">
-          Drag this node to send text to user and await response.
+          Drag this to send text to user and await response.
         </p>
         <Textarea disabled placeholder="Type your message here." id="message-2" />
         <Select>

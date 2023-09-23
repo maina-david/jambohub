@@ -23,7 +23,7 @@ const SendAttachmentNode = () => {
           Send Attachment
         </p>
         <p className="text-sm text-muted-foreground">
-          Drag this node to send an attachment to user.
+          Drag this to send an attachment to user.
         </p>
         <Input disabled id="attachment" type="file" />
       </div>
