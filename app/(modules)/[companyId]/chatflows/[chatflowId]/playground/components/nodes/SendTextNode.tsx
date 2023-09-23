@@ -10,15 +10,19 @@ const SendTextNode = () => {
 
   return (
     <div
-      className="grid w-full gap-1.5"
+      className="flex items-center space-x-4 rounded-md border p-4"
       draggable
       onDragStart={(event) => onDragStart(event)}
     >
-      <Label htmlFor="message-2">Send Text</Label>
-      <Textarea disabled placeholder="Type your message here." id="message-2" />
-      <p className="text-sm text-muted-foreground">
-        Your message to the user.
-      </p>
+      <div
+        className="grid w-full gap-1.5"
+      >
+        <Label htmlFor="message-2">Send Text</Label>
+        <Textarea disabled placeholder="Type your message here." id="message-2" />
+        <p className="text-sm text-muted-foreground">
+          Your message to the user.
+        </p>
+      </div>
     </div>
   )
 }

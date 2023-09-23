@@ -15,6 +15,7 @@ const SendTextWaitNode = () => {
 
   return (
     <div
+      className="flex items-center space-x-4 rounded-md border p-4"
       draggable
       onDragStart={(event) => onDragStart(event)}
     >

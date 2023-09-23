@@ -10,12 +10,16 @@ const SendAttachmentNode = () => {
 
   return (
     <div
-      className="grid w-full max-w-sm items-center gap-1.5"
+      className="flex items-center space-x-4 rounded-md border p-4"
       draggable
       onDragStart={(event) => onDragStart(event)}
     >
-      <Label htmlFor="attachment">Send Attachment</Label>
-      <Input disabled id="attachment" type="file" />
+      <div
+        className="grid w-full max-w-sm items-center gap-1.5"
+      >
+        <Label htmlFor="attachment">Send Attachment</Label>
+        <Input disabled id="attachment" type="file" />
+      </div>
     </div>
   )
 }
