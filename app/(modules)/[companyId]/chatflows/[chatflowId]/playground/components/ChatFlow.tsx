@@ -7,6 +7,8 @@ import StartNode from './nodes/StartNode'
 import SendTextNode from './nodes/SendTextNode'
 import SendTextNodeWait from './nodes/SendTextWaitNode'
 import SendAttachmentNode from './nodes/SendAttachmentNode'
+import StopNode from './nodes/StopNode'
+import AssignToTeam from './nodes/AssignToTeam'
 
 const ChatFlow: React.FC = () => {
   const drawflowRef = useRef<HTMLDivElement | null>(null)
@@ -49,6 +51,8 @@ const ChatFlow: React.FC = () => {
           <SendTextNode />
           <SendTextNodeWait />
           <SendAttachmentNode />
+          <AssignToTeam />
+          <StopNode />
         </div>
         <div className="md:order-1">
           <div className="flex h-full flex-col space-y-4">
