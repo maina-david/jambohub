@@ -28,11 +28,7 @@ export default function PlaygroundPage() {
           </div>
         </div>
         <Separator />
-        <div className="container h-full py-6">
-          <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-            <ChatFlow />
-          </div>
-        </div>
+        <ChatFlow />
       </div>
     </>
   )

@@ -75,22 +75,24 @@ const ChatFlow = () => {
     [setEdges]
   )
   return (
-    <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-      <Aside />
-      <div className="md:order-1">
-        <div className="flex h-full flex-col space-y-4">
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            nodeTypes={nodeTypes}
-            fitView
-            className="bg-teal-50"
-          >
-            <Controls />
-          </ReactFlow>
+    <div className="container h-full py-6">
+      <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
+        <Aside />
+        <div className="md:order-1">
+          <div className="flex h-full flex-col space-y-4">
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              nodeTypes={nodeTypes}
+              fitView
+              className="bg-teal-50"
+            >
+              <Controls />
+            </ReactFlow>
+          </div>
         </div>
       </div>
     </div>
