@@ -19,18 +19,19 @@ const SendTextWait = () => {
       draggable
       onDragStart={(event) => onDragStart(event)}
     >
-      <Label>Send Text and Wait</Label>
-      <Textarea
-        disabled
-        placeholder="Type the text to be sent..."
-        rows={4}
-        className="w-full rounded border p-2"
-      />
+      <div className="grid w-full gap-1.5">
+        <Label htmlFor="message-2">Send Text And Wait</Label>
+        <Textarea disabled placeholder="Type your message here." id="message-2" />
+        <p className="text-sm text-muted-foreground">
+          Your message to the user and await response.
+        </p>
+      </div>
       <Select disabled>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select a prompt" />
+          <SelectValue placeholder="Select option" />
         </SelectTrigger>
       </Select>
+
     </div>
   )
 }

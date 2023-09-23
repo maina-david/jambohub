@@ -14,16 +14,12 @@ const SendText = () => {
       draggable
       onDragStart={(event) => onDragStart(event)}
     >
-      <div className="flex items-center justify-between">
-        <Label htmlFor="maxlength">Send Text</Label>
-      </div>
-      <div>
-        <Textarea
-          disabled
-          placeholder="Type the text to be sent..."
-          rows={4}
-          className="w-full rounded border p-2"
-        />
+      <div className="grid w-full gap-1.5">
+        <Label htmlFor="message-2">Send Text</Label>
+        <Textarea disabled placeholder="Type your message here." id="message-2" />
+        <p className="text-sm text-muted-foreground">
+          Your message to the user.
+        </p>
       </div>
     </div>
   )
