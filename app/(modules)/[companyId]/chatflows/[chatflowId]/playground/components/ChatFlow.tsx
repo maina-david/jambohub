@@ -13,6 +13,8 @@ import ReactFlow, {
   OnConnect,
   Controls,
   ReactFlowProvider,
+  ReactFlowInstance,
+  useReactFlow,
 } from 'reactflow'
 
 import 'reactflow/dist/base.css'
@@ -59,10 +61,15 @@ const initialEdges = [
   },
 ]
 
+let id = 0
+const getId = () => `dndnode_${id++}`
+
 const ChatFlow = () => {
-  const reactFlowWrapper = useRef(null)
+  const reactFlowWrapper = useRef<HTMLDivElement | null>(null)
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
   const [edges, setEdges] = useState<Edge[]>(initialEdges)
+  const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>(useReactFlow)
+
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -76,7 +83,42 @@ const ChatFlow = () => {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   )
-  
+
+  const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'move'
+  }, [])
+
+  const onDrop = useCallback(
+    (event) => {
+      event.preventDefault()
+
+      if (reactFlowWrapper.current) {
+        const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect()
+        const type = event.dataTransfer.getData('application/reactflow')
+
+        // check if the dropped element is valid
+        if (typeof type === 'undefined' || !type) {
+          return
+        }
+
+        const position = reactFlowInstance.project({
+          x: event.clientX - reactFlowBounds.left,
+          y: event.clientY - reactFlowBounds.top,
+        })
+        const newNode = {
+          id: getId(),
+          type,
+          position,
+          data: { label: `${type} node` },
+        }
+
+        setNodes((nds) => nds.concat(newNode))
+      }
+    },
+    [reactFlowInstance]
+  )
+
   return (
     <div className="container h-full py-6">
       <ReactFlowProvider>
@@ -90,7 +132,9 @@ const ChatFlow = () => {
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
-                nodeTypes={nodeTypes}
+                onInit={setReactFlowInstance}
+                onDrop={onDrop}
+                onDragOver={onDragOver}
                 fitView
                 className="bg-teal-50"
               >
