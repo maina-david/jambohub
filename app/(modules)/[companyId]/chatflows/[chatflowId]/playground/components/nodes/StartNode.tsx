@@ -13,7 +13,7 @@ export default function StartNode({ draggable }: StartNodeProps) {
 
   return (
     <div
-      className="space-y-1"
+      className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
       draggable={draggable}
       onDragStart={handleDragStart}
     >
