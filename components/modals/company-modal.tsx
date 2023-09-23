@@ -37,7 +37,7 @@ export const CompanyModal = () => {
       const response = await axios.post('/api/companies', {
         ...values,
       });
-      window.location.assign(`/${response.data.id}`);
+      window.location.assign(`/${response.data.id}/dashboard`);
     } catch (error) {
       if (error.response) {
         // Handle specific HTTP error codes
