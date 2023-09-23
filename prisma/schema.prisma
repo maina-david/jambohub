@@ -118,7 +118,9 @@ model Subscription {
   user             User             @relation(fields: [userId], references: [id])
   plan             SubscriptionPlan @default(FREE)
   maxCompanies     Int
+  maxTeams         Int
   maxUsers         Int
+  maxChatflows     Int
   monthlyPrice     Int?
   currentPeriodEnd DateTime
   active           Boolean          @default(true)

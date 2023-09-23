@@ -6,21 +6,30 @@ import { db } from "@/lib/db"
 import { MaximumPlanResourcesError, RequiresActivePlanError, RequiresProPlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 
-const companyCreateSchema = z.object({
+const chatflowCreateSchema = z.object({
   name: z.string(),
-  default: z.boolean()
+  description: z.string()
 })
 
-export async function GET() {
+const routeContextSchema = z.object({
+  params: z.object({
+    companyId: z.string(),
+  }),
+})
+
+export async function GET(req: Request,
+  context: z.infer<typeof routeContextSchema>) {
   try {
     const session = await getServerSession(authOptions)
 
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
+    // Validate the route params.
+    const { params } = routeContextSchema.parse(context)
 
     const { user } = session
-    const companies = await db.company.findMany({
+    const companies = await db.chatflow.findMany({
       select: {
         id: true,
         name: true,
@@ -28,7 +37,7 @@ export async function GET() {
         createdAt: true,
       },
       where: {
-        ownerId: user.id,
+        companyId: params.companyId,
       },
     })
 
@@ -38,13 +47,17 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: Request,
+  context: z.infer<typeof routeContextSchema>) {
   try {
     const session = await getServerSession(authOptions)
 
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
+
+    // Validate the route params.
+    const { params } = routeContextSchema.parse(context)
 
     const { user } = session
     const subscriptionPlan = await getUserSubscriptionPlan(user.id)
@@ -53,13 +66,13 @@ export async function POST(req: Request) {
       throw new RequiresActivePlanError()
     }
 
-    const count = await db.company.count({
+    const count = await db.chatflow.count({
       where: {
-        ownerId: user.id,
+        companyId: params.companyId,
       },
     })
 
-    if (count >= subscriptionPlan.maxCompanies) {
+    if (count >= subscriptionPlan.maxChatflows) {
       if (subscriptionPlan.plan === "FREE") {
         throw new RequiresProPlanError()
       } else if (subscriptionPlan.plan === "PRO") {
@@ -68,12 +81,13 @@ export async function POST(req: Request) {
     }
 
     const json = await req.json()
-    const body = companyCreateSchema.parse(json)
+    const body = chatflowCreateSchema.parse(json)
 
-    const company = await db.company.create({
+    const chatflow = await db.chatflow.create({
       data: {
         name: body.name,
-        ownerId: user.id,
+        description: body.description,
+        companyId: params.companyId,
       },
       select: {
         id: true,
@@ -83,7 +97,7 @@ export async function POST(req: Request) {
     if (subscriptionPlan.plan === "FREE") {
       const defaultTeam = await db.team.create({
         data: {
-          companyId: company.id,
+          companyId: chatflow.id,
           name: 'Default'
         }
       })
@@ -96,7 +110,7 @@ export async function POST(req: Request) {
       })
     }
 
-    return new Response(JSON.stringify(company))
+    return new Response(JSON.stringify(chatflow))
 
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -112,7 +126,7 @@ export async function POST(req: Request) {
     }
 
     if (error instanceof MaximumPlanResourcesError) {
-      return new Response("Exceeded Maximum Company Limit", { status: 403 })
+      return new Response("Exceeded Maximum ChatFlow Limit", { status: 403 })
     }
 
     return new Response(null, { status: 500 })
