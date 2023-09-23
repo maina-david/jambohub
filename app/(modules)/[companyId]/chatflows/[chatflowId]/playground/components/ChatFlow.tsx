@@ -73,7 +73,6 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
 };
 
 const ChatFlow = () => {
-  const reactFlowWrapper = useRef(null)
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
   const [edges, setEdges] = useState<Edge[]>(initialEdges)
 
@@ -99,12 +98,14 @@ const ChatFlow = () => {
     <div className="container h-full py-6">
       <ReactFlowProvider>
         <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-          <StartNode />
-          <SendTextNode />
-          <SendTextNodeWait />
-          <SendAttachmentNode />
-          <SendTextNode />
-          <StopNode />
+          <div className="hidden flex-col space-y-4 sm:flex md:order-2">
+            <StartNode />
+            <SendTextNode />
+            <SendTextNodeWait />
+            <SendAttachmentNode />
+            <SendTextNode />
+            <StopNode />
+          </div>
           <div className="md:order-1">
             <div className="flex h-full flex-col space-y-4">
               <ReactFlow
