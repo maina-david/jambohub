@@ -111,7 +111,7 @@ export const CompanyModal = () => {
                     <Input disabled={loading} placeholder="Enter company name" {...field} />
                   </FormControl>
                   <FormDescription>
-                    This is your company display name.
+                    This will be your company display name.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
