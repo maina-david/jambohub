@@ -13,7 +13,6 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { useCompanyModal } from "@/hooks/use-company-modal"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Checkbox } from "../ui/checkbox"
 import { Icons } from "../icons"
 
 const formSchema = z.object({
@@ -97,7 +96,7 @@ export const CompanyModal = () => {
         <DialogHeader>
           <DialogTitle>Create company</DialogTitle>
           <DialogDescription>
-            Add a new company to manage channels and teams.
+            Add a new company to manage channels, teams and chatflows.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
