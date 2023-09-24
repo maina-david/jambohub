@@ -34,7 +34,10 @@ import { useParams } from 'next/navigation'
 import { SelectValue } from '@radix-ui/react-select'
 
 const formSchema = z.object({
-  channel: z.enum(['WHATSAPP', 'TWITTER', 'FACEBOOK', 'TIKTOK', 'SMS', '']),
+  channel: z
+    .string({
+      required_error: "Please select a channel to integrate.",
+    }),
   name: z.string().min(1)
 })
 
@@ -43,10 +46,6 @@ function AddChannelModal() {
   const channelModal = useChannelModal()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    values: {
-      channel: "",
-      name: "",
-    },
   })
 
   const [isLoading, setIsLoading] = useState(false)
