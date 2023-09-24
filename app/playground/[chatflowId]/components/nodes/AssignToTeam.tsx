@@ -1,15 +1,13 @@
 'use client'
 
 import React from 'react'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import {
   Select,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
 
-const SendTextNodeWait = () => {
+const AssignToTeam = () => {
   const onDragStart = (event: React.DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData('application/reactflow', 'custom')
     event.dataTransfer.effectAllowed = 'move'
@@ -25,12 +23,16 @@ const SendTextNodeWait = () => {
         className="grid w-full gap-1.5"
       >
         <p className="text-sm font-medium leading-none">
-          Send Text And Wait
+          Assign To Team
         </p>
         <p className="text-sm text-muted-foreground">
-          Drag this to send text to user and await response.
+          Drag this to assign team to user.
         </p>
-        <Textarea disabled placeholder="Type your message here." id="message-2" />
+        <Select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Team" />
+          </SelectTrigger>
+        </Select>
         <Select>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select option" />
@@ -41,4 +43,4 @@ const SendTextNodeWait = () => {
   )
 }
 
-export default SendTextNodeWait
+export default AssignToTeam

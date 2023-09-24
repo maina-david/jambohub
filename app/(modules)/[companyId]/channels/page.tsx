@@ -1,10 +1,19 @@
+import { db } from '@/lib/db'
 import React from 'react'
 
 export const metadata = {
   title: "Channels",
 }
 
-function ChannelsPage({ params }: { params: { slug: string } }) {
+const ChannelsPage = async ({ params }: { params: { companyId: string } }) => {
+  const channels = await db.channel.findMany({
+    where: {
+      companyId: params.companyId
+    },
+    orderBy: {
+      createdAt: 'desc'
+    }
+  })
   return (
     <div>ChannelsPage</div>
   )

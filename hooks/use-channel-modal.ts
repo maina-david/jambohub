@@ -1,12 +1,12 @@
 import { create } from 'zustand'
 
-interface useCompanyModalStore {
+interface useChannelModalStore {
   isOpen: boolean
   onOpen: () => void
   onClose: () => void
 }
 
-export const useCompanyModal = create<useCompanyModalStore>((set) => ({
+export const useChannelModal = create<useChannelModalStore>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),

@@ -6,9 +6,16 @@ import { db } from "@/lib/db"
 import { MaximumPlanResourcesError, RequiresActivePlanError, RequiresProPlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 
-const chatflowCreateSchema = z.object({
-  name: z.string(),
-  description: z.string()
+const channelCreateSchema = z.object({
+  channel: z.enum([
+    'WHATSAPP',
+    'TWITTER',
+    'FACEBOOK',
+    'TIKTOK',
+    'SMS'
+  ]),
+  name: z.string().min(1),
+  description: z.string().optional()
 })
 
 const routeContextSchema = z.object({
@@ -27,34 +34,32 @@ export async function GET(context: z.infer<typeof routeContextSchema>) {
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
-    const companies = await db.chatflow.findMany({
+    const channels = await db.channel.findMany({
       select: {
         id: true,
         name: true,
+        description: true,
         status: true,
-        published: true,
-        createdAt: true,
+        type: true,
+        integrated: true,
       },
       where: {
-        companyId: params.companyId,
-      },
+        companyId: params.companyId
+      }
     })
-
-    return new Response(JSON.stringify(companies))
+    return new Response(JSON.stringify(channels))
   } catch (error) {
     return new Response(null, { status: 500 })
   }
 }
 
-export async function POST(req: Request,
-  context: z.infer<typeof routeContextSchema>) {
+export async function POST(req: Request, context: z.infer<typeof routeContextSchema>) {
   try {
     const session = await getServerSession(authOptions)
 
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
-
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
@@ -65,13 +70,13 @@ export async function POST(req: Request,
       throw new RequiresActivePlanError()
     }
 
-    const count = await db.chatflow.count({
+    const channelCount = await db.channel.count({
       where: {
-        companyId: params.companyId,
-      },
+        companyId: params.companyId
+      }
     })
 
-    if (count >= subscriptionPlan.maxChatflows) {
+    if (channelCount >= subscriptionPlan.maxChannels) {
       if (subscriptionPlan.plan === "FREE") {
         throw new RequiresProPlanError()
       } else if (subscriptionPlan.plan === "PRO") {
@@ -80,55 +85,18 @@ export async function POST(req: Request,
     }
 
     const json = await req.json()
-    const body = chatflowCreateSchema.parse(json)
+    const body = channelCreateSchema.parse(json)
 
-    const chatflow = await db.chatflow.create({
+    const channel = await db.channel.create({
       data: {
         name: body.name,
         description: body.description,
         companyId: params.companyId,
-      },
-      select: {
-        id: true,
-      },
+        type: body.channel,
+      }
     })
-
-    if (subscriptionPlan.plan === "FREE") {
-      const defaultTeam = await db.team.create({
-        data: {
-          companyId: chatflow.id,
-          name: 'Default'
-        }
-      })
-
-      await db.userTeam.create({
-        data: {
-          userId: user.id,
-          teamId: defaultTeam.id
-        }
-      })
-    }
-
-    return new Response(JSON.stringify(chatflow))
-
+    return new Response(JSON.stringify(channel))
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
-    }
-
-    if (error instanceof RequiresProPlanError) {
-      return new Response("Requires Pro Plan", { status: 402 })
-    }
-
-    if (error instanceof RequiresActivePlanError) {
-      return new Response("Requires Active Plan", { status: 403 })
-    }
-
-    if (error instanceof MaximumPlanResourcesError) {
-      return new Response("Exceeded Maximum ChatFlow Limit", { status: 403 })
-    }
-
     return new Response(null, { status: 500 })
   }
 }
-

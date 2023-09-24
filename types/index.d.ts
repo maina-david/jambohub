@@ -61,6 +61,7 @@ export type UserSubscriptionPlan = {
   plan: SubscriptionPlan
   maxCompanies: number
   maxUsers: number
+  maxChannels: number
   maxChatflows: number
   maxTeams: number
   monthlyPrice?: number

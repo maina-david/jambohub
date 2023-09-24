@@ -120,6 +120,7 @@ model Subscription {
   maxCompanies     Int
   maxTeams         Int
   maxUsers         Int
+  maxChannels      Int
   maxChatflows     Int
   monthlyPrice     Int?
   currentPeriodEnd DateTime
@@ -165,15 +166,17 @@ model Chatflow {
   companyId   String
   published   Boolean  @default(false)
   status      Boolean  @default(true)
-  company     Company  @relation(fields: [companyId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 }
 
 enum ChannelType {
   WHATSAPP
   TWITTER
   FACEBOOK
+  TIKTOK
   SMS
 }
 
@@ -184,10 +187,14 @@ model Channel {
   status      Boolean     @default(true)
   companyId   String
   type        ChannelType
-  authDetails Json
+  identifier  String?
+  authDetails Json?
+  integrated  Boolean     @default(false)
   teams       Team[]      @relation("ChannelToTeams")
   chats       Chat[]
   company     Company     @relation(fields: [companyId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
 }
 
 enum LeadStatus {

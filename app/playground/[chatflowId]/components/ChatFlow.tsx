@@ -24,33 +24,31 @@ import SendTextWait from './nodes/SendTextWait'
 import SendAttachment from './nodes/SendAttachment'
 import AssignToTeam from './nodes/AssignToTeam'
 
+import SendTextNode from './chatFlowNodes/sendTextNode'
+import SendTextWaitNode from './chatFlowNodes/sendTextWaitNode'
+
 const nodeTypes = {
   custom: CustomNode,
+  sendText: SendTextNode,
+  sendTextWait: SendTextWaitNode
 }
 
 const initialNodes = [
   {
     id: '1',
-    type: 'custom',
+    type: 'sendText',
     data: { name: 'Jane Doe', job: 'CEO', emoji: '😎' },
     position: { x: 0, y: 50 },
   },
   {
     id: '2',
-    type: 'custom',
-    data: { name: 'Tyler Weary', job: 'Designer', emoji: '🤓' },
-
-    position: { x: -200, y: 200 },
-  },
-  {
-    id: '3',
-    type: 'custom',
+    type: 'sendTextWait',
     data: { name: 'Kristi Price', job: 'Developer', emoji: '🤩' },
     position: { x: 200, y: 200 },
   },
   {
     id: '3',
-    type: 'custom',
+    type: 'sendTextWait',
     data: { name: 'Kristi Price', job: 'Developer', emoji: '🤩' },
     position: { x: 200, y: 200 },
   },
@@ -94,11 +92,6 @@ const ChatFlow = () => {
     [setEdges]
   )
 
-  const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    event.dataTransfer.dropEffect = 'move'
-  }, [])
-
   return (
     <div className="container h-full py-6">
       <ReactFlowProvider>
@@ -121,7 +114,6 @@ const ChatFlow = () => {
                 fitViewOptions={fitViewOptions}
                 defaultEdgeOptions={defaultEdgeOptions}
                 nodeTypes={nodeTypes}
-                className="bg-teal-50"
               >
                 <Controls />
               </ReactFlow>

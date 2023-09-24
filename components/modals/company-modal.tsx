@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import * as z from "zod"
 import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -21,6 +22,7 @@ const formSchema = z.object({
 })
 
 export const CompanyModal = () => {
+  const router = useRouter()
   const companyModal = useCompanyModal()
 
   const [loading, setLoading] = useState(false)
@@ -34,43 +36,45 @@ export const CompanyModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setLoading(true);
+      setLoading(true)
       const response = await axios.post('/api/companies', {
         ...values,
-      });
-      window.location.assign(`/${response.data.id}/dashboard`);
+      })
+      // This forces a cache invalidation.
+      router.refresh()
+      router.push(`/${response.data.id}/dashboard`)
     } catch (error) {
       if (error.response) {
         // Handle specific HTTP error codes
-        const status = error.response.status;
+        const status = error.response.status
         if (status === 402) {
           toast({
             title: "Requires Pro Plan",
             description: "You need a Pro Plan to create more companies.",
             variant: "destructive",
             action: <ToastAction altText="Upgrade now">Upgrade now</ToastAction>,
-          });
+          })
         } else if (status === 403) {
           toast({
             title: "Exceeded Maximum Company Limit",
             description: "You've reached the maximum company limit for your plan.",
             variant: "destructive",
-          });
+          })
         } else if (status === 422) {
           // Handle validation errors
-          const validationErrors = error.response.data;
+          const validationErrors = error.response.data
           toast({
             title: "Validation Error",
             description: "Please correct the following errors: " + validationErrors.join(", "),
             variant: "destructive",
-          });
+          })
         } else {
           // Handle other unexpected errors
           toast({
             title: "Something went wrong.",
             description: "Your company was not created. Please try again.",
             variant: "destructive",
-          });
+          })
         }
       } else {
         // Handle other unexpected errors
@@ -78,13 +82,12 @@ export const CompanyModal = () => {
           title: "Something went wrong.",
           description: "Your company was not created. Please try again.",
           variant: "destructive",
-        });
+        })
       }
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
-
+  }
 
   const onChange = (open: boolean) => {
     if (!open) {

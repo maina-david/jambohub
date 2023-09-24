@@ -105,6 +105,7 @@ export const authOptions: NextAuthOptions = {
             plan: "FREE",
             maxCompanies: 1,
             maxUsers: 1,
+            maxChannels: 1,
             maxChatflows: 1,
             maxTeams: 1,
             currentPeriodEnd: currentPeriodEnd
