@@ -25,8 +25,6 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { Trash2Icon } from "lucide-react"
 import { format } from 'date-fns'
-import { Icons } from "@/components/icons"
-import { Badge } from "@/components/ui/badge"
 interface ChannelProps {
   data: {
     name: string,
@@ -51,7 +49,7 @@ export function ChannelCard({ data }: ChannelProps) {
         </div>
         <div className="flex items-center space-x-1 rounded-md bg-secondary text-secondary-foreground">
           <Button variant="secondary" className="px-3 shadow-none">
-            <Icons.whatsapp className="mr-2 h-6 w-6 rounded-full" />
+            <StarIcon className="mr-2 h-4 w-4" />
             {data.type.toLowerCase()}
           </Button>
           <Separator orientation="vertical" className="h-[20px]" />
@@ -83,7 +81,7 @@ export function ChannelCard({ data }: ChannelProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex w-full space-x-4 text-sm text-muted-foreground">
+        <div className="flex space-x-4 text-sm text-muted-foreground">
           <div className="flex items-center">
             {data.identifier ? (
               <p>Linked</p>
