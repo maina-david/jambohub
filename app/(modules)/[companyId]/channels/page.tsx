@@ -18,18 +18,13 @@ const ChannelsPage = async ({ params }: { params: { companyId: string } }) => {
   return (
     <>
       {channels.length ? (
-        <div className="flex-1 space-y-4 p-8 pt-6">
-          <div className="flex items-center justify-between space-y-2">
-            <div className="flex items-center space-x-2">
-              <AddChannelModal />
-            </div>
-          </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+        <>
+          <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {channels.map((channel, index) => {
               return <ChannelCard key={index} data={channel} />
             })}
-          </div>
-        </div>
+          </ul>
+        </>
       ) : (
         <EmptyPlaceholder>
           <EmptyPlaceholder.Icon name="channels" />
