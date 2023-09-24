@@ -1,6 +1,7 @@
 import {
   ChevronDownIcon,
   CircleIcon,
+  Pencil2Icon,
   PlusIcon,
   StarIcon,
 } from "@radix-ui/react-icons"
@@ -23,22 +24,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator"
+import { format } from 'date-fns'
+import { Channel } from "@prisma/client"
 
-export function ChannelCard({ data }) {
+interface ChannelProps {
+  data: Channel
+}
+
+export function ChannelCard({ data }: ChannelProps) {
   return (
     <Card>
       <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
         <div className="space-y-1">
-          <CardTitle>shadcn/ui</CardTitle>
+          <CardTitle>{data.name}</CardTitle>
           <CardDescription>
-            Beautifully designed components built with Radix UI and Tailwind
-            CSS.
+            {data.description}
           </CardDescription>
         </div>
         <div className="flex items-center space-x-1 rounded-md bg-secondary text-secondary-foreground">
           <Button variant="secondary" className="px-3 shadow-none">
             <StarIcon className="mr-2 h-4 w-4" />
-            Star
+            {data.type.toLowerCase()}
           </Button>
           <Separator orientation="vertical" className="h-[20px]" />
           <DropdownMenu>
@@ -53,16 +59,13 @@ export function ChannelCard({ data }) {
               className="w-[200px]"
               forceMount
             >
-              <DropdownMenuLabel>Suggested Lists</DropdownMenuLabel>
+              <DropdownMenuLabel>Account Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuCheckboxItem checked>
-                Future Ideas
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem>My Stack</DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem>Inspiration</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>Link Account</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>Activate</DropdownMenuCheckboxItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <PlusIcon className="mr-2 h-4 w-4" /> Create List
+                <Pencil2Icon className="mr-2 h-4 w-4" /> Edit Account
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -71,14 +74,12 @@ export function ChannelCard({ data }) {
       <CardContent>
         <div className="flex space-x-4 text-sm text-muted-foreground">
           <div className="flex items-center">
-            <CircleIcon className="mr-1 h-3 w-3 fill-sky-400 text-sky-400" />
-            TypeScript
+            {data.identifier}
           </div>
           <div className="flex items-center">
-            <StarIcon className="mr-1 h-3 w-3" />
-            20k
+            {data.integrated ? 'Linked' : 'Not Linked'}
           </div>
-          <div>Updated April 2023</div>
+          <div>Updated {format(data.updatedAt, 'MMMM d, yyyy h:mm a')}</div>
         </div>
       </CardContent>
     </Card>
