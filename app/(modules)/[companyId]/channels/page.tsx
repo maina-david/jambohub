@@ -11,6 +11,7 @@ export const metadata = {
 const ChannelsPage = async ({ params }: { params: { companyId: string } }) => {
   const channels = await getCurrentUserCompanyChannels(params.companyId)
 
+  console.log(channels)
   return (
     <>
       {channels.length ? (
