@@ -25,12 +25,13 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Select, SelectContent, SelectTrigger, SelectItem } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Icons } from '@/components/icons'
 import { useChannelModal } from '@/hooks/use-channel-modal'
 import { ToastAction } from '@/components/ui/toast'
 import { useParams } from 'next/navigation'
+import { SelectValue } from '@radix-ui/react-select'
 
 const formSchema = z.object({
   channel: z.enum(['WHATSAPP', 'TWITTER', 'FACEBOOK', 'TIKTOK', 'SMS']),
@@ -42,7 +43,7 @@ function AddChannelModal() {
   const channelModal = useChannelModal()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    values: {
       channel: "WHATSAPP",
       name: "",
     },
@@ -138,20 +139,18 @@ function AddChannelModal() {
               control={form.control}
               name="channel"
               render={({ field }) => (
-                <FormItem>
-                  <Select {...field} disabled={isLoading}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select a channel" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectValue defaultValue={'WHATSAPP'}>WhatsApp</SelectValue>
-                      <SelectValue defaultValue={'TWITTER'}>Twitter</SelectValue>
-                      <SelectValue defaultValue={'FACEBOOK'}>Facebook</SelectValue>
-                      <SelectValue defaultValue={'TIKTOK'}>Tiktok</SelectValue>
-                      <SelectValue defaultValue={'SMS'}>SMS</SelectValue>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
+                <Select {...field} disabled={isLoading}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select a channel" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="WHATSAPP">WhatsApp</SelectItem>
+                    <SelectItem value="TWITTER">Twitter</SelectItem>
+                    <SelectItem value="FACEBOOK">Facebook</SelectItem>
+                    <SelectItem value="TIKTOK">Tiktok</SelectItem>
+                    <SelectItem value="SMS">SMS</SelectItem>
+                  </SelectContent>
+                </Select>
               )}
             />
             <FormField
