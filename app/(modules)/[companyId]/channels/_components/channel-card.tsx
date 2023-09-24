@@ -86,9 +86,9 @@ export function ChannelCard({ data }: ChannelProps) {
         <div className="flex w-full space-x-4 text-sm text-muted-foreground">
           <div className="flex items-center">
             {data.identifier ? (
-              <Badge variant={'outline'}>Linked</Badge>
+              <p>Linked</p>
             ) : (
-              <Badge variant={'outline'}>Not Linked</Badge>
+              <p>Not Linked</p>
             )}
           </div>
           <div>Updated {format(data.updatedAt, 'MMMM dd, yyyy hh:mm a')}</div>
