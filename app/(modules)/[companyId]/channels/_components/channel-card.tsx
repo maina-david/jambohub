@@ -1,3 +1,5 @@
+'use client'
+
 import { Icons } from '@/components/icons'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -16,7 +18,7 @@ interface ChannelProps {
   }
 }
 
-function ChannelCard({ data }: ChannelProps) {
+export default function ChannelCard({ data }: ChannelProps) {
   return (
     <Card>
       <CardHeader>
@@ -33,7 +35,7 @@ function ChannelCard({ data }: ChannelProps) {
                 htmlFor="whatsapp"
                 className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
               >
-                <Icons.whatsapp/>
+                <Icons.whatsapp />
                 WhatsApp
               </Label>
               <div>
@@ -67,5 +69,3 @@ function ChannelCard({ data }: ChannelProps) {
     </Card >
   )
 }
-
-export default ChannelCard

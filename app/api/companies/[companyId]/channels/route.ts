@@ -90,6 +90,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
     })
     return new Response(JSON.stringify(channel))
   } catch (error) {
+    console.log('[CHANNELS_POST]', error);
     return new Response(null, { status: 500 })
   }
 }
