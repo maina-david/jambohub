@@ -35,7 +35,7 @@ interface ChannelProps {
 export function ChannelCard({ data }: ChannelProps) {
   return (
     <Card>
-      <CardHeader className="grid items-start gap-4 space-y-0">
+      <CardHeader className="flex flex-col items-start gap-4 md:flex-row">
         <div className="space-y-1">
           <CardTitle>{data.name}</CardTitle>
           <CardDescription>
