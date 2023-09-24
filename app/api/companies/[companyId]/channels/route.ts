@@ -24,7 +24,7 @@ const routeContextSchema = z.object({
   }),
 })
 
-export async function GET(context: z.infer<typeof routeContextSchema>) {
+export async function GET(req: Request, context: z.infer<typeof routeContextSchema>) {
   try {
     const session = await getServerSession(authOptions)
 
@@ -35,20 +35,13 @@ export async function GET(context: z.infer<typeof routeContextSchema>) {
     const { params } = routeContextSchema.parse(context)
 
     const channels = await db.channel.findMany({
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        status: true,
-        type: true,
-        integrated: true,
-      },
       where: {
         companyId: params.companyId
       }
     })
     return new Response(JSON.stringify(channels))
   } catch (error) {
+    console.log('[CHANNELS_GET]', error);
     return new Response(null, { status: 500 })
   }
 }
