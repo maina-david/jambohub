@@ -34,7 +34,7 @@ import { useParams } from 'next/navigation'
 import { SelectValue } from '@radix-ui/react-select'
 
 const formSchema = z.object({
-  channel: z.enum(['WHATSAPP', 'TWITTER', 'FACEBOOK', 'TIKTOK', 'SMS']),
+  channel: z.enum(['WHATSAPP', 'TWITTER', 'FACEBOOK', 'TIKTOK', 'SMS', '']),
   name: z.string().min(1)
 })
 
@@ -44,7 +44,7 @@ function AddChannelModal() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     values: {
-      channel: "WHATSAPP",
+      channel: "",
       name: "",
     },
   })
@@ -133,7 +133,7 @@ function AddChannelModal() {
             Add a new communication channel for integration
           </DialogDescription>
         </DialogHeader>
-        <Form  {...form}>
+        <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
@@ -145,10 +145,10 @@ function AddChannelModal() {
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     disabled={isLoading}
-                    >
+                  >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a channel to integrate with" />
+                        <SelectValue placeholder="Select a channel" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -159,6 +159,9 @@ function AddChannelModal() {
                       <SelectItem value="SMS">SMS</SelectItem>
                     </SelectContent>
                   </Select>
+                  <FormDescription>
+                    Choose the communication channel you want to integrate with.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -172,6 +175,9 @@ function AddChannelModal() {
                   <FormControl>
                     <Input disabled={isLoading} placeholder="Enter account name" {...field} />
                   </FormControl>
+                  <FormDescription>
+                    Enter the name associated with this account.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -190,6 +196,7 @@ function AddChannelModal() {
       </DialogContent>
     </Dialog>
   )
+
 }
 
 export default AddChannelModal
