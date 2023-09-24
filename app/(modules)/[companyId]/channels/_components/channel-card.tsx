@@ -82,17 +82,10 @@ export function ChannelCard({ data }: ChannelProps) {
       </CardHeader>
       <CardContent>
         <div className="flex space-x-4 text-sm text-muted-foreground">
-          {data.identifier ? (
-            <div className="flex items-center">
-              <CheckCircle className="mr-2 h-4 w-4" />
-              Linked
-            </div>
-          ) : (
-            <div className="flex items-center">
-              <XIcon className="mr-2 h-4 w-4" />
-              Not Linked
-            </div>
-          )}
+          <div className="flex items-center">
+            <CircleIcon className="mr-1 h-3 w-3 fill-sky-400 text-sky-400" />
+            {data.integrated ? 'Linked' : 'Not Linked'}
+          </div>
           <div>Updated {format(data.updatedAt, 'MMMM dd, yyyy hh:mm a')}</div>
         </div>
       </CardContent>
