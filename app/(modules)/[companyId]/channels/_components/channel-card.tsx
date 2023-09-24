@@ -48,7 +48,7 @@ export default function ChannelCard({ data }: ChannelProps) {
           )
         }
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex justify-between">
         <Button
           variant={data.status ? 'destructive' : 'default'}
         >
@@ -57,7 +57,7 @@ export default function ChannelCard({ data }: ChannelProps) {
         <Button
           variant={data.integrated ? 'destructive' : 'default'}
         >
-          {data.integrated ? 'Integrate' : 'Unlink'}
+          {data.integrated ? 'Unlink' : 'Integrate'}
         </Button>
       </CardFooter>
     </Card >
