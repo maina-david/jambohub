@@ -26,6 +26,7 @@ import { Separator } from "@/components/ui/separator"
 import { Trash2Icon } from "lucide-react"
 import { format } from 'date-fns'
 import { Icons } from "@/components/icons"
+import { Badge } from "@/components/ui/badge"
 interface ChannelProps {
   data: {
     name: string,
@@ -82,12 +83,12 @@ export function ChannelCard({ data }: ChannelProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex space-x-4 text-sm text-muted-foreground">
+        <div className="flex w-full space-x-4 text-sm text-muted-foreground">
           <div className="flex items-center">
             {data.identifier ? (
-              <span>{data.identifier}</span>
+              <Badge variant={'outline'}>Linked</Badge>
             ) : (
-              <p>Not Linked</p>
+              <Badge variant={'outline'}>Not Linked</Badge>
             )}
           </div>
           <div>Updated {format(data.updatedAt, 'MMMM dd, yyyy hh:mm a')}</div>
