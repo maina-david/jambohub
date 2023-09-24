@@ -1,10 +1,15 @@
 'use client'
 
 import { Icons } from '@/components/icons'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
 import React from 'react'
 
 interface ChannelProps {
@@ -27,22 +32,19 @@ export default function ChannelCard({ data }: ChannelProps) {
           {data.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="grid gap-6">
+      <CardContent className="grid gap-4">
         {data.type === 'WHATSAPP' &&
           (
-            <div className="grid grid-cols-2 gap-4">
-              <Label>
-                <Icons.whatsapp />
-                WhatsApp
-              </Label>
-              <div>
-                <Label>
-                  {data.identifier ? (
-                    <span>{data.identifier}</span>
-                  ) : (
-                    <Badge variant={'secondary'}>Not Linked</Badge>
-                  )}
-                </Label>
+            <div className="flex items-center space-x-4 rounded-md border p-4">
+              <Icons.whatsapp className='mr-2 h-4 w-4' />
+              <div className="flex-1 space-y-1">
+                {data.identifier ? (
+                  <p className="text-sm font-medium leading-none">{data.identifier}</p>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Not Linked.
+                  </p>
+                )}
               </div>
             </div>
           )
