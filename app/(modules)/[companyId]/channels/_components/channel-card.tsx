@@ -26,6 +26,7 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { format } from 'date-fns'
 import { Channel } from "@prisma/client"
+import { Trash2Icon } from "lucide-react"
 
 interface ChannelProps {
   data: Channel
@@ -34,7 +35,7 @@ interface ChannelProps {
 export function ChannelCard({ data }: ChannelProps) {
   return (
     <Card>
-      <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
+      <CardHeader className="grid grid-cols-[1fr_120px] items-start gap-4 space-y-0">
         <div className="space-y-1">
           <CardTitle>{data.name}</CardTitle>
           <CardDescription>
@@ -61,11 +62,20 @@ export function ChannelCard({ data }: ChannelProps) {
             >
               <DropdownMenuLabel>Account Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuCheckboxItem>Link Account</DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem>Activate</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>
+                <Pencil2Icon className="mr-2 h-4 w-4" />
+                Link Account
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>
+                <Pencil2Icon className="mr-2 h-4 w-4" />
+                Activate
+              </DropdownMenuCheckboxItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Pencil2Icon className="mr-2 h-4 w-4" /> Edit Account
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Trash2Icon className="mr-2 h-4 w-4" /> Delete Account
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
