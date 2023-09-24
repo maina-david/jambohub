@@ -23,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator"
-import { Trash2Icon } from "lucide-react"
+import { CheckCircle, Trash2Icon, XIcon } from "lucide-react"
 import { format } from 'date-fns'
 interface ChannelProps {
   data: {
@@ -39,7 +39,7 @@ interface ChannelProps {
 
 export function ChannelCard({ data }: ChannelProps) {
   return (
-    <Card>
+    <Card className="flex">
       <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
         <div className="space-y-1">
           <CardTitle>{data.name}</CardTitle>
@@ -82,16 +82,20 @@ export function ChannelCard({ data }: ChannelProps) {
       </CardHeader>
       <CardContent>
         <div className="flex space-x-4 text-sm text-muted-foreground">
-          <div className="flex items-center">
-            {data.identifier ? (
-              <p>Linked</p>
-            ) : (
-              <p>Not Linked</p>
-            )}
-          </div>
+          {data.identifier ? (
+            <div className="flex items-center">
+              <CheckCircle className="mr-2 h-4 w-4" />
+              Linked
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <XIcon className="mr-2 h-4 w-4" />
+              Not Linked
+            </div>
+          )}
           <div>Updated {format(data.updatedAt, 'MMMM dd, yyyy hh:mm a')}</div>
         </div>
       </CardContent>
-    </Card>
+    </Card >
   )
 }
