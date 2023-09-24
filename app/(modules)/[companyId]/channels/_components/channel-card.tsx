@@ -20,7 +20,7 @@ interface ChannelProps {
 
 export default function ChannelCard({ data }: ChannelProps) {
   return (
-    <Card>
+    <Card className="cursor pointer block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
       <CardHeader>
         <CardTitle>{data.name}</CardTitle>
         <CardDescription>
@@ -31,18 +31,12 @@ export default function ChannelCard({ data }: ChannelProps) {
         {data.type === 'WHATSAPP' &&
           (
             <div className="grid grid-cols-2 gap-4">
-              <Label
-                htmlFor="whatsapp"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-              >
+              <Label>
                 <Icons.whatsapp />
                 WhatsApp
               </Label>
               <div>
-                <Label
-                  htmlFor="identifier"
-                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                >
+                <Label>
                   {data.identifier ? (
                     <span>{data.identifier}</span>
                   ) : (
