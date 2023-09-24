@@ -74,12 +74,16 @@ function AddChannelModal() {
             variant: "destructive",
             action: <ToastAction altText="Upgrade now">Upgrade now</ToastAction>,
           })
+
+          channelModal.onClose()
         } else if (status === 403) {
           toast({
-            title: "Exceeded Maximum Company Limit",
+            title: "Exceeded Maximum Channel Limit",
             description: "You've reached the maximum channel limit for your plan.",
             variant: "destructive",
           })
+
+          channelModal.onClose()
         } else if (status === 422) {
           // Handle validation errors
           const validationErrors = error.response.data
@@ -106,7 +110,6 @@ function AddChannelModal() {
       }
     } finally {
       setIsLoading(false)
-      channelModal.onClose()
     }
   }
 

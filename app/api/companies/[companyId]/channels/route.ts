@@ -91,6 +91,22 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
     return new Response(JSON.stringify(channel))
   } catch (error) {
     console.log('[CHANNELS_POST]', error);
+    if (error instanceof z.ZodError) {
+      return new Response(JSON.stringify(error.issues), { status: 422 })
+    }
+
+    if (error instanceof RequiresProPlanError) {
+      return new Response("Requires Pro Plan", { status: 402 })
+    }
+
+    if (error instanceof RequiresActivePlanError) {
+      return new Response("Requires Active Plan", { status: 403 })
+    }
+
+    if (error instanceof MaximumPlanResourcesError) {
+      return new Response("Exceeded Maximum Channel Limit", { status: 403 })
+    }
+
     return new Response(null, { status: 500 })
   }
 }
