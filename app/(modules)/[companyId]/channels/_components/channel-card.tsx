@@ -35,8 +35,8 @@ export default function ChannelCard({ data }: ChannelProps) {
       <CardContent className="grid gap-4">
         {data.type === 'WHATSAPP' &&
           (
-            <div className="flex items-center space-x-4 rounded-md border p-4">
-              <Icons.whatsapp className='mr-2 h-4 w-4' />
+            <div className="flex items-center space-x-4 p-4">
+              <Icons.whatsapp className='mr-2' />
               <div className="flex-1 space-y-1">
                 {data.identifier ? (
                   <p className="text-sm font-medium leading-none">{data.identifier}</p>
