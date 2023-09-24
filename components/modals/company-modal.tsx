@@ -40,6 +40,7 @@ export const CompanyModal = () => {
       const response = await axios.post('/api/companies', {
         ...values,
       })
+      companyModal.onClose()
       // This forces a cache invalidation.
       router.refresh()
       router.push(`/${response.data.id}/dashboard`)
