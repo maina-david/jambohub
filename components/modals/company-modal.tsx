@@ -40,10 +40,11 @@ export const CompanyModal = () => {
       const response = await axios.post('/api/companies', {
         ...values,
       })
-      companyModal.onClose()
-      // This forces a cache invalidation.
-      router.refresh()
-      router.push(`/${response.data.id}/dashboard`)
+      toast({
+        title: "Success",
+        description: "Your company was created successfully!",
+      })
+      window.location.assign(`/${response.data.id}/dashboard`)
     } catch (error) {
       if (error.response) {
         // Handle specific HTTP error codes
