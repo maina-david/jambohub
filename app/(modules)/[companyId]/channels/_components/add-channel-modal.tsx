@@ -116,10 +116,14 @@ function AddChannelModal() {
     }
   }
 
+  function triggerModal() {
+    channelModal.onOpen()
+  }
+
   return (
     <Dialog open={channelModal.isOpen} onOpenChange={onChange}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Channel</Button>
+        <Button onClick={triggerModal} variant="outline">Add Channel</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
