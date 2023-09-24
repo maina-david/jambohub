@@ -134,7 +134,7 @@ function AddChannelModal() {
           </DialogDescription>
         </DialogHeader>
         <Form  {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
               name="channel"
@@ -144,9 +144,10 @@ function AddChannelModal() {
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    disabled={isLoading}>
+                    disabled={isLoading}
+                    >
                     <FormControl>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select a channel to integrate with" />
                       </SelectTrigger>
                     </FormControl>
