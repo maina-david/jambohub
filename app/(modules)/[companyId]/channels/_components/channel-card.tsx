@@ -1,17 +1,30 @@
-'use client'
+import {
+  ChevronDownIcon,
+  CircleIcon,
+  Pencil2Icon,
+  PlusIcon,
+  StarIcon,
+} from "@radix-ui/react-icons"
 
-import { Icons } from '@/components/icons'
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle
-} from '@/components/ui/card'
-import React from 'react'
-
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Separator } from "@/components/ui/separator"
+import { Trash2Icon } from "lucide-react"
+import { format } from 'date-fns'
 interface ChannelProps {
   data: {
     name: string,
@@ -19,49 +32,66 @@ interface ChannelProps {
     type: string,
     identifier: string | null,
     status: boolean,
-    integrated: boolean
+    integrated: boolean,
+    updatedAt: Date
   }
 }
 
-export default function ChannelCard({ data }: ChannelProps) {
+export function ChannelCard({ data }: ChannelProps) {
   return (
-    <Card className="cursor pointer block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-      <CardHeader>
-        <CardTitle>{data.name}</CardTitle>
-        <CardDescription>
-          {data.description}
-        </CardDescription>
+    <Card>
+      <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
+        <div className="space-y-1">
+          <CardTitle>{data.name}</CardTitle>
+          <CardDescription>
+            {data.description}
+          </CardDescription>
+        </div>
+        <div className="flex items-center space-x-1 rounded-md bg-secondary text-secondary-foreground">
+          <Button variant="secondary" className="px-3 shadow-none">
+            <StarIcon className="mr-2 h-4 w-4" />
+            Star
+          </Button>
+          <Separator orientation="vertical" className="h-[20px]" />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" className="px-2 shadow-none">
+                <ChevronDownIcon className="h-4 w-4 text-secondary-foreground" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              alignOffset={-5}
+              className="w-[200px]"
+              forceMount
+            >
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Pencil2Icon className="mr-2 h-4 w-4" /> Edit Account
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <PlusIcon className="mr-2 h-4 w-4" /> Link Account
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Trash2Icon className="mr-2 h-4 w-4" /> Delete Channel
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </CardHeader>
-      <CardContent className="grid gap-4">
-        {data.type === 'WHATSAPP' &&
-          (
-            <div className="flex items-center space-x-4 p-4">
-              <Icons.whatsapp className='mr-2' />
-              <div className="flex-1 space-y-1">
-                {data.identifier ? (
-                  <p className="text-sm font-medium leading-none">{data.identifier}</p>
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    Not Linked.
-                  </p>
-                )}
-              </div>
-            </div>
-          )
-        }
+      <CardContent>
+        <div className="flex space-x-4 text-sm text-muted-foreground">
+          <div className="flex items-center">
+            {data.identifier ? (
+              <span>{data.identifier}</span>
+            ) : (
+              <p>Not Linked</p>
+            )}
+          </div>
+          <div>Updated {format(data.updatedAt, 'MMMM dd, yyyy hh:mm a')}</div>
+        </div>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button
-          variant={data.status ? 'destructive' : 'default'}
-        >
-          {data.status ? 'Deactivate' : 'Activate'}
-        </Button>
-        <Button
-          variant={data.integrated ? 'destructive' : 'default'}
-        >
-          {data.integrated ? 'Unlink' : 'Integrate'}
-        </Button>
-      </CardFooter>
-    </Card >
+    </Card>
   )
 }

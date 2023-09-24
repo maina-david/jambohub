@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
-import ChannelCard from './_components/channel-card'
+import { ChannelCard } from './_components/channel-card'
 import AddChannelModal from './_components/add-channel-modal'
 import { getCompanyChannels } from '@/actions/channel-actions'
 import Link from 'next/link'
@@ -20,7 +20,6 @@ const ChannelsPage = async ({ params }: { params: { companyId: string } }) => {
       {channels.length ? (
         <div className="flex-1 space-y-4 p-8 pt-6">
           <div className="flex items-center justify-between space-y-2">
-            <h2 className="text-2xl font-bold tracking-tight">Communication Channels</h2>
             <div className="flex items-center space-x-2">
               <AddChannelModal />
             </div>
