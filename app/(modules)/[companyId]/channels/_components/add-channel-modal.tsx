@@ -10,7 +10,8 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
+  DialogTrigger
 } from '@/components/ui/dialog'
 import {
   Form,
@@ -26,6 +27,8 @@ import { Select, SelectContent, SelectTrigger, SelectValue } from '@/components/
 import { Button } from '@/components/ui/button'
 import { Icons } from '@/components/icons'
 import { useChannelModal } from '@/hooks/use-channel-modal'
+import { ToastAction } from '@/components/ui/toast'
+import { useParams } from 'next/navigation'
 
 const formSchema = z.object({
   channel: z.enum(['WHATSAPP', 'TWITTER', 'FACEBOOK', 'TIKTOK', 'SMS']),
@@ -33,6 +36,7 @@ const formSchema = z.object({
 })
 
 function AddChannelModal() {
+  const params = useParams()
   const channelModal = useChannelModal()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,11 +50,58 @@ function AddChannelModal() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true)
-
+    const companyId = params?.companyId
     try {
+      const response = await axios.post(`/api/companies/${companyId}/channels`, {
+        ...values,
+      })
+      channelModal.onClose()
+      toast({
+        title: "Success",
+        description: "Channel created successfully!",
+      })
 
     } catch (error) {
-
+      if (error.response) {
+        // Handle specific HTTP error codes
+        const status = error.response.status
+        if (status === 402) {
+          toast({
+            title: "Requires Pro Plan",
+            description: "You need a Pro Plan to create more channels.",
+            variant: "destructive",
+            action: <ToastAction altText="Upgrade now">Upgrade now</ToastAction>,
+          })
+        } else if (status === 403) {
+          toast({
+            title: "Exceeded Maximum Company Limit",
+            description: "You've reached the maximum channel limit for your plan.",
+            variant: "destructive",
+          })
+        } else if (status === 422) {
+          // Handle validation errors
+          const validationErrors = error.response.data
+          toast({
+            title: "Validation Error",
+            description: "Please correct the following errors: " + validationErrors.join(", "),
+            variant: "destructive",
+          })
+        } else {
+          // Handle other unexpected errors
+          toast({
+            title: "Something went wrong.",
+            description: "Channel was not created. Please try again.",
+            variant: "destructive",
+          })
+        }
+      } else {
+        // Handle other unexpected errors
+        toast({
+          title: "Something went wrong.",
+          description: "Channel was not created. Please try again.",
+          variant: "destructive",
+        })
+      }
     } finally {
       setIsLoading(false)
       channelModal.onClose()
@@ -65,6 +116,9 @@ function AddChannelModal() {
 
   return (
     <Dialog open={channelModal.isOpen} onOpenChange={onChange}>
+      <DialogTrigger asChild>
+        <Button variant="outline">Add Channel</Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>New channel</DialogTitle>
