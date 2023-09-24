@@ -1,7 +1,6 @@
 import {
   ChevronDownIcon,
   CircleIcon,
-  Pencil2Icon,
   PlusIcon,
   StarIcon,
 } from "@radix-ui/react-icons"
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/card"
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -23,34 +23,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator"
-import { CheckCircle, Trash2Icon, XIcon } from "lucide-react"
-import { format } from 'date-fns'
-interface ChannelProps {
-  data: {
-    name: string,
-    description?: string | null,
-    type: string,
-    identifier: string | null,
-    status: boolean,
-    integrated: boolean,
-    updatedAt: Date
-  }
-}
 
-export function ChannelCard({ data }: ChannelProps) {
+export function ChannelCard({ data }) {
   return (
-    <Card className="flex">
+    <Card>
       <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
         <div className="space-y-1">
-          <CardTitle>{data.name}</CardTitle>
+          <CardTitle>shadcn/ui</CardTitle>
           <CardDescription>
-            {data.description}
+            Beautifully designed components built with Radix UI and Tailwind
+            CSS.
           </CardDescription>
         </div>
         <div className="flex items-center space-x-1 rounded-md bg-secondary text-secondary-foreground">
           <Button variant="secondary" className="px-3 shadow-none">
             <StarIcon className="mr-2 h-4 w-4" />
-            {data.type.toLowerCase()}
+            Star
           </Button>
           <Separator orientation="vertical" className="h-[20px]" />
           <DropdownMenu>
@@ -65,16 +53,16 @@ export function ChannelCard({ data }: ChannelProps) {
               className="w-[200px]"
               forceMount
             >
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>Suggested Lists</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuCheckboxItem checked>
+                Future Ideas
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>My Stack</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>Inspiration</DropdownMenuCheckboxItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Pencil2Icon className="mr-2 h-4 w-4" /> Edit Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <PlusIcon className="mr-2 h-4 w-4" /> Link Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Trash2Icon className="mr-2 h-4 w-4" /> Delete Channel
+                <PlusIcon className="mr-2 h-4 w-4" /> Create List
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -84,11 +72,15 @@ export function ChannelCard({ data }: ChannelProps) {
         <div className="flex space-x-4 text-sm text-muted-foreground">
           <div className="flex items-center">
             <CircleIcon className="mr-1 h-3 w-3 fill-sky-400 text-sky-400" />
-            {data.integrated ? 'Linked' : 'Not Linked'}
+            TypeScript
           </div>
-          <div>Updated {format(data.updatedAt, 'MMMM dd, yyyy hh:mm a')}</div>
+          <div className="flex items-center">
+            <StarIcon className="mr-1 h-3 w-3" />
+            20k
+          </div>
+          <div>Updated April 2023</div>
         </div>
       </CardContent>
-    </Card >
+    </Card>
   )
 }
