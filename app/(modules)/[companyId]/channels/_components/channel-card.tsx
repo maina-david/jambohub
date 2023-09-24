@@ -51,7 +51,7 @@ export function ChannelCard({ data }: ChannelProps) {
         </div>
         <div className="flex items-center space-x-1 rounded-md bg-secondary text-secondary-foreground">
           <Button variant="secondary" className="px-3 shadow-none">
-            <Icons.whatsapp className="mr-2 h-4 w-4" />
+            <Icons.whatsapp className="mr-2 h-6 w-6 rounded-full" />
             {data.type.toLowerCase()}
           </Button>
           <Separator orientation="vertical" className="h-[20px]" />
