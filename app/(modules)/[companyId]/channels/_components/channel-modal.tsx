@@ -249,7 +249,7 @@ export default function ChannelModal(onChannelUpdated) {
                     />
                   </FormControl>
                   <FormDescription>
-                    Enter a brief description of the account. This will help identify the account&aposs purpose.
+                    Enter a brief description of the account. This will help identify the account&apos;s purpose.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
