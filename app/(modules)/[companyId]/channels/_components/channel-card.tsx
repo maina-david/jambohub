@@ -53,26 +53,32 @@ export function ChannelCard({ channel }: ChannelProps) {
     WHATSAPP: {
       text: 'text-green-700',
       bg: 'bg-green-50',
+      ring: 'ring-green-600/20'
     },
     FACEBOOK: {
       text: 'text-blue-700',
       bg: 'bg-blue-50',
+      ring: 'ring-blue-600/20'
     },
     TWITTER: {
       text: 'text-blue-500',
       bg: 'bg-blue-50',
+      ring: 'ring-blue-600/20'
     },
     TIKTOK: {
       text: 'text-pink-700',
       bg: 'bg-pink-50',
+      ring: 'ring-pink-600/20'
     },
     SMS: {
       text: 'text-purple-700',
       bg: 'bg-purple-50',
+      ring: 'ring-purple-600/20'
     },
   }[channel.type] || {
     text: 'text-gray-700',
     bg: 'bg-gray-50',
+    ring: 'ring-gray-600/20'
   }
 
 
@@ -96,7 +102,7 @@ export function ChannelCard({ channel }: ChannelProps) {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <span className={`inline-flex shrink-0 items-center rounded-full ${typeColorClasses.text} px-1.5 py-0.5 text-xs ${typeColorClasses.bg} font-medium ring-1 ring-inset ring-green-600/20 `}>
+            <span className={`inline-flex shrink-0 items-center rounded-full ${typeColorClasses.text} px-1.5 py-0.5 text-xs ${typeColorClasses.bg} font-medium ring-1 ring-inset ${typeColorClasses.ring} `}>
               {channel.type.toLowerCase()}
             </span>
           </div>
