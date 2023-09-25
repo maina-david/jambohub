@@ -58,8 +58,8 @@ export function ChannelCard({ data }: ChannelProps) {
       </div>
       <div className="flex flex-col items-center pb-10">
         <Image
-          src={''}
-          alt={''}
+          src={'/images/icons/whatsapp.svg'}
+          alt={'WhatsApp'}
           width={24}
           height={24}
           className="mb-3 rounded-full shadow-lg"
