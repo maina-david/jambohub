@@ -28,7 +28,7 @@ const ChannelsPage = async ({ params }: { params: { companyId: string } }) => {
             </div>
             <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {channels.map((channel, index) => {
-                return <ChannelCard key={index} data={channel} />
+                return <ChannelCard key={index} channel={channel} />
               })}
             </ul>
           </div>
