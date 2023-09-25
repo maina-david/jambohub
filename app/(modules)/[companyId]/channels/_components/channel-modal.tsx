@@ -44,28 +44,18 @@ const formSchema = z.object({
   description: z.string().min(3).max(128)
 })
 
-interface ChannelProps {
-  channel: Channel | null
-}
-export default function ChannelModal({ channel }: ChannelProps) {
+export default function ChannelModal() {
   const params = useParams()
   const channelModal = useChannelModal()
   const [isLoading, setIsLoading] = useState(false)
-  const [isUpdateMode, setIsUpdateMode] = useState(false)
+  const channel = channelModal.channel
 
   console.log(channel)
 
-  if (channel) {
-    setIsUpdateMode(true)
-  }
+  const isUpdateMode = !!channel
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      channel: isUpdateMode ? channel?.type : '',
-      name: isUpdateMode ? channel?.name : '',
-      description: isUpdateMode ? channel?.description : '',
-    }
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
