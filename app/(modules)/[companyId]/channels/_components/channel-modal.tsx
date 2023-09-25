@@ -73,7 +73,7 @@ export default function ChannelModal(onChannelUpdated) {
 
         // Check if the update was successful
         if (response.status === 200) {
-          onChannelUpdated()
+          // onChannelUpdated()
           toast({
             title: 'Success',
             description: 'Channel updated successfully!',
@@ -94,7 +94,7 @@ export default function ChannelModal(onChannelUpdated) {
 
         // Check if the creation was successful
         if (response.status === 201) {
-          onChannelUpdated()
+          // onChannelUpdated()
           toast({
             title: 'Success',
             description: 'Channel created successfully!',
