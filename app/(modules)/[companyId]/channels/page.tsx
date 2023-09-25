@@ -14,7 +14,7 @@ export const metadata = {
   title: "Channels",
 }
 
-const ChannelsPage = async ({ params }: { params: { companyId: string } }) => {
+export default async function ChannelsPage ({ params }: { params: { companyId: string } }) {
 
   const { data: channels } = useQuery(['companyChannels', params.companyId], () =>
     getCompanyChannels(params.companyId)
@@ -46,5 +46,3 @@ const ChannelsPage = async ({ params }: { params: { companyId: string } }) => {
     </AppShell>
   )
 }
-
-export default ChannelsPage
