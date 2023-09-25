@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useChannelModal } from "@/hooks/use-channel-modal"
+import { cn } from "@/lib/utils"
 import { Channel } from "@prisma/client"
 import { CircleEllipsisIcon, PencilIcon, Trash2Icon } from "lucide-react"
 import Image from "next/image"
@@ -38,13 +39,22 @@ export function ChannelCard({ channel }: ChannelProps) {
 
     channelModal.onOpen()
   }
+  
+  const ringColorClass = {
+    WHATSAPP: 'ring-green-500',
+    FACEBOOK: 'ring-blue-500',
+    TWITTER: 'ring-blue-300',
+    TIKTOK: 'ring-pink-500',
+    SMS: 'ring-purple-500',
+  }[channel.type] || ''
+
   return (
-    <li className="col-span-1 divide-y divide-gray-200 rounded-lg shadow">
+    <li className={cn("col-span-1 divide-y divide-gray-200 rounded-lg shadow-2xl", ringColorClass)}>
       <div className="flex w-full items-center justify-between space-x-6 p-6">
         <div className="flex-1 truncate">
           <div className="flex items-center space-x-3">
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+              <DropdownMenuTrigger asChild className="cursor-pointer">
                 <h3 className="truncate text-sm font-medium">{channel.name}</h3>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
