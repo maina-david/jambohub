@@ -62,6 +62,7 @@ export function ChannelCard({ channel }: ChannelProps) {
   const handleDeleteChannel = async () => {
     try {
       if (channel && params) {
+        setIsLoading(true)
         const response = await axios.delete(`/api/companies/${params.companyId}/channels//${channel.id}`)
 
         if (response.status === 204) {
@@ -92,7 +93,6 @@ export function ChannelCard({ channel }: ChannelProps) {
       setOpen(false)
     }
   }
-
 
   const typeColorClasses = {
     WHATSAPP: {
