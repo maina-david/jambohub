@@ -96,7 +96,7 @@ export function ChannelCard({ channel }: ChannelProps) {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <span className={`inline-flex shrink-0 items-center rounded-full  px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset ring-green-600/20 ${typeColorClasses}`}>
+            <span className={`inline-flex shrink-0 items-center rounded-full ${typeColorClasses.text} px-1.5 py-0.5 text-xs ${typeColorClasses.bg} font-medium ring-1 ring-inset ring-green-600/20 `}>
               {channel.type.toLowerCase()}
             </span>
           </div>
