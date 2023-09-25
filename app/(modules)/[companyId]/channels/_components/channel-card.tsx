@@ -40,15 +40,6 @@ export function ChannelCard({ channel }: ChannelProps) {
     channelModal.onOpen()
   }
 
-  const ringColorClass = {
-    WHATSAPP: 'ring-green-500',
-    FACEBOOK: 'ring-blue-500',
-    TWITTER: 'ring-blue-300',
-    TIKTOK: 'ring-pink-500',
-    SMS: 'ring-purple-500',
-  }[channel.type] || ''
-
-
   const typeColorClasses = {
     WHATSAPP: {
       text: 'text-green-700',
@@ -83,7 +74,7 @@ export function ChannelCard({ channel }: ChannelProps) {
 
 
   return (
-    <li className={`col-span-1 divide-y divide-current rounded-lg shadow ring-2 ${ringColorClass}`}>
+    <li className="col-span-1 rounded-lg shadow-2xl">
       <div className="flex w-full items-center justify-between space-x-6 p-6">
         <div className="flex-1 truncate">
           <div className="flex items-center space-x-3">
@@ -109,7 +100,7 @@ export function ChannelCard({ channel }: ChannelProps) {
           <p className="mt-1 truncate text-sm">{channel.description}</p>
         </div>
         <Image
-          className=" shrink-0 rounded-full bg-gray-300"
+          className="shrink-0 rounded-full bg-gray-300"
           src={`/images/icons/${channel.type.toLowerCase()}.svg`}
           alt={`${channel.type.toLowerCase()}`}
           width={44}
@@ -117,7 +108,7 @@ export function ChannelCard({ channel }: ChannelProps) {
         />
       </div>
       <div>
-        <div className="-mt-px flex divide-x divide-gray-200">
+        <div className="-mt-px flex">
           <div className="my-1 flex w-0 flex-1">
             <Button
               variant={channel.integrated ? 'destructive' : 'outline'}
