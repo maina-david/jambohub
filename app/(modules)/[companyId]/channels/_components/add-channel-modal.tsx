@@ -32,13 +32,15 @@ import { useChannelModal } from '@/hooks/use-channel-modal'
 import { ToastAction } from '@/components/ui/toast'
 import { useParams } from 'next/navigation'
 import { SelectValue } from '@radix-ui/react-select'
+import { Textarea } from '@/components/ui/textarea'
 
 const formSchema = z.object({
   channel: z
     .string({
       required_error: "Please select a channel to integrate.",
     }),
-  name: z.string().min(1)
+  name: z.string().min(1),
+  description: z.string().optional()
 })
 
 function AddChannelModal() {
@@ -81,6 +83,7 @@ function AddChannelModal() {
             title: "Exceeded Maximum Channel Limit",
             description: "You've reached the maximum channel limit for your plan.",
             variant: "destructive",
+            action: <ToastAction altText="Upgrade now">Upgrade now</ToastAction>,
           })
 
           channelModal.onClose()
@@ -175,10 +178,34 @@ function AddChannelModal() {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input disabled={isLoading} placeholder="Enter account name" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Enter account name"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     Enter the name associated with this account.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      disabled={isLoading}
+                      placeholder="Enter account description"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Narrate this account description. Optional
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
