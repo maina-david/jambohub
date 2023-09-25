@@ -25,13 +25,12 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectTrigger, SelectItem } from '@/components/ui/select'
+import { Select, SelectContent, SelectTrigger, SelectItem, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Icons } from '@/components/icons'
 import { useChannelModal } from '@/hooks/use-channel-modal'
 import { ToastAction } from '@/components/ui/toast'
 import { useParams } from 'next/navigation'
-import { SelectValue } from '@radix-ui/react-select'
 import { Textarea } from '@/components/ui/textarea'
 
 const formSchema = z.object({
@@ -48,16 +47,16 @@ export default function ChannelModal(onChannelUpdated) {
   const channelModal = useChannelModal()
   const [isLoading, setIsLoading] = useState(false)
   const channel = channelModal.channel
+  const isUpdateMode = !!channel
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      channel: isUpdateMode ? channel.type : '',
+      name: isUpdateMode ? channel.name : '',
+      description: isUpdateMode ? channel.description : '',
+    },
   })
-  const isUpdateMode = !!channel
-  // Load existing channel data if in update mode
-  if (isUpdateMode) {
-    form.setValue('channel', channel.type)
-    form.setValue('name', channel.name)
-    form.setValue('description', channel.description)
-  }
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true)
@@ -191,6 +190,7 @@ export default function ChannelModal(onChannelUpdated) {
                 <FormItem>
                   <FormLabel>Channel</FormLabel>
                   <Select
+                    value={field.value !== '' ? field.value : undefined}
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     disabled={isLoading || isUpdateMode}
