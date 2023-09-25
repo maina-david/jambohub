@@ -95,7 +95,7 @@ export async function POST(req: Request) {
       })
     }
 
-    return new Response(JSON.stringify(company))
+    return new Response(JSON.stringify(company), { status: 201 })
 
   } catch (error) {
     if (error instanceof z.ZodError) {

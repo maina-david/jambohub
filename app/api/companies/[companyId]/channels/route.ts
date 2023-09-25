@@ -88,7 +88,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
         type: body.channel,
       }
     })
-    return new Response(JSON.stringify(channel))
+    return new Response(JSON.stringify(channel), { status: 201 })
   } catch (error) {
     console.log('[CHANNELS_POST]', error);
     if (error instanceof z.ZodError) {

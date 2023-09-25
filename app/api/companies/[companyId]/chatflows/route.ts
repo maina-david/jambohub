@@ -109,7 +109,7 @@ export async function POST(req: Request,
       })
     }
 
-    return new Response(JSON.stringify(chatflow))
+    return new Response(JSON.stringify(chatflow), { status: 201 })
 
   } catch (error) {
     if (error instanceof z.ZodError) {

@@ -14,5 +14,12 @@ export const useChannelModal = create<useChannelModalStore>((set) => ({
   channel: null,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
-  setChannel: (channel) => set({ channel }),
+  setChannel: (channel) => {
+    set((state) => ({
+      ...state,
+      channel: channel,
+      isOpen: true,
+    }));
+  },
 }))
+

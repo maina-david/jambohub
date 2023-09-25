@@ -72,7 +72,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
     if (count >= subscriptionPlan.maxUsers || subscriptionPlan.plan === "FREE") {
       throw new RequiresProPlanError()
     }
-    
+
     const json = await req.json()
     const body = teamCreateSchema.parse(json)
 
@@ -86,7 +86,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
       },
     })
 
-    return new Response(JSON.stringify(team))
+    return new Response(JSON.stringify(team), { status: 201 })
 
   } catch (error) {
     if (error instanceof z.ZodError) {

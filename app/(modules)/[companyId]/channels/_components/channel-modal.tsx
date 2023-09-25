@@ -66,7 +66,7 @@ export default function ChannelModal({ channel }: ChannelProps) {
       name: isUpdateMode ? channel?.name : '',
       description: isUpdateMode ? channel?.description : '',
     }
-  });
+  })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true)
@@ -79,25 +79,56 @@ export default function ChannelModal({ channel }: ChannelProps) {
         const response = await axios.patch(`/api/companies/${companyId}/channels/${channelId}`, {
           ...values,
         })
-        channelModal.setChannel(response.data)
-        toast({
-          title: 'Success',
-          description: 'Channel updated successfully!',
-        })
+
+        // Check if the update was successful
+        if (response.status === 200) {
+          // Update the channel data in the modal
+          channelModal.setChannel(response.data)
+
+          toast({
+            title: 'Success',
+            description: 'Channel updated successfully!',
+          })
+        } else {
+          // Handle the case where the update was not successful
+          toast({
+            title: 'Update Failed',
+            description: 'Failed to update the channel. Please try again.',
+            variant: 'destructive',
+          })
+        }
       } else {
         // Create a new channel
         const response = await axios.post(`/api/companies/${companyId}/channels`, {
           ...values,
         })
-        toast({
-          title: 'Success',
-          description: 'Channel created successfully!',
-        })
+
+        // Check if the creation was successful
+        if (response.status === 201) {
+          toast({
+            title: 'Success',
+            description: 'Channel created successfully!',
+          })
+        } else {
+          // Handle the case where the creation was not successful
+          toast({
+            title: 'Creation Failed',
+            description: 'Failed to create the channel. Please try again.',
+            variant: 'destructive',
+          })
+        }
       }
 
       channelModal.onClose()
     } catch (error) {
       // Handle errors
+      console.error(error)
+
+      toast({
+        title: 'Error',
+        description: 'An error occurred. Please try again later.',
+        variant: 'destructive',
+      })
     } finally {
       setIsLoading(false)
     }
@@ -194,7 +225,7 @@ export default function ChannelModal({ channel }: ChannelProps) {
                     />
                   </FormControl>
                   <FormDescription>
-                    Enter a brief description of the account. This will help identify the account&apos;s purpose.
+                    Enter a brief description of the account. This will help identify the account&aposs purpose.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

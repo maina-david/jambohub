@@ -27,7 +27,15 @@ interface ChannelProps {
 export function ChannelCard({ data }: ChannelProps) {
   const channelModal = useChannelModal()
   const openEditModal = () => {
-    channelModal.setChannel(data)
+    // Check if there is data to determine edit or create mode
+    if (data) {
+      // Edit mode: set the channel data
+      channelModal.setChannel(data)
+    } else {
+      // Create mode: clear any existing channel data
+      channelModal.setChannel(null)
+    }
+
     channelModal.onOpen()
   }
   return (
