@@ -36,12 +36,14 @@ import Image from "next/image"
 import { useParams } from "next/navigation"
 import { useState } from "react"
 import { Icons } from "@/components/icons"
+import { useQueryClient } from '@tanstack/react-query'
 
 interface ChannelProps {
   channel: Channel
 }
 
 export function ChannelCard({ channel }: ChannelProps) {
+  const queryClient = useQueryClient()
   const params = useParams()
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -69,6 +71,7 @@ export function ChannelCard({ channel }: ChannelProps) {
         const response = await axios.delete(`/api/companies/${params.companyId}/channels//${channel.id}`)
 
         if (response.status === 204) {
+          queryClient.invalidateQueries(['companyChannels', params.companyId])
           toast({
             title: 'Success',
             description: 'Channel deleted successfully!',
@@ -107,6 +110,7 @@ export function ChannelCard({ channel }: ChannelProps) {
         })
 
         if (response.status === 200) {
+          queryClient.invalidateQueries(['companyChannels', params.companyId])
           toast({
             title: 'Success',
             description: 'Channel activated successfully!',
@@ -144,6 +148,7 @@ export function ChannelCard({ channel }: ChannelProps) {
         })
 
         if (response.status === 200) {
+          queryClient.invalidateQueries(['companyChannels', params.companyId])
           toast({
             title: 'Success',
             description: 'Channel deactivated successfully!',

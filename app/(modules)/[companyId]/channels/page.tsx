@@ -5,13 +5,18 @@ import ChannelModal from './_components/channel-modal'
 import { getCompanyChannels } from '@/actions/channel-actions'
 import { AppShell } from '@/components/shell'
 import { AppHeader } from '@/components/header'
+import { useQuery } from '@tanstack/react-query'
+import { Channel } from '@prisma/client'
 
 export const metadata = {
   title: "Channels",
 }
 
 const ChannelsPage = async ({ params }: { params: { companyId: string } }) => {
-  const channels = await getCompanyChannels(params.companyId)
+
+  const { data: channels } = useQuery(['companyChannels', params.companyId], () =>
+    getCompanyChannels(params.companyId)
+  ) as { data: Channel[] }
 
   return (
     <AppShell>

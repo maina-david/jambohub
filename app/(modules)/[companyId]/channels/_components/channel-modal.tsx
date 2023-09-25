@@ -32,6 +32,7 @@ import { useChannelModal } from '@/hooks/use-channel-modal'
 import { ToastAction } from '@/components/ui/toast'
 import { useParams } from 'next/navigation'
 import { Textarea } from '@/components/ui/textarea'
+import { useQueryClient } from '@tanstack/react-query'
 
 const formSchema = z.object({
   channel: z
@@ -43,6 +44,7 @@ const formSchema = z.object({
 })
 
 export default function ChannelModal() {
+  const queryClient = useQueryClient()
   const params = useParams()
   const channelModal = useChannelModal()
   const [isLoading, setIsLoading] = useState(false)
@@ -78,7 +80,7 @@ export default function ChannelModal() {
 
         // Check if the update was successful
         if (response.status === 200) {
-          // onChannelUpdated()
+          queryClient.invalidateQueries(['companyChannels', companyId])
           toast({
             title: 'Success',
             description: 'Channel updated successfully!',
@@ -99,7 +101,7 @@ export default function ChannelModal() {
 
         // Check if the creation was successful
         if (response.status === 201) {
-          // onChannelUpdated()
+          queryClient.invalidateQueries(['companyChannels', companyId])
           toast({
             title: 'Success',
             description: 'Channel created successfully!',
