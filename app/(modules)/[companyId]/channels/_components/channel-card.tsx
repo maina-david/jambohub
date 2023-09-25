@@ -156,13 +156,14 @@ export function ChannelCard({ channel }: ChannelProps) {
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete <p className="font-bold">{channel.name}</p> and remove your channel data from our servers.
+                        This action cannot be undone. This will permanently delete <span className="font-bold">{channel.name}</span> and remove your channel data from our servers.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={handleDeleteChannel}
+                        disabled={isLoading}
                       >
                         {isLoading && (
                           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
