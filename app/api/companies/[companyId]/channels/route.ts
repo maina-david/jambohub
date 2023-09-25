@@ -15,7 +15,7 @@ const channelCreateSchema = z.object({
     'SMS'
   ]),
   name: z.string().min(1),
-  description: z.string().optional()
+  description: z.string().min(3).max(128)
 })
 
 const routeContextSchema = z.object({

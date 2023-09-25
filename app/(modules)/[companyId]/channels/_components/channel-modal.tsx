@@ -41,7 +41,7 @@ const formSchema = z.object({
       required_error: "Please select a channel to integrate.",
     }),
   name: z.string().min(1),
-  description: z.string().min(1)
+  description: z.string().min(3).max(128)
 })
 
 interface ChannelProps {
