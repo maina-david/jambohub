@@ -4,22 +4,17 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Separator } from "@/components/ui/separator"
-import { format } from 'date-fns'
 import { Channel } from "@prisma/client"
 import { PencilIcon, Trash2Icon } from "lucide-react"
 import Image from "next/image"
@@ -68,8 +63,8 @@ export function ChannelCard({ data }: ChannelProps) {
       </CardHeader>
       <CardContent className="flex flex-col items-center">
         <Image
-          src={'/images/icons/whatsapp.svg'}
-          alt={'WhatsApp'}
+          src={`/images/icons/${data.type.toLowerCase()}.svg`}
+          alt={data.type.toLowerCase()}
           width={34}
           height={34}
           className="mb-3 rounded-full shadow-lg"
