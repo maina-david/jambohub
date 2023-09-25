@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useChannelModal } from "@/hooks/use-channel-modal"
 import { Channel } from "@prisma/client"
-import { PencilIcon, Trash2Icon } from "lucide-react"
+import { CircleEllipsisIcon, PencilIcon, Trash2Icon } from "lucide-react"
 import Image from "next/image"
 
 interface ChannelProps {
@@ -57,10 +57,31 @@ export function ChannelCard({ channel }: ChannelProps) {
           width={44}
           height={44}
         />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="flex items-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+              size={'icon'}
+            >
+              <CircleEllipsisIcon className="h-5 w-5" aria-hidden="true" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Account Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={openEditModal}>
+              <PencilIcon className="mr-2 h-2 w-2" />Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Trash2Icon className="mr-2 h-2 w-2" />Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div>
-        <div className="-mt-px mb-1 flex divide-x divide-gray-200">
-          <div className="flex w-0 flex-1">
+        <div className="-mt-px flex divide-x divide-gray-200">
+          <div className="my-1 flex w-0 flex-1">
             <Button
               variant={channel.integrated ? 'destructive' : 'outline'}
               className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold"
@@ -68,7 +89,7 @@ export function ChannelCard({ channel }: ChannelProps) {
               {channel.integrated ? 'Unlink' : 'Link'}
             </Button>
           </div>
-          <div className="-ml-px flex w-0 flex-1">
+          <div className="my-1 flex w-0 flex-1">
             <Button
               variant={channel.status ? 'destructive' : 'outline'}
               className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold"
