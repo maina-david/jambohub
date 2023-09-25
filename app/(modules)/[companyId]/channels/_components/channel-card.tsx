@@ -27,8 +27,8 @@ interface ChannelProps {
 export function ChannelCard({ data }: ChannelProps) {
   const channelModal = useChannelModal()
   const openEditModal = () => {
-    channelModal.onOpen()
     channelModal.setChannel(data)
+    channelModal.onOpen()
   }
   return (
     <Card className="w-full max-w-sm">

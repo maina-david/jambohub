@@ -51,8 +51,14 @@ export default function ChannelModal({ channel }: ChannelProps) {
   const params = useParams()
   const channelModal = useChannelModal()
   const [isLoading, setIsLoading] = useState(false)
+  const [isUpdateMode, setIsUpdateMode] = useState(false)
 
-  const isUpdateMode = !!channel
+  console.log(channel)
+
+  if (channel) {
+    setIsUpdateMode(true)
+  }
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -69,7 +75,7 @@ export default function ChannelModal({ channel }: ChannelProps) {
     try {
       if (isUpdateMode) {
         // Update existing channel
-        const channelId = channel.id
+        const channelId = channel?.id
         const response = await axios.patch(`/api/companies/${companyId}/channels/${channelId}`, {
           ...values,
         })
