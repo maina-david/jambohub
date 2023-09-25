@@ -141,7 +141,7 @@ export function ChannelCard({ channel }: ChannelProps) {
                       <Trash2Icon className="mr-2 h-2 w-2" />Delete
                     </DropdownMenuItem>
                   </AlertDialogTrigger>
-                  <AlertDialogContent>
+                  <AlertDialogContent forceMount>
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                       <AlertDialogDescription>
