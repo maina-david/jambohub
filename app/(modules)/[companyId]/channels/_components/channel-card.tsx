@@ -39,7 +39,7 @@ export function ChannelCard({ channel }: ChannelProps) {
 
     channelModal.onOpen()
   }
-  
+
   const ringColorClass = {
     WHATSAPP: 'ring-green-500',
     FACEBOOK: 'ring-blue-500',
@@ -49,7 +49,7 @@ export function ChannelCard({ channel }: ChannelProps) {
   }[channel.type] || ''
 
   return (
-    <li className={cn("col-span-1 divide-y divide-gray-200 rounded-lg shadow-2xl", ringColorClass)}>
+    <li className={`col-span-1 divide-y divide-gray-200 rounded-lg shadow ring-2 ${ringColorClass}`}>
       <div className="flex w-full items-center justify-between space-x-6 p-6">
         <div className="flex-1 truncate">
           <div className="flex items-center space-x-3">
