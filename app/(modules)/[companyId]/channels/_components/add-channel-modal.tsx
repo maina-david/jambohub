@@ -59,12 +59,12 @@ function AddChannelModal() {
       const response = await axios.post(`/api/companies/${companyId}/channels`, {
         ...values,
       })
-      channelModal.onClose()
+
       toast({
         title: "Success",
         description: "Channel created successfully!",
       })
-
+      channelModal.onClose()
     } catch (error) {
       if (error.response) {
         // Handle specific HTTP error codes
