@@ -73,8 +73,6 @@ export default function ChannelModal(onChannelUpdated) {
 
         // Check if the update was successful
         if (response.status === 200) {
-          // Update the channel data in the modal
-          channelModal.setChannel(response.data)
           onChannelUpdated()
           toast({
             title: 'Success',
