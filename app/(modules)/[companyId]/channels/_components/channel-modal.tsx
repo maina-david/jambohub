@@ -33,7 +33,6 @@ import { ToastAction } from '@/components/ui/toast'
 import { useParams } from 'next/navigation'
 import { SelectValue } from '@radix-ui/react-select'
 import { Textarea } from '@/components/ui/textarea'
-import { Channel } from '@prisma/client'
 
 const formSchema = z.object({
   channel: z
@@ -53,15 +52,12 @@ export default function ChannelModal() {
     resolver: zodResolver(formSchema),
   })
   const isUpdateMode = !!channel
-
-  useEffect(() => {
-    // Load existing channel data if in update mode
-    if (isUpdateMode) {
-      form.setValue('channel', channel.type)
-      form.setValue('name', channel.name)
-      form.setValue('description', channel.description)
-    }
-  }, [isUpdateMode, channel, form])
+  // Load existing channel data if in update mode
+  if (isUpdateMode) {
+    form.setValue('channel', channel.type)
+    form.setValue('name', channel.name)
+    form.setValue('description', channel.description)
+  }
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true)
