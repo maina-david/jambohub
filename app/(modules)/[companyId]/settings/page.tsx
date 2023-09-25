@@ -2,8 +2,8 @@ import { redirect } from "next/navigation"
 
 import { authOptions } from "@/lib/auth"
 import { getCurrentUser } from "@/lib/session"
-import { DashboardHeader } from "@/components/header"
-import { DashboardShell } from "@/components/shell"
+import { AppHeader } from "@/components/header"
+import { AppShell } from "@/components/shell"
 import { UserNameForm } from "@/components/user-name-form"
 
 export const metadata = {
@@ -19,14 +19,14 @@ export default async function SettingsPage({ params }: { params: { slug: string 
   }
 
   return (
-    <DashboardShell>
-      <DashboardHeader
+    <AppShell>
+      <AppHeader
         heading="Settings"
         text="Manage account and website settings."
       />
       <div className="grid gap-10">
         <UserNameForm user={{ id: user.id, name: user.name || "" }} />
       </div>
-    </DashboardShell>
+    </AppShell>
   )
 }

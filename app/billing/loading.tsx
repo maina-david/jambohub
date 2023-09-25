@@ -1,17 +1,17 @@
 import { CardSkeleton } from "@/components/card-skeleton"
-import { DashboardHeader } from "@/components/header"
-import { DashboardShell } from "@/components/shell"
+import { AppHeader } from "@/components/header"
+import { AppShell } from "@/components/shell"
 
-export default function DashboardBillingLoading() {
+export default function AppBillingLoading() {
   return (
-    <DashboardShell>
-      <DashboardHeader
+    <AppShell>
+      <AppHeader
         heading="Billing"
         text="Manage billing and your subscription plan."
       />
       <div className="grid gap-10">
         <CardSkeleton />
       </div>
-    </DashboardShell>
+    </AppShell>
   )
 }
