@@ -63,6 +63,7 @@ export function ChannelCard({ channel }: ChannelProps) {
           <div className="flex w-0 flex-1">
             <Button
               variant={channel.integrated ? 'destructive' : 'outline'}
+              className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold"
             >
               {channel.integrated ? 'Unlink' : 'Link'}
             </Button>
@@ -70,6 +71,7 @@ export function ChannelCard({ channel }: ChannelProps) {
           <div className="-ml-px flex w-0 flex-1">
             <Button
               variant={channel.status ? 'destructive' : 'outline'}
+              className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold"
             >
               {channel.status ? 'Deactivate' : 'Activate'}
             </Button>
