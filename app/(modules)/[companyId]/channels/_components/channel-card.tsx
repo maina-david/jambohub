@@ -95,7 +95,7 @@ export function ChannelCard({ data }: ChannelProps) {
         <Button
           variant={data.status ? 'destructive' : 'outline'}
         >
-          {data.integrated ? 'Deactivate' : 'Activate'}
+          {data.status ? 'Deactivate' : 'Activate'}
         </Button>
       </CardFooter>
     </Card>
