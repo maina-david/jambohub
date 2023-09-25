@@ -43,7 +43,21 @@ export function ChannelCard({ channel }: ChannelProps) {
       <div className="flex w-full items-center justify-between space-x-6 p-6">
         <div className="flex-1 truncate">
           <div className="flex items-center space-x-3">
-            <h3 className="truncate text-sm font-medium">{channel.name}</h3>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <h3 className="truncate text-sm font-medium">{channel.name}</h3>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Account Actions</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={openEditModal}>
+                  <PencilIcon className="mr-2 h-2 w-2" />Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Trash2Icon className="mr-2 h-2 w-2" />Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <span className="inline-flex shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
               {channel.type.toLowerCase()}
             </span>
@@ -57,27 +71,6 @@ export function ChannelCard({ channel }: ChannelProps) {
           width={44}
           height={44}
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="flex items-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
-              size={'icon'}
-            >
-              <CircleEllipsisIcon className="h-5 w-5" aria-hidden="true" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Account Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={openEditModal}>
-              <PencilIcon className="mr-2 h-2 w-2" />Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Trash2Icon className="mr-2 h-2 w-2" />Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
       <div>
         <div className="-mt-px flex divide-x divide-gray-200">
