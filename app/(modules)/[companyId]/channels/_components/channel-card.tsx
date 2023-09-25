@@ -1,6 +1,8 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
+import axios from "axios"
+import { toast } from "@/components/ui/use-toast"
 import {
   Card,
   CardContent,
@@ -15,17 +17,30 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { useChannelModal } from "@/hooks/use-channel-modal"
 import { cn } from "@/lib/utils"
 import { Channel } from "@prisma/client"
 import { CircleEllipsisIcon, PencilIcon, Trash2Icon } from "lucide-react"
 import Image from "next/image"
+import { useParams } from "next/navigation"
 
 interface ChannelProps {
   channel: Channel
 }
 
 export function ChannelCard({ channel }: ChannelProps) {
+  const params = useParams()
   const channelModal = useChannelModal()
   const openEditModal = () => {
     // Check if there is channel to determine edit or create mode
@@ -39,6 +54,38 @@ export function ChannelCard({ channel }: ChannelProps) {
 
     channelModal.onOpen()
   }
+
+  const handleDeleteChannel = async () => {
+    try {
+      if (channel && params) {
+        const response = await axios.delete(`/api/companies/${params.companyId}/channels//${channel.id}`)
+
+        if (response.status === 204) {
+          toast({
+            title: 'Success',
+            description: 'Channel deleted successfully!',
+          })
+        } else {
+          // Handle the case where the delete was not successful
+          console.error("Delete failed. Status code: ", response.status)
+          toast({
+            title: 'Deletion Failed',
+            description: 'Failed to delete the channel. Please try again.',
+            variant: 'destructive',
+          })
+        }
+      }
+    } catch (error) {
+      // Handle errors, e.g., network issues, in this block
+      console.error("Error deleting channel: ", error)
+      toast({
+        title: 'Deletion Failed',
+        description: 'Failed to delete the channel. Please try again.',
+        variant: 'destructive',
+      })
+    }
+  }
+
 
   const typeColorClasses = {
     WHATSAPP: {
@@ -88,9 +135,25 @@ export function ChannelCard({ channel }: ChannelProps) {
                 <DropdownMenuItem onClick={openEditModal}>
                   <PencilIcon className="mr-2 h-2 w-2" />Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Trash2Icon className="mr-2 h-2 w-2" />Delete
-                </DropdownMenuItem>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <DropdownMenuItem>
+                      <Trash2Icon className="mr-2 h-2 w-2" />Delete
+                    </DropdownMenuItem>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete {channel.name} and remove your channel data from our servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleDeleteChannel}>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </DropdownMenuContent>
             </DropdownMenu>
             <span className={`inline-flex shrink-0 items-center rounded-full ${typeColorClasses.text} px-1.5 py-0.5 text-xs ${typeColorClasses.bg} font-medium ring-1 ring-inset ${typeColorClasses.ring} `}>
