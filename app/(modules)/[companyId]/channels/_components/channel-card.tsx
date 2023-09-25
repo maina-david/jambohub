@@ -46,6 +46,9 @@ export function ChannelCard({ channel }: ChannelProps) {
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const channelModal = useChannelModal()
+  const [channelStatus, setChannelStatus] = useState(channel.status)
+  const [isLoadingActivate, setIsLoadingActivate] = useState(false)
+  const [isLoadingDeactivate, setIsLoadingDeactivate] = useState(false)
   const openEditModal = () => {
     // Check if there is channel to determine edit or create mode
     if (channel) {
@@ -61,7 +64,7 @@ export function ChannelCard({ channel }: ChannelProps) {
 
   const handleDeleteChannel = async () => {
     try {
-      if (channel && params) {
+      if (channel && params && params.companyId) {
         setIsLoading(true)
         const response = await axios.delete(`/api/companies/${params.companyId}/channels//${channel.id}`)
 
@@ -93,6 +96,82 @@ export function ChannelCard({ channel }: ChannelProps) {
       setOpen(false)
     }
   }
+
+  const handleActivateChannel = async () => {
+
+    try {
+      if (channel && params && params.companyId) {
+        setIsLoadingActivate(true)
+        const response = await axios.patch(`/api/companies/${params.companyId}/channels/${channel.id}/activate-deactivate`, {
+          status: true, // Set the status to true for activation
+        })
+
+        if (response.status === 200) {
+          toast({
+            title: 'Success',
+            description: 'Channel activated successfully!',
+          })
+          setChannelStatus(true) // Update the status in the local state
+        } else {
+          // Handle the case where activation was not successful
+          console.error('Activation failed. Status code: ', response.status)
+          toast({
+            title: 'Activation Failed',
+            description: 'Failed to activate the channel. Please try again.',
+            variant: 'destructive',
+          })
+        }
+      }
+    } catch (error) {
+      // Handle errors, e.g., network issues, in this block
+      console.error('Error activating channel: ', error)
+      toast({
+        title: 'Activation Failed',
+        description: 'Failed to activate the channel. Please try again.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsLoadingActivate(false)
+    }
+  }
+
+  const handleDeactivateChannel = async () => {
+    try {
+      if (channel && params && params.companyId) {
+        setIsLoadingDeactivate(true)
+        const response = await axios.patch(`/api/companies/${params.companyId}/channels/${channel.id}/activate-deactivate`, {
+          status: false, // Set the status to false for deactivation
+        })
+
+        if (response.status === 200) {
+          toast({
+            title: 'Success',
+            description: 'Channel deactivated successfully!',
+          })
+          setChannelStatus(false) // Update the status in the local state
+        } else {
+          // Handle the case where deactivation was not successful
+          console.error('Deactivation failed. Status code: ', response.status)
+          toast({
+            title: 'Deactivation Failed',
+            description: 'Failed to deactivate the channel. Please try again.',
+            variant: 'destructive',
+          })
+        }
+      }
+    } catch (error) {
+      // Handle errors, e.g., network issues, in this block
+      console.error('Error deactivating channel: ', error)
+      toast({
+        title: 'Deactivation Failed',
+        description: 'Failed to deactivate the channel. Please try again.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsLoadingDeactivate(false)
+    }
+  }
+
 
   const typeColorClasses = {
     WHATSAPP: {
@@ -201,10 +280,20 @@ export function ChannelCard({ channel }: ChannelProps) {
           </div>
           <div className="my-1 flex w-0 flex-1">
             <Button
-              variant={channel.status ? 'secondary' : 'outline'}
+              variant={channelStatus ? 'secondary' : 'outline'}
+              onClick={
+                channelStatus
+                  ? handleDeactivateChannel
+                  : handleActivateChannel
+              }
+              disabled={isLoadingActivate || isLoadingDeactivate}
               className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold"
             >
-              {channel.status ? 'Deactivate' : 'Activate'}
+              {isLoadingActivate || isLoadingDeactivate ? (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                channelStatus ? 'Deactivate' : 'Activate'
+              )}
             </Button>
           </div>
         </div>
