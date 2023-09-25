@@ -184,7 +184,7 @@ enum ChannelType {
 model Channel {
   id          String      @id @default(cuid())
   name        String
-  description String?
+  description String
   status      Boolean     @default(true)
   companyId   String
   type        ChannelType

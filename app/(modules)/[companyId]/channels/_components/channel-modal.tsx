@@ -33,6 +33,7 @@ import { ToastAction } from '@/components/ui/toast'
 import { useParams } from 'next/navigation'
 import { SelectValue } from '@radix-ui/react-select'
 import { Textarea } from '@/components/ui/textarea'
+import { Channel } from '@prisma/client'
 
 const formSchema = z.object({
   channel: z
@@ -43,7 +44,10 @@ const formSchema = z.object({
   description: z.string().min(1)
 })
 
-export default function ChannelModal({ channel }) { // Accept channel as a prop
+interface ChannelProps {
+  channel: Channel | null
+}
+export default function ChannelModal({ channel }: ChannelProps) {
   const params = useParams()
   const channelModal = useChannelModal()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -75,6 +79,7 @@ export default function ChannelModal({ channel }) { // Accept channel as a prop
         const response = await axios.patch(`/api/companies/${companyId}/channels/${channelId}`, {
           ...values,
         })
+        channelModal.setChannel(response.data)
         toast({
           title: 'Success',
           description: 'Channel updated successfully!',
