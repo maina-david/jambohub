@@ -54,12 +54,12 @@ export function ChannelCard({ channel }: ChannelProps) {
           className=" shrink-0 rounded-full bg-gray-300"
           src={`/images/icons/${channel.type.toLowerCase()}.svg`}
           alt={`${channel.type.toLowerCase()}`}
-          width={10}
-          height={10}
+          width={44}
+          height={44}
         />
       </div>
       <div>
-        <div className="-mt-px flex divide-x divide-gray-200">
+        <div className="-mt-px mb-1 flex divide-x divide-gray-200">
           <div className="flex w-0 flex-1">
             <Button
               variant={channel.integrated ? 'destructive' : 'outline'}
