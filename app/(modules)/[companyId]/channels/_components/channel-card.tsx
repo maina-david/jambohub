@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useChannelModal } from "@/hooks/use-channel-modal"
 import { Channel } from "@prisma/client"
 import { PencilIcon, Trash2Icon } from "lucide-react"
 import Image from "next/image"
@@ -24,6 +25,11 @@ interface ChannelProps {
 }
 
 export function ChannelCard({ data }: ChannelProps) {
+  const channelModal = useChannelModal()
+  const openEditModal = () => {
+    channelModal.onOpen()
+    channelModal.setChannel(data)
+  }
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -51,7 +57,7 @@ export function ChannelCard({ data }: ChannelProps) {
             <DropdownMenuContent>
               <DropdownMenuLabel>Account Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={openEditModal}>
                 <PencilIcon className="mr-2 h-2 w-2" />Edit
               </DropdownMenuItem>
               <DropdownMenuItem>

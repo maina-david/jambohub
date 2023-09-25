@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as z from "zod"
 import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -40,10 +40,10 @@ const formSchema = z.object({
       required_error: "Please select a channel to integrate.",
     }),
   name: z.string().min(1),
-  description: z.string().optional()
+  description: z.string().min(1)
 })
 
-function AddChannelModal() {
+export default function ChannelModal({ channel }) { // Accept channel as a prop
   const params = useParams()
   const channelModal = useChannelModal()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,65 +52,47 @@ function AddChannelModal() {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  // Check if there is a channel prop to determine if it's an update
+  const isUpdateMode = !!channel
+
+  useEffect(() => {
+    // Load existing channel data if in update mode
+    if (isUpdateMode) {
+      form.setValue('channel', channel.type)
+      form.setValue('name', channel.name)
+      form.setValue('description', channel.description)
+    }
+  }, [isUpdateMode, channel, form])
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true)
     const companyId = params?.companyId
+
     try {
-      const response = await axios.post(`/api/companies/${companyId}/channels`, {
-        ...values,
-      })
-
-      toast({
-        title: "Success",
-        description: "Channel created successfully!",
-      })
-      channelModal.onClose()
-    } catch (error) {
-      if (error.response) {
-        // Handle specific HTTP error codes
-        const status = error.response.status
-        if (status === 402) {
-          toast({
-            title: "Requires Pro Plan",
-            description: "You need a Pro Plan to create more channels.",
-            variant: "destructive",
-            action: <ToastAction altText="Upgrade now">Upgrade now</ToastAction>,
-          })
-
-          channelModal.onClose()
-        } else if (status === 403) {
-          toast({
-            title: "Exceeded Maximum Channel Limit",
-            description: "You've reached the maximum channel limit for your plan.",
-            variant: "destructive",
-            action: <ToastAction altText="Upgrade now">Upgrade now</ToastAction>,
-          })
-
-          channelModal.onClose()
-        } else if (status === 422) {
-          // Handle validation errors
-          const validationErrors = error.response.data
-          toast({
-            title: "Validation Error",
-            description: "Please correct the following errors: " + validationErrors.join(", "),
-            variant: "destructive",
-          })
-        } else {
-          // Handle other unexpected errors
-          toast({
-            title: "Something went wrong.",
-            description: "Channel was not created. Please try again.",
-            variant: "destructive",
-          })
-        }
-      } else {
-        // Handle other unexpected errors
+      if (isUpdateMode) {
+        // Update existing channel
+        const channelId = channel.id
+        const response = await axios.patch(`/api/companies/${companyId}/channels/${channelId}`, {
+          ...values,
+        })
         toast({
-          title: "Something went wrong.",
-          description: "Channel was not created. Please try again.",
-          variant: "destructive",
+          title: 'Success',
+          description: 'Channel updated successfully!',
+        })
+      } else {
+        // Create a new channel
+        const response = await axios.post(`/api/companies/${companyId}/channels`, {
+          ...values,
+        })
+        toast({
+          title: 'Success',
+          description: 'Channel created successfully!',
         })
       }
+
+      channelModal.onClose()
+    } catch (error) {
+      // Handle errors
     } finally {
       setIsLoading(false)
     }
@@ -129,13 +111,15 @@ function AddChannelModal() {
   return (
     <Dialog open={channelModal.isOpen} onOpenChange={onChange}>
       <DialogTrigger asChild>
-        <Button onClick={triggerModal} variant="outline">Add Channel</Button>
+        <Button onClick={triggerModal} variant="outline">
+          {isUpdateMode ? 'Edit Channel' : 'Add Channel'}
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New channel</DialogTitle>
+          <DialogTitle>{isUpdateMode ? 'Edit channel' : 'New channel'}</DialogTitle>
           <DialogDescription>
-            Add a new communication channel for integration
+            {isUpdateMode ? 'Update communication channel for integration' : 'Add a new communication channel for integration'}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -149,7 +133,7 @@ function AddChannelModal() {
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    disabled={isLoading}
+                    disabled={isLoading || isUpdateMode}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -205,7 +189,7 @@ function AddChannelModal() {
                     />
                   </FormControl>
                   <FormDescription>
-                    Narrate this account description. Optional
+                    Enter a brief description of the account. This will help identify the account&apos;s purpose.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -217,7 +201,8 @@ function AddChannelModal() {
                 type="submit">
                 {isLoading && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                )}{" "}Continue
+                )}{' '}
+                {isUpdateMode ? 'Update' : 'Continue'}
               </Button>
             </DialogFooter>
           </form>
@@ -225,7 +210,5 @@ function AddChannelModal() {
       </DialogContent>
     </Dialog>
   )
-
 }
 
-export default AddChannelModal
