@@ -113,14 +113,48 @@ export default function ChannelModal(onChannelUpdated) {
 
       channelModal.onClose()
     } catch (error) {
-      // Handle errors
-      console.error(error)
-
-      toast({
-        title: 'Error',
-        description: 'An error occurred. Please try again later.',
-        variant: 'destructive',
-      })
+      // Handle specific errors
+      if (error.response) {
+        if (error.response.status === 422 && error.response.data) {
+          // Handle validation errors
+          const validationErrors = error.response.data
+          // Update form field errors
+          form.setError('channel', {
+            type: 'manual',
+            message: validationErrors.channel || '',
+          })
+          form.setError('name', {
+            type: 'manual',
+            message: validationErrors.name || '',
+          })
+          form.setError('description', {
+            type: 'manual',
+            message: validationErrors.description || '',
+          })
+        } else if (error.response.status === 402) {
+          // Handle RequiresProPlanError
+          toast({
+            title: 'Requires Pro Plan',
+            description: 'You need a pro plan for this operation.',
+            variant: 'destructive',
+          })
+        } else if (error.response.status === 403) {
+          // Handle RequiresActivePlanError or MaximumPlanResourcesError
+          toast({
+            title: 'Permission Denied',
+            description: 'You do not have permission for this operation.',
+            variant: 'destructive',
+          })
+        }
+      } else {
+        // Handle general errors
+        console.error(error)
+        toast({
+          title: 'Error',
+          description: 'An error occurred. Please try again later.',
+          variant: 'destructive',
+        })
+      }
     } finally {
       setIsLoading(false)
     }
