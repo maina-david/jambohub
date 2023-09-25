@@ -34,6 +34,7 @@ import { Channel } from "@prisma/client"
 import { CircleEllipsisIcon, PencilIcon, Trash2Icon } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation"
+import { useState } from "react"
 
 interface ChannelProps {
   channel: Channel
@@ -41,6 +42,7 @@ interface ChannelProps {
 
 export function ChannelCard({ channel }: ChannelProps) {
   const params = useParams()
+  const [open, setOpen] = useState(false)
   const channelModal = useChannelModal()
   const openEditModal = () => {
     // Check if there is channel to determine edit or create mode
@@ -83,6 +85,8 @@ export function ChannelCard({ channel }: ChannelProps) {
         description: 'Failed to delete the channel. Please try again.',
         variant: 'destructive',
       })
+    } finally {
+      setOpen(false)
     }
   }
 
@@ -135,13 +139,17 @@ export function ChannelCard({ channel }: ChannelProps) {
                 <DropdownMenuItem onClick={openEditModal}>
                   <PencilIcon className="mr-2 h-2 w-2" />Edit
                 </DropdownMenuItem>
-                <AlertDialog>
+                <AlertDialog open={open} onOpenChange={setOpen}>
                   <AlertDialogTrigger asChild>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem
+                      onSelect={(event) => {
+                        event.preventDefault();
+                        setOpen(true);
+                      }}>
                       <Trash2Icon className="mr-2 h-2 w-2" />Delete
                     </DropdownMenuItem>
                   </AlertDialogTrigger>
-                  <AlertDialogContent forceMount>
+                  <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                       <AlertDialogDescription>

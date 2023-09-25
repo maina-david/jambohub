@@ -1,6 +1,5 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import * as z from "zod"
 import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -22,7 +21,6 @@ const formSchema = z.object({
 })
 
 export const CompanyModal = () => {
-  const router = useRouter()
   const companyModal = useCompanyModal()
 
   const [loading, setLoading] = useState(false)
