@@ -43,7 +43,7 @@ const formSchema = z.object({
   description: z.string().min(3).max(128)
 })
 
-export default function ChannelModal() {
+export default function ChannelModal(onChannelUpdated) {
   const params = useParams()
   const channelModal = useChannelModal()
   const [isLoading, setIsLoading] = useState(false)
@@ -75,7 +75,7 @@ export default function ChannelModal() {
         if (response.status === 200) {
           // Update the channel data in the modal
           channelModal.setChannel(response.data)
-
+          onChannelUpdated()
           toast({
             title: 'Success',
             description: 'Channel updated successfully!',
@@ -96,6 +96,7 @@ export default function ChannelModal() {
 
         // Check if the creation was successful
         if (response.status === 201) {
+          onChannelUpdated()
           toast({
             title: 'Success',
             description: 'Channel created successfully!',
