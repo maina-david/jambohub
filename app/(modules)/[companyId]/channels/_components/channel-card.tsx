@@ -65,7 +65,7 @@ export function ChannelCard({ data }: ChannelProps) {
           </DropdownMenu>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col items-center pb-10">
+      <CardContent className="flex flex-col items-center">
         <Image
           src={'/images/icons/whatsapp.svg'}
           alt={'WhatsApp'}
