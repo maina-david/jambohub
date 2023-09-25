@@ -50,23 +50,17 @@ interface ChannelProps {
 export default function ChannelModal({ channel }: ChannelProps) {
   const params = useParams()
   const channelModal = useChannelModal()
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  })
-
   const [isLoading, setIsLoading] = useState(false)
 
-  // Check if there is a channel prop to determine if it's an update
   const isUpdateMode = !!channel
-
-  useEffect(() => {
-    // Load existing channel data if in update mode
-    if (isUpdateMode) {
-      form.setValue('channel', channel.type)
-      form.setValue('name', channel.name)
-      form.setValue('description', channel.description)
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      channel: isUpdateMode ? channel?.type : '',
+      name: isUpdateMode ? channel?.name : '',
+      description: isUpdateMode ? channel?.description : '',
     }
-  }, [isUpdateMode, channel, form])
+  });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true)
