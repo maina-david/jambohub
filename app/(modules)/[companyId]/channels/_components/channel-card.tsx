@@ -30,14 +30,15 @@ interface ChannelProps {
 
 export function ChannelCard({ data }: ChannelProps) {
   return (
-    <Card className="w-full max-w-sm rounded-lg">
+    <Card className="w-full max-w-sm">
       <CardHeader>
-        <div className="flex justify-end px-4">
+        <div className="flex justify-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                variant="outline"
-                className="inline-block rounded-lg text-sm"
+                variant="ghost"
+                className="inline-block"
+                size={'icon'}
               >
                 <svg
                   className="h-5 w-5"
