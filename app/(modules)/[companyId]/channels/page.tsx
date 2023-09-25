@@ -1,3 +1,5 @@
+"use server"
+
 import React from 'react'
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { ChannelCard } from './_components/channel-card'
