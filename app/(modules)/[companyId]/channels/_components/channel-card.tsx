@@ -48,8 +48,36 @@ export function ChannelCard({ channel }: ChannelProps) {
     SMS: 'ring-purple-500',
   }[channel.type] || ''
 
+
+  const typeColorClasses = {
+    WHATSAPP: {
+      text: 'text-green-700',
+      bg: 'bg-green-50',
+    },
+    FACEBOOK: {
+      text: 'text-blue-700',
+      bg: 'bg-blue-50',
+    },
+    TWITTER: {
+      text: 'text-blue-500',
+      bg: 'bg-blue-50',
+    },
+    TIKTOK: {
+      text: 'text-pink-700',
+      bg: 'bg-pink-50',
+    },
+    SMS: {
+      text: 'text-purple-700',
+      bg: 'bg-purple-50',
+    },
+  }[channel.type] || {
+    text: 'text-gray-700',
+    bg: 'bg-gray-50',
+  }
+
+
   return (
-    <li className={`col-span-1 divide-y divide-gray-200 rounded-lg shadow ring-2 ${ringColorClass}`}>
+    <li className={`col-span-1 divide-y divide-current rounded-lg shadow ring-2 ${ringColorClass}`}>
       <div className="flex w-full items-center justify-between space-x-6 p-6">
         <div className="flex-1 truncate">
           <div className="flex items-center space-x-3">
@@ -68,7 +96,7 @@ export function ChannelCard({ channel }: ChannelProps) {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <span className="inline-flex shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+            <span className={`inline-flex shrink-0 items-center rounded-full  px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset ring-green-600/20 ${typeColorClasses}`}>
               {channel.type.toLowerCase()}
             </span>
           </div>
