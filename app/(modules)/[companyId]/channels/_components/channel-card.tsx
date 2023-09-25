@@ -30,14 +30,14 @@ interface ChannelProps {
 
 export function ChannelCard({ data }: ChannelProps) {
   return (
-    <Card className="w-full max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+    <Card className="w-full max-w-sm rounded-lg">
       <CardHeader>
-        <div className="flex justify-end px-4 pt-4">
+        <div className="flex justify-end px-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="inline-block rounded-lg p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                className="inline-block rounded-lg text-sm"
               >
                 <svg
                   className="h-5 w-5"
