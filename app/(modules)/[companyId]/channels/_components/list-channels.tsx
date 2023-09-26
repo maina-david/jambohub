@@ -18,8 +18,9 @@ async function fetchChannels(companyId: string) {
 export default function ListChannels() {
   const params = useParams()
   const companyId = params?.companyId
-  const { isLoading, isError, data: channels, error } = useQuery<Channel[]>({
-    queryKey: ["companyChannels"],
+
+  const { isLoading, isError, data: channels, error } = useQuery({
+    queryKey: ['companyChannels'],
     queryFn: () => fetchChannels(companyId as string),
   })
 

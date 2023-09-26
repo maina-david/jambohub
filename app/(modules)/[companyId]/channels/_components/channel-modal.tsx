@@ -80,7 +80,7 @@ export default function ChannelModal() {
 
         // Check if the update was successful
         if (response.status === 200) {
-          queryClient.invalidateQueries(['companyChannels', companyId])
+          queryClient.invalidateQueries({ queryKey: ['companyChannels'] })
           toast({
             title: 'Success',
             description: 'Channel updated successfully!',
@@ -101,7 +101,7 @@ export default function ChannelModal() {
 
         // Check if the creation was successful
         if (response.status === 201) {
-          queryClient.invalidateQueries(['companyChannels', companyId])
+          queryClient.invalidateQueries({ queryKey: ['companyChannels'] })
           toast({
             title: 'Success',
             description: 'Channel created successfully!',

@@ -65,7 +65,7 @@ export function ChannelCard({ channel }: ChannelProps) {
         const response = await axios.delete(`/api/companies/${params.companyId}/channels/${channel.id}`)
 
         if (response.status === 204) {
-          queryClient.invalidateQueries(['companyChannels', params.companyId])
+          queryClient.invalidateQueries({ queryKey: ['companyChannels'] })
           toast({
             title: 'Success',
             description: 'Channel deleted successfully!',
@@ -104,7 +104,7 @@ export function ChannelCard({ channel }: ChannelProps) {
         })
 
         if (response.status === 200) {
-          queryClient.invalidateQueries(['companyChannels', params.companyId])
+          queryClient.invalidateQueries({ queryKey: ['companyChannels'] })
           toast({
             title: 'Success',
             description: 'Channel activated successfully!',
@@ -142,7 +142,7 @@ export function ChannelCard({ channel }: ChannelProps) {
         })
 
         if (response.status === 200) {
-          queryClient.invalidateQueries(['companyChannels', params.companyId])
+          queryClient.invalidateQueries({ queryKey: ['companyChannels'] })
           toast({
             title: 'Success',
             description: 'Channel deactivated successfully!',
