@@ -142,7 +142,7 @@ export function SideNav({
               </p>
               <Link
                 href={'#'}>
-                Upgrade now
+                <small className="text-sm font-medium leading-none underline underline-offset-1">Upgrade now</small>
               </Link>
             </CardContent>
           </Card>
