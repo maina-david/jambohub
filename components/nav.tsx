@@ -6,6 +6,10 @@ import { useParams, usePathname } from "next/navigation"
 import { SidebarNavItem } from "types"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
+import { Separator } from "./ui/separator"
+import { PlusIcon } from "lucide-react"
+import { Button } from "./ui/button"
+import { useTeamModal } from "@/hooks/use-team-modal"
 
 
 export function SideNav({
@@ -14,6 +18,7 @@ export function SideNav({
 }: React.HTMLAttributes<HTMLElement>) {
   const path = usePathname()
   const params = useParams()
+  const teamModal = useTeamModal()
 
   if (!params || !params.companyId) {
     return null
@@ -52,11 +57,6 @@ export function SideNav({
       href: `/${companyId}/channels`,
       icon: "channels",
     },
-    {
-      title: "Teams",
-      href: `/${companyId}/teams`,
-      icon: "user"
-    },
   ]
 
   return (
@@ -80,6 +80,15 @@ export function SideNav({
           )
         )
       })}
+      <Separator className="my-2" />
+      <div className="flex items-center gap-2">
+        <span className="group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground">
+          Teams
+        </span>
+        <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
+          <PlusIcon className="h-2 w-2" />
+        </Button>
+      </div>
     </nav>
   )
 }

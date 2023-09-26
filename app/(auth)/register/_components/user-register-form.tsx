@@ -20,6 +20,7 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form"
+import { useRouter } from 'next/navigation'
 
 interface UserRegistrationFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -53,6 +54,7 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
   const [isTwitterLoading, setIsTwitterLoading] = React.useState<boolean>(false)
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false)
   const [isFacebookLoading, setIsFacebookLoading] = React.useState<boolean>(false)
+  const router = useRouter()
 
   async function onSubmit(values: FormData) {
     try {
@@ -63,12 +65,14 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
       })
 
       if (response.status === 201) {
-        return toast({
+        toast({
           title: "Check your email",
           description: "We sent you an activation email. Be sure to check your spam too.",
         })
+
+        router.push('/login')
       } else {
-        return toast({
+        toast({
           title: "Something went wrong.",
           description: "Your sign up request failed. Please try again.",
           variant: "destructive",

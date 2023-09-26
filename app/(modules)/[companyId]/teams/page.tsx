@@ -1,12 +1,22 @@
 import React from 'react'
 
+import { AppShell } from '@/components/shell'
+import { AppHeader } from '@/components/header'
+import TeamModal from './_component/team-modal'
+
 export const metadata = {
   title: "Teams",
 }
 
-function TeamsPage({ params }: { params: { slug: string } }) {
+function TeamsPage() {
   return (
-    <div>TeamsPage</div>
+    <AppShell>
+      <AppHeader heading='Company Teams' text='Manage teams and their members'>
+        <TeamModal />
+      </AppHeader>
+
+
+    </AppShell>
   )
 }
 
