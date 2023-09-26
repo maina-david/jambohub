@@ -106,21 +106,58 @@ export function SideNav({
         </div>
       )}
       {isSuccess && (
-        teams.map((team, index) => {
-          return (
-            <Link key={index} href={`/${companyId}/teams/${team.id}`}>
-              <span
-                className={cn(
-                  "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-                  path?.startsWith(`/${companyId}/teams/${team.id}`) ? "bg-accent" : "transparent"
-                )}
-              >
-                <User className="mr-2 h-4 w-4" />
-                <span>{team.name}</span>
-              </span>
-            </Link>
-          )
-        })
+        <ul>
+          {teams.map((team, index) => {
+            return (
+              <li key={index}>
+                <Button
+                  className="group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100  dark:hover:bg-gray-700"
+                  aria-controls={`team-dropdown-${team.id}`}
+                  data-collapse-toggle={`team-dropdown-${team.id}`}
+                >
+                  <svg
+                    className="h-5 w-5 shrink-0 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 18"
+                  >
+                    <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
+                  </svg>
+                  <span
+                    className="ml-3 flex-1 whitespace-nowrap text-left"
+                  >
+                    {team.name}
+                  </span>
+                  <svg
+                    className="h-3 w-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 4 4 4-4"
+                    />
+                  </svg>
+                </Button>
+                <ul id={`team-dropdown-${team.id}`} className="hidden space-y-2 py-2">
+                  <li>
+                    <Link
+                      href="#"
+                      className="group flex w-full items-center rounded-lg p-2 pl-11 transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      Members
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            )
+          })
+          }</ul>
       )}
     </nav>
   )
