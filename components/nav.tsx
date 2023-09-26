@@ -143,10 +143,7 @@ export function SideNav({
             </CardContent>
             <CardFooter>
               <Link
-                href={'#'}
-                className={cn(
-                  buttonVariants({ variant: "ghost" })
-                )}>
+                href={'#'}>
                 Upgrade now
               </Link>
             </CardFooter>
