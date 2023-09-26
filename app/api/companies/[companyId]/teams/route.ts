@@ -6,26 +6,25 @@ import { db } from "@/lib/db"
 import { MaximumPlanResourcesError, RequiresActivePlanError, RequiresProPlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 
+const teamCreateSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().min(3).max(128)
+})
+
 const routeContextSchema = z.object({
   params: z.object({
     companyId: z.string(),
   }),
 })
 
-const teamCreateSchema = z.object({
-  name: z.string(),
-  description: z.string().min(3).max(128)
-})
-
-export async function GET(context: z.infer<typeof routeContextSchema>) {
+export async function GET(req: Request, context: z.infer<typeof routeContextSchema>) {
   try {
     const session = await getServerSession(authOptions)
 
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
-
-    // Validate route params.
+    // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
     const teams = await db.team.findMany({
@@ -33,12 +32,11 @@ export async function GET(context: z.infer<typeof routeContextSchema>) {
         companyId: params.companyId
       }
     })
-
     return new Response(JSON.stringify(teams))
   } catch (error) {
-    console.log('Error Fetching Teams: ', error)
+    console.log('[TEAMS_GET]', error)
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+      return new Response(JSON.stringify(error.issues), { status: 422 }) // Unprocessable Entity
     }
     return new Response(null, { status: 500 })
   }
@@ -51,7 +49,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
-    // Validate route params.
+    // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
     const { user } = session
@@ -61,18 +59,16 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
       throw new RequiresActivePlanError()
     }
 
-    const companyId = params.companyId
-
-    const count = await db.team.count({
+    const teamCount = await db.team.count({
       where: {
-        companyId: companyId,
-      },
+        companyId: params.companyId
+      }
     })
 
-    if (count >= subscriptionPlan.maxTeams) {
+    if (teamCount >= subscriptionPlan.maxTeams) {
       if (subscriptionPlan.plan === "FREE") {
         throw new RequiresProPlanError()
-      } else {
+      } else if (subscriptionPlan.plan === "PRO") {
         throw new MaximumPlanResourcesError()
       }
     }
@@ -80,40 +76,32 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
     const json = await req.json()
     const body = teamCreateSchema.parse(json)
 
-    const noOfSeats = subscriptionPlan.plan === "FREE" ? 1 : 5
-
     const team = await db.team.create({
       data: {
         name: body.name,
         description: body.description,
-        companyId: companyId,
-        noOfSeats: noOfSeats
-      },
-      select: {
-        id: true,
-      },
+        companyId: params.companyId
+      }
     })
-
     return new Response(JSON.stringify(team), { status: 201 })
-
   } catch (error) {
+    console.log('[TEAMS_POST]', error)
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+      return new Response(JSON.stringify(error.issues), { status: 422 }) // Unprocessable Entity
     }
 
     if (error instanceof RequiresProPlanError) {
-      return new Response("Requires Pro Plan", { status: 402 })
+      return new Response("Requires Pro Plan", { status: 402 }) // Payment Required
     }
 
     if (error instanceof RequiresActivePlanError) {
-      return new Response("Requires Active Plan", { status: 403 })
+      return new Response("Requires Active Plan", { status: 403 }) // Forbidden
     }
 
     if (error instanceof MaximumPlanResourcesError) {
-      return new Response("Exceeded Maximum Teams Limit", { status: 403 })
+      return new Response("Exceeded Maximum Team Limit", { status: 403 }) // Forbidden
     }
 
     return new Response(null, { status: 500 })
   }
 }
-
