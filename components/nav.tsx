@@ -11,6 +11,7 @@ import { Separator } from "./ui/separator"
 import { PlusIcon, User } from "lucide-react"
 import { Button } from "./ui/button"
 import { useTeamModal } from "@/hooks/use-team-modal"
+import { Skeleton } from "./ui/skeleton"
 
 export function SideNav({
   className,
@@ -22,7 +23,7 @@ export function SideNav({
 
   const companyId = params?.companyId
 
-  const { isLoading, isError, data: teams, error } = useQuery({
+  const { isLoading, isSuccess, isError, data: teams, error } = useQuery({
     queryKey: ['companyTeams'],
     queryFn: () => fetchTeams(companyId as string),
   })
@@ -91,7 +92,7 @@ export function SideNav({
           <PlusIcon className="h-4 w-4" />
         </Button>
       </div>
-      {teams.map((team, index) => {
+      {/* {teams.map((team, index) => {
         return (
           <Link key={index} href={`${companyId}/teams/${team.id}`}>
             <span
@@ -105,7 +106,39 @@ export function SideNav({
             </span>
           </Link>
         )
-      })}
+      })} */}
+
+      {isLoading && (
+        <>
+          <Skeleton className="h-4 w-[200px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </>
+      )}
+      {isError && (
+        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+          <Icons.warning className="h-10 w-10" />
+          <p className="mb-8 mt-2 text-center text-sm font-normal leading-6 text-muted-foreground">
+            Error fetching teams
+          </p>
+        </div>
+      )}
+      {isSuccess && (
+        teams.map((team, index) => {
+          return (
+            <Link key={index} href={`${companyId}/teams/${team.id}`}>
+              <span
+                className={cn(
+                  "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
+                  path?.startsWith(`${companyId}/teams/${team.id}`) ? "bg-accent" : "transparent"
+                )}
+              >
+                <User className="mr-2 h-4 w-4" />
+                <span>{team.name}</span>
+              </span>
+            </Link>
+          )
+        })
+      )}
     </nav>
   )
 }
