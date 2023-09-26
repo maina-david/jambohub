@@ -20,7 +20,6 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form"
-import { Checkbox } from '@/components/ui/checkbox'
 
 interface UserRegistrationFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -103,105 +102,107 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
   }
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="grid gap-2">
-          <div className="grid gap-1">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Names</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isLoading}
-                      placeholder="Enter your full names"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Please enter your full name as it appears on your identification document.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="grid gap-2">
+            <div className="grid gap-1">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Names</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        placeholder="Enter your full names"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Please enter your full name as it appears on your identification document.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      disabled={isLoading}
-                      placeholder="email@example.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter a valid email address. It will be used for communication and verification.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        disabled={isLoading}
+                        placeholder="email@example.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Enter a valid email address. It will be used for communication and verification.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      disabled={isLoading}
-                      placeholder="***********"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Create a strong password with a mix of letters, numbers, and symbols.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        disabled={isLoading}
+                        placeholder="***********"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Create a strong password with a mix of letters, numbers, and symbols.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password Confirmation</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      disabled={isLoading}
-                      placeholder="***********"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Re-enter your password to confirm.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password Confirmation</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        disabled={isLoading}
+                        placeholder="***********"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Re-enter your password to confirm.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
+            </div>
+            <button className={cn(buttonVariants())} disabled={isLoading}>
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Continue
+            </button>
           </div>
-          <button className={cn(buttonVariants())} disabled={isLoading}>
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Continue
-          </button>
-        </div>
-      </form>
+        </form>
+      </Form>
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
