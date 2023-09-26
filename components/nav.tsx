@@ -140,13 +140,11 @@ export function SideNav({
               <p className="text-sm text-muted-foreground">
                 Get unlimited channels, chatflows, teams, and more
               </p>
-            </CardContent>
-            <CardFooter>
               <Link
                 href={'#'}>
                 Upgrade now
               </Link>
-            </CardFooter>
+            </CardContent>
           </Card>
         )
       )}
