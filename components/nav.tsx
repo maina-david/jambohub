@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link"
 import { useParams, usePathname } from "next/navigation"
 
@@ -10,7 +8,6 @@ import { Separator } from "./ui/separator"
 import { PlusIcon, User } from "lucide-react"
 import { Button } from "./ui/button"
 import { useTeamModal } from "@/hooks/use-team-modal"
-
 
 export function SideNav({
   className,
@@ -82,9 +79,10 @@ export function SideNav({
       })}
       <Separator className="my-2" />
       <div className="flex items-center gap-2">
-        <span className="group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground">
+        <span className="group flex items-center px-3 py-2 text-sm font-medium">
           <User className="mr-2 h-4 w-4" /> Teams
         </span>
+        <div className="grow"></div>
         <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
           <PlusIcon className="h-2 w-2" />
         </Button>
