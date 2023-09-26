@@ -1,11 +1,5 @@
 import * as React from "react"
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
+import Providers from "@/utils/provider"
 import Link from "next/link"
 import { Icons } from "@/components/icons"
 import { dashboardConfig } from "@/config/hub"
@@ -39,11 +33,8 @@ export default async function CompanyLayout({
     return redirect('/home')
   }
 
-  // Create a client
-  const queryClient = new QueryClient()
-  
   return (
-    <QueryClientProvider client={queryClient}>
+    <Providers>
       <div className="flex min-h-screen flex-col space-y-6">
         <header className="sticky top-0 z-40 border-b bg-background">
           <div className="container flex h-16 items-center justify-between py-4">
@@ -78,6 +69,6 @@ export default async function CompanyLayout({
           </main>
         </div>
       </div>
-    </QueryClientProvider>
+    </Providers>
   )
 }
