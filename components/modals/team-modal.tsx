@@ -168,7 +168,7 @@ export default function TeamModal() {
         <DialogHeader>
           <DialogTitle>{isUpdateMode ? 'Edit team' : 'New team'}</DialogTitle>
           <DialogDescription>
-            {isUpdateMode ? 'Update communication team for integration' : 'Add a new communication team for integration'}
+            {isUpdateMode ? 'Edit the team details below:' : 'Create a new team by filling in the details below:'}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
