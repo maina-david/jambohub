@@ -85,7 +85,7 @@ export function SideNav({
       <Separator className="my-2" />
       <div className="flex items-center gap-2">
         <span className="group flex items-center px-3 py-2 text-sm font-medium">
-          <User className="mr-2 h-4 w-4" /> Teams
+          <span className="font-semibold tracking-tight">Teams</span>
         </span>
         <div className="grow"></div>
         <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
