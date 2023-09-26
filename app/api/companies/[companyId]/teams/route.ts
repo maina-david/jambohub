@@ -37,6 +37,9 @@ export async function GET(context: z.infer<typeof routeContextSchema>) {
     return new Response(JSON.stringify(teams))
   } catch (error) {
     console.log('Error Fetching Teams: ', error)
+    if (error instanceof z.ZodError) {
+      return new Response(JSON.stringify(error.issues), { status: 422 })
+    }
     return new Response(null, { status: 500 })
   }
 }
