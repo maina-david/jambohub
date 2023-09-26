@@ -99,14 +99,11 @@ export function SideNav({
         </>
       )}
       {isError && (
-        <>
+        <div className="flex flex-col items-center justify-center">
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
             <Icons.warning className="h-10 w-10" />
           </div>
-          <p className="mb-8 mt-2 text-center text-sm font-normal leading-6 text-muted-foreground">
-            Error fetching teams
-          </p>
-        </>
+        </div>
       )}
       {isSuccess && (
         teams.map((team, index) => {
