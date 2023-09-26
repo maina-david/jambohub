@@ -166,9 +166,11 @@ export default function TeamModal() {
     <Dialog open={teamModal.isOpen} onOpenChange={onChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{isUpdateMode ? 'Edit team' : 'New team'}</DialogTitle>
+          <DialogTitle>{isUpdateMode ? 'Edit Team' : 'New Team'}</DialogTitle>
           <DialogDescription>
-            {isUpdateMode ? 'Edit the team details below:' : 'Create a new team by filling in the details below:'}
+            {isUpdateMode
+              ? 'Edit the team details below:'
+              : 'Create a new team by filling in the details below:'}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -178,16 +180,16 @@ export default function TeamModal() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Team Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isLoading}
-                      placeholder="Enter team name"
+                      placeholder="Enter the team name"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Enter the name associated with this team.
+                    Enter a unique name for the team.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -198,16 +200,16 @@ export default function TeamModal() {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Team Description</FormLabel>
                   <FormControl>
                     <Textarea
                       disabled={isLoading}
-                      placeholder="Enter team description"
+                      placeholder="Enter a brief team description"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Enter a brief description of the team. This will help identify the team&apos;s purpose.
+                    Provide a brief description of the team&apos;s purpose and responsibilities.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -220,13 +222,14 @@ export default function TeamModal() {
                 {isLoading && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}{' '}
-                {isUpdateMode ? 'Update' : 'Continue'}
+                {isUpdateMode ? 'Update Team' : 'Create Team'}
               </Button>
             </DialogFooter>
           </form>
         </Form>
       </DialogContent>
     </Dialog>
+
   )
 }
 
