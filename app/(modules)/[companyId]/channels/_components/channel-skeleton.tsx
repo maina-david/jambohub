@@ -15,10 +15,10 @@ export default function ChannelSkeleton() {
       <div>
         <div className="-mt-px flex">
           <div className="my-1 flex w-0 flex-1">
-            <Skeleton className="relative -mr-px inline-flex h-4 w-[50px] flex-1 items-center justify-center gap-x-3 rounded-bl-lg py-4" />
+            <Skeleton className="relative -mr-px inline-flex h-4 w-[100px] flex-1 items-center justify-center gap-x-3 rounded-bl-lg py-4" />
           </div>
           <div className="my-1 flex w-0 flex-1">
-            <Skeleton className="relative -mr-px inline-flex h-4 w-[50px] flex-1 items-center justify-center gap-x-3 rounded-bl-lg py-4" />
+            <Skeleton className="relative -mr-px inline-flex h-4 w-[100px] flex-1 items-center justify-center gap-x-3 rounded-bl-lg py-4" />
           </div>
         </div>
       </div>
