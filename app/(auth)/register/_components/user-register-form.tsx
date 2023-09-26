@@ -65,7 +65,7 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
       if (response.status === 201) {
         return toast({
           title: "Check your email",
-          description: "We sent you an activation mail. Be sure to check your spam too.",
+          description: "We sent you an activation email. Be sure to check your spam too.",
         })
       } else {
         return toast({
@@ -101,7 +101,7 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
     }
   }
   return (
-    <div className={cn("grid grid-cols-2 gap-6", className)} {...props}>
+    <div className={cn("grid gap-6", className)} {...props}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-2">
