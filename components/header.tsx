@@ -22,7 +22,7 @@ export function AppHeader({
         </div>
         {children}
       </div>
-      <Separator className="my-4" />
+      <Separator/>
     </>
   )
 }
