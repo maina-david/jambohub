@@ -133,8 +133,10 @@ export function SideNav({
       {subscription.isSuccess && (
         subscription.data.plan === 'FREE' && (
           <Card className="rounded-lg shadow-2xl">
-            <CardContent className="flex flex-col items-center justify-center">
-              <h3 className="font-semibold leading-none tracking-tight">Try {siteConfig.name} Pro</h3>
+            <CardHeader className="mb-0">
+              <CardTitle>Try {siteConfig.name} Pro</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-start justify-center">
               <p className="text-sm text-muted-foreground">
                 Get unlimited channels, chatflows, teams, and more
               </p>
