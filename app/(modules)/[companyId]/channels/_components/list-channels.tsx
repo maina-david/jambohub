@@ -30,7 +30,27 @@ export default function ListChannels() {
 
   if (isError) {
     console.log("Error fetching channels:", error)
-    return <span>Error fetching channels</span>
+    if (error instanceof Error) {
+      return (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="warning" />
+          <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            {error.message}
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )
+    } else {
+      return (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="warning" />
+          <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            An error occurred while fetching channels.
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )
+    }
   }
 
   return (
