@@ -3,7 +3,6 @@
 import React from 'react'
 import axios from "axios"
 import { useQuery } from '@tanstack/react-query'
-import { Channel } from '@prisma/client'
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { ChannelCard } from './channel-card'
 import ChannelModal from './channel-modal'
