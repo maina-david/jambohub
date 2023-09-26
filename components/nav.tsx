@@ -9,9 +9,11 @@ import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { Separator } from "./ui/separator"
 import { PlusIcon, User, Users2 } from "lucide-react"
-import { Button } from "./ui/button"
+import { Button, buttonVariants } from "./ui/button"
 import { useTeamModal } from "@/hooks/use-team-modal"
 import { Skeleton } from "./ui/skeleton"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
+import { siteConfig } from "@/config/site"
 
 export function SideNav({
   className,
@@ -62,7 +64,7 @@ export function SideNav({
   ]
 
   return (
-    <nav className="grid items-start gap-2">
+    <nav className="grid items-start gap-2" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {routes.map((item, index) => {
         const Icon = Icons[item.icon || "arrowRight"]
         return (
@@ -122,7 +124,26 @@ export function SideNav({
           )
         })
       )}
-
+      <div className="grow"></div>
+      <Card className="rounded-lg shadow-2xl">
+        <CardHeader>
+          <CardTitle>Try {siteConfig.name} Pro</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col items-center justify-center">
+          <p className="text-sm text-muted-foreground">
+            Get unlimited channels, chatflows, teams, and more
+          </p>
+        </CardContent>
+        <CardFooter>
+          <Link
+            href={'#'}
+            className={cn(
+              buttonVariants({ variant: "ghost" })
+            )}>
+            Upgrade now
+          </Link>
+        </CardFooter>
+      </Card>
     </nav>
   )
 }
