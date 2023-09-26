@@ -2,7 +2,8 @@
 
 import Link from "next/link"
 import { useParams, usePathname } from "next/navigation"
-
+import axios from "axios"
+import { useQuery } from '@tanstack/react-query'
 import { SidebarNavItem } from "types"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
@@ -19,11 +20,12 @@ export function SideNav({
   const params = useParams()
   const teamModal = useTeamModal()
 
-  if (!params || !params.companyId) {
-    return null
-  }
+  const companyId = params?.companyId
 
-  const companyId = params.companyId
+  const { isLoading, isError, data: teams, error } = useQuery({
+    queryKey: ['companyTeams'],
+    queryFn: () => fetchTeams(companyId as string),
+  })
 
   const routes: SidebarNavItem[] = [
     {
@@ -89,6 +91,26 @@ export function SideNav({
           <PlusIcon className="h-4 w-4" />
         </Button>
       </div>
+      {teams.map((team, index) => {
+        return (
+          <Link key={index} href={`${companyId}/teams/${team.id}`}>
+            <span
+              className={cn(
+                "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
+                path?.startsWith(`${companyId}/teams/${team.id}`) ? "bg-accent" : "transparent"
+              )}
+            >
+              <User className="mr-2 h-4 w-4" />
+              <span>{team.name}</span>
+            </span>
+          </Link>
+        )
+      })}
     </nav>
   )
+}
+
+async function fetchTeams(companyId: string) {
+  const { data } = await axios.get(`/api/companies/${companyId}/teams`)
+  return data
 }
