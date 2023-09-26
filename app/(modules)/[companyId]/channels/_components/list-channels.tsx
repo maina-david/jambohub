@@ -8,13 +8,30 @@ import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { ChannelCard } from './channel-card'
 import ChannelModal from './channel-modal'
 import { useParams } from 'next/navigation'
+import ChannelSkeleton from './channel-skeleton'
 
-function ListChannels() {
+export default function ListChannels() {
   const params = useParams()
   const companyId = params?.companyId
-  const { data: channels } = useQuery(['companyChannels', companyId], () =>
-    getCompanyChannels(companyId as string)
-  ) as { data: Channel[] }
+  const { isLoading, isError, data: channels, error } = useQuery<Channel[]>({
+    queryKey: ["companyChannels"],
+    queryFn: () => getCompanyChannels(companyId as string),
+  })
+
+  if (isLoading) {
+    return (
+      <div>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <ChannelSkeleton key={index} />
+        ))}
+      </div>
+    )
+  }
+
+  if (isError) {
+    console.log("Error fetching channels:", error)
+    return <span>Error fetching channels</span>
+  }
 
   return (
     <>
@@ -37,5 +54,3 @@ function ListChannels() {
     </>
   )
 }
-
-export default ListChannels

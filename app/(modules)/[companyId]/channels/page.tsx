@@ -4,7 +4,6 @@ import { AppShell } from '@/components/shell'
 import { AppHeader } from '@/components/header'
 import ListChannels from './_components/list-channels'
 
-
 export const metadata = {
   title: "Channels",
 }
