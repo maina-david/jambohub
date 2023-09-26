@@ -12,7 +12,6 @@ function TeamsPage() {
   return (
     <AppShell>
       <AppHeader heading='Company Teams' text='Manage teams and their members'>
-        <TeamModal />
       </AppHeader>
 
 

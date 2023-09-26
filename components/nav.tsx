@@ -7,7 +7,7 @@ import { SidebarNavItem } from "types"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { Separator } from "./ui/separator"
-import { PlusIcon } from "lucide-react"
+import { PlusIcon, User } from "lucide-react"
 import { Button } from "./ui/button"
 import { useTeamModal } from "@/hooks/use-team-modal"
 
@@ -83,7 +83,7 @@ export function SideNav({
       <Separator className="my-2" />
       <div className="flex items-center gap-2">
         <span className="group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground">
-          Teams
+          <User className="mr-2 h-4 w-4" /> Teams
         </span>
         <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
           <PlusIcon className="h-2 w-2" />

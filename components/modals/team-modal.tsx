@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import * as z from "zod"
 import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -161,14 +161,9 @@ export default function TeamModal() {
       teamModal.onClose()
     }
   }
-  
+
   return (
     <Dialog open={teamModal.isOpen} onOpenChange={onChange}>
-      <DialogTrigger asChild>
-        <Button onClick={teamModal.onOpen} variant="outline">
-          {isUpdateMode ? 'Edit Team' : 'Add Team'}
-        </Button>
-      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{isUpdateMode ? 'Edit team' : 'New team'}</DialogTitle>
