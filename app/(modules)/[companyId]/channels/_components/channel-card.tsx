@@ -260,7 +260,7 @@ export function ChannelCard({ channel }: ChannelProps) {
           <p className="mt-1 truncate text-sm font-bold">{channel.identifier ? channel.identifier : 'Not Linked'}</p>
         </div>
         <Image
-          className="shrink-0 rounded-full"
+          className="shrink-0 rounded-full dark:bg-white"
           src={`/images/icons/${channel.type.toLowerCase()}.svg`}
           alt={`${channel.type.toLowerCase()}`}
           width={44}
