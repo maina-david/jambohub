@@ -143,6 +143,7 @@ export default function ChannelModal() {
             description: 'You need a pro plan for this operation.',
             variant: 'destructive',
           })
+          channelModal.onClose()
         } else if (error.response.status === 403) {
           // Handle RequiresActivePlanError or MaximumPlanResourcesError
           toast({
@@ -150,6 +151,7 @@ export default function ChannelModal() {
             description: 'You do not have permission for this operation.',
             variant: 'destructive',
           })
+          channelModal.onClose()
         }
       } else {
         // Handle general errors
