@@ -65,7 +65,7 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
       if (response.status === 201) {
         return toast({
           title: "Check your email",
-          description: "We sent you an activation. Be sure to check your spam too.",
+          description: "We sent you an activation mail. Be sure to check your spam too.",
         })
       } else {
         return toast({
