@@ -136,13 +136,14 @@ export function SideNav({
             <CardHeader>
               <CardTitle>Try {siteConfig.name} Pro</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center">
+            <CardContent className="flex flex-col items-start justify-center">
               <p className="text-sm text-muted-foreground">
                 Get unlimited channels, chatflows, teams, and more
               </p>
               <Link
-                href={'#'}>
-                <small className="text-sm font-medium leading-none underline underline-offset-1">Upgrade now</small>
+                href={'#'}
+                className="text-sm font-medium leading-none underline underline-offset-1">
+                Upgrade now
               </Link>
             </CardContent>
           </Card>
