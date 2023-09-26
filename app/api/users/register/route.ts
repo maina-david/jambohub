@@ -1,13 +1,21 @@
 import * as z from "zod"
 
 import { db } from "@/lib/db"
-import { hash, genSaltSync, hashSync } from 'bcrypt'
+import { hash } from 'bcrypt'
 
 const userRegisterSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  password: z.string()
+  name: z.string().min(1, "Name is required").max(100),
+  email: z.string().email("Invalid email").min(1, "Email is required"),
+  password: z
+    .string()
+    .min(1, "Password is required")
+    .min(8, "Password must have more than 8 characters"),
+  confirmPassword: z.string().min(1, "Password confirmation is required"),
 })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords do not match",
+  })
 
 export async function POST(req: Request) {
   try {
