@@ -31,8 +31,7 @@ export async function GET(context: z.infer<typeof routeContextSchema>) {
     const teams = await db.team.findMany({
       where: {
         companyId: params.companyId
-      },
-      include: { members: true }
+      }
     })
 
     return new Response(JSON.stringify(teams))
