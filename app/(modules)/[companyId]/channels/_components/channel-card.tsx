@@ -271,7 +271,7 @@ export function ChannelCard({ channel }: ChannelProps) {
         <div className="-mt-px flex">
           <div className="my-1 flex w-0 flex-1">
             <Button
-              variant={channel.integrated ? 'secondary' : 'outline'}
+              variant={channel.integrated ? 'default' : 'outline'}
               className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold"
             >
               {channel.integrated ? 'Unlink' : 'Link'}
@@ -279,7 +279,7 @@ export function ChannelCard({ channel }: ChannelProps) {
           </div>
           <div className="my-1 flex w-0 flex-1">
             <Button
-              variant={channelStatus ? 'secondary' : 'outline'}
+              variant={channelStatus ? 'default' : 'outline'}
               onClick={
                 channelStatus
                   ? handleDeactivateChannel
