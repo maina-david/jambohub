@@ -8,7 +8,8 @@ import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
 import NextTopLoader from 'nextjs-toploader'
-import { ModalProvider } from "@/providers/modal-provider"
+import { CompanyModalProvider } from "@/providers/company-modal-provider"
+import { TeamModalProvider } from "@/providers/team-modal-provider"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -85,7 +86,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
       >
         <NextTopLoader showSpinner={false} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ModalProvider />
+          <CompanyModalProvider />
+          <TeamModalProvider />
           {children}
           <Analytics />
           <Toaster />

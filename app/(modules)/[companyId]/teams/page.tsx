@@ -2,7 +2,7 @@ import React from 'react'
 
 import { AppShell } from '@/components/shell'
 import { AppHeader } from '@/components/header'
-import TeamModal from './_component/team-modal'
+import TeamModal from '@/components/modals/team-modal'
 
 export const metadata = {
   title: "Teams",

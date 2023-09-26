@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-import { CompanyModal } from "@/components/modals/company-modal";
+import TeamModal from "@/components/modals/team-modal";
 
-export const ModalProvider = () => {
+export const TeamModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export const ModalProvider = () => {
 
   return (
     <>
-      <CompanyModal />
+      <TeamModal />
     </>
   );
 }
