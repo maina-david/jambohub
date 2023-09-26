@@ -30,6 +30,11 @@ export function SideNav({
     queryFn: () => fetchTeams(companyId as string),
   })
 
+  const subscription = useQuery({
+    queryKey: ['userSubscription'],
+    queryFn: () => getCurrentUserSubscription(),
+  })
+
   const routes: SidebarNavItem[] = [
     {
       title: "Dashboard",
@@ -125,30 +130,39 @@ export function SideNav({
         })
       )}
       <div className="grow"></div>
-      <Card className="rounded-lg shadow-2xl">
-        <CardHeader>
-          <CardTitle>Try {siteConfig.name} Pro</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col items-center justify-center">
-          <p className="text-sm text-muted-foreground">
-            Get unlimited channels, chatflows, teams, and more
-          </p>
-        </CardContent>
-        <CardFooter>
-          <Link
-            href={'#'}
-            className={cn(
-              buttonVariants({ variant: "ghost" })
-            )}>
-            Upgrade now
-          </Link>
-        </CardFooter>
-      </Card>
+      {subscription.isSuccess && (
+        subscription.data.plan === 'FREE' && (
+          <Card className="rounded-lg shadow-2xl">
+            <CardHeader>
+              <CardTitle>Try {siteConfig.name} Pro</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center justify-center">
+              <p className="text-sm text-muted-foreground">
+                Get unlimited channels, chatflows, teams, and more
+              </p>
+            </CardContent>
+            <CardFooter>
+              <Link
+                href={'#'}
+                className={cn(
+                  buttonVariants({ variant: "ghost" })
+                )}>
+                Upgrade now
+              </Link>
+            </CardFooter>
+          </Card>
+        )
+      )}
     </nav>
   )
 }
 
 async function fetchTeams(companyId: string) {
   const { data } = await axios.get(`/api/companies/${companyId}/teams`)
+  return data
+}
+
+async function getCurrentUserSubscription() {
+  const { data } = await axios.get(`/api/users/subscription`)
   return data
 }

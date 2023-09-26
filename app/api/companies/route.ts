@@ -79,22 +79,6 @@ export async function POST(req: Request) {
       },
     })
 
-    if (subscriptionPlan.plan === "FREE") {
-      const defaultTeam = await db.team.create({
-        data: {
-          companyId: company.id,
-          name: 'Default'
-        }
-      })
-
-      await db.userTeam.create({
-        data: {
-          userId: user.id,
-          teamId: defaultTeam.id
-        }
-      })
-    }
-
     return new Response(JSON.stringify(company), { status: 201 })
 
   } catch (error) {
