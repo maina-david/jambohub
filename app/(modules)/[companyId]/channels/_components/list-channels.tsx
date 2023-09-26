@@ -1,21 +1,26 @@
 'use client'
 
 import React from 'react'
+import axios from "axios"
 import { useQuery } from '@tanstack/react-query'
 import { Channel } from '@prisma/client'
-import { getCompanyChannels } from '@/actions/channel-actions'
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { ChannelCard } from './channel-card'
 import ChannelModal from './channel-modal'
 import { useParams } from 'next/navigation'
 import ChannelSkeleton from './channel-skeleton'
 
+async function fetchChannels(companyId: string) {
+  const { data } = await axios.get(`/api/companies/${companyId}/channels`)
+  return data
+}
+
 export default function ListChannels() {
   const params = useParams()
   const companyId = params?.companyId
   const { isLoading, isError, data: channels, error } = useQuery<Channel[]>({
     queryKey: ["companyChannels"],
-    queryFn: () => getCompanyChannels(companyId as string),
+    queryFn: () => fetchChannels(companyId as string),
   })
 
   if (isLoading) {

@@ -4,12 +4,6 @@ import { Button } from "@/components/ui/button"
 import axios from "axios"
 import { toast } from "@/components/ui/use-toast"
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card"
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -68,7 +62,7 @@ export function ChannelCard({ channel }: ChannelProps) {
     try {
       if (channel && params && params.companyId) {
         setIsLoading(true)
-        const response = await axios.delete(`/api/companies/${params.companyId}/channels//${channel.id}`)
+        const response = await axios.delete(`/api/companies/${params.companyId}/channels/${channel.id}`)
 
         if (response.status === 204) {
           queryClient.invalidateQueries(['companyChannels', params.companyId])
