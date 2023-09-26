@@ -5,6 +5,7 @@ import TwitterProvider from "next-auth/providers/twitter"
 import GoogleProvider from "next-auth/providers/google"
 import FacebookProvider from "next-auth/providers/facebook"
 import CredentialsProvider from "next-auth/providers/credentials"
+import { compare } from 'bcrypt'
 
 import { env } from "@/env.mjs"
 import { db } from "@/lib/db"
@@ -49,10 +50,27 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
-        const user = {
-          id: 'tfhfgfasdfgfxdzsdfdf',
-          email: 'test@test.com',
-          name: 'Test Account'
+        const user = await db.user.findFirst({
+          where: {
+            email: credentials.email
+          },
+          select: {
+            id: true,
+            email: true,
+            password: true,
+            emailVerified: true,
+          }
+        })
+
+        if (!user) {
+          throw new Error('Invalid Credentials. Try again')
+        }
+
+        // validate user password
+        const isValid = await compare(credentials.password, user.password as string)
+
+        if (!isValid) {
+          throw new Error('Invalid Credentials. Try again')
         }
 
         return user

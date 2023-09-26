@@ -118,13 +118,13 @@ model Subscription {
   userId           String           @unique
   user             User             @relation(fields: [userId], references: [id])
   plan             SubscriptionPlan @default(FREE)
-  maxCompanies     Int
-  maxTeams         Int
-  maxUsers         Int
-  maxChannels      Int
-  maxChatflows     Int
+  maxCompanies     Int              @default(1)
+  maxTeams         Int              @default(1)
+  maxUsers         Int              @default(1)
+  maxChannels      Int              @default(1)
+  maxChatflows     Int              @default(1)
   monthlyPrice     Int?
-  currentPeriodEnd DateTime
+  currentPeriodEnd DateTime?
   active           Boolean          @default(true)
   createdAt        DateTime         @default(now()) @map(name: "created_at")
   updatedAt        DateTime         @default(now()) @map(name: "updated_at")
@@ -139,13 +139,15 @@ model VerificationToken {
 }
 
 model Team {
-  id        String     @id @default(cuid())
-  name      String
-  companyId String
-  status    Boolean    @default(true)
-  company   Company    @relation(fields: [companyId], references: [id])
-  channels  Channel[]  @relation("ChannelToTeams")
-  members   UserTeam[]
+  id          String     @id @default(cuid())
+  name        String
+  description String
+  noOfSeats   Int       @default(1)
+  companyId   String
+  status      Boolean    @default(true)
+  company     Company    @relation(fields: [companyId], references: [id])
+  channels    Channel[]  @relation("ChannelToTeams")
+  members     UserTeam[]
 }
 
 model UserTeam {
@@ -194,8 +196,8 @@ model Channel {
   teams       Team[]      @relation("ChannelToTeams")
   chats       Chat[]
   company     Company     @relation(fields: [companyId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(now())
 }
 
 enum LeadStatus {

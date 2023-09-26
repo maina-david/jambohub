@@ -41,7 +41,7 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
     })
     return new Response(JSON.stringify(channels))
   } catch (error) {
-    console.log('[CHANNELS_GET]', error);
+    console.log('[CHANNELS_GET]', error)
     return new Response(null, { status: 500 })
   }
 }
@@ -90,21 +90,21 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
     })
     return new Response(JSON.stringify(channel), { status: 201 })
   } catch (error) {
-    console.log('[CHANNELS_POST]', error);
+    console.log('[CHANNELS_POST]', error)
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 }); // Unprocessable Entity
+      return new Response(JSON.stringify(error.issues), { status: 422 }) // Unprocessable Entity
     }
 
     if (error instanceof RequiresProPlanError) {
-      return new Response("Requires Pro Plan", { status: 402 }); // Payment Required
+      return new Response("Requires Pro Plan", { status: 402 }) // Payment Required
     }
 
     if (error instanceof RequiresActivePlanError) {
-      return new Response("Requires Active Plan", { status: 403 }); // Forbidden
+      return new Response("Requires Active Plan", { status: 403 }) // Forbidden
     }
 
     if (error instanceof MaximumPlanResourcesError) {
-      return new Response("Exceeded Maximum Channel Limit", { status: 403 }); // Forbidden
+      return new Response("Exceeded Maximum Channel Limit", { status: 403 }) // Forbidden
     }
 
     return new Response(null, { status: 500 })

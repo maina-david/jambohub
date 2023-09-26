@@ -13,7 +13,8 @@ const routeContextSchema = z.object({
 })
 
 const teamCreateSchema = z.object({
-  name: z.string()
+  name: z.string(),
+  description: z.string().min(3).max(128)
 })
 
 export async function GET(context: z.infer<typeof routeContextSchema>) {
@@ -69,17 +70,25 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
       },
     })
 
-    if (count >= subscriptionPlan.maxUsers || subscriptionPlan.plan === "FREE") {
-      throw new RequiresProPlanError()
+    if (count >= subscriptionPlan.maxTeams) {
+      if (subscriptionPlan.plan === "FREE") {
+        throw new RequiresProPlanError()
+      } else {
+        throw new MaximumPlanResourcesError()
+      }
     }
 
     const json = await req.json()
     const body = teamCreateSchema.parse(json)
 
+    const noOfSeats = subscriptionPlan.plan === "FREE" ? 1 : 5
+
     const team = await db.team.create({
       data: {
         name: body.name,
+        description: body.description,
         companyId: companyId,
+        noOfSeats: noOfSeats
       },
       select: {
         id: true,
@@ -99,6 +108,10 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
 
     if (error instanceof RequiresActivePlanError) {
       return new Response("Requires Active Plan", { status: 403 })
+    }
+
+    if (error instanceof MaximumPlanResourcesError) {
+      return new Response("Exceeded Maximum Teams Limit", { status: 403 })
     }
 
     return new Response(null, { status: 500 })
