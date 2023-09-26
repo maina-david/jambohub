@@ -106,49 +106,53 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-2">
             <div className="grid gap-1">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Full Names</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isLoading}
-                        placeholder="Enter your full names"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Please enter your full name as it appears on your identification document.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid gap-1">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Names</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isLoading}
+                          placeholder="Enter your full names"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Please enter your full name as it appears on your identification document.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        disabled={isLoading}
-                        placeholder="email@example.com"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Enter a valid email address. It will be used for communication and verification.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          disabled={isLoading}
+                          placeholder="email@example.com"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Enter a valid email address. It will be used for communication and verification.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
 
+            <div className="grid gap-1">
               <FormField
                 control={form.control}
                 name="password"
@@ -163,9 +167,6 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      Create a strong password with a mix of letters, numbers, and symbols.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -192,15 +193,14 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
                   </FormItem>
                 )}
               />
-
             </div>
-            <button className={cn(buttonVariants())} disabled={isLoading}>
-              {isLoading && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Continue
-            </button>
           </div>
+          <button className={cn(buttonVariants())} disabled={isLoading}>
+            {isLoading && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Continue
+          </button>
         </form>
       </Form>
       <div className="relative">
