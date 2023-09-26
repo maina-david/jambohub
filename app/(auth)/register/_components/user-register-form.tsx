@@ -38,7 +38,6 @@ const userRegisterSchema = z.object({
     message: "Passwords do not match",
   })
 
-
 type FormData = z.infer<typeof userRegisterSchema>
 
 export default function UserRegistrationForm({ className, ...props }: UserRegistrationFormProps) {
