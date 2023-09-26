@@ -86,7 +86,7 @@ export function SideNav({
         </span>
         <div className="grow"></div>
         <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
-          <PlusIcon className="h-2 w-2" />
+          <PlusIcon className="h-4 w-4" />
         </Button>
       </div>
     </nav>
