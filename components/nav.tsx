@@ -14,6 +14,8 @@ import { useTeamModal } from "@/hooks/use-team-modal"
 import { Skeleton } from "./ui/skeleton"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { siteConfig } from "@/config/site"
+import { Subscription, Team } from "@prisma/client"
+import { Key } from "react"
 
 export function SideNav({
   className,
@@ -113,7 +115,7 @@ export function SideNav({
         </div>
       )}
       {isSuccess && (
-        teams.map((team, index) => {
+        teams.map((team: Team, index: Key | null | undefined) => {
           return (
             <Link key={index} href={`/${companyId}/teams/${team.id}`}>
               <span
@@ -156,12 +158,8 @@ export function SideNav({
   )
 }
 
-async function fetchTeams(companyId: string) {
-  const { data } = await axios.get(`/api/companies/${companyId}/teams`)
-  return data
-}
+const fetchTeams = (companyId: string): Promise<Team[]> =>
+  axios.get(`/api/companies/${companyId}/teams`).then((response) => response.data)
 
-async function getCurrentUserSubscription() {
-  const { data } = await axios.get(`/api/users/subscription`)
-  return data
-}
+const getCurrentUserSubscription = (): Promise<Subscription> =>
+  axios.get('/api/users/subscription').then((response) => response.data)
