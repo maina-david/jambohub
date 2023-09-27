@@ -33,7 +33,7 @@ import {
   AirplayIcon,
   LayoutDashboardIcon,
   Users2Icon,
-  Users
+  CogIcon
 } from "lucide-react"
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
 
@@ -60,13 +60,13 @@ export const Icons = {
   post: FileText,
   page: File,
   media: Image,
-  settings: Settings,
+  settings: CogIcon,
   billing: CreditCard,
   ellipsis: MoreVertical,
   add: Plus,
   warning: AlertTriangle,
   user: User,
-  users: Users,
+  users: Users2Icon,
   arrowRight: ArrowRight,
   help: HelpCircle,
   pizza: Pizza,
