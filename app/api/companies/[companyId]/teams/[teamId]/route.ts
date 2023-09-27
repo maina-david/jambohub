@@ -12,7 +12,7 @@ const routeContextSchema = z.object({
   }),
 })
 
-export async function DELETE(
+export async function GET(
   req: Request,
   context: z.infer<typeof routeContextSchema>
 ) {
@@ -29,19 +29,21 @@ export async function DELETE(
       return new Response(null, { status: 422 })
     }
 
-    // Delete the team.
-    await db.team.delete({
+    const team = await db.team.findFirst({
       where: {
-        id: params.teamId as string,
-      },
+        id: params.teamId
+      }
     })
 
-    return new Response(null, { status: 204 })
+    if (!team) {
+      return new Response('Team not found', { status: 404 })
+    }
+
+    return new Response(JSON.stringify(team))
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
-
     return new Response(null, { status: 500 })
   }
 }
@@ -78,6 +80,40 @@ export async function PATCH(
     })
 
     return new Response(null, { status: 200 })
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return new Response(JSON.stringify(error.issues), { status: 422 })
+    }
+
+    return new Response(null, { status: 500 })
+  }
+}
+
+export async function DELETE(
+  req: Request,
+  context: z.infer<typeof routeContextSchema>
+) {
+  try {
+    // Validate the route params.
+    const { params } = routeContextSchema.parse(context)
+
+    // Check if the user has access to this team.
+    if (!(await verifyCurrentUserHasAccessToteam(params.teamId))) {
+      return new Response(null, { status: 403 })
+    }
+
+    if (!(await verifyTeamBelongsToCompany(params.companyId, params.teamId))) {
+      return new Response(null, { status: 422 })
+    }
+
+    // Delete the team.
+    await db.team.delete({
+      where: {
+        id: params.teamId as string,
+      },
+    })
+
+    return new Response(null, { status: 204 })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
