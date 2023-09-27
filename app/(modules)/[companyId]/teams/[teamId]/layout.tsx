@@ -18,6 +18,10 @@ export default function TeamLayout({ children }: TeamLayoutProps) {
       href: '/members',
     },
     {
+      title: "Pending",
+      href: '/pending',
+    },
+    {
       title: "Settings",
       href: '/settings',
     },

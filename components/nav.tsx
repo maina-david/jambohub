@@ -116,7 +116,7 @@ export function SideNav({
       {isSuccess && (
         teams.map((team: Team, index: Key | null | undefined) => {
           return (
-            <Link key={index} href={`/${companyId}/teams/${team.id}`}>
+            <Link key={index} href={`/${companyId}/teams/${team.id}/members`}>
               <span
                 className={cn(
                   "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
