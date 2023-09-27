@@ -26,13 +26,7 @@ export default function TeamHeader() {
 
   if (isError) {
     return (
-      <div className="flex items-center justify-between px-2">
-        <div className="grid gap-1">
-          <Icons.warning className='h-4 w-4' />
-          <Icons.warning className='h-4 w-4' />
-        </div>
-        <Icons.warning className='h-4 w-4' />
-      </div>
+      <Icons.warning className='h-6 w-6' />
     )
   }
 
