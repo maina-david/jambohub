@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { UserPlus2 } from 'lucide-react'
+import { MailIcon, UserPlus2 } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { User } from '@prisma/client'
 import { Separator } from '@/components/ui/separator'
@@ -31,14 +31,14 @@ export default function TeamInvite() {
       try {
         const response = await axios.get(`/api/companies/${companyId}/teams/${teamId}/fetch-app-users`, {
           params: { query: inputValue }, // Pass the input value as a query parameter
-        });
-        setUsers(response.data); // Update the users state with the fetched data
+        })
+        setUsers(response.data) // Update the users state with the fetched data
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching users:', error)
       }
-    };
+    }
 
-    fetchData();
+    fetchData()
   }, [inputValue, companyId, teamId])
 
   return (
@@ -52,25 +52,23 @@ export default function TeamInvite() {
         <DialogHeader>
           <DialogTitle>Invite to Team</DialogTitle>
           <DialogDescription>
-
+            {users.length > 0 ? 'Select a user to invite' : 'Enter an email address or name to search for users'}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Input
               id="name"
-              className="col-span-3"
               placeholder='Email address or name'
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
             />
           </div>
-          {users.length > 0 && (
+          {users.length > 0 ? (
             <div className="grid gap-6">
               <ul>
                 {users.map((user) => (
                   <li key={user.id}>
-                    <Separator />
                     <div className="flex items-center justify-between space-x-4">
                       <div className="flex items-center space-x-4">
                         <UserAvatar
@@ -83,10 +81,24 @@ export default function TeamInvite() {
                         </div>
                       </div>
                     </div>
-                    <Separator />
+                    <Separator className='my-2' />
                   </li>
                 ))}
               </ul>
+            </div>
+          ) : (
+            <div>
+              <p>Hmmm, it seems like that person is not a JamboHub user. You can send an invitation by entering an email address.</p>
+              <Input
+                type='email'
+                id="invitationEmail"
+                className="mt-2"
+                placeholder="Enter email address"
+              />
+              <Button>
+                <MailIcon className='mr-2 h-4 w-4' />
+                Send Invitation
+              </Button>
             </div>
           )}
         </div>
