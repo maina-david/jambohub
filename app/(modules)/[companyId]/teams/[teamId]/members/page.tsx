@@ -34,7 +34,7 @@ export default function TeamMembers() {
       <div className="mb-6 flex flex-col">
         <CardTitle>Team Members</CardTitle>
         <CardDescription>
-          Invite your team members to collaborate.
+          Team members can view and collaborate on all Team visible channels, chatflows, campaigns and chats
         </CardDescription>
       </div>
       <CardContent className="grid gap-6">
