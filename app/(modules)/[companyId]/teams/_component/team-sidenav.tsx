@@ -39,7 +39,7 @@ export function TeamSidebarNav({ className, ...props }: SidebarNavProps) {
             pathname === item.href
               ? "bg-muted hover:bg-muted"
               : "hover:bg-transparent hover:underline",
-            "justify-start"
+            "mr-2 justify-start"
           )}
         >
           {item.title}
