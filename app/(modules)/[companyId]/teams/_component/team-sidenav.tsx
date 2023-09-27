@@ -14,14 +14,14 @@ export function TeamSidebarNav({ className, ...props }: SidebarNavProps) {
   const params = useParams()
   const sidebarNavItems = [
     {
-      title: "Settings",
-      href: `/${params?.companyId}/teams/${params?.teamId}/settings`,
-      icon: "settings"
-    },
-    {
       title: "Members",
       href: `/${params?.companyId}/teams/${params?.teamId}/members`,
       icon: "users"
+    },
+    {
+      title: "Settings",
+      href: `/${params?.companyId}/teams/${params?.teamId}/settings`,
+      icon: "settings"
     }
   ]
 
