@@ -32,7 +32,8 @@ import {
   Activity,
   AirplayIcon,
   LayoutDashboardIcon,
-  Users2Icon
+  Users2Icon,
+  Users
 } from "lucide-react"
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
 
@@ -65,7 +66,7 @@ export const Icons = {
   add: Plus,
   warning: AlertTriangle,
   user: User,
-  users: Users2Icon,
+  users: Users,
   arrowRight: ArrowRight,
   help: HelpCircle,
   pizza: Pizza,
