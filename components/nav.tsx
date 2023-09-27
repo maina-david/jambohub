@@ -138,7 +138,7 @@ export function SideNav({
             </CardHeader>
             <CardContent className="flex flex-col items-start justify-center">
               <p className="text-sm text-muted-foreground">
-                Get unlimited channels, chatflows, teams, and more
+                Get unlimited channels, automation chatflows, teams, and more
               </p>
               <Link
                 href={'#'}
