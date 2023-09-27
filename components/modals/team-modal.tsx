@@ -72,6 +72,7 @@ export default function TeamModal() {
 
         // Check if the update was successful
         if (response.status === 200) {
+          queryClient.invalidateQueries({ queryKey: ['teamDetails'] })
           queryClient.invalidateQueries({ queryKey: ['companyTeams'] })
           toast({
             title: 'Success',
@@ -93,6 +94,7 @@ export default function TeamModal() {
 
         // Check if the creation was successful
         if (response.status === 201) {
+          queryClient.invalidateQueries({ queryKey: ['teamDetails'] })
           queryClient.invalidateQueries({ queryKey: ['companyTeams'] })
           toast({
             title: 'Success',
