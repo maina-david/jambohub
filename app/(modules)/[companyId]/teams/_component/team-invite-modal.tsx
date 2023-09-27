@@ -68,7 +68,7 @@ export default function TeamInvite() {
             <div className="grid gap-6">
               <ul>
                 {users.map((user) => (
-                  <li key={user.id}>
+                  <li key={user.id} className='cursor-pointer hover:bg-gray-300 hover:zoom-in-90'>
                     <div className="flex items-center justify-between space-x-4">
                       <div className="flex items-center space-x-4">
                         <UserAvatar
@@ -90,7 +90,6 @@ export default function TeamInvite() {
             <div>
               <p>Hmmm, it seems like that person is not a JamboHub user. You can send an invitation by entering an email address.</p>
               <Input
-                type='email'
                 id="invitationEmail"
                 className="mt-2"
                 placeholder="Enter email address"
