@@ -65,7 +65,7 @@ export default function TeamInvite() {
             <div className="grid gap-6">
               <ul>
                 {users.map((user) => (
-                  <li key={user.id} className='cursor-pointer rounded hover:bg-current hover:zoom-in-150'>
+                  <li key={user.id} className='cursor-pointer rounded hover:zoom-in-150'>
                     <div className="flex items-center justify-between space-x-4">
                       <div className="flex items-center space-x-4">
                         <UserAvatar
