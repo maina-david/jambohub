@@ -101,8 +101,8 @@ export function SideNav({
       </div>
       {isLoading && (
         <>
-          <Skeleton className="h-4 w-[200px]" />
-          <Skeleton className="h-4 w-[200px]" />
+          <Skeleton className="h-4 w-[100px]" />
+          <Skeleton className="h-4 w-[100px]" />
         </>
       )}
       {isError && (
