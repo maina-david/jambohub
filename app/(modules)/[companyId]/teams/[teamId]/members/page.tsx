@@ -30,12 +30,12 @@ import {
 export default function TeamMembers() {
   return (
     <div>
-      <CardHeader>
+      <div className="flex flex-col p-6">
         <CardTitle>Team Members</CardTitle>
         <CardDescription>
           Invite your team members to collaborate.
         </CardDescription>
-      </CardHeader>
+      </div>
       <CardContent className="grid gap-6">
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-4">
