@@ -48,8 +48,8 @@ export default function TeamModal() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: isUpdateMode ? team.name : '',
-      description: isUpdateMode ? team.description : '',
+      name: isUpdateMode ? `${team.name}` : '',
+      description: isUpdateMode ? `${team.description}` : '',
     },
   })
 
