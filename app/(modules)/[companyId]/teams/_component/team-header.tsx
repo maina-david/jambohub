@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { PencilIcon, UserPlus2 } from 'lucide-react'
 import { Team } from '@prisma/client'
+import TeamInvite from './team-invite-modal'
 
 export default function TeamHeader() {
   const params = useParams()
@@ -47,9 +48,7 @@ export default function TeamHeader() {
           </div>
           {team && <p className="text-muted-foreground">{team.description}</p>}
         </div>
-        <Button>
-          <UserPlus2 className='mr-2 h-4 w-4' /> Invite Team Members
-        </Button>
+        <TeamInvite />
       </div>
       <Separator />
     </>
