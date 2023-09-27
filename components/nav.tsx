@@ -12,7 +12,7 @@ import { PlusIcon, User, Users2 } from "lucide-react"
 import { Button, buttonVariants } from "./ui/button"
 import { useTeamModal } from "@/hooks/use-team-modal"
 import { Skeleton } from "./ui/skeleton"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { siteConfig } from "@/config/site"
 
 export function SideNav({
@@ -134,12 +134,14 @@ export function SideNav({
         subscription.data.plan === 'FREE' && (
           <Card className="rounded-lg shadow-2xl">
             <CardHeader className="mb-0">
-              <CardTitle>Try {siteConfig.name} Pro</CardTitle>
+              <CardTitle>
+                Try {siteConfig.name} Pro
+              </CardTitle>
+              <CardDescription>
+                Get unlimited channels, automation chatflows, teams, and more
+              </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-start justify-center">
-              <p className="text-sm text-muted-foreground">
-                Get unlimited channels, automation chatflows, teams, and more
-              </p>
               <Link
                 href={'#'}
                 className="text-sm font-medium leading-none underline underline-offset-1"
