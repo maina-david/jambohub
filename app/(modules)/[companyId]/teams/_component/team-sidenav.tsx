@@ -41,10 +41,10 @@ export function TeamSidebarNav({ className, ...props }: SidebarNavProps) {
             href={item.href}
             className={cn(
               buttonVariants({ variant: "ghost" }),
+              "ml-4 justify-start",
               pathname === item.href
                 ? "bg-muted hover:bg-muted"
                 : "hover:bg-transparent hover:underline",
-              "ml-4 justify-start"
             )}
           >
             <Icon className="mr-2 h-4 w-4" /> {item.title}
