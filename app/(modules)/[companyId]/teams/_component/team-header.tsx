@@ -9,7 +9,7 @@ import TeamHeaderSkeleton from './team-header-skeleton'
 import { Icons } from '@/components/icons'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
-import { PlusIcon, UserPlus2 } from 'lucide-react'
+import { PencilIcon, UserPlus2 } from 'lucide-react'
 import { Team } from '@prisma/client'
 
 export default function TeamHeader() {
@@ -43,7 +43,7 @@ export default function TeamHeader() {
           <div className="grid gap-1">
             <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors first:mt-0">{team.name}</h2>
             <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
-              <PlusIcon className="h-4 w-4" />
+              <PencilIcon className="h-4 w-4" />
             </Button>
             {team && <p className="text-muted-foreground">{team.description}</p>}
           </div>

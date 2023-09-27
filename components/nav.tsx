@@ -71,7 +71,7 @@ export function SideNav({
   ]
 
   return (
-    <nav className="grid items-start gap-2" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <nav className="grid items-start gap-2">
       {routes.map((item, index) => {
         const Icon = Icons[item.icon || "arrowRight"]
         return (
@@ -103,7 +103,6 @@ export function SideNav({
       </div>
       {isLoading && (
         <>
-          <Skeleton className="h-4 w-[100px]" />
           <Skeleton className="h-4 w-[100px]" />
         </>
       )}
