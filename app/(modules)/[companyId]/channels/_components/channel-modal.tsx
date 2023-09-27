@@ -200,9 +200,7 @@ export default function ChannelModal() {
                 <FormItem>
                   <FormLabel>Channel</FormLabel>
                   <Select
-                    value={field.value !== '' ? field.value : undefined}
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
                     disabled={isLoading || isUpdateMode}
                   >
                     <FormControl>
