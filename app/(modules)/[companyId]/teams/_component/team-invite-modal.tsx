@@ -74,10 +74,6 @@ export default function TeamInvite() {
             </div>
           )}
         </div>
-        <DialogFooter>
-          <span>Invite someone to this Team with a link</span>
-          <Button><Link2Icon className='mr-2 h-4 w-4' /> Create Link</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
