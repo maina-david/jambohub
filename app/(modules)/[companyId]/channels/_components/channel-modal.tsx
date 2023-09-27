@@ -115,7 +115,7 @@ export default function ChannelModal() {
           })
         }
       }
-
+      channelModal.setChannel(null)
       channelModal.onClose()
     } catch (error) {
       // Handle specific errors
@@ -170,6 +170,7 @@ export default function ChannelModal() {
   const onChange = (open: boolean) => {
     if (!open) {
       channelModal.onClose()
+      channelModal.setChannel(null)
     }
   }
 

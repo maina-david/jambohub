@@ -25,7 +25,6 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectTrigger, SelectItem, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Icons } from '@/components/icons'
 import { useTeamModal } from '@/hooks/use-team-modal'
@@ -108,7 +107,7 @@ export default function TeamModal() {
           })
         }
       }
-
+      teamModal.setTeam(null)
       teamModal.onClose()
     } catch (error) {
       // Handle specific errors
@@ -159,6 +158,7 @@ export default function TeamModal() {
   const onChange = (open: boolean) => {
     if (!open) {
       teamModal.onClose()
+      teamModal.setTeam(null)
     }
   }
 
