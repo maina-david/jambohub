@@ -158,7 +158,6 @@ export default function TeamModal() {
   const onChange = (open: boolean) => {
     if (!open) {
       teamModal.onClose()
-      teamModal.setTeam(null)
     }
   }
 
