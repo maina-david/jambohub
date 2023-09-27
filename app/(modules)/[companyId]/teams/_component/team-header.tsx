@@ -30,13 +30,18 @@ export default function TeamHeader() {
     )
   }
 
+  function openTeamEditModal() {
+    if (!teamModal.isOpen && team) {
+      teamModal.setTeam(team)
+    }
+  }
   return (
     <>
       <div className="flex items-center justify-between px-2">
         <div className="grid gap-1">
           <div className="flex items-center">
             <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors first:mt-0">{team.name}</h2>
-            <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
+            <Button onClick={openTeamEditModal} variant={'ghost'} size={'icon'}>
               <PencilIcon className="h-4 w-4" />
             </Button>
           </div>
