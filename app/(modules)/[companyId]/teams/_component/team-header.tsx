@@ -36,27 +36,25 @@ export default function TeamHeader() {
     )
   }
 
-  if (isSuccess && team) {
-    return (
-      <>
-        <div className="flex items-center justify-between px-2">
-          <div className="grid gap-1">
-            <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors first:mt-0">{team.name}</h2>
-            <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
-              <PencilIcon className="h-4 w-4" />
-            </Button>
-            {team && <p className="text-muted-foreground">{team.description}</p>}
-          </div>
-          <Button>
-            <UserPlus2 className='mr-2 h-4 w-4' /> Invite Team Members
+  return (
+    <>
+      <div className="flex items-center justify-between px-2">
+        <div className="grid gap-1">
+          <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors first:mt-0">{team.name}</h2>
+          <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
+            <PencilIcon className="h-4 w-4" />
           </Button>
+          {team && <p className="text-muted-foreground">{team.description}</p>}
         </div>
-        <Separator />
-      </>
-    )
-  }
+        <Button>
+          <UserPlus2 className='mr-2 h-4 w-4' /> Invite Team Members
+        </Button>
+      </div>
+      <Separator />
+    </>
+  )
 }
 
-const getTeamDetails = (companyId: string, teamId: string): Promise<Team | undefined> =>
+const getTeamDetails = (companyId: string, teamId: string): Promise<Team> =>
   axios.get(`/api/companies/${companyId}/teams/${teamId}`).then((response) => response.data)
 
