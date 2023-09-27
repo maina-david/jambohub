@@ -26,10 +26,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { Separator } from "@/components/ui/separator"
 
 export default function TeamMembers() {
   return (
-    <div>
+    <div className="ml-2">
       <div className="mb-6 flex flex-col">
         <CardTitle>Team Members</CardTitle>
         <CardDescription>
@@ -37,6 +38,7 @@ export default function TeamMembers() {
         </CardDescription>
       </div>
       <CardContent className="grid gap-6">
+        <Separator />
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-4">
             <Avatar>
@@ -91,6 +93,7 @@ export default function TeamMembers() {
             </PopoverContent>
           </Popover>
         </div>
+        <Separator />
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-4">
             <Avatar>
@@ -145,6 +148,7 @@ export default function TeamMembers() {
             </PopoverContent>
           </Popover>
         </div>
+        <Separator />
       </CardContent>
     </div>
   )
