@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { MailIcon, UserPlus2 } from 'lucide-react'
+import { UserPlus2 } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { User } from '@prisma/client'
 import { Separator } from '@/components/ui/separator'
@@ -30,9 +30,9 @@ export default function TeamInvite() {
     const fetchData = async () => {
       try {
         const response = await axios.get(`/api/companies/${companyId}/teams/${teamId}/fetch-app-users`, {
-          params: { query: inputValue }, // Pass the input value as a query parameter
+          params: { query: inputValue },
         })
-        setUsers(response.data) // Update the users state with the fetched data
+        setUsers(response.data)
       } catch (error) {
         console.error('Error fetching users:', error)
       }
@@ -52,7 +52,7 @@ export default function TeamInvite() {
         <DialogHeader>
           <DialogTitle>Invite to Team</DialogTitle>
           <DialogDescription>
-            {users.length > 0 ? 'Select a user to invite' : 'Enter an email address or name to search for users'}
+            {inputValue ? 'Select a user to invite' : 'Enter an email address or name to search for users'}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -86,7 +86,7 @@ export default function TeamInvite() {
             </div>
           ) : (
             <div>
-              <small>Hmmm, it seems like that person is not a JamboHub user. You can send an invitation by entering an email address.</small>
+              <small>{inputValue && 'Hmmm, it seems like that person is not a JamboHub user. You can send an invitation by entering an email address.'}</small>
             </div>
           )}
         </div>
