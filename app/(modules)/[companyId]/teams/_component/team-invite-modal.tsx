@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input"
 import { Link2Icon, UserPlus2 } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { User } from '@prisma/client'
+import { Separator } from '@/components/ui/separator'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function TeamInvite() {
   const params = useParams()
@@ -65,10 +67,25 @@ export default function TeamInvite() {
             />
           </div>
           {users.length > 0 && (
-            <div>
+            <div className="grid gap-6">
               <ul>
                 {users.map((user) => (
-                  <li key={user.id}>{user.name}</li>
+                  <li key={user.id}>
+                    <Separator />
+                    <div className="flex items-center justify-between space-x-4">
+                      <div className="flex items-center space-x-4">
+                        <Avatar>
+                          <AvatarImage src={user.image ? user.image : ''} />
+                          <AvatarFallback>OM</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="text-sm font-medium leading-none">{user.name}</p>
+                          <p className="text-sm text-muted-foreground">{user.email}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <Separator />
+                  </li>
                 ))}
               </ul>
             </div>
