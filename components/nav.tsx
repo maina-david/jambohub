@@ -133,7 +133,7 @@ export function SideNav({
       {subscription.isSuccess && (
         subscription.data.plan === 'FREE' && (
           <Card className="rounded-lg shadow-2xl">
-            <CardHeader className="mb-0">
+            <CardHeader>
               <CardTitle>
                 Try {siteConfig.name} Pro
               </CardTitle>
