@@ -73,7 +73,7 @@ export default function ListTeamMembers() {
       {teamMembers.map((member, index) => {
         return (
           <div key={index}>
-            <Separator className='mb-2' />
+            <Separator className='mb-4' />
             <div className="flex items-center justify-between space-x-4">
               <div className="flex items-center space-x-4">
                 <UserAvatar
@@ -116,7 +116,7 @@ export default function ListTeamMembers() {
                 </PopoverContent>
               </Popover>
             </div>
-            <Separator className='mt-2' />
+            <Separator className='mt-4' />
           </div>
         )
       })}
