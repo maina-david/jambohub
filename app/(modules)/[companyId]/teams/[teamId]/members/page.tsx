@@ -30,7 +30,7 @@ import {
 export default function TeamMembers() {
   return (
     <div>
-      <div className="flex flex-col p-6">
+      <div className="flex flex-col">
         <CardTitle>Team Members</CardTitle>
         <CardDescription>
           Invite your team members to collaborate.
