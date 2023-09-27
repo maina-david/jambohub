@@ -15,7 +15,6 @@ import { Input } from "@/components/ui/input"
 import { UserPlus2 } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { User } from '@prisma/client'
-import { Separator } from '@/components/ui/separator'
 import { UserAvatar } from '@/components/user-avatar'
 
 export default function TeamInvite() {
@@ -66,7 +65,7 @@ export default function TeamInvite() {
             <div className="grid gap-6">
               <ul>
                 {users.map((user) => (
-                  <li key={user.id} className='cursor-pointer rounded hover:bg-gray-300 hover:zoom-in-150'>
+                  <li key={user.id} className='cursor-pointer rounded hover:bg-current hover:zoom-in-150'>
                     <div className="flex items-center justify-between space-x-4">
                       <div className="flex items-center space-x-4">
                         <UserAvatar
