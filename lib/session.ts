@@ -34,3 +34,27 @@ export async function getCurrentUserSelectedCompany(companyId: string) {
 
   return company
 }
+
+export async function validateCompanyTeam(companyId: string, teamId: string) {
+  const user = (await getCurrentUser()) as User
+  const company = await db.company.findFirst({
+    where: {
+      id: companyId,
+      ownerId: user.id,
+    }
+  }
+  )
+
+  if (!company) {
+    return null
+  }
+
+  const teamCount = await db.team.count({
+    where: {
+      id: teamId,
+      companyId: companyId
+    }
+  })
+
+  return teamCount > 0
+}
