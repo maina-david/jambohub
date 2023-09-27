@@ -52,7 +52,7 @@ export default function TeamInvite() {
         <DialogHeader>
           <DialogTitle>Invite to Team</DialogTitle>
           <DialogDescription>
-            {inputValue ? 'Select a user to invite' : 'Enter an email address or name to search for users'}
+            Enter an email address or name to search for users
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -66,7 +66,7 @@ export default function TeamInvite() {
             <div className="grid gap-6">
               <ul>
                 {users.map((user) => (
-                  <li key={user.id} className='cursor-pointer hover:bg-gray-300 hover:zoom-in-90'>
+                  <li key={user.id} className='cursor-pointer rounded hover:bg-gray-300 hover:zoom-in-150'>
                     <div className="flex items-center justify-between space-x-4">
                       <div className="flex items-center space-x-4">
                         <UserAvatar
@@ -79,7 +79,6 @@ export default function TeamInvite() {
                         </div>
                       </div>
                     </div>
-                    <Separator className='my-2' />
                   </li>
                 ))}
               </ul>
