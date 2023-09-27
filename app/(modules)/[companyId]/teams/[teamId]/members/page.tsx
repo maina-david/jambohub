@@ -29,7 +29,7 @@ import {
 
 export default function TeamMembers() {
   return (
-    <Card>
+    <div>
       <CardHeader>
         <CardTitle>Team Members</CardTitle>
         <CardDescription>
@@ -146,6 +146,6 @@ export default function TeamMembers() {
           </Popover>
         </div>
       </CardContent>
-    </Card>
+    </div>
   )
 }
