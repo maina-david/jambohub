@@ -1,0 +1,84 @@
+'use client'
+
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Link2Icon, UserPlus2 } from 'lucide-react'
+import { useParams } from 'next/navigation'
+import { User } from '@prisma/client'
+
+export default function TeamInvite() {
+  const params = useParams()
+  const companyId = params?.companyId
+  const teamId = params?.teamId
+
+  const [users, setUsers] = useState<User[]>([])
+  const [inputValue, setInputValue] = useState('')
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/api/companies/${companyId}/teams/${teamId}/fetch-app-users`, {
+          params: { query: inputValue }, // Pass the input value as a query parameter
+        });
+        setUsers(response.data); // Update the users state with the fetched data
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchData();
+  }, [inputValue, companyId, teamId])
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>
+          <UserPlus2 className='mr-2 h-4 w-4' /> Invite Team Members
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Invite to Team</DialogTitle>
+          <DialogDescription>
+
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Input
+              id="name"
+              className="col-span-3"
+              placeholder='Email address or name'
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+          </div>
+          {users.length > 0 && (
+            <div>
+              <ul>
+                {users.map((user) => (
+                  <li key={user.id}>{user.name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        <DialogFooter>
+          <span>Invite someone to this Team with a link</span>
+          <Button><Link2Icon className='mr-2 h-4 w-4' /> Create Link</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
