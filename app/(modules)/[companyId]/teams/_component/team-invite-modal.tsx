@@ -56,14 +56,12 @@ export default function TeamInvite() {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Input
-              id="name"
-              placeholder='Email address or name'
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-          </div>
+          <Input
+            id="name"
+            placeholder='Email address or name'
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
           {users.length > 0 ? (
             <div className="grid gap-6">
               <ul>
@@ -88,16 +86,7 @@ export default function TeamInvite() {
             </div>
           ) : (
             <div>
-              <p>Hmmm, it seems like that person is not a JamboHub user. You can send an invitation by entering an email address.</p>
-              <Input
-                id="invitationEmail"
-                className="mt-2"
-                placeholder="Enter email address"
-              />
-              <Button>
-                <MailIcon className='mr-2 h-4 w-4' />
-                Send Invitation
-              </Button>
+              <small>Hmmm, it seems like that person is not a JamboHub user. You can send an invitation by entering an email address.</small>
             </div>
           )}
         </div>
