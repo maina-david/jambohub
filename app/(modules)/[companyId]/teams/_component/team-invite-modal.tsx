@@ -7,17 +7,16 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Link2Icon, UserPlus2 } from 'lucide-react'
+import { UserPlus2 } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { User } from '@prisma/client'
 import { Separator } from '@/components/ui/separator'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { UserAvatar } from '@/components/user-avatar'
 
 export default function TeamInvite() {
   const params = useParams()
@@ -74,10 +73,10 @@ export default function TeamInvite() {
                     <Separator />
                     <div className="flex items-center justify-between space-x-4">
                       <div className="flex items-center space-x-4">
-                        <Avatar>
-                          <AvatarImage src={user.image ? user.image : ''} />
-                          <AvatarFallback>OM</AvatarFallback>
-                        </Avatar>
+                        <UserAvatar
+                          user={{ name: user.name || null, image: user.image || null }}
+                          className="h-8 w-8"
+                        />
                         <div>
                           <p className="text-sm font-medium leading-none">{user.name}</p>
                           <p className="text-sm text-muted-foreground">{user.email}</p>
