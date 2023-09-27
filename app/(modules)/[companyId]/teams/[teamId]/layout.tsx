@@ -2,8 +2,6 @@ import { Metadata } from "next"
 import { TeamSidebarNav } from "../_component/team-sidenav"
 import TeamHeader from "../_component/team-header"
 import { AppShell } from '@/components/shell'
-import { Separator } from '@/components/ui/separator'
-import { usePathname } from "next/navigation"
 
 export const metadata: Metadata = {
   title: "Team",

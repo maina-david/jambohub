@@ -30,9 +30,6 @@ export default function TeamHeader() {
     )
   }
 
-  if (isSuccess) {
-    teamModal.setTeam(team)
-  }
   return (
     <>
       <div className="flex items-center justify-between px-2">
