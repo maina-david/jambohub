@@ -48,15 +48,10 @@ export default function TeamModal() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      description: '',
+      name: isUpdateMode ? team.name : '',
+      description: isUpdateMode ? team.description : '',
     },
   })
-
-  if (isUpdateMode) {
-    form.setValue('name', team.name)
-    form.setValue('description', team.description)
-  }
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true)

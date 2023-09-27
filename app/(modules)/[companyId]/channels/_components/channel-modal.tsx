@@ -54,16 +54,13 @@ export default function ChannelModal() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      channel: '',
-      name: '',
-      description: '',
+      name: isUpdateMode ? channel.name : '',
+      description: isUpdateMode ? channel.description : '',
     },
   })
 
   if (isUpdateMode) {
     form.setValue('channel', channel.type)
-    form.setValue('name', channel.name)
-    form.setValue('description', channel.description)
   }
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
