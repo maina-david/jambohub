@@ -47,7 +47,7 @@ export function TeamSidebarNav({ className, ...props }: SidebarNavProps) {
               "ml-4 justify-start"
             )}
           >
-            <Icon className="mx-2 h-4 w-4" /> {item.title}
+            <Icon className="mr-2 h-4 w-4" /> {item.title}
           </Link>
         )
       }
