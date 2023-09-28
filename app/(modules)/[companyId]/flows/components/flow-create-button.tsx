@@ -28,13 +28,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { ToastAction } from "@/components/ui/toast"
+import { useParams } from "next/navigation"
 
 const formSchema = z.object({
   name: z.string().min(1)
 })
 
 export const FlowCreateButton = () => {
-
+  const params = useParams()
   const [loading, setLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,7 +48,7 @@ export const FlowCreateButton = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true)
-      const response = await axios.post('/api/companies', {
+      const response = await axios.post(`/api/companies/${params?.companyId}/flows`, {
         ...values,
       })
 
