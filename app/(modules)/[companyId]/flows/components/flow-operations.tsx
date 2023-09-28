@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
-import { Copy, DeleteIcon } from "lucide-react"
+import { Copy, Trash2Icon } from "lucide-react"
 import { useQueryClient } from "@tanstack/react-query"
 
 async function deleteAutomationflow(companyId: string, flowId: string) {
@@ -74,7 +74,7 @@ export function FlowOperations({ flow }: FlowOperationsProps) {
             className="flex cursor-pointer items-center text-destructive focus:text-destructive"
             onSelect={() => setShowDeleteAlert(true)}
           >
-            <DeleteIcon className="mr-2 h-4 w-4" /> Delete
+            <Trash2Icon className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
