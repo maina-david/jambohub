@@ -36,32 +36,31 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   async function onSubmit(data: FormData) {
     setIsLoading(true)
 
-    const signInResult = await signIn("credentials", {
-      email: data.email.toLowerCase(),
-      password: data.password,
-      redirect: false,
-    })
+    try {
+      const signInResult = await signIn("credentials", {
+        email: data.email.toLowerCase(),
+        password: data.password,
+        redirect: false,
+      })
 
-    setIsLoading(false)
-
-    console.log(signInResult)
-    if (signInResult?.error) {
-      if (signInResult?.error == 'InvalidCredentials') {
-        return toast({
-          title: "",
-          description: "",
-          variant: "destructive",
-        })
-      } else {
-        return toast({
-          title: "Something went wrong.",
-          description: "Your sign in request failed. Please try again.",
-          variant: "destructive",
-        })
+      if (!signInResult?.error) {
+        // Redirect to the home page on successful authentication
+        router.push('/home')
+        return
       }
+    } catch (error) {
+      // Handle unexpected errors
+      console.error("Authentication error:", error)
+    } finally {
+      setIsLoading(false)
     }
 
-    return router.push('/home')
+    // Show Toastr message for authentication failure
+    toast({
+      title: "Authentication Failed",
+      description: "Please check your credentials.",
+      variant: "destructive",
+    })
   }
 
   return (
