@@ -120,7 +120,6 @@ export const FlowCreateButton = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-right">Flow Name</FormLabel>
                     <FormControl>
                       <Input disabled={loading} placeholder="Enter flow name" {...field} />
                     </FormControl>
