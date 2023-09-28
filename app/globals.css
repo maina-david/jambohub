@@ -58,12 +58,3 @@
   }
 }
 
-.minimized {
-  width: 64px; /* Adjust the width as needed */
-  transition: width 0.3s ease;
-}
-
-.expanded {
-  width: 250px; /* Adjust the width as needed */
-  transition: width 0.3s ease;
-}
