@@ -8,14 +8,14 @@ import { SidebarNavItem } from "types"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { Separator } from "./ui/separator"
-import { PlusIcon, User, Users2 } from "lucide-react"
+import { ExpandIcon, MinimizeIcon, PlusIcon, User, Users2 } from "lucide-react"
 import { Button, buttonVariants } from "./ui/button"
 import { useTeamModal } from "@/hooks/use-team-modal"
 import { Skeleton } from "./ui/skeleton"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { siteConfig } from "@/config/site"
 import { Subscription, Team } from "@prisma/client"
-import { Key } from "react"
+import { Key, useState } from "react"
 
 export function SideNav({
   className,
@@ -24,6 +24,7 @@ export function SideNav({
   const path = usePathname()
   const params = useParams()
   const teamModal = useTeamModal()
+  const [isNavMinimized, setIsNavMinimized] = useState(false)
 
   const companyId = params?.companyId
 
@@ -71,7 +72,14 @@ export function SideNav({
   ]
 
   return (
-    <nav className="grid items-start gap-2">
+    <nav className={`grid items-start gap-2 ${isNavMinimized ? 'minimized' : 'expanded'}`}>
+      <Button
+        variant={'ghost'}
+        size={'icon'}
+        onClick={() => setIsNavMinimized(!isNavMinimized)}
+      >
+        {isNavMinimized ? <ExpandIcon className="h-4 w-4" /> : <MinimizeIcon className="h-4 w-4" />}
+      </Button>
       {routes.map((item, index) => {
         const Icon = Icons[item.icon || "arrowRight"]
         return (
