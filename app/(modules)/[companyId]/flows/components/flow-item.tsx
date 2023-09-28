@@ -1,5 +1,3 @@
-'use client'
-
 import Link from "next/link"
 import { Flow } from "@prisma/client"
 
@@ -23,7 +21,7 @@ export function FlowItem({ flow }: FlowItemProps) {
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
-            {formatDate(flow.createdAt?.toDateString())}
+            {/* {formatDate(flow.createdAt?.toDateString())} */}
           </p>
         </div>
       </div>
