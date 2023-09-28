@@ -1,36 +1,36 @@
 import Link from "next/link"
-import { AutomationFlow } from "@prisma/client"
+import { Flow } from "@prisma/client"
 
 import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
-import { AutomationflowOperations } from "./flow-operations"
+import { FlowOperations } from "./flow-operations"
 
-interface AutomationFlowItemProps {
-  automationflow: Pick<AutomationFlow, "id" | "name" | "status" | "createdAt">
+interface FlowItemProps {
+  flow: Pick<Flow, "id" | "name" | "status" | "createdAt">
 }
 
-export function AutomationFlowItem({ automationflow }: AutomationFlowItemProps) {
+export function FlowItem({ flow }: FlowItemProps) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/editor/${automationflow.id}`}
+          href={`/editor/${flow.id}`}
           className="font-semibold hover:underline"
         >
-          {automationflow.name}
+          {flow.name}
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
-            {formatDate(automationflow.createdAt?.toDateString())}
+            {formatDate(flow.createdAt?.toDateString())}
           </p>
         </div>
       </div>
-      <AutomationflowOperations automationflow={{ id: automationflow.id, name: automationflow.name }} />
+      <FlowOperations flow={{ id: flow.id, name: flow.name }} />
     </div>
   )
 }
 
-AutomationFlowItem.Skeleton = function AutomationFlowItemSkeleton() {
+FlowItem.Skeleton = function FlowItemSkeleton() {
   return (
     <div className="p-4">
       <div className="space-y-3">

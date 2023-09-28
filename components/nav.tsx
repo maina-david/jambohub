@@ -59,8 +59,8 @@ export function SideNav({
       icon: "activity",
     },
     {
-      title: "ChatFlows",
-      href: `/${companyId}/automationflows`,
+      title: "Flows",
+      href: `/${companyId}/flows`,
       icon: "flow",
     },
     {

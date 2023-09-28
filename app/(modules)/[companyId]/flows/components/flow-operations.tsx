@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { AutomationFlow } from "@prisma/client"
+import { Flow } from "@prisma/client"
 
 import {
   AlertDialog,
@@ -25,15 +25,15 @@ import {
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
-async function deleteAutomationflow(automationflowId: string) {
-  const response = await fetch(`/api/automationflows/${automationflowId}`, {
+async function deleteAutomationflow(flowId: string) {
+  const response = await fetch(`/api/flows/${flowId}`, {
     method: "DELETE",
   })
 
   if (!response?.ok) {
     toast({
       title: "Something went wrong.",
-      description: "Your automationflow was not deleted. Please try again.",
+      description: "Your flow was not deleted. Please try again.",
       variant: "destructive",
     })
   }
@@ -41,11 +41,11 @@ async function deleteAutomationflow(automationflowId: string) {
   return true
 }
 
-interface AutomationflowOperationsProps {
-  automationflow: Pick<AutomationFlow, "id" | "name">
+interface FlowOperationsProps {
+  flow: Pick<Flow, "id" | "name">
 }
 
-export function AutomationflowOperations({ automationflow }: AutomationflowOperationsProps) {
+export function FlowOperations({ flow }: FlowOperationsProps) {
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
@@ -60,7 +60,7 @@ export function AutomationflowOperations({ automationflow }: AutomationflowOpera
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
             <Link
-              href={`/automationflows/${automationflow.id}/playground`}
+              href={`/flows/${flow.id}/playground`}
               className="flex w-full"
             >
               Edit
@@ -79,7 +79,7 @@ export function AutomationflowOperations({ automationflow }: AutomationflowOpera
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this automationflow?
+              Are you sure you want to delete this flow?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
@@ -92,7 +92,7 @@ export function AutomationflowOperations({ automationflow }: AutomationflowOpera
                 event.preventDefault()
                 setIsDeleteLoading(true)
 
-                const deleted = await deleteAutomationflow(automationflow.id)
+                const deleted = await deleteAutomationflow(flow.id)
 
                 if (deleted) {
                   setIsDeleteLoading(false)
