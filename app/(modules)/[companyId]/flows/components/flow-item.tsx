@@ -21,7 +21,7 @@ export function FlowItem({ flow }: FlowItemProps) {
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
-            {/* {formatDate(flow.createdAt?.toDateString())} */}
+            {new Date(flow.createdAt).toLocaleDateString()}
           </p>
         </div>
       </div>
