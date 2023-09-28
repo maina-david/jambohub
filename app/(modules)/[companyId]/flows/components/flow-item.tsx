@@ -1,11 +1,12 @@
 import Link from "next/link"
 import { Flow } from "@prisma/client"
 
+import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { FlowOperations } from "./flow-operations"
 
 interface FlowItemProps {
-  flow: Pick<Flow, "id" | "companyId" | "name" | "status" | "updatedAt">
+  flow: Pick<Flow, "id" | "name" | "status" | "updatedAt">
 }
 
 export function FlowItem({ flow }: FlowItemProps) {
@@ -31,7 +32,7 @@ export function FlowItem({ flow }: FlowItemProps) {
           </p>
         </div>
       </div>
-      <FlowOperations flow={{ id: flow.id, companyId: flow.companyId, name: flow.name }} />
+      <FlowOperations flow={{ id: flow.id, name: flow.name }} />
     </div>
   )
 }
