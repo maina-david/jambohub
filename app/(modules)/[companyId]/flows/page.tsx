@@ -1,5 +1,4 @@
 
-import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { FlowCreateButton } from "./components/flow-create-button"
 import { AppShell } from "@/components/shell"
 import { AppHeader } from "@/components/header"
@@ -10,8 +9,6 @@ export const metadata = {
 }
 
 export default async function FlowPage() {
-
-  const flows = []
 
   return (
     <AppShell>

@@ -29,12 +29,14 @@ import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { ToastAction } from "@/components/ui/toast"
 import { useParams } from "next/navigation"
+import { useQueryClient } from "@tanstack/react-query"
 
 const formSchema = z.object({
   name: z.string().min(1)
 })
 
 export const FlowCreateButton = () => {
+  const queryClient = useQueryClient()
   const params = useParams()
   const [loading, setLoading] = useState(false)
 
@@ -51,7 +53,7 @@ export const FlowCreateButton = () => {
       const response = await axios.post(`/api/companies/${params?.companyId}/flows`, {
         ...values,
       })
-
+      queryClient.invalidateQueries({ queryKey: ['companyFlows'] })
     } catch (error) {
       if (error.response) {
         // Handle specific HTTP error codes
