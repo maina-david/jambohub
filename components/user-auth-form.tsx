@@ -44,12 +44,21 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
     setIsLoading(false)
 
+    console.log(signInResult)
     if (signInResult?.error) {
-      return toast({
-        title: "Something went wrong.",
-        description: "Your sign in request failed. Please try again.",
-        variant: "destructive",
-      })
+      if (signInResult?.error == 'InvalidCredentials') {
+        return toast({
+          title: "",
+          description: "",
+          variant: "destructive",
+        })
+      } else {
+        return toast({
+          title: "Something went wrong.",
+          description: "Your sign in request failed. Please try again.",
+          variant: "destructive",
+        })
+      }
     }
 
     return router.push('/home')
@@ -60,7 +69,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
           <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
+            <Label htmlFor="email">
               Email
             </Label>
             <Input
@@ -85,7 +94,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             )}
           </div>
           <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
+            <Label htmlFor="password">
               Password
             </Label>
             <Input
