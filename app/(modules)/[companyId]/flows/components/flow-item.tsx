@@ -25,6 +25,9 @@ export function FlowItem({ flow }: FlowItemProps) {
               month: "long",
               day: "numeric",
               year: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
             })}
           </p>
         </div>
