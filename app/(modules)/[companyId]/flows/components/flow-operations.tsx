@@ -74,7 +74,7 @@ export function FlowOperations({ flow }: FlowOperationsProps) {
             className="flex cursor-pointer items-center text-destructive focus:text-destructive"
             onSelect={() => setShowDeleteAlert(true)}
           >
-            <Trash2Icon className="mr-2 h-4 w-4" /> Delete
+            <Trash2Icon className="mr-2 h-4 w-4" /> Delete Flow
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
