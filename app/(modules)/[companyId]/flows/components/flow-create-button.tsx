@@ -39,6 +39,7 @@ export const FlowCreateButton = () => {
   const queryClient = useQueryClient()
   const params = useParams()
   const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,6 +55,7 @@ export const FlowCreateButton = () => {
         ...values,
       })
       queryClient.invalidateQueries({ queryKey: ['companyFlows'] })
+      setOpen(false)
     } catch (error) {
       if (error.response) {
         // Handle specific HTTP error codes
@@ -100,9 +102,8 @@ export const FlowCreateButton = () => {
     }
   }
 
-
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
           Create new Flow
