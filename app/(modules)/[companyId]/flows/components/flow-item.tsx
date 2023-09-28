@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { FlowOperations } from "./flow-operations"
 
 interface FlowItemProps {
-  flow: Pick<Flow, "id" | "name" | "status" | "createdAt">
+  flow: Pick<Flow, "id" | "name" | "status" | "updatedAt">
 }
 
 export function FlowItem({ flow }: FlowItemProps) {
@@ -21,7 +21,8 @@ export function FlowItem({ flow }: FlowItemProps) {
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
-            {new Date(flow.createdAt).toLocaleDateString("en-US", {
+            Last Updated:{" "}
+            {new Date(flow.updatedAt).toLocaleDateString("en-US", {
               month: "long",
               day: "numeric",
               year: "numeric",
