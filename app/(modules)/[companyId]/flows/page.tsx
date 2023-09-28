@@ -5,23 +5,23 @@ import { AppShell } from "@/components/shell"
 import { AppHeader } from "@/components/header"
 
 export const metadata = {
-  title: "Automationflow",
+  title: "Flow",
 }
 
-export default async function AutomationflowPage() {
+export default async function FlowPage() {
 
-  const automationflows = []
+  const flows = []
 
   return (
     <AppShell>
-      <AppHeader heading="Automationflows" text="Create and manage automationflows.">
+      <AppHeader heading="Flows" text="Create and manage flows.">
         <FlowCreateButton />
       </AppHeader>
       <div>
-        {automationflows?.length ? (
+        {flows?.length ? (
           <div className="divide-y divide-border rounded-md border">
-            {/* {automationflows.map((automationflow) => (
-              <AutomationflowItem key={automationflow.id} automationflow={automationflow} />
+            {/* {flows.map((flow) => (
+              <FlowItem key={flow.id} flow={flow} />
             ))} */}
           </div>
         ) : (
