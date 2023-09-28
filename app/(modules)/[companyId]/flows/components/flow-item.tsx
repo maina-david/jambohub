@@ -21,8 +21,7 @@ export function FlowItem({ flow }: FlowItemProps) {
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
-            Last Updated:{" "}
-            {new Date(flow.updatedAt).toLocaleDateString("en-US", {
+            Last Updated on {new Date(flow.updatedAt).toLocaleDateString("en-US", {
               month: "long",
               day: "numeric",
               year: "numeric",
