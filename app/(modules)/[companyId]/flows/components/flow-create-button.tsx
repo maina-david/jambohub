@@ -114,19 +114,23 @@ export const FlowCreateButton = () => {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Flow Name</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="Enter flow name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-right">Flow Name</FormLabel>
+                      <FormControl>
+                        <Input disabled={loading} placeholder="Enter flow name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
             <DialogFooter>
               <Button
                 disabled={loading}

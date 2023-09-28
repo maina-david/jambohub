@@ -5,7 +5,7 @@ import { AppShell } from "@/components/shell"
 import { AppHeader } from "@/components/header"
 
 export const metadata = {
-  title: "Flow",
+  title: "Flows",
 }
 
 export default async function FlowPage() {
