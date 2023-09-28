@@ -101,6 +101,10 @@ export function FlowOperations({ flow }: FlowOperationsProps) {
                   setIsDeleteLoading(false)
                   setShowDeleteAlert(false)
                   queryClient.invalidateQueries({ queryKey: ['companyFlows'] })
+                  toast({
+                    title: "Success",
+                    description: "Flow deleted successfully",
+                  })
                 }
               }}
               className="bg-red-600 focus:ring-red-600 dark:text-white"
