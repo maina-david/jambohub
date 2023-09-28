@@ -24,9 +24,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
+import { Copy, DeleteIcon } from "lucide-react"
+import { useQueryClient } from "@tanstack/react-query"
 
-async function deleteAutomationflow(flowId: string) {
-  const response = await fetch(`/api/flows/${flowId}`, {
+async function deleteAutomationflow(flowId: string, companyId: string) {
+  const response = await fetch(`/api/companies/${companyId}/flows/${flowId}`, {
     method: "DELETE",
   })
 
@@ -42,10 +44,11 @@ async function deleteAutomationflow(flowId: string) {
 }
 
 interface FlowOperationsProps {
-  flow: Pick<Flow, "id" | "name">
+  flow: Pick<Flow, "id" | "companyId" | "name">
 }
 
 export function FlowOperations({ flow }: FlowOperationsProps) {
+  const queryClient = useQueryClient()
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
@@ -60,18 +63,29 @@ export function FlowOperations({ flow }: FlowOperationsProps) {
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
             <Link
-              href={`/flows/${flow.id}/playground`}
+              href="#"
               className="flex w-full"
             >
-              Edit
+              View Execution Logs
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link
+              href="#"
+              className="flex w-full"
+            >
+              Open Flow Configurations
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <Copy className="mr-2 h-4 w-4" /> Duplicate Flow
+          </DropdownMenuItem>
           <DropdownMenuItem
             className="flex cursor-pointer items-center text-destructive focus:text-destructive"
             onSelect={() => setShowDeleteAlert(true)}
           >
-            Delete
+            <DeleteIcon className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -92,12 +106,12 @@ export function FlowOperations({ flow }: FlowOperationsProps) {
                 event.preventDefault()
                 setIsDeleteLoading(true)
 
-                const deleted = await deleteAutomationflow(flow.id)
+                const deleted = await deleteAutomationflow(flow.id, flow.companyId)
 
                 if (deleted) {
                   setIsDeleteLoading(false)
                   setShowDeleteAlert(false)
-                  router.refresh()
+                  queryClient.invalidateQueries({ queryKey: ['companyFlows'] })
                 }
               }}
               className="bg-red-600 focus:ring-red-600 dark:text-white"
