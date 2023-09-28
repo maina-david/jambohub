@@ -7,8 +7,8 @@ import { MaximumPlanResourcesError, RequiresActivePlanError, RequiresProPlanErro
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 
 const flowCreateSchema = z.object({
-  name: z.string(),
-  description: z.string()
+  name: z.string().min(1),
+  description: z.string().min(3).max(128)
 })
 
 const routeContextSchema = z.object({
@@ -17,7 +17,7 @@ const routeContextSchema = z.object({
   }),
 })
 
-export async function GET(context: z.infer<typeof routeContextSchema>) {
+export async function GET(req: Request, context: z.infer<typeof routeContextSchema>) {
   try {
     const session = await getServerSession(authOptions)
 
@@ -27,34 +27,25 @@ export async function GET(context: z.infer<typeof routeContextSchema>) {
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
-    const companies = await db.flow.findMany({
-      select: {
-        id: true,
-        name: true,
-        status: true,
-        published: true,
-        createdAt: true,
-      },
+    const flows = await db.flow.findMany({
       where: {
-        companyId: params.companyId,
-      },
+        companyId: params.companyId
+      }
     })
-
-    return new Response(JSON.stringify(companies))
+    return new Response(JSON.stringify(flows))
   } catch (error) {
+    console.log('[FLOWS_GET]', error)
     return new Response(null, { status: 500 })
   }
 }
 
-export async function POST(req: Request,
-  context: z.infer<typeof routeContextSchema>) {
+export async function POST(req: Request, context: z.infer<typeof routeContextSchema>) {
   try {
     const session = await getServerSession(authOptions)
 
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
-
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
@@ -65,13 +56,13 @@ export async function POST(req: Request,
       throw new RequiresActivePlanError()
     }
 
-    const count = await db.flow.count({
+    const flowCount = await db.flow.count({
       where: {
-        companyId: params.companyId,
-      },
+        companyId: params.companyId
+      }
     })
 
-    if (count >= subscriptionPlan.maxFlows) {
+    if (flowCount >= subscriptionPlan.maxFlows) {
       if (subscriptionPlan.plan === "FREE") {
         throw new RequiresProPlanError()
       } else if (subscriptionPlan.plan === "PRO") {
@@ -87,32 +78,27 @@ export async function POST(req: Request,
         name: body.name,
         description: body.description,
         companyId: params.companyId,
-      },
-      select: {
-        id: true,
-      },
+      }
     })
-
     return new Response(JSON.stringify(flow), { status: 201 })
-
   } catch (error) {
+    console.log('[FLOWS_POST]', error)
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+      return new Response(JSON.stringify(error.issues), { status: 422 }) // Unprocessable Entity
     }
 
     if (error instanceof RequiresProPlanError) {
-      return new Response("Requires Pro Plan", { status: 402 })
+      return new Response("Requires Pro Plan", { status: 402 }) // Payment Required
     }
 
     if (error instanceof RequiresActivePlanError) {
-      return new Response("Requires Active Plan", { status: 403 })
+      return new Response("Requires Active Plan", { status: 403 }) // Forbidden
     }
 
     if (error instanceof MaximumPlanResourcesError) {
-      return new Response("Exceeded Maximum Flow Limit", { status: 403 })
+      return new Response("Exceeded Maximum Flow Limit", { status: 403 }) // Forbidden
     }
 
     return new Response(null, { status: 500 })
   }
 }
-
