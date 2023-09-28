@@ -61,12 +61,12 @@ model Company {
   name                 String
   createdAt            DateTime               @default(now()) @map(name: "created_at")
   updatedAt            DateTime               @default(now()) @map(name: "updated_at")
-  owner                User?                  @relation("Owner", fields: [ownerId], references: [id])
-  ownerId              String?
+  owner                User                   @relation("Owner", fields: [ownerId], references: [id])
+  ownerId              String
   status               Boolean                @default(true)
   default              Boolean                @default(false)
   channels             Channel[]
-  chatflows            Chatflow[]
+  automationFlows      AutomationFlow[]
   teams                Team[]
   settings             CompanySettings[]
   leads                Lead[]
@@ -142,7 +142,7 @@ model Team {
   id          String     @id @default(cuid())
   name        String
   description String
-  noOfSeats   Int       @default(1)
+  noOfSeats   Int        @default(1)
   companyId   String
   status      Boolean    @default(true)
   company     Company    @relation(fields: [companyId], references: [id])
@@ -161,7 +161,7 @@ model UserTeam {
   @@unique([userId, teamId])
 }
 
-model Chatflow {
+model AutomationFlow {
   id          String   @id @default(cuid())
   name        String
   description String?

@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Chatflow } from "@prisma/client"
+import { AutomationFlow } from "@prisma/client"
 
 import {
   AlertDialog,
@@ -25,15 +25,15 @@ import {
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
-async function deleteChatflow(chatflowId: string) {
-  const response = await fetch(`/api/chatflows/${chatflowId}`, {
+async function deleteAutomationflow(automationflowId: string) {
+  const response = await fetch(`/api/automationflows/${automationflowId}`, {
     method: "DELETE",
   })
 
   if (!response?.ok) {
     toast({
       title: "Something went wrong.",
-      description: "Your chatflow was not deleted. Please try again.",
+      description: "Your automationflow was not deleted. Please try again.",
       variant: "destructive",
     })
   }
@@ -41,11 +41,11 @@ async function deleteChatflow(chatflowId: string) {
   return true
 }
 
-interface ChatflowOperationsProps {
-  chatflow: Pick<Chatflow, "id" | "name">
+interface AutomationflowOperationsProps {
+  automationflow: Pick<AutomationFlow, "id" | "name">
 }
 
-export function ChatflowOperations({ chatflow }: ChatflowOperationsProps) {
+export function AutomationflowOperations({ automationflow }: AutomationflowOperationsProps) {
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
@@ -60,7 +60,7 @@ export function ChatflowOperations({ chatflow }: ChatflowOperationsProps) {
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
             <Link
-              href={`/chatflows/${chatflow.id}/playground`}
+              href={`/automationflows/${automationflow.id}/playground`}
               className="flex w-full"
             >
               Edit
@@ -79,7 +79,7 @@ export function ChatflowOperations({ chatflow }: ChatflowOperationsProps) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this chatflow?
+              Are you sure you want to delete this automationflow?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
@@ -92,7 +92,7 @@ export function ChatflowOperations({ chatflow }: ChatflowOperationsProps) {
                 event.preventDefault()
                 setIsDeleteLoading(true)
 
-                const deleted = await deleteChatflow(chatflow.id)
+                const deleted = await deleteAutomationflow(automationflow.id)
 
                 if (deleted) {
                   setIsDeleteLoading(false)

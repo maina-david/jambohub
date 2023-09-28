@@ -1,36 +1,36 @@
 import Link from "next/link"
-import { Chatflow } from "@prisma/client"
+import { AutomationFlow } from "@prisma/client"
 
 import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
-import { ChatflowOperations } from "./chatflow-operations"
+import { AutomationflowOperations } from "./flow-operations"
 
-interface ChatflowItemProps {
-  chatflow: Pick<Chatflow, "id" | "name" | "status" | "createdAt">
+interface AutomationFlowItemProps {
+  automationflow: Pick<AutomationFlow, "id" | "name" | "status" | "createdAt">
 }
 
-export function ChatflowItem({ chatflow }: ChatflowItemProps) {
+export function AutomationFlowItem({ automationflow }: AutomationFlowItemProps) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/editor/${chatflow.id}`}
+          href={`/editor/${automationflow.id}`}
           className="font-semibold hover:underline"
         >
-          {chatflow.name}
+          {automationflow.name}
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
-            {formatDate(chatflow.createdAt?.toDateString())}
+            {formatDate(automationflow.createdAt?.toDateString())}
           </p>
         </div>
       </div>
-      <ChatflowOperations chatflow={{ id: chatflow.id, name: chatflow.name }} />
+      <AutomationflowOperations automationflow={{ id: automationflow.id, name: automationflow.name }} />
     </div>
   )
 }
 
-ChatflowItem.Skeleton = function ChatflowItemSkeleton() {
+AutomationFlowItem.Skeleton = function AutomationFlowItemSkeleton() {
   return (
     <div className="p-4">
       <div className="space-y-3">
