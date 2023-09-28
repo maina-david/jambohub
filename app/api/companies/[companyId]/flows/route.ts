@@ -8,7 +8,6 @@ import { getUserSubscriptionPlan } from "@/lib/subscription"
 
 const flowCreateSchema = z.object({
   name: z.string().min(1),
-  description: z.string().min(3).max(128)
 })
 
 const routeContextSchema = z.object({
@@ -76,7 +75,6 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
     const flow = await db.flow.create({
       data: {
         name: body.name,
-        description: body.description,
         companyId: params.companyId,
       }
     })
