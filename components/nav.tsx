@@ -60,7 +60,7 @@ export function SideNav({
     },
     {
       title: "ChatFlows",
-      href: `/${companyId}/chatflows`,
+      href: `/${companyId}/automationflows`,
       icon: "flow",
     },
     {
@@ -139,7 +139,7 @@ export function SideNav({
                 Try {siteConfig.name} Pro
               </CardTitle>
               <CardDescription>
-                Get unlimited channels, automation chatflows, teams, and more
+                Get unlimited channels, automation flows, teams, and more
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-start justify-center">
