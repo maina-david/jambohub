@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { Flow } from "@prisma/client"
 
 import {
@@ -49,7 +48,6 @@ interface FlowOperationsProps {
 
 export function FlowOperations({ flow }: FlowOperationsProps) {
   const queryClient = useQueryClient()
-  const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
 
@@ -79,7 +77,8 @@ export function FlowOperations({ flow }: FlowOperationsProps) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <Copy className="mr-2 h-4 w-4" /> Duplicate Flow
+            <Copy className="mr-2 h-4 w-4" />
+            Duplicate Flow
           </DropdownMenuItem>
           <DropdownMenuItem
             className="flex cursor-pointer items-center text-destructive focus:text-destructive"
@@ -111,7 +110,6 @@ export function FlowOperations({ flow }: FlowOperationsProps) {
                 if (deleted) {
                   setIsDeleteLoading(false)
                   setShowDeleteAlert(false)
-                  queryClient.invalidateQueries({ queryKey: ['companyFlows'] })
                 }
               }}
               className="bg-red-600 focus:ring-red-600 dark:text-white"

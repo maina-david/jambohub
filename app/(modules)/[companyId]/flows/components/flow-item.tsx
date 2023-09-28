@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { Flow } from "@prisma/client"
 
-import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { FlowOperations } from "./flow-operations"
 
