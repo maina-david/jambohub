@@ -114,7 +114,7 @@ export const FlowCreateButton = () => {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid gap-4 py-4">
+            <div className="grid gap-4 pb-4">
               <FormField
                 control={form.control}
                 name="name"
