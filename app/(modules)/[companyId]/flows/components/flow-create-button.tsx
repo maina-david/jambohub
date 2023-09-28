@@ -56,6 +56,10 @@ export const FlowCreateButton = () => {
       })
       queryClient.invalidateQueries({ queryKey: ['companyFlows'] })
       setOpen(false)
+      toast({
+        title: "Success",
+        description: "Flow created successfully",
+      })
     } catch (error) {
       if (error.response) {
         // Handle specific HTTP error codes
