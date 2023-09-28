@@ -43,9 +43,9 @@ export default function ListFlows() {
     <div>
       {flows?.length ? (
         <div className="divide-y divide-border rounded-md border">
-          {flows.map((flow) => (
-            <FlowItem key={flow.id} flow={flow} />
-          ))}
+          {flows.map((flow, index) => {
+            return <FlowItem key={index} flow={flow} />
+          })}
         </div>
       ) : (
         <EmptyPlaceholder>
