@@ -122,7 +122,7 @@ model Subscription {
   maxTeams         Int              @default(1)
   maxUsers         Int              @default(1)
   maxChannels      Int              @default(1)
-  maxChatflows     Int              @default(1)
+  maxFlows         Int              @default(1)
   monthlyPrice     Int?
   currentPeriodEnd DateTime?
   active           Boolean          @default(true)

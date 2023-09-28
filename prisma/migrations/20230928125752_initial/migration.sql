@@ -36,6 +36,7 @@ CREATE TABLE `User` (
     `name` VARCHAR(191) NULL,
     `email` VARCHAR(191) NULL,
     `emailVerified` DATETIME(3) NULL,
+    `password` VARCHAR(191) NULL,
     `image` VARCHAR(191) NULL,
     `status` BOOLEAN NOT NULL DEFAULT true,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -51,7 +52,7 @@ CREATE TABLE `Company` (
     `name` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `ownerId` VARCHAR(191) NULL,
+    `ownerId` VARCHAR(191) NOT NULL,
     `status` BOOLEAN NOT NULL DEFAULT true,
     `default` BOOLEAN NOT NULL DEFAULT false,
 
@@ -96,13 +97,13 @@ CREATE TABLE `Subscription` (
     `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
     `plan` ENUM('FREE', 'PRO') NOT NULL DEFAULT 'FREE',
-    `maxCompanies` INTEGER NOT NULL,
-    `maxTeams` INTEGER NOT NULL,
-    `maxUsers` INTEGER NOT NULL,
-    `maxChannels` INTEGER NOT NULL,
-    `maxChatflows` INTEGER NOT NULL,
+    `maxCompanies` INTEGER NOT NULL DEFAULT 1,
+    `maxTeams` INTEGER NOT NULL DEFAULT 1,
+    `maxUsers` INTEGER NOT NULL DEFAULT 1,
+    `maxChannels` INTEGER NOT NULL DEFAULT 1,
+    `maxFlows` INTEGER NOT NULL DEFAULT 1,
     `monthlyPrice` INTEGER NULL,
-    `currentPeriodEnd` DATETIME(3) NOT NULL,
+    `currentPeriodEnd` DATETIME(3) NULL,
     `active` BOOLEAN NOT NULL DEFAULT true,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -125,6 +126,8 @@ CREATE TABLE `VerificationToken` (
 CREATE TABLE `Team` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NOT NULL,
+    `noOfSeats` INTEGER NOT NULL DEFAULT 1,
     `companyId` VARCHAR(191) NOT NULL,
     `status` BOOLEAN NOT NULL DEFAULT true,
 
@@ -143,7 +146,7 @@ CREATE TABLE `UserTeam` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Chatflow` (
+CREATE TABLE `Flow` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NULL,
@@ -161,12 +164,15 @@ CREATE TABLE `Chatflow` (
 CREATE TABLE `Channel` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
+    `description` VARCHAR(191) NOT NULL,
     `status` BOOLEAN NOT NULL DEFAULT true,
     `companyId` VARCHAR(191) NOT NULL,
     `type` ENUM('WHATSAPP', 'TWITTER', 'FACEBOOK', 'TIKTOK', 'SMS') NOT NULL,
+    `identifier` VARCHAR(191) NULL,
     `authDetails` JSON NULL,
     `integrated` BOOLEAN NOT NULL DEFAULT false,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -243,7 +249,7 @@ ALTER TABLE `Account` ADD CONSTRAINT `Account_userId_fkey` FOREIGN KEY (`userId`
 ALTER TABLE `Session` ADD CONSTRAINT `Session_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Company` ADD CONSTRAINT `Company_ownerId_fkey` FOREIGN KEY (`ownerId`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Company` ADD CONSTRAINT `Company_ownerId_fkey` FOREIGN KEY (`ownerId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `CompanySettings` ADD CONSTRAINT `CompanySettings_companyId_fkey` FOREIGN KEY (`companyId`) REFERENCES `Company`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -273,7 +279,7 @@ ALTER TABLE `UserTeam` ADD CONSTRAINT `UserTeam_userId_fkey` FOREIGN KEY (`userI
 ALTER TABLE `UserTeam` ADD CONSTRAINT `UserTeam_teamId_fkey` FOREIGN KEY (`teamId`) REFERENCES `Team`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Chatflow` ADD CONSTRAINT `Chatflow_companyId_fkey` FOREIGN KEY (`companyId`) REFERENCES `Company`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Flow` ADD CONSTRAINT `Flow_companyId_fkey` FOREIGN KEY (`companyId`) REFERENCES `Company`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Channel` ADD CONSTRAINT `Channel_companyId_fkey` FOREIGN KEY (`companyId`) REFERENCES `Company`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

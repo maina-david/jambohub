@@ -3,13 +3,17 @@ import * as z from "zod"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { chatflowPatchSchema } from "@/lib/validations/chatflow"
 
 const routeContextSchema = z.object({
   params: z.object({
     companyId: z.string(),
-    chatflowId: z.string()
+    flowId: z.string()
   }),
+})
+
+const flowPatchSchema = z.object({
+  name: z.string(),
+  description: z.string()
 })
 
 export async function GET(req: Request, context: z.infer<typeof routeContextSchema>) {
@@ -23,14 +27,14 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this chatflow.
-    if (!(await verifyCurrentUserHasAccessToChatflow(params.chatflowId, params.companyId))) {
+    // Check if the user has access to this flow.
+    if (!(await verifyCurrentUserHasAccessToFlow(params.flowId, params.companyId))) {
       return new Response(null, { status: 403 })
     }
 
-    const chatflow = await db.chatflow.findFirst({
+    const flow = await db.flow.findFirst({
       where: {
-        id: params.chatflowId
+        id: params.flowId
       },
       select: {
         id: true,
@@ -40,7 +44,7 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
       }
     })
 
-    return new Response(JSON.stringify(chatflow))
+    return new Response(JSON.stringify(flow))
   } catch (error) {
     return new Response(null, { status: 500 })
   }
@@ -60,19 +64,19 @@ export async function PATCH(
     // Validate route params.
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this chatflow.
-    if (!(await verifyCurrentUserHasAccessToChatflow(params.chatflowId, params.companyId))) {
+    // Check if the user has access to this flow.
+    if (!(await verifyCurrentUserHasAccessToFlow(params.flowId, params.companyId))) {
       return new Response(null, { status: 403 })
     }
 
     // Get the request body and validate it.
     const json = await req.json()
-    const body = chatflowPatchSchema.parse(json)
+    const body = flowPatchSchema.parse(json)
 
-    // Update the chatflow.
-    await db.chatflow.update({
+    // Update the flow.
+    await db.flow.update({
       where: {
-        id: params.chatflowId,
+        id: params.flowId,
       },
       data: {
         name: body.name,
@@ -104,15 +108,15 @@ export async function DELETE(
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this chatflow.
-    if (!(await verifyCurrentUserHasAccessToChatflow(params.chatflowId, params.companyId))) {
+    // Check if the user has access to this flow.
+    if (!(await verifyCurrentUserHasAccessToFlow(params.flowId, params.companyId))) {
       return new Response(null, { status: 403 })
     }
 
-    // Delete the chatflow.
-    await db.chatflow.delete({
+    // Delete the flow.
+    await db.flow.delete({
       where: {
-        id: params.chatflowId as string,
+        id: params.flowId as string,
       },
     })
 
@@ -126,10 +130,10 @@ export async function DELETE(
   }
 }
 
-async function verifyCurrentUserHasAccessToChatflow(chatflowId: string, companyId: string) {
-  const count = await db.chatflow.count({
+async function verifyCurrentUserHasAccessToFlow(flowId: string, companyId: string) {
+  const count = await db.flow.count({
     where: {
-      id: chatflowId,
+      id: flowId,
       companyId: companyId,
     },
   })

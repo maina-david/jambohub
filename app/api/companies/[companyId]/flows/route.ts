@@ -6,7 +6,7 @@ import { db } from "@/lib/db"
 import { MaximumPlanResourcesError, RequiresActivePlanError, RequiresProPlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 
-const chatflowCreateSchema = z.object({
+const flowCreateSchema = z.object({
   name: z.string(),
   description: z.string()
 })
@@ -27,7 +27,7 @@ export async function GET(context: z.infer<typeof routeContextSchema>) {
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
-    const companies = await db.chatflow.findMany({
+    const companies = await db.flow.findMany({
       select: {
         id: true,
         name: true,
@@ -65,13 +65,13 @@ export async function POST(req: Request,
       throw new RequiresActivePlanError()
     }
 
-    const count = await db.chatflow.count({
+    const count = await db.flow.count({
       where: {
         companyId: params.companyId,
       },
     })
 
-    if (count >= subscriptionPlan.maxChatflows) {
+    if (count >= subscriptionPlan.maxFlows) {
       if (subscriptionPlan.plan === "FREE") {
         throw new RequiresProPlanError()
       } else if (subscriptionPlan.plan === "PRO") {
@@ -80,9 +80,9 @@ export async function POST(req: Request,
     }
 
     const json = await req.json()
-    const body = chatflowCreateSchema.parse(json)
+    const body = flowCreateSchema.parse(json)
 
-    const chatflow = await db.chatflow.create({
+    const flow = await db.flow.create({
       data: {
         name: body.name,
         description: body.description,
@@ -93,23 +93,7 @@ export async function POST(req: Request,
       },
     })
 
-    if (subscriptionPlan.plan === "FREE") {
-      const defaultTeam = await db.team.create({
-        data: {
-          companyId: chatflow.id,
-          name: 'Default'
-        }
-      })
-
-      await db.userTeam.create({
-        data: {
-          userId: user.id,
-          teamId: defaultTeam.id
-        }
-      })
-    }
-
-    return new Response(JSON.stringify(chatflow), { status: 201 })
+    return new Response(JSON.stringify(flow), { status: 201 })
 
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -125,7 +109,7 @@ export async function POST(req: Request,
     }
 
     if (error instanceof MaximumPlanResourcesError) {
-      return new Response("Exceeded Maximum ChatFlow Limit", { status: 403 })
+      return new Response("Exceeded Maximum Flow Limit", { status: 403 })
     }
 
     return new Response(null, { status: 500 })

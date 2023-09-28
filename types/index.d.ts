@@ -62,7 +62,7 @@ export type UserSubscriptionPlan = {
   maxCompanies: number
   maxUsers: number
   maxChannels: number
-  maxChatflows: number
+  maxFlows: number
   maxTeams: number
   monthlyPrice?: number
   active: boolean
