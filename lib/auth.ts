@@ -84,6 +84,41 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture
+
+        const dbUser = await db.user.findFirst({
+          where: {
+            id: token.id,
+          },
+          include: {
+            Subscription: true, // Include the user's subscription
+          },
+        })
+
+        if (dbUser && !dbUser.Subscription) {
+          // If the user doesn't have a subscription, create a free plan for them
+          // Calculate the current date and time
+          const currentDate = new Date()
+
+          // Calculate the date 2 weeks from now
+          const twoWeeksLater = new Date(currentDate)
+          twoWeeksLater.setDate(currentDate.getDate() + 14) // Adding 14 days
+
+          // Format it as an ISO string
+          const currentPeriodEnd = twoWeeksLater.toISOString()
+
+          await db.subscription.create({
+            data: {
+              userId: dbUser.id,
+              plan: "FREE",
+              maxCompanies: 1,
+              maxUsers: 1,
+              maxChannels: 1,
+              maxFlows: 1,
+              maxTeams: 1,
+              currentPeriodEnd: currentPeriodEnd
+            },
+          })
+        }
       }
 
       return session
@@ -92,10 +127,7 @@ export const authOptions: NextAuthOptions = {
       const dbUser = await db.user.findFirst({
         where: {
           email: token.email,
-        },
-        include: {
-          Subscription: true, // Include the user's subscription
-        },
+        }
       })
 
       if (!dbUser) {
@@ -103,32 +135,6 @@ export const authOptions: NextAuthOptions = {
           token.id = user?.id
         }
         return token
-      }
-
-      if (dbUser && !dbUser.Subscription) {
-        // If the user doesn't have a subscription, create a free plan for them
-        // Calculate the current date and time
-        const currentDate = new Date()
-
-        // Calculate the date 2 weeks from now
-        const twoWeeksLater = new Date(currentDate)
-        twoWeeksLater.setDate(currentDate.getDate() + 14) // Adding 14 days
-
-        // Format it as an ISO string
-        const currentPeriodEnd = twoWeeksLater.toISOString()
-
-        await db.subscription.create({
-          data: {
-            userId: dbUser.id,
-            plan: "FREE",
-            maxCompanies: 1,
-            maxUsers: 1,
-            maxChannels: 1,
-            maxFlows: 1,
-            maxTeams: 1,
-            currentPeriodEnd: currentPeriodEnd
-          },
-        })
       }
 
       return {

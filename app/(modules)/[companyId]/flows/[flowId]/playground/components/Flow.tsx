@@ -67,11 +67,11 @@ export default function Flow() {
       <div className="hidden h-full flex-col md:flex">
         <div className="flex items-center justify-between pb-2">
           <div className="grid gap-1">
-            <h2 className="text-2xl font-semibold tracking-tight transition-colors">
+            <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors">
               {flow.name}
             </h2>
           </div>
-          <div className="ml-auto flex w-full space-x-2 sm:justify-end">
+          <div className="ml-auto flex space-x-2 sm:justify-end">
             <PresetSave />
             <PresetActions />
           </div>

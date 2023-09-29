@@ -11,7 +11,7 @@ const SendText = () => {
 
   return (
     <div
-      className="dndnode flex cursor-grab items-center space-x-4 rounded-md border p-4"
+      className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
       draggable
       onDragStart={(event) => onDragStart(event)}
     >
