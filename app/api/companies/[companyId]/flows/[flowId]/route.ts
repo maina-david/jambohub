@@ -13,7 +13,6 @@ const routeContextSchema = z.object({
 
 const flowPatchSchema = z.object({
   name: z.string(),
-  description: z.string()
 })
 
 export async function GET(req: Request, context: z.infer<typeof routeContextSchema>) {
@@ -35,12 +34,6 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
     const flow = await db.flow.findFirst({
       where: {
         id: params.flowId
-      },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        nodes: true
       }
     })
 
@@ -80,7 +73,6 @@ export async function PATCH(
       },
       data: {
         name: body.name,
-        description: body.description
       },
     })
 
