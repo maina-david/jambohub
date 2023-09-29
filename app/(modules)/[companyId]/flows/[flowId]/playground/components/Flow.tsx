@@ -77,7 +77,7 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: true,
 }
 
-const ChatFlow = () => {
+const Flow = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
   const [edges, setEdges] = useState<Edge[]>(initialEdges)
 
@@ -133,4 +133,4 @@ const ChatFlow = () => {
   )
 }
 
-export default ChatFlow
+export default Flow

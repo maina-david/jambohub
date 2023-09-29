@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator"
 import { PresetActions } from "./components/preset-actions"
 import { PresetSave } from "./components/preset-save"
 
-import ChatFlow from "./components/ChatFlow"
+import Flow from "./components/Flow"
 
 export const metadata: Metadata = {
   title: "Playground",
@@ -25,7 +25,7 @@ export default function PlaygroundPage() {
           </div>
         </div>
         <Separator />
-        <ChatFlow />
+        <Flow />
       </div>
     </>
   )
