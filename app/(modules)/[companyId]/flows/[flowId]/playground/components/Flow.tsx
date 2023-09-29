@@ -12,7 +12,7 @@ import ReactFlow, {
   OnEdgesChange,
   OnConnect,
   DefaultEdgeOptions,
-  Controls, Panel, NodeOrigin
+  Controls, Panel, NodeOrigin, ReactFlowProvider
 } from 'reactflow'
 import { shallow } from 'zustand/shallow';
 
@@ -63,45 +63,47 @@ export default function Flow() {
     )
   }
   return (
-    <div className="hidden h-full flex-col md:flex">
-      <div className="flex items-center justify-between pb-2">
-        <div className="grid gap-1">
-          <h2 className="text-2xl font-semibold tracking-tight transition-colors">
-            {flow.name}
-          </h2>
-        </div>
-        <div className="ml-auto flex w-full space-x-2 sm:justify-end">
-          <PresetSave />
-          <PresetActions />
-        </div>
-      </div>
-      <Separator />
-      <div className="container h-full py-6">
-        <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-          <div className="hidden flex-col space-y-4 sm:flex md:order-2">
-            <SendText />
-            <SendTextWait />
-            <SendAttachment />
-            <AssignToTeam />
+    <ReactFlowProvider>
+      <div className="hidden h-full flex-col md:flex">
+        <div className="flex items-center justify-between pb-2">
+          <div className="grid gap-1">
+            <h2 className="text-2xl font-semibold tracking-tight transition-colors">
+              {flow.name}
+            </h2>
           </div>
-          <div className="md:order-1">
-            <div className="flex h-full flex-col space-y-4">
-              <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                nodeOrigin={nodeOrigin}
-                fitView
-                className="bg-teal-50"
-              >
-                <Controls showInteractive={false} />
-              </ReactFlow>
+          <div className="ml-auto flex w-full space-x-2 sm:justify-end">
+            <PresetSave />
+            <PresetActions />
+          </div>
+        </div>
+        <Separator />
+        <div className="container h-full py-6">
+          <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
+            <div className="hidden flex-col space-y-4 sm:flex md:order-2">
+              <SendText />
+              <SendTextWait />
+              <SendAttachment />
+              <AssignToTeam />
+            </div>
+            <div className="md:order-1">
+              <div className="flex h-full flex-col space-y-4">
+                <ReactFlow
+                  nodes={nodes}
+                  edges={edges}
+                  onNodesChange={onNodesChange}
+                  onEdgesChange={onEdgesChange}
+                  nodeOrigin={nodeOrigin}
+                  fitView
+                  className="bg-teal-50"
+                >
+                  <Controls showInteractive={false} />
+                </ReactFlow>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </ReactFlowProvider>
   )
 }
 
