@@ -11,9 +11,12 @@ import ReactFlow, {
   OnNodesChange,
   OnEdgesChange,
   OnConnect,
-  Controls,
   DefaultEdgeOptions,
+  Controls, Panel, NodeOrigin
 } from 'reactflow'
+import { shallow } from 'zustand/shallow';
+
+import useStore, { RFState } from '../store/store'
 
 import 'reactflow/dist/base.css'
 import axios from 'axios'
@@ -29,58 +32,15 @@ import { useParams } from 'next/navigation'
 import { Flow } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
 
-const nodeTypes = {
-  custom: CustomNode,
-}
+const selector = (state: RFState) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+  onNodesChange: state.onNodesChange,
+  onEdgesChange: state.onEdgesChange,
+});
 
-const initialNodes = [
-  {
-    id: '1',
-    type: 'custom',
-    data: { name: 'Jane Doe', job: 'CEO', emoji: '😎' },
-    position: { x: 0, y: 50 },
-  },
-  {
-    id: '2',
-    type: 'custom',
-    data: { name: 'Tyler Weary', job: 'Designer', emoji: '🤓' },
-
-    position: { x: -200, y: 200 },
-  },
-  {
-    id: '3',
-    type: 'custom',
-    data: { name: 'Kristi Price', job: 'Developer', emoji: '🤩' },
-    position: { x: 200, y: 200 },
-  },
-  {
-    id: '3',
-    type: 'custom',
-    data: { name: 'Kristi Price', job: 'Developer', emoji: '🤩' },
-    position: { x: 200, y: 200 },
-  },
-]
-
-const initialEdges = [
-  {
-    id: 'e1-2',
-    source: '1',
-    target: '2',
-  },
-  {
-    id: 'e1-3',
-    source: '1',
-    target: '3',
-  },
-]
-
-const fitViewOptions: FitViewOptions = {
-  padding: 0.2,
-}
-
-const defaultEdgeOptions: DefaultEdgeOptions = {
-  animated: true,
-}
+// this places the node origin in the center of a node
+const nodeOrigin: NodeOrigin = [0.5, 0.5];
 
 export default function Flow() {
   const params = useParams()
@@ -88,26 +48,8 @@ export default function Flow() {
     queryKey: ['flowDetails'],
     queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
-  const [nodes, setNodes] = useState<Node[]>(initialNodes)
-  const [edges, setEdges] = useState<Edge[]>(initialEdges)
 
-  const onNodesChange: OnNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
-  )
-  const onEdgesChange: OnEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges]
-  )
-  const onConnect: OnConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge(connection, eds)),
-    [setEdges]
-  )
-
-  const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    event.dataTransfer.dropEffect = 'move'
-  }, [])
+  const { nodes, edges, onNodesChange, onEdgesChange } = useStore(selector, shallow);
 
   if (isLoading) {
     return (
@@ -149,11 +91,8 @@ export default function Flow() {
                 edges={edges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
+                nodeOrigin={nodeOrigin}
                 fitView
-                fitViewOptions={fitViewOptions}
-                defaultEdgeOptions={defaultEdgeOptions}
-                nodeTypes={nodeTypes}
                 className="bg-teal-50"
               >
                 <Controls showInteractive={false} />
