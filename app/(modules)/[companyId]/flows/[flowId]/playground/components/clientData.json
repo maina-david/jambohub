@@ -1,0 +1,118 @@
+{
+  "clientName": "BMW",
+  "Product": "Bike",
+  "valueChain": {
+    "anim": {
+      "cost": 7576,
+      "label": "anim",
+      "childOf": "ullamco",
+      "currency": "USD",
+      "emission": "66 tCO2"
+    },
+    "elit": {
+      "cost": 6955,
+      "label": "elit",
+      "childOf": "BMW Smart Car",
+      "currency": "USD",
+      "emission": "85 tCO2"
+    },
+    "nisi": {
+      "cost": 5103,
+      "label": "nisi",
+      "childOf": "sunt",
+      "currency": "USD",
+      "emission": "93 tCO2"
+    },
+    "quis": {
+      "cost": 5629,
+      "label": "quis",
+      "childOf": "sunt",
+      "currency": "USD",
+      "emission": "76 tCO2"
+    },
+    "sunt": {
+      "cost": 6624,
+      "label": "sunt",
+      "childOf": "adipisicing",
+      "currency": "USD",
+      "emission": "74 tCO2"
+    },
+    "dolor": {
+      "cost": 1862,
+      "label": "dolor",
+      "childOf": "dolor",
+      "currency": "USD",
+      "emission": "50 tCO2"
+    },
+    "ipsum": {
+      "cost": 8805,
+      "label": "ipsum",
+      "childOf": "labore",
+      "currency": "USD",
+      "emission": "72 tCO2"
+    },
+    "nulla": {
+      "cost": 1368,
+      "label": "nulla",
+      "childOf": "nulla",
+      "currency": "USD",
+      "emission": "7 tCO2"
+    },
+    "aliqua": {
+      "cost": 3717,
+      "label": "aliqua",
+      "childOf": "ullamco",
+      "currency": "USD",
+      "emission": "81 tCO2"
+    },
+    "cillum": {
+      "cost": 3723,
+      "label": "cillum",
+      "childOf": "cillum",
+      "currency": "USD",
+      "emission": "96 tCO2"
+    },
+    "dolore": {
+      "cost": 6632,
+      "label": "dolore",
+      "childOf": "quis",
+      "currency": "USD",
+      "emission": "5 tCO2"
+    },
+    "labore": {
+      "cost": 5493,
+      "label": "labore",
+      "childOf": "dolore",
+      "currency": "USD",
+      "emission": "75 tCO2"
+    },
+    "ullamco": {
+      "cost": 2691,
+      "label": "ullamco",
+      "childOf": "labore",
+      "currency": "USD",
+      "emission": "78 tCO2"
+    },
+    "proident": {
+      "cost": 832,
+      "label": "proident",
+      "childOf": "cillum",
+      "currency": "USD",
+      "emission": "89 tCO2"
+    },
+    "adipisicing": {
+      "cost": 7815,
+      "label": "adipisicing",
+      "childOf": "aliqua",
+      "currency": "USD",
+      "emission": "32 tCO2"
+    },
+    "BMW Smart Car": {
+      "cost": 9776,
+      "label": "BMW Smart Car",
+      "childOf": null,
+      "currency": "USD",
+      "emission": "72 tCO2"
+    }
+  }
+}

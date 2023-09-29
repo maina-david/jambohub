@@ -101,6 +101,7 @@ specifiers:
   react-day-picker: ^8.8.2
   react-dom: ^18.2.0
   react-editor-js: ^2.1.0
+  react-flow-renderer: ^10.3.17
   react-hook-form: ^7.46.1
   react-social-icons: ^6.3.0
   react-textarea-autosize: ^8.5.3
@@ -197,6 +198,7 @@ dependencies:
   react-day-picker: 8.8.2_kzhlcyde2l6xjiirkbg7jzhosa
   react-dom: 18.2.0_react@18.2.0
   react-editor-js: 2.1.0_l36nxicdrwsh3py5n7drvltp6u
+  react-flow-renderer: 10.3.17_biqbaboplfbrettd7655fr4n2y
   react-hook-form: 7.46.1_react@18.2.0
   react-social-icons: 6.3.0_biqbaboplfbrettd7655fr4n2y
   react-textarea-autosize: 8.5.3_3hx2ussxxho4jajbwrd6gq34qe
@@ -3947,6 +3949,10 @@ packages:
       '@types/prop-types': 15.7.6
       '@types/scheduler': 0.16.3
       csstype: 3.1.2
+
+  /@types/resize-observer-browser/0.1.8:
+    resolution: {integrity: sha512-OpjAd26fD1G2OWlYzkrapJ12n+kyi0znYgE2AHfNccHY/am3kG+lfJ5brfcZ7+1CIybkPWGKrW+Wm97kbcOQaQ==}
+    dev: false
 
   /@types/resolve/1.20.2:
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -8881,6 +8887,26 @@ packages:
       - react
     dev: false
 
+  /react-flow-renderer/10.3.17_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-bywiqVErlh5kCDqw3x0an5Ur3mT9j9CwJsDwmhmz4i1IgYM1a0SPqqEhClvjX+s5pU4nHjmVaGXWK96pwsiGcQ==}
+    engines: {node: '>=14'}
+    deprecated: react-flow-renderer has been renamed to reactflow, please use this package from now on https://reactflow.dev/docs/guides/migrate-to-v11/
+    peerDependencies:
+      react: 16 || 17 || 18
+      react-dom: 16 || 17 || 18
+    dependencies:
+      '@babel/runtime': 7.22.15
+      '@types/d3': 7.4.0
+      '@types/resize-observer-browser': 0.1.8
+      classcat: 5.0.4
+      d3-drag: 3.0.0
+      d3-selection: 3.0.0
+      d3-zoom: 3.0.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      zustand: 3.7.2_react@18.2.0
+    dev: false
+
   /react-hook-form/7.46.1_react@18.2.0:
     resolution: {integrity: sha512-0GfI31LRTBd5tqbXMGXT1Rdsv3rnvy0FjEk8Gn9/4tp6+s77T7DPZuGEpBRXOauL+NhyGT5iaXzdIM2R6F/E+w==}
     engines: {node: '>=12.22.0'}
@@ -10467,6 +10493,18 @@ packages:
 
   /zod/3.22.2:
     resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
+    dev: false
+
+  /zustand/3.7.2_react@18.2.0:
+    resolution: {integrity: sha512-PIJDIZKtokhof+9+60cpockVOq05sJzHCriyvaLBmEJixseQ1a5Kdov6fWZfWOu5SK9c+FhH1jU0tntLxRJYMA==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      react: '>=16.8'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /zustand/4.4.1_3hx2ussxxho4jajbwrd6gq34qe:
