@@ -127,7 +127,6 @@ export default function TeamModal() {
             description: 'You need a pro plan for this operation.',
             variant: 'destructive',
           })
-          teamModal.onClose()
         } else if (error.response.status === 403) {
           // Handle RequiresActivePlanError or MaximumPlanResourcesError
           toast({
@@ -135,7 +134,6 @@ export default function TeamModal() {
             description: 'You do not have permission for this operation.',
             variant: 'destructive',
           })
-          teamModal.onClose()
         }
       } else {
         // Handle general errors
