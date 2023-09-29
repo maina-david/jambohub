@@ -59,7 +59,7 @@ export default function Flow() {
 
   if (isError) {
     return (
-      <>Error fetching flow details</>
+      <p>Error fetching flow details</p>
     )
   }
   return (
