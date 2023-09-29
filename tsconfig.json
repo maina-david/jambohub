@@ -32,6 +32,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".contentlayer/generated"
-, "app/(modules)/[companyId]/flows/[flowId]/playground/components/Flow.js"  ],
+, "app/(modules)/[companyId]/flows/[flowId]/playground/components/Flow.tsx"  ],
   "exclude": ["node_modules"]
 }
