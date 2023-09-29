@@ -86,7 +86,7 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
 
 export default function Flow() {
   const params = useParams()
-  const { isError, isSuccess, data, isLoading } = useQuery({
+  const { isError, isSuccess, data: flow, isLoading } = useQuery({
     queryKey: ['flowDetails'],
     queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
@@ -122,11 +122,10 @@ export default function Flow() {
       <>Error fetching flow details</>
     )
   }
-  console.log(data)
   return (
     <div className="hidden h-full flex-col md:flex">
       <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
-        <h2 className="text-lg font-semibold">{""}</h2>
+        <h2 className="text-lg font-semibold">{flow.name}</h2>
         <div className="ml-auto flex w-full space-x-2 sm:justify-end">
           <PresetSave />
           <PresetActions />
@@ -168,4 +167,4 @@ export default function Flow() {
 }
 
 const fetchFlowDetails = (companyId: string, flowId: string): Promise<Flow> =>
-  axios.get(`/api/companies/${companyId}/flows/${flowId}`)
+  axios.get(`/api/companies/${companyId}/flows/${flowId}`).then((response) => response.data)
