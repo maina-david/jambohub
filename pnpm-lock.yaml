@@ -66,6 +66,7 @@ specifiers:
   autoprefixer: ^10.4.15
   bcrypt: ^5.1.1
   class-variance-authority: ^0.7.0
+  classcat: ^5.0.4
   clsx: ^1.2.1
   cmdk: ^0.1.22
   concurrently: ^8.2.1
@@ -81,6 +82,7 @@ specifiers:
   husky: ^8.0.3
   lucide-react: ^0.279.0
   mdast-util-toc: ^6.1.1
+  nanoid: ^5.0.1
   next: 13.3.2-canary.13
   next-auth: 4.22.1
   next-contentlayer: ^0.3.4
@@ -173,6 +175,7 @@ dependencies:
   '@vercel/og': 0.0.21
   bcrypt: 5.1.1
   class-variance-authority: 0.7.0
+  classcat: 5.0.4
   clsx: 1.2.1
   cmdk: 0.1.22_bb2bxwco6ptpubzwpazr52qf6i
   concurrently: 8.2.1
@@ -180,6 +183,7 @@ dependencies:
   date-fns: 2.30.0
   email-templates: 11.1.1_fs5eprrqnnmmha7nrl3xdrnsze
   lucide-react: 0.279.0_react@18.2.0
+  nanoid: 5.0.1
   next: 13.3.2-canary.13_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.22.1_w7ndrecjiwjrwibs6koyocy534
   next-contentlayer: 0.3.4_2kjlqg3xxy2fsuzvwml3nc5s6u
@@ -7917,6 +7921,12 @@ packages:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  /nanoid/5.0.1:
+    resolution: {integrity: sha512-vWeVtV5Cw68aML/QaZvqN/3QQXc6fBfIieAlu05m7FZW2Dgb+3f0xc0TTxuJW+7u30t7iSDTV/j3kVI0oJqIfQ==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+    dev: false
 
   /napi-build-utils/1.0.2:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}
