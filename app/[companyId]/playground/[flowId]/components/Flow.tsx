@@ -7,24 +7,18 @@ import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 
 import React, { useCallback, useRef, useState } from 'react'
-
+import { shallow } from 'zustand/shallow';
 import { Separator } from "@/components/ui/separator"
 
 import { Actions } from "./actions"
 import ReactFlow, {
-  addEdge,
   FitViewOptions,
-  applyNodeChanges,
-  applyEdgeChanges,
-  Node,
-  Edge,
-  OnNodesChange,
-  OnEdgesChange,
-  OnConnect,
   Controls,
   ReactFlowProvider,
   DefaultEdgeOptions,
   Background,
+  useReactFlow,
+  useStoreApi,
 } from 'reactflow'
 
 import 'reactflow/dist/base.css'
@@ -38,40 +32,22 @@ import { useQuery } from "@tanstack/react-query"
 import { Flow } from "@prisma/client"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import SideBar from "./SideBar"
+import useStore, { RFState } from "./store"
+
+const selector = (state: RFState) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+  onNodesChange: state.onNodesChange,
+  onEdgesChange: state.onEdgesChange,
+  onConnect: state.onConnect,
+  addDraggedNode: state.addDraggedNode,
+})
 
 const nodeTypes = {
   custom: CustomNode,
   sendText: SendTextNode,
   sendTextWait: SendTextWaitNode
 }
-
-const initialNodes = [
-  {
-    id: '1',
-    type: 'sendText',
-    data: { type: "sendText", name: 'Jane Doe', job: 'CEO', emoji: '😎' },
-    position: { x: 0, y: 50 },
-  },
-  {
-    id: '2',
-    type: 'sendTextWait',
-    data: { type: "sendTextWait", name: 'Kristi Price', job: 'Developer', emoji: '🤩' },
-    position: { x: 200, y: 200 },
-  },
-]
-
-const initialEdges = [
-  {
-    id: 'e1-2',
-    source: '1',
-    target: '2',
-  },
-  {
-    id: 'e1-3',
-    source: '1',
-    target: '3',
-  },
-]
 
 const fitViewOptions: FitViewOptions = {
   padding: 0.2,
@@ -81,64 +57,41 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: true,
 }
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
-
 export default function Flow() {
   const params = useParams()
   const { isError, isSuccess, data: flow, isLoading } = useQuery({
     queryKey: ['flowDetails'],
     queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addDraggedNode } = useStore(selector, shallow)
 
-  const reactFlowWrapper = useRef<HTMLDivElement>(null)
-  const [reactFlowInstance, setReactFlowInstance] = useState(null)
-  const [elements, setElements] = useState(initialNodes)
-  const [nodes, setNodes] = useState<Node[]>(initialNodes)
-  const [edges, setEdges] = useState<Edge[]>(initialEdges)
-
-  const onLoad = (_reactFlowInstance) =>
-    setReactFlowInstance(_reactFlowInstance);
-
-  const onNodesChange: OnNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
-  )
-  const onEdgesChange: OnEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges]
-  )
-  const onConnect: OnConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge(connection, eds)),
-    [setEdges]
-  )
+  const store = useStoreApi()
+  const { project } = useReactFlow()
 
   const onDragOver = (event: { preventDefault: () => void; dataTransfer: { dropEffect: string } }) => {
     event.preventDefault()
     event.dataTransfer.dropEffect = 'move'
   }
 
-  // const onDrop = (event: { preventDefault: () => void; dataTransfer: { getData: (arg0: string) => any }; clientX: number; clientY: number }) => {
-  //   event.preventDefault()
+  const onDrop = (event: { preventDefault: () => void; dataTransfer: { getData: (arg0: string) => any }; clientX: number; clientY: number }) => {
+    event.preventDefault()
+    const { domNode } = store.getState()
 
-  //   const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect()
+    if(!domNode){
+      return
+    }
 
-  //   const type = event.dataTransfer.getData('application/reactflow')
+    const reactFlowBounds = domNode.getBoundingClientRect()
 
-  //   const position = reactFlowInstance.project({
-  //     x: event.clientX - reactFlowBounds.left,
-  //     y: event.clientY - reactFlowBounds.top,
-  //   })
+    const type = event.dataTransfer.getData('application/reactflow')
 
-  //   const newNode = {
-  //     id: getId(),
-  //     type,
-  //     position,
-  //     data: { type: type, name: 'Kristi Price', job: 'Developer', emoji: '🤩' },
-  //   }
+    const position = project({
+      x: event.clientX - reactFlowBounds.left,
+      y: event.clientY - reactFlowBounds.top,
+    })
 
-  //   setElements((es) => es.concat(newNode))
-  // }
+    addDraggedNode(type, position)
+  }
 
   if (isLoading) {
     return (
@@ -186,16 +139,15 @@ export default function Flow() {
               <SideBar />
             </div>
             <div className="md:order-1">
-              <div className=" reactflow-wrapper flex h-full flex-col space-y-4" ref={reactFlowWrapper}>
+              <div className="flex h-full flex-col space-y-4">
                 <ReactFlow
                   nodes={nodes}
                   edges={edges}
                   onNodesChange={onNodesChange}
                   onEdgesChange={onEdgesChange}
-                  onLoad={onLoad}
                   onConnect={onConnect}
                   onDragOver={onDragOver}
-                  // onDrop={onDrop}
+                  onDrop={onDrop}
                   fitView
                   fitViewOptions={fitViewOptions}
                   defaultEdgeOptions={defaultEdgeOptions}
