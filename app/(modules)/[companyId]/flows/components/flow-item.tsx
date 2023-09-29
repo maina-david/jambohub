@@ -14,7 +14,7 @@ export function FlowItem({ flow }: FlowItemProps) {
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/${flow.companyId}/flows/${flow.id}/playground`}
+          href={`/playground/${flow.id}`}
           className="font-semibold hover:underline"
         >
           {flow.name}

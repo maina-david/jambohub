@@ -1,10 +1,8 @@
 'use client'
 
 import React from 'react'
-import { Label } from "@/components/ui/label"
-import { Input } from '@/components/ui/input'
 
-const SendAttachment = () => {
+const SendText = () => {
   const onDragStart = (event: React.DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData('application/reactflow', 'custom')
     event.dataTransfer.effectAllowed = 'move'
@@ -17,18 +15,17 @@ const SendAttachment = () => {
       onDragStart={(event) => onDragStart(event)}
     >
       <div
-        className="grid w-full max-w-sm items-center gap-1.5"
+        className="grid w-full items-center gap-1.5"
       >
         <p className="text-sm font-medium leading-none">
-          Send Attachment
+          Send Text
         </p>
         <p className="text-sm text-muted-foreground">
-          Drag this to send an attachment to user.
+          Drag this to send text to user.
         </p>
-        <Input disabled id="attachment" type="file" />
       </div>
     </div>
   )
 }
 
-export default SendAttachment
+export default SendText

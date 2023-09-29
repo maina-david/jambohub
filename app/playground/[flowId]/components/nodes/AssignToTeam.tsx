@@ -15,7 +15,7 @@ const AssignToTeam = () => {
 
   return (
     <div
-      className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
+      className="dndnode flex cursor-grab items-center space-x-4 rounded-md border p-4"
       draggable
       onDragStart={(event) => onDragStart(event)}
     >
@@ -26,18 +26,8 @@ const AssignToTeam = () => {
           Assign To Team
         </p>
         <p className="text-sm text-muted-foreground">
-          Drag this to assign team to user.
+          Drag this to assign user to a team.
         </p>
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select Team" />
-          </SelectTrigger>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select option" />
-          </SelectTrigger>
-        </Select>
       </div>
     </div>
   )
