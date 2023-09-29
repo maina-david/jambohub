@@ -12,7 +12,6 @@ import ReactFlow, {
   OnEdgesChange,
   OnConnect,
   Controls,
-  ReactFlowProvider,
   DefaultEdgeOptions,
 } from 'reactflow'
 
@@ -23,7 +22,6 @@ import SendText from './nodes/SendText'
 import SendTextWait from './nodes/SendTextWait'
 import SendAttachment from './nodes/SendAttachment'
 import AssignToTeam from './nodes/AssignToTeam'
-import { AppShell } from '@/components/shell'
 import { Separator } from '@/components/ui/separator'
 import { PresetSave } from './preset-save'
 import { PresetActions } from './preset-actions'
@@ -137,34 +135,32 @@ export default function Flow() {
       </div>
       <Separator />
       <div className="container h-full py-6">
-        <ReactFlowProvider>
-          <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-            <div className="hidden flex-col space-y-4 sm:flex md:order-2">
-              <SendText />
-              <SendTextWait />
-              <SendAttachment />
-              <AssignToTeam />
-            </div>
-            <div className="md:order-1">
-              <div className="flex h-full flex-col space-y-4">
-                <ReactFlow
-                  nodes={nodes}
-                  edges={edges}
-                  onNodesChange={onNodesChange}
-                  onEdgesChange={onEdgesChange}
-                  onConnect={onConnect}
-                  fitView
-                  fitViewOptions={fitViewOptions}
-                  defaultEdgeOptions={defaultEdgeOptions}
-                  nodeTypes={nodeTypes}
-                  className="bg-teal-50"
-                >
-                  <Controls />
-                </ReactFlow>
-              </div>
+        <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
+          <div className="hidden flex-col space-y-4 sm:flex md:order-2">
+            <SendText />
+            <SendTextWait />
+            <SendAttachment />
+            <AssignToTeam />
+          </div>
+          <div className="md:order-1">
+            <div className="flex h-full flex-col space-y-4">
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                fitView
+                fitViewOptions={fitViewOptions}
+                defaultEdgeOptions={defaultEdgeOptions}
+                nodeTypes={nodeTypes}
+                className="bg-teal-50"
+              >
+                <Controls showInteractive={false} />
+              </ReactFlow>
             </div>
           </div>
-        </ReactFlowProvider>
+        </div>
       </div>
     </div>
   )
