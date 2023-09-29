@@ -126,7 +126,7 @@ export default function Flow() {
     <div className="hidden h-full flex-col md:flex">
       <div className="flex items-center justify-between pb-2">
         <div className="grid gap-1">
-          <h2 className="scroll-m-20 truncate text-2xl font-semibold tracking-tight transition-colors first:mt-0">
+          <h2 className="text-2xl font-semibold tracking-tight transition-colors">
             {flow.name}
           </h2>
         </div>
