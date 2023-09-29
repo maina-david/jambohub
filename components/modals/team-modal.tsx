@@ -105,7 +105,6 @@ export default function TeamModal() {
         }
       }
       teamModal.setTeam(null)
-      teamModal.onClose()
     } catch (error) {
       // Handle specific errors
       if (error.response) {
