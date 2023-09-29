@@ -10,8 +10,6 @@ export const metadata: Metadata = {
 
 export default function PlaygroundPage() {
   return (
-    <>
-      <Flow />
-    </>
+    <Flow />
   )
 }
