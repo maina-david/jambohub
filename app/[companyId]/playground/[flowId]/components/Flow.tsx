@@ -6,11 +6,11 @@ import { Icons } from "@/components/icons"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 import { Separator } from "@/components/ui/separator"
 
-import { Actions } from "../components/actions"
+import { Actions } from "./actions"
 import ReactFlow, {
   addEdge,
   FitViewOptions,
@@ -30,10 +30,6 @@ import ReactFlow, {
 import 'reactflow/dist/base.css'
 
 import CustomNode from './CustomNode'
-import SendText from './nodes/SendText'
-import SendTextWait from './nodes/SendTextWait'
-import SendAttachment from './nodes/SendAttachment'
-import AssignToTeam from './nodes/AssignToTeam'
 
 import SendTextNode from './flowNodes/sendTextNode'
 import SendTextWaitNode from './flowNodes/sendTextWaitNode'
@@ -41,7 +37,7 @@ import { useParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { Flow } from "@prisma/client"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
-import Exit from "./nodes/Exit"
+import SideBar from "./SideBar"
 
 const nodeTypes = {
   custom: CustomNode,
@@ -53,20 +49,14 @@ const initialNodes = [
   {
     id: '1',
     type: 'sendText',
-    data: { name: 'Jane Doe', job: 'CEO', emoji: '😎' },
+    data: { type: "sendText", name: 'Jane Doe', job: 'CEO', emoji: '😎' },
     position: { x: 0, y: 50 },
   },
   {
     id: '2',
     type: 'sendTextWait',
-    data: { name: 'Kristi Price', job: 'Developer', emoji: '🤩' },
+    data: { type: "sendTextWait", name: 'Kristi Price', job: 'Developer', emoji: '🤩' },
     position: { x: 200, y: 200 },
-  },
-  {
-    id: '3',
-    type: 'sendTextWait',
-    data: { name: 'Kristi Price', job: 'Developer', emoji: '🤩' },
-    position: { x: 75, y: 130 },
   },
 ]
 
@@ -91,14 +81,24 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: true,
 }
 
+let id = 0;
+const getId = () => `dndnode_${id++}`;
+
 export default function Flow() {
   const params = useParams()
   const { isError, isSuccess, data: flow, isLoading } = useQuery({
     queryKey: ['flowDetails'],
-    queryFn: () => fetchFlowDetails(params?.flowId as string)
+    queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
+
+  const reactFlowWrapper = useRef<HTMLDivElement>(null)
+  const [reactFlowInstance, setReactFlowInstance] = useState(null)
+  const [elements, setElements] = useState(initialNodes)
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
   const [edges, setEdges] = useState<Edge[]>(initialEdges)
+
+  const onLoad = (_reactFlowInstance) =>
+    setReactFlowInstance(_reactFlowInstance);
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -112,6 +112,33 @@ export default function Flow() {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   )
+
+  const onDragOver = (event: { preventDefault: () => void; dataTransfer: { dropEffect: string } }) => {
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'move'
+  }
+
+  // const onDrop = (event: { preventDefault: () => void; dataTransfer: { getData: (arg0: string) => any }; clientX: number; clientY: number }) => {
+  //   event.preventDefault()
+
+  //   const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect()
+
+  //   const type = event.dataTransfer.getData('application/reactflow')
+
+  //   const position = reactFlowInstance.project({
+  //     x: event.clientX - reactFlowBounds.left,
+  //     y: event.clientY - reactFlowBounds.top,
+  //   })
+
+  //   const newNode = {
+  //     id: getId(),
+  //     type,
+  //     position,
+  //     data: { type: type, name: 'Kristi Price', job: 'Developer', emoji: '🤩' },
+  //   }
+
+  //   setElements((es) => es.concat(newNode))
+  // }
 
   if (isLoading) {
     return (
@@ -156,26 +183,25 @@ export default function Flow() {
         <div className="container h-full py-6">
           <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
             <div className="hidden flex-col space-y-4 sm:flex md:order-2">
-              <SendText />
-              <SendTextWait />
-              <SendAttachment />
-              <AssignToTeam />
-              <Exit/>
+              <SideBar />
             </div>
             <div className="md:order-1">
-              <div className="flex h-full flex-col space-y-4">
+              <div className=" reactflow-wrapper flex h-full flex-col space-y-4" ref={reactFlowWrapper}>
                 <ReactFlow
                   nodes={nodes}
                   edges={edges}
                   onNodesChange={onNodesChange}
                   onEdgesChange={onEdgesChange}
+                  onLoad={onLoad}
                   onConnect={onConnect}
+                  onDragOver={onDragOver}
+                  // onDrop={onDrop}
                   fitView
                   fitViewOptions={fitViewOptions}
                   defaultEdgeOptions={defaultEdgeOptions}
                   nodeTypes={nodeTypes}
                 >
-                  <Background/>
+                  <Background />
                   <Controls />
                 </ReactFlow>
               </div>
@@ -187,6 +213,6 @@ export default function Flow() {
   )
 }
 
-const fetchFlowDetails = (flowId: string): Promise<Flow> =>
-  axios.get(`/api/flows/${flowId}`).then((response) => response.data)
+const fetchFlowDetails = (companyId: string, flowId: string): Promise<Flow> =>
+  axios.get(`/api/companies/${companyId}/flows/${flowId}`).then((response) => response.data)
 

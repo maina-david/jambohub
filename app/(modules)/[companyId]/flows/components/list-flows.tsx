@@ -33,7 +33,7 @@ export default function ListFlows() {
         <EmptyPlaceholder.Icon name="warning" />
         <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
         <EmptyPlaceholder.Description>
-          Error fetching automation flows
+          An error occurred while fetching automation flows
         </EmptyPlaceholder.Description>
       </EmptyPlaceholder>
     )

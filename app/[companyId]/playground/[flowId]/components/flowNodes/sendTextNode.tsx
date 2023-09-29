@@ -11,8 +11,7 @@ function SendTextNode({ data }) {
   }, [])
 
   return (
-    <div className="rounded-md border-2 border-stone-400 px-4 py-2 shadow-md dark:text-white">
-      <Label>Send Text</Label>
+    <div className="rounded border border-stone-400 px-4 py-2 shadow">
       <Textarea onChange={onChange} className="nodrag" />
       <Handle type="target" position={Position.Top} className="w-16 !bg-teal-500" />
       <Handle type="source" position={Position.Bottom} className="w-16 !bg-teal-500" />
