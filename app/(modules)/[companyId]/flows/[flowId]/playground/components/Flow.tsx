@@ -117,6 +117,7 @@ export default function Flow() {
     )
   }
 
+  console.log(flow)
   if (isError) {
     return (
       <>Error fetching flow details</>
