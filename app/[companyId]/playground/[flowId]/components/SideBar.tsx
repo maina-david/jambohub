@@ -22,7 +22,7 @@ export default function SideBar() {
             Send Text
           </p>
           <p className="text-sm text-muted-foreground">
-            Drag this to send text to user.
+            Drag this to send text to the user.
           </p>
         </div>
       </div>
@@ -38,7 +38,7 @@ export default function SideBar() {
             Send Text And Wait
           </p>
           <p className="text-sm text-muted-foreground">
-            Drag this to send text to user and await response.
+            Drag this to send text to the user and await response.
           </p>
         </div>
       </div>
@@ -54,7 +54,7 @@ export default function SideBar() {
             Send Attachment
           </p>
           <p className="text-sm text-muted-foreground">
-            Drag this to send an attachment to user.
+            Drag this to send a file attachment to the user.
           </p>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function SideBar() {
             Assign To Team
           </p>
           <p className="text-sm text-muted-foreground">
-            Drag this to assign user to a team.
+            Drag this to assign the user to a team.
           </p>
         </div>
       </div>
@@ -86,7 +86,7 @@ export default function SideBar() {
             Exit
           </p>
           <p className="text-sm text-muted-foreground">
-            Drag this to exit user from flow.
+            Drag this to exit the user from flow.
           </p>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { Icons } from "@/components/icons"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 
-import React, { useCallback, useRef, useState } from 'react'
+import React from 'react'
 import { shallow } from 'zustand/shallow';
 import { Separator } from "@/components/ui/separator"
 
@@ -23,10 +23,7 @@ import ReactFlow, {
 
 import 'reactflow/dist/base.css'
 
-import CustomNode from './CustomNode'
-
 import SendTextNode from './flowNodes/sendTextNode'
-import SendTextWaitNode from './flowNodes/sendTextWaitNode'
 import { useParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { Flow } from "@prisma/client"
@@ -44,9 +41,7 @@ const selector = (state: RFState) => ({
 })
 
 const nodeTypes = {
-  custom: CustomNode,
-  sendText: SendTextNode,
-  sendTextWait: SendTextWaitNode
+  sendText: SendTextNode
 }
 
 const fitViewOptions: FitViewOptions = {
