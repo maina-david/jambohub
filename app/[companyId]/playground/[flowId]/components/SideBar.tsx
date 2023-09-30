@@ -1,5 +1,6 @@
 'use client'
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import React from 'react'
 
 export default function SideBar() {
@@ -9,88 +10,102 @@ export default function SideBar() {
   }
 
   return (
-    <div>
-      <div
-        className="dndnode flex cursor-grab items-center space-x-4 rounded-md border p-4"
-        draggable
-        onDragStart={(event) => onDragStart(event, 'sendText')}
-      >
+    <Tabs defaultValue='free' className="h-full flex-1 text-center">
+      <TabsList className="grid grid-cols-2">
+        <TabsTrigger value="free">
+          Free
+        </TabsTrigger>
+        <TabsTrigger value="pro">
+          Pro
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="free" className="mt-0 border-0 p-0">
         <div
-          className="grid w-full items-center gap-1.5"
+          className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
+          draggable
+          onDragStart={(event) => onDragStart(event, 'sendText')}
         >
-          <p className="text-sm font-medium leading-none">
-            Send Text
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Drag this to send text to the user.
-          </p>
+          <div
+            className="grid w-full items-center gap-1.5"
+          >
+            <p className="text-sm font-medium leading-none">
+              Send Text
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Drag this to send text to the user.
+            </p>
+          </div>
         </div>
-      </div>
-      <div
-        className="dndnode flex cursor-grab items-center space-x-4 rounded-md border p-4"
-        draggable
-        onDragStart={(event) => onDragStart(event, 'sendTextWait')}
-      >
         <div
-          className="grid w-full items-center gap-1.5"
+          className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
+          draggable
+          onDragStart={(event) => onDragStart(event, 'sendTextWait')}
         >
-          <p className="text-sm font-medium leading-none">
-            Send Text And Wait
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Drag this to send text to the user and await response.
-          </p>
+          <div
+            className="grid w-full items-center gap-1.5"
+          >
+            <p className="text-sm font-medium leading-none">
+              Send Text And Wait
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Drag this to send text and wait for a response.
+            </p>
+          </div>
         </div>
-      </div>
-      <div
-        className="dndnode flex cursor-grab items-center space-x-4 rounded-md border p-4"
-        draggable
-        onDragStart={(event) => onDragStart(event, 'sendAttachment')}
-      >
         <div
-          className="grid w-full items-center gap-1.5"
+          className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
+          draggable
+          onDragStart={(event) => onDragStart(event, 'sendAttachment')}
         >
-          <p className="text-sm font-medium leading-none">
-            Send Attachment
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Drag this to send a file attachment to the user.
-          </p>
+          <div
+            className="grid w-full items-center gap-1.5"
+          >
+            <p className="text-sm font-medium leading-none">
+              Send Attachment
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Drag this to send a file attachment to the user.
+            </p>
+          </div>
         </div>
-      </div>
-      <div
-        className="dndnode flex cursor-grab items-center space-x-4 rounded-md border p-4"
-        draggable
-        onDragStart={(event) => onDragStart(event, 'assignToTeam')}
-      >
         <div
-          className="grid w-full items-center gap-1.5"
+          className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
+          draggable
+          onDragStart={(event) => onDragStart(event, 'assignToTeam')}
         >
-          <p className="text-sm font-medium leading-none">
-            Assign To Team
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Drag this to assign the user to a team.
-          </p>
+          <div
+            className="grid w-full items-center gap-1.5"
+          >
+            <p className="text-sm font-medium leading-none">
+              Assign To Team
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Drag this to assign the user to a team.
+            </p>
+          </div>
         </div>
-      </div>
-      <div
-        className="dndnode flex cursor-grab items-center space-x-4 rounded-md border p-4"
-        draggable
-        onDragStart={(event) => onDragStart(event, 'exitUser')}
-      >
         <div
-          className="grid w-full items-center gap-1.5"
+          className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
+          draggable
+          onDragStart={(event) => onDragStart(event, 'initiatePayment')}
         >
-          <p className="text-sm font-medium leading-none">
-            Exit
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Drag this to exit the user from flow.
-          </p>
+          <div
+            className="grid w-full items-center gap-1.5"
+          >
+            <p className="text-sm font-medium leading-none">
+              Initiate Payment
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Drag this to send payment request to the user.
+            </p>
+          </div>
         </div>
-      </div>
-    </div>
+      </TabsContent>
+      <TabsContent value="pro" className="mt-0 border-0 p-0">
+        {/* Add pro widgets here */}
+        <p>Pro widgets</p>
+      </TabsContent>
+    </Tabs>
   )
 }
 

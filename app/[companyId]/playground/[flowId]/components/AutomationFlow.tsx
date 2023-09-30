@@ -52,69 +52,6 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: true,
 }
 
-export default function AutomationFlow() {
-  const params = useParams()
-  const { isError, isSuccess, data: flow, isLoading } = useQuery({
-    queryKey: ['flowDetails'],
-    queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
-  })
-
-  if (isLoading) {
-    return (
-      <p>loading....</p>
-    )
-  }
-
-  if (isError) {
-    return (
-      <EmptyPlaceholder>
-        <EmptyPlaceholder.Icon name="warning" />
-        <EmptyPlaceholder.Title>Flow Error</EmptyPlaceholder.Title>
-        <EmptyPlaceholder.Description>
-          There was an error fetching the flow details. Please try again.
-        </EmptyPlaceholder.Description>
-      </EmptyPlaceholder>
-    )
-  }
-  return (
-      <div className="hidden h-full flex-col md:flex">
-        <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
-          <Link
-            href={`/${flow.companyId}/flows`}
-            className={cn(
-              buttonVariants({ variant: "ghost" }),
-              'mr-4'
-            )}
-          >
-            <>
-              <Icons.chevronLeft className="mr-2 h-4 w-4" />
-              Back
-            </>
-          </Link>
-          <h2 className="font-semibold tracking-tight transition-colors">{flow.name}</h2>
-          <div className="ml-auto flex space-x-2 sm:justify-end">
-            <Button variant="secondary">Save</Button>
-            <Actions />
-          </div>
-        </div>
-        <Separator />
-        <div className="container h-full py-6">
-          <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-            <div className="hidden flex-col space-y-4 sm:flex md:order-2">
-              <SideBar />
-            </div>
-            <div className="md:order-1">
-              <div className="flex h-full flex-col space-y-4">
-                <ReactFlowProvider>
-                  <Flow />
-                </ReactFlowProvider>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  )
-}
 
 function Flow() {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addDraggedNode } = useStore(selector, shallow)
@@ -164,6 +101,74 @@ function Flow() {
       <Background />
       <Controls />
     </ReactFlow>
+  )
+}
+
+export default function AutomationFlow() {
+  const params = useParams()
+  const { isError, isSuccess, data: flow, isLoading } = useQuery({
+    queryKey: ['flowDetails'],
+    queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
+  })
+
+  if (isLoading) {
+    return (
+      <p>loading....</p>
+    )
+  }
+
+  if (isError) {
+    return (
+      <EmptyPlaceholder>
+        <EmptyPlaceholder.Icon name="warning" />
+        <EmptyPlaceholder.Title>Flow Error</EmptyPlaceholder.Title>
+        <EmptyPlaceholder.Description>
+          There was an error fetching the flow details. Please try again.
+        </EmptyPlaceholder.Description>
+      </EmptyPlaceholder>
+    )
+  }
+  return (
+    <div className="hidden h-full flex-col md:flex">
+      <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
+        <Link
+          href={`/${flow.companyId}/flows`}
+          className={cn(
+            buttonVariants({ variant: "ghost" }),
+            'mr-4'
+          )}
+        >
+          <>
+            <Icons.chevronLeft className="mr-2 h-4 w-4" />
+            Back
+          </>
+        </Link>
+        <h2 className="font-semibold tracking-tight transition-colors">{flow.name}</h2>
+        <div className="ml-auto flex space-x-2 sm:justify-end">
+          <Button
+            variant="secondary"
+          >
+            Save
+          </Button>
+          <Actions />
+        </div>
+      </div>
+      <Separator />
+      <div className="container h-full py-4">
+        <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
+          <div className="hidden flex-col space-y-4 sm:flex md:order-2">
+            <SideBar />
+          </div>
+          <div className="md:order-1">
+            <div className="flex h-full flex-col space-y-4">
+              <ReactFlowProvider>
+                <Flow />
+              </ReactFlowProvider>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
