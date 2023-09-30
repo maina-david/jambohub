@@ -15,7 +15,7 @@ export default function TeamMembers() {
       <div className="mb-6 flex flex-col">
         <CardTitle>Team Members</CardTitle>
         <CardDescription className="mt-2">
-          Team members can view and collaborate on all Team visible channels, chatflows, campaigns and chats
+          Members can view and collaborate on all Team visible channels, automation flows, campaigns and chats
         </CardDescription>
       </div>
       <CardContent className="grid gap-6">

@@ -70,56 +70,69 @@ export default function ListTeamMembers() {
 
   return (
     <>
-      {teamMembers.map((member, index) => {
-        return (
-          <div key={index}>
-            <Separator className='mb-4' />
-            <div className="flex items-center justify-between space-x-4">
-              <div className="flex items-center space-x-4">
-                <UserAvatar
-                  user={{ name: member.name || null, image: member.image || null }}
-                  className="h-8 w-8"
-                />
-                <div>
-                  <p className="text-sm font-medium leading-none">{member.name}</p>
-                  <p className="text-sm text-muted-foreground">{member.email}</p>
+      {teamMembers.length ? (
+        <>
+          {teamMembers.map((member, index) => {
+            return (
+              <div key={index}>
+                <Separator className='mb-4' />
+                <div className="flex items-center justify-between space-x-4">
+                  <div className="flex items-center space-x-4">
+                    <UserAvatar
+                      user={{ name: member.name || null, image: member.image || null }}
+                      className="h-8 w-8"
+                    />
+                    <div>
+                      <p className="text-sm font-medium leading-none">{member.name}</p>
+                      <p className="text-sm text-muted-foreground">{member.email}</p>
+                    </div>
+                  </div>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className="ml-auto">
+                        Owner{" "}
+                        <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0" align="end">
+                      <Command>
+                        <CommandInput placeholder="Select new role..." />
+                        <CommandList>
+                          <CommandEmpty>No roles found.</CommandEmpty>
+                          <CommandGroup>
+                            <CommandItem className="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+                              <p>Viewer</p>
+                              <p className="text-sm text-muted-foreground">
+                                Can view and collaborate.
+                              </p>
+                            </CommandItem>
+                            <CommandItem className="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+                              <p>Owner</p>
+                              <p className="text-sm text-muted-foreground">
+                                Admin-level access to all resources.
+                              </p>
+                            </CommandItem>
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                 </div>
+                <Separator className='mt-4' />
               </div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="ml-auto">
-                    Owner{" "}
-                    <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="p-0" align="end">
-                  <Command>
-                    <CommandInput placeholder="Select new role..." />
-                    <CommandList>
-                      <CommandEmpty>No roles found.</CommandEmpty>
-                      <CommandGroup>
-                        <CommandItem className="teamaspace-y-1 flex flex-col items-start px-4 py-2">
-                          <p>Viewer</p>
-                          <p className="text-sm text-muted-foreground">
-                            Can view and collaborate.
-                          </p>
-                        </CommandItem>
-                        <CommandItem className="teamaspace-y-1 flex flex-col items-start px-4 py-2">
-                          <p>Owner</p>
-                          <p className="text-sm text-muted-foreground">
-                            Admin-level access to all resources.
-                          </p>
-                        </CommandItem>
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </div>
-            <Separator className='mt-4' />
-          </div>
-        )
-      })}
+            )
+          })
+          }
+        </>
+      ) : (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="users" />
+          <EmptyPlaceholder.Title>No Members Added</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            This team doesn&apos;t have any members yet. Start inviting them.
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )}
     </>
   )
 }
