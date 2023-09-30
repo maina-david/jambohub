@@ -168,7 +168,7 @@ export default function AutomationFlow() {
       <Separator />
       <div className="container h-full py-4">
         <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-          <div className="hidden flex-col space-y-4 sm:flex md:order-2">
+          <div className="hidden h-full flex-col space-y-4 sm:flex md:order-2">
             <SideBar />
           </div>
           <div className="md:order-1">

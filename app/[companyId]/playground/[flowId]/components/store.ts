@@ -22,6 +22,7 @@ export type RFState = {
   onEdgesChange: OnEdgesChange
   onConnect: OnConnect
   addDraggedNode: (type: string, position: XYPosition) => void
+  updateSendTextValue: (nodeId: string, value: string) => void
 }
 
 const useStore = create<RFState>((set, get) => ({
@@ -43,16 +44,28 @@ const useStore = create<RFState>((set, get) => ({
     })
   },
   addDraggedNode: (type: string, position: XYPosition) => {
-      const newNode = {
-        id: nanoid(),
-        type,
-        position,
-        data : {},
-      }
+    const newNode = {
+      id: nanoid(),
+      type,
+      position,
+      data: { value: '' }, // use case for different node types
+    }
     set({
       nodes: [...get().nodes, newNode],
     })
-  }
+  },
+  updateSendTextValue: (nodeId: string, value: string) => {
+    set({
+      nodes: get().nodes.map((node) => {
+        if (node.id === nodeId) {
+          // it's important to create a new object here, to inform React Flow about the changes
+          node.data = { ...node.data, value }
+        }
+
+        return node
+      }),
+    });
+  },
 }))
 
 export default useStore

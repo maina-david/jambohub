@@ -1,17 +1,24 @@
 'use client'
 
 import { Textarea } from '@/components/ui/textarea'
-import React, { useCallback } from 'react'
-import { Handle, Position } from 'reactflow'
+import React from 'react'
+import { Handle, NodeProps, Position } from 'reactflow'
+import useStore from '../store'
 
-function SendTextNode({ data }) {
-  const onChange = useCallback((evt: { target: { value: any } }) => {
-    console.log(evt.target.value)
-  }, [])
+export type SendTextData = {
+  value: string
+}
+
+function SendTextNode({ id, data }: NodeProps<SendTextData>) {
+  const updateSendTextValue = useStore((state) => state.updateSendTextValue)
 
   return (
-    <div className="rounded border border-stone-400 shadow">
-      <Textarea onChange={onChange} className="nodrag" />
+    <div className="flex rounded border border-stone-400 px-4 py-2 shadow">
+      <Textarea
+        value={data.value}
+        onChange={(evt) => updateSendTextValue(id, evt.target.value)}
+        className="nodrag"
+      />
       <Handle type="target" position={Position.Top} className="w-16 !bg-teal-500" />
       <Handle type="source" position={Position.Bottom} className="w-16 !bg-teal-500" />
     </div>
