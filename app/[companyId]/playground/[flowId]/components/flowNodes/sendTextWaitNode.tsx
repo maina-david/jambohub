@@ -19,10 +19,8 @@ function SendTextWaitNode({ id, data }: NodeProps<SendTextWaitData>) {
         onChange={(evt) => updateSendTextWaitValue(id, evt.target.value)}
         className="nodrag"
       />
-      <Handle type="target" position={Position.Top} className="w-16 !bg-teal-500" />
-      <Handle type="source" position={Position.Bottom} className="w-4 !bg-teal-500" />
-      <Handle type="source" position={Position.Bottom} className="w-4 !bg-yellow-500" />
-      <Handle type="source" position={Position.Bottom} className="w-4 !bg-red-500" />
+      <Handle type="target" position={Position.Top} className="w-10 !bg-teal-500" />
+      <Handle type="source" position={Position.Bottom} className="w-10 !bg-teal-500" />
     </div>
   )
 }

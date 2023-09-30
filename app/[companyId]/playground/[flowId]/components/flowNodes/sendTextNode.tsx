@@ -19,8 +19,8 @@ function SendTextNode({ id, data }: NodeProps<SendTextData>) {
         onChange={(evt) => updateSendTextValue(id, evt.target.value)}
         className="nodrag"
       />
-      <Handle type="target" position={Position.Top} className="w-16 !bg-teal-500" />
-      <Handle type="source" position={Position.Bottom} className="w-16 !bg-teal-500" />
+      <Handle type="target" position={Position.Top} className="w-10 !bg-teal-500" />
+      <Handle type="source" position={Position.Bottom} className="w-10 !bg-teal-500" />
     </div>
   )
 }

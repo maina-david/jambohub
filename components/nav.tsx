@@ -54,9 +54,9 @@ export function SideNav({
       icon: "campaign",
     },
     {
-      title: "Leads",
-      href: `/${companyId}/leads`,
-      icon: "activity",
+      title: "Customers",
+      href: `/${companyId}/customers`,
+      icon: "users",
     },
     {
       title: "Flows",
@@ -139,7 +139,7 @@ export function SideNav({
                 Try {siteConfig.name} Pro
               </CardTitle>
               <CardDescription>
-                Get unlimited channels, automation flows, teams, and more
+                Get unlimited teams, automation flows, channels, and more
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-start justify-center">

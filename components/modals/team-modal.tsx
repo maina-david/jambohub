@@ -124,7 +124,7 @@ export default function TeamModal() {
           // Handle RequiresProPlanError
           toast({
             title: 'Requires Pro Plan',
-            description: 'You need a pro plan for this operation.',
+            description: 'You need a pro plan to create more teams',
             variant: 'destructive',
           })
         } else if (error.response.status === 403) {
