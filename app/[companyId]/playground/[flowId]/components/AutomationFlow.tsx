@@ -6,7 +6,7 @@ import { Icons } from "@/components/icons"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { shallow } from 'zustand/shallow';
 import { Separator } from "@/components/ui/separator"
 
@@ -19,6 +19,8 @@ import ReactFlow, {
   Background,
   useReactFlow,
   useStoreApi,
+  ReactFlowInstance,
+  Panel,
 } from 'reactflow'
 
 import 'reactflow/dist/base.css'
@@ -55,9 +57,8 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
 
 function Flow() {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addDraggedNode } = useStore(selector, shallow)
-
   const store = useStoreApi()
-  const { project } = useReactFlow()
+  const reactFlowInstance = useReactFlow()
 
   const onDragOver = (event: { preventDefault: () => void; dataTransfer: { dropEffect: string } }) => {
     event.preventDefault()
@@ -76,13 +77,20 @@ function Flow() {
 
     const type = event.dataTransfer.getData('application/reactflow')
 
-    const position = project({
+    const position = reactFlowInstance.project({
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     })
 
     addDraggedNode(type, position)
   }
+
+  const onSave = useCallback(() => {
+    if (reactFlowInstance) {
+      const flow = reactFlowInstance.toObject();
+      localStorage.setItem('FlowObject', JSON.stringify(flow));
+    }
+  }, [reactFlowInstance])
 
   return (
     <ReactFlow
@@ -98,6 +106,14 @@ function Flow() {
       defaultEdgeOptions={defaultEdgeOptions}
       nodeTypes={nodeTypes}
     >
+      <Panel position="top-right">
+        <Button
+          variant="secondary"
+          onClick={onSave}
+        >
+          Save
+        </Button>
+      </Panel>
       <Background />
       <Controls />
     </ReactFlow>
@@ -145,11 +161,6 @@ export default function AutomationFlow() {
         </Link>
         <h2 className="font-semibold tracking-tight transition-colors">{flow.name}</h2>
         <div className="ml-auto flex space-x-2 sm:justify-end">
-          <Button
-            variant="secondary"
-          >
-            Save
-          </Button>
           <Actions />
         </div>
       </div>
