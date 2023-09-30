@@ -23,6 +23,8 @@ export type RFState = {
   onConnect: OnConnect
   addDraggedNode: (type: string, position: XYPosition) => void
   updateSendTextValue: (nodeId: string, value: string) => void
+  updateSendTextWaitValue: (nodeId: string, value: string) => void
+  updateSendAttachmentOption: (nodeId: string, option: string) => void
 }
 
 const useStore = create<RFState>((set, get) => ({
@@ -58,8 +60,29 @@ const useStore = create<RFState>((set, get) => ({
     set({
       nodes: get().nodes.map((node) => {
         if (node.id === nodeId) {
-          // it's important to create a new object here, to inform React Flow about the changes
           node.data = { ...node.data, value }
+        }
+
+        return node
+      }),
+    });
+  },
+  updateSendTextWaitValue: (nodeId: string, value: string) => {
+    set({
+      nodes: get().nodes.map((node) => {
+        if (node.id === nodeId) {
+          node.data = { ...node.data, value }
+        }
+
+        return node
+      }),
+    });
+  },
+  updateSendAttachmentOption: (nodeId: string, option: string) => {
+    set({
+      nodes: get().nodes.map((node) => {
+        if (node.id === nodeId) {
+          node.data = { ...node.data, option }
         }
 
         return node

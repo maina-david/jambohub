@@ -26,12 +26,14 @@ import ReactFlow, {
 import 'reactflow/dist/base.css'
 
 import SendTextNode from './flowNodes/sendTextNode'
+import SendTextWaitNode from "./flowNodes/sendTextWaitNode"
 import { useParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { Flow } from "@prisma/client"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import SideBar from "./SideBar"
 import useStore, { RFState } from "./store"
+import SendAttachmentNode from "./flowNodes/sendAttachmentNode"
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,
@@ -43,7 +45,9 @@ const selector = (state: RFState) => ({
 })
 
 const nodeTypes = {
-  sendText: SendTextNode
+  sendText: SendTextNode,
+  sendTextWait: SendTextWaitNode,
+  sendAttachment: SendAttachmentNode
 }
 
 const fitViewOptions: FitViewOptions = {
