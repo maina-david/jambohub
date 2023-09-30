@@ -1,7 +1,5 @@
 import { Metadata } from "next"
-
-
-import Flow from "./components/Flow"
+import AutomationFlow from "./components/AutomationFlow"
 
 export const metadata: Metadata = {
   title: "Playground",
@@ -10,7 +8,7 @@ export const metadata: Metadata = {
 export default function PlaygroundPage() {
   return (
     <>
-      <Flow />
+      <AutomationFlow />
     </>
   )
 }

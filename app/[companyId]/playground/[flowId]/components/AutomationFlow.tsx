@@ -57,41 +57,12 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: true,
 }
 
-export default function Flow() {
+export default function AutomationFlow() {
   const params = useParams()
   const { isError, isSuccess, data: flow, isLoading } = useQuery({
     queryKey: ['flowDetails'],
     queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addDraggedNode } = useStore(selector, shallow)
-
-  const store = useStoreApi()
-  const { project } = useReactFlow()
-
-  const onDragOver = (event: { preventDefault: () => void; dataTransfer: { dropEffect: string } }) => {
-    event.preventDefault()
-    event.dataTransfer.dropEffect = 'move'
-  }
-
-  const onDrop = (event: { preventDefault: () => void; dataTransfer: { getData: (arg0: string) => any }; clientX: number; clientY: number }) => {
-    event.preventDefault()
-    const { domNode } = store.getState()
-
-    if(!domNode){
-      return
-    }
-
-    const reactFlowBounds = domNode.getBoundingClientRect()
-
-    const type = event.dataTransfer.getData('application/reactflow')
-
-    const position = project({
-      x: event.clientX - reactFlowBounds.left,
-      y: event.clientY - reactFlowBounds.top,
-    })
-
-    addDraggedNode(type, position)
-  }
 
   if (isLoading) {
     return (
@@ -111,7 +82,6 @@ export default function Flow() {
     )
   }
   return (
-    <ReactFlowProvider>
       <div className="hidden h-full flex-col md:flex">
         <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
           <Link
@@ -140,28 +110,65 @@ export default function Flow() {
             </div>
             <div className="md:order-1">
               <div className="flex h-full flex-col space-y-4">
-                <ReactFlow
-                  nodes={nodes}
-                  edges={edges}
-                  onNodesChange={onNodesChange}
-                  onEdgesChange={onEdgesChange}
-                  onConnect={onConnect}
-                  onDragOver={onDragOver}
-                  onDrop={onDrop}
-                  fitView
-                  fitViewOptions={fitViewOptions}
-                  defaultEdgeOptions={defaultEdgeOptions}
-                  nodeTypes={nodeTypes}
-                >
-                  <Background />
-                  <Controls />
-                </ReactFlow>
+                <ReactFlowProvider>
+                  <Flow />
+                </ReactFlowProvider>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </ReactFlowProvider>
+  )
+}
+
+function Flow() {
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addDraggedNode } = useStore(selector, shallow)
+
+  const store = useStoreApi()
+  const { project } = useReactFlow()
+
+  const onDragOver = (event: { preventDefault: () => void; dataTransfer: { dropEffect: string } }) => {
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'move'
+  }
+
+  const onDrop = (event: { preventDefault: () => void; dataTransfer: { getData: (arg0: string) => any }; clientX: number; clientY: number }) => {
+    event.preventDefault()
+    const { domNode } = store.getState()
+
+    if (!domNode) {
+      return
+    }
+
+    const reactFlowBounds = domNode.getBoundingClientRect()
+
+    const type = event.dataTransfer.getData('application/reactflow')
+
+    const position = project({
+      x: event.clientX - reactFlowBounds.left,
+      y: event.clientY - reactFlowBounds.top,
+    })
+
+    addDraggedNode(type, position)
+  }
+
+  return (
+    <ReactFlow
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      fitView
+      fitViewOptions={fitViewOptions}
+      defaultEdgeOptions={defaultEdgeOptions}
+      nodeTypes={nodeTypes}
+    >
+      <Background />
+      <Controls />
+    </ReactFlow>
   )
 }
 
