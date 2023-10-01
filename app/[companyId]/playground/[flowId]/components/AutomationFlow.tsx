@@ -70,7 +70,7 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: true,
 }
 
-const defaultViewport: Viewport = { x: 0, y: 0, zoom: 2 }
+const defaultViewport: Viewport = { x: 0, y: 0, zoom: 1.3 }
 
 const proOptions = { hideAttribution: true }
 
