@@ -165,7 +165,7 @@ model Flow {
   id          String   @id @default(cuid())
   name        String
   description String?
-  nodes       Json?
+  flowData       Json?
   companyId   String
   published   Boolean  @default(false)
   status      Boolean  @default(true)

@@ -193,7 +193,7 @@ export default function AutomationFlow() {
 
   if (isError) {
     return (
-      <EmptyPlaceholder>
+      <EmptyPlaceholder className="h-full">
         <EmptyPlaceholder.Icon name="warning" />
         <EmptyPlaceholder.Title>Flow Error</EmptyPlaceholder.Title>
         <EmptyPlaceholder.Description>
@@ -329,7 +329,7 @@ export default function AutomationFlow() {
           <div className="md:order-1">
             <div className="flex h-full flex-col space-y-4">
               <ReactFlowProvider>
-                <Flow flowData={flow.nodes} />
+                <Flow flowData={flow.flowData} />
               </ReactFlowProvider>
             </div>
           </div>

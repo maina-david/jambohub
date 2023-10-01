@@ -38,7 +38,7 @@ export async function PATCH(
         id: params.flowId,
       },
       data: {
-        nodes: json.flow,
+        flowData: json.flow,
       },
     })
 
