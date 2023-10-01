@@ -11,6 +11,7 @@ import {
   addEdge,
   Connection,
   OnConnect,
+  OnEdgesDelete,
 } from 'reactflow'
 import { create } from 'zustand'
 import { nanoid } from 'nanoid/non-secure'
@@ -21,6 +22,7 @@ export type RFState = {
   onNodesChange: OnNodesChange
   onEdgesChange: OnEdgesChange
   onConnect: OnConnect
+  onEdgesDelete: OnEdgesDelete
   addDraggedNode: (type: string, position: XYPosition) => void
   updateSendTextValue: (nodeId: string, value: string) => void
   updateSendTextWaitValue: (nodeId: string, value: string) => void
@@ -42,8 +44,35 @@ const useStore = create<RFState>((set, get) => ({
     })
   },
   onConnect: (connection: Connection) => {
+    const { source, target } = connection
+    const sourceNode = get().nodes.find((node) => node.id === source)
+    const targetNode = get().nodes.find((node) => node.id === target)
+    if (sourceNode && targetNode) {
+      set({
+        edges: addEdge(connection, get().edges),
+        nodes: [
+          ...get().nodes,
+          {
+            ...targetNode,
+            parentNode: sourceNode.id
+          },
+        ],
+      })
+    }
+  },
+  onEdgesDelete: (edges: Edge[]) => {
     set({
-      edges: addEdge(connection, get().edges),
+      nodes: get().nodes.map((node) => {
+        const updatedNode = { ...node }
+
+        edges.forEach((edge) => {
+          if (updatedNode.id === edge.target) {
+            updatedNode.parentNode = undefined
+          }
+        })
+
+        return updatedNode
+      }),
     })
   },
   addDraggedNode: (type: string, position: XYPosition) => {
@@ -81,7 +110,7 @@ const useStore = create<RFState>((set, get) => ({
     set({
       nodes: get().nodes.map((node) => {
         if (node.id === nodeId) {
-          node.data = { ...node.data, replyOption}
+          node.data = { ...node.data, replyOption }
         }
         return node
       }),

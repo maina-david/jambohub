@@ -6,7 +6,7 @@ import { Icons } from "@/components/icons"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { shallow } from 'zustand/shallow'
 import { Separator } from "@/components/ui/separator"
 
@@ -34,6 +34,8 @@ import SideBar from "./SideBar"
 import useStore, { RFState } from "./store"
 import SendAttachmentNode from "./flowNodes/sendAttachmentNode"
 import AssignToTeamNode from "./flowNodes/assignToTeam"
+import { toast } from "@/components/ui/use-toast"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,
@@ -41,6 +43,7 @@ const selector = (state: RFState) => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  onEdgesDelete: state.onEdgesDelete,
   addDraggedNode: state.addDraggedNode,
 })
 
@@ -56,14 +59,22 @@ const fitViewOptions: FitViewOptions = {
 }
 
 const defaultEdgeOptions: DefaultEdgeOptions = {
-  deletable:true,
+  deletable: true,
   animated: true,
 }
 
 const proOptions = { hideAttribution: true }
 
 function Flow() {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addDraggedNode } = useStore(selector, shallow)
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    onEdgesDelete,
+    addDraggedNode
+  } = useStore(selector, shallow)
   const store = useStoreApi()
   const reactFlowInstance = useReactFlow()
 
@@ -96,6 +107,18 @@ function Flow() {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject()
       localStorage.setItem('FlowObject', JSON.stringify(flow))
+      toast({
+        title: "Current Flow Instance:",
+        description: (
+          <ScrollArea className="h-[400px] w-[350px] rounded-md border p-4">
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">
+                {JSON.stringify(flow, null, 2)}
+              </code>
+            </pre>
+          </ScrollArea>
+        ),
+      })
     }
   }, [reactFlowInstance])
 
@@ -106,6 +129,7 @@ function Flow() {
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
+      onEdgesDelete={onEdgesDelete}
       onDragOver={onDragOver}
       onDrop={onDrop}
       fitView
