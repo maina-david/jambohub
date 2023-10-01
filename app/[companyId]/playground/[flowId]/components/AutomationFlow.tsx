@@ -65,7 +65,7 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
 
 const proOptions = { hideAttribution: true }
 
-function Flow() {
+function Flow({setIsSaving}) {
   const {
     nodes,
     edges,
@@ -105,6 +105,7 @@ function Flow() {
 
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
+      setIsSaving(true)
       const flow = reactFlowInstance.toObject()
       localStorage.setItem('FlowObject', JSON.stringify(flow))
       toast({
@@ -120,15 +121,16 @@ function Flow() {
         ),
       })
     }
-  }, [reactFlowInstance])
+  }, [reactFlowInstance, setIsSaving])
 
   useEffect(() => {
     const saveTimeout = setTimeout(() => {
-      onSave()
+      onSave();
+      setIsSaving(false)
     }, 2000)
 
-    return () => clearTimeout(saveTimeout)
-  }, [nodes, edges, onSave])
+    return () => clearTimeout(saveTimeout);
+  }, [nodes, edges, onSave, setIsSaving])
 
 
   return (
@@ -161,6 +163,7 @@ export default function AutomationFlow() {
     queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
 
+  const [isSaving, setIsSaving] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
 
   if (isLoading) {
@@ -237,6 +240,15 @@ export default function AutomationFlow() {
         <h2 className="font-semibold tracking-tight transition-colors">{flow.name}</h2>
         <div className="ml-auto flex space-x-2 sm:justify-end">
           <Button
+            variant="default"
+            onClick={onPublish}
+            disabled={isSaving}
+          >
+            {isSaving && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}{" "}{isSaving ? 'Saving...' : 'Save'}
+          </Button>
+          <Button
             variant={flow.published ? 'default' : 'destructive'}
             onClick={onPublish}
             disabled={isPublishing}
@@ -257,7 +269,7 @@ export default function AutomationFlow() {
           <div className="md:order-1">
             <div className="flex h-full flex-col space-y-4">
               <ReactFlowProvider>
-                <Flow />
+                <Flow setIsSaving={setIsSaving}/>
               </ReactFlowProvider>
             </div>
           </div>
