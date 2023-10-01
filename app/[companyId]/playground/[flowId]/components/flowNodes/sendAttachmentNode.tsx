@@ -11,13 +11,13 @@ export type SendAttachmentData = {
 }
 
 function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
-  const updateSendAttachmentReplyOption = useStore((state) => state.updateSendAttachmentReplyOption)
+  const updateReplyOption = useStore((state) => state.updateReplyOption)
 
   return (
     <div className="rounded border border-stone-400 px-4 py-2 shadow">
       <div className='flex flex-col'>
-        <Select>
-          <SelectTrigger>
+        <Select onValueChange={(value) => updateReplyOption(id, value, 'replyOption')} defaultValue={data.replyOption}>
+          <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select reply option" />
           </SelectTrigger>
           <SelectContent>
@@ -33,8 +33,8 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
             <SelectItem value={'0'}>0</SelectItem>
           </SelectContent>
         </Select>
-        <Select>
-          <SelectTrigger>
+        <Select onValueChange={(value) => updateReplyOption(id, value, 'fileOption')} defaultValue={data.fileOption}>
+          <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select file" />
           </SelectTrigger>
           <SelectContent>

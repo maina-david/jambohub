@@ -3,7 +3,13 @@
 import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
 import useStore from '../store'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 
 export type AssignToTeamData = {
   replyOption: string
@@ -11,13 +17,13 @@ export type AssignToTeamData = {
 }
 
 function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
-  const updateAssignToTeamReplyOption = useStore((state) => state.updateAssignToTeamReplyOption)
+  const updateReplyOption = useStore((state) => state.updateReplyOption)
 
   return (
     <div className="rounded border border-stone-400 px-4 py-2 shadow">
-      <div className='flex flex-col'>
-        <Select>
-          <SelectTrigger>
+      <div className="flex flex-col">
+        <Select onValueChange={(value) => updateReplyOption(id, value, 'replyOption')} defaultValue={data.replyOption}>
+          <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select reply option" />
           </SelectTrigger>
           <SelectContent>
@@ -33,9 +39,9 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
             <SelectItem value={'0'}>0</SelectItem>
           </SelectContent>
         </Select>
-        <div className='mt-2'>
-          <Select>
-            <SelectTrigger>
+        <div className="mt-2">
+          <Select onValueChange={(value) => updateReplyOption(id, value, 'teamOption')} defaultValue={data.teamOption}>
+            <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select Team to Assign" />
             </SelectTrigger>
             <SelectContent>
@@ -53,3 +59,4 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
 }
 
 export default AssignToTeamNode
+

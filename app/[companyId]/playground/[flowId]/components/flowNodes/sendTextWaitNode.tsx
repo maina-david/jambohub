@@ -10,13 +10,13 @@ export type SendTextWaitData = {
 }
 
 function SendTextWaitNode({ id, data }: NodeProps<SendTextWaitData>) {
-  const updateSendTextWaitValue = useStore((state) => state.updateSendTextWaitValue)
+  const updateSendTextValue = useStore((state) => state.updateSendTextValue)
 
   return (
     <div className="flex rounded border border-stone-400 px-4 py-2 shadow">
       <Textarea
         value={data.value}
-        onChange={(evt) => updateSendTextWaitValue(id, evt.target.value)}
+        onChange={(evt) => updateSendTextValue(id, evt.target.value)}
         className="nodrag"
       />
       <Handle type="target" position={Position.Top} className="w-10 !bg-teal-500" />
