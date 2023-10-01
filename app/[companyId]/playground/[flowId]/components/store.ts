@@ -47,14 +47,21 @@ const useStore = create<RFState>((set, get) => ({
     const { source, target } = connection
     const sourceNode = get().nodes.find((node) => node.id === source)
     const targetNode = get().nodes.find((node) => node.id === target)
+
     if (sourceNode && targetNode) {
+      const newEdge: Edge = {
+        id: `edge-${nanoid()}`,
+        source: source as string,
+        target: target as string,
+      };
+
       set({
-        edges: addEdge(connection, get().edges),
+        edges: [...get().edges, newEdge],
         nodes: [
           ...get().nodes,
           {
             ...targetNode,
-            parentNode: sourceNode.id
+            parentNode: sourceNode.id,
           },
         ],
       })
@@ -81,7 +88,7 @@ const useStore = create<RFState>((set, get) => ({
       type,
       position,
       // Todo update to use case for different node types
-      data: { value: '' }, 
+      data: { value: '' },
     }
     set({
       nodes: [...get().nodes, newNode],

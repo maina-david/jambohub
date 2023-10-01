@@ -65,7 +65,7 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
 
 const proOptions = { hideAttribution: true }
 
-function Flow({setIsSaving}) {
+function Flow() {
   const {
     nodes,
     edges,
@@ -105,9 +105,8 @@ function Flow({setIsSaving}) {
 
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
-      setIsSaving(true)
       const flow = reactFlowInstance.toObject()
-      localStorage.setItem('FlowObject', JSON.stringify(flow))
+      localStorage.setItem('savedFlow', JSON.stringify(flow))
       toast({
         title: "Current Flow Instance:",
         description: (
@@ -121,17 +120,24 @@ function Flow({setIsSaving}) {
         ),
       })
     }
-  }, [reactFlowInstance, setIsSaving])
+  }, [reactFlowInstance])
 
   useEffect(() => {
     const saveTimeout = setTimeout(() => {
-      onSave();
-      setIsSaving(false)
+      onSave()
     }, 2000)
 
     return () => clearTimeout(saveTimeout);
-  }, [nodes, edges, onSave, setIsSaving])
-
+  }, [
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    onEdgesDelete,
+    addDraggedNode,
+    onSave,
+  ])
 
   return (
     <ReactFlow
@@ -184,6 +190,47 @@ export default function AutomationFlow() {
     )
   }
 
+  const saveFlow = async () => {
+    const savedFlowString = localStorage.getItem('savedFlow')
+
+    if (savedFlowString !== null) {
+      setIsSaving(true)
+      const savedFlow = JSON.parse(savedFlowString)
+
+      try {
+        const response = await axios.patch(
+          `/api/companies/${params?.companyId}/flows/${params?.flowId}/save-flow`,
+          { flow: savedFlow },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        toast({
+          title: 'Success',
+          description: 'Flow saved successfully',
+        })
+      } catch (error) {
+        console.error('Error saving flow:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to save flow',
+          variant: 'destructive'
+        })
+      } finally{
+        setIsSaving(false)
+      }
+    } else {
+      console.warn('No flow data available to save.');
+      toast({
+        title: 'Error',
+        description: 'No flow data available to save',
+        variant: 'destructive'
+      })
+    }
+  }
+
   const onPublish = async () => {
     try {
       setIsPublishing(true)
@@ -221,7 +268,6 @@ export default function AutomationFlow() {
     }
   }
 
-
   return (
     <div className="hidden h-full flex-col md:flex">
       <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
@@ -241,15 +287,15 @@ export default function AutomationFlow() {
         <div className="ml-auto flex space-x-2 sm:justify-end">
           <Button
             variant="default"
-            onClick={onPublish}
             disabled={isSaving}
+            onClick={saveFlow}
           >
             {isSaving && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}{" "}{isSaving ? 'Saving...' : 'Save'}
           </Button>
           <Button
-            variant={flow.published ? 'default' : 'destructive'}
+            variant={flow.published ? 'destructive' : 'default'}
             onClick={onPublish}
             disabled={isPublishing}
           >
@@ -269,7 +315,7 @@ export default function AutomationFlow() {
           <div className="md:order-1">
             <div className="flex h-full flex-col space-y-4">
               <ReactFlowProvider>
-                <Flow setIsSaving={setIsSaving}/>
+                <Flow />
               </ReactFlowProvider>
             </div>
           </div>

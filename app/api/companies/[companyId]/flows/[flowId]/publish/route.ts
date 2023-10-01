@@ -12,7 +12,7 @@ const routeContextSchema = z.object({
 })
 
 const flowPatchSchema = z.object({
-  nodes: z.string(),
+  published: z.boolean(),
 })
 
 export async function PATCH(
@@ -44,7 +44,7 @@ export async function PATCH(
         id: params.flowId,
       },
       data: {
-        nodes: body.nodes,
+        published: body.published,
       },
     })
 

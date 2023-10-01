@@ -12,7 +12,7 @@ const routeContextSchema = z.object({
 })
 
 const flowPatchSchema = z.object({
-  nodes: z.string(),
+  flow: z.string(),
 })
 
 export async function PATCH(
@@ -44,13 +44,14 @@ export async function PATCH(
         id: params.flowId,
       },
       data: {
-        nodes: body.nodes,
+        nodes: body.flow,
       },
     })
 
     return new Response(null, { status: 200 })
   } catch (error) {
     if (error instanceof z.ZodError) {
+      console.log(error)
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
