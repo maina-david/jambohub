@@ -11,10 +11,6 @@ const routeContextSchema = z.object({
   }),
 })
 
-const flowPatchSchema = z.object({
-  flow: z.string(),
-})
-
 export async function PATCH(
   req: Request,
   context: z.infer<typeof routeContextSchema>
@@ -34,9 +30,7 @@ export async function PATCH(
       return new Response(null, { status: 403 })
     }
 
-    // Get the request body and validate it.
     const json = await req.json()
-    const body = flowPatchSchema.parse(json)
 
     // Update the flow.
     await db.flow.update({
@@ -44,7 +38,7 @@ export async function PATCH(
         id: params.flowId,
       },
       data: {
-        nodes: body.flow,
+        nodes: json.flow,
       },
     })
 
