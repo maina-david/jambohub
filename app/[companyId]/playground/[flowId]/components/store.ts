@@ -80,7 +80,8 @@ const useStore = create<RFState>((set, get) => ({
       id: nanoid(),
       type,
       position,
-      data: { value: '' }, // use case for different node types
+      // Todo update to use case for different node types
+      data: { value: '' }, 
     }
     set({
       nodes: [...get().nodes, newNode],
