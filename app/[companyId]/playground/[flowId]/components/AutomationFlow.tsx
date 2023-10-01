@@ -60,6 +60,7 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: true,
 }
 
+const proOptions = { hideAttribution: true }
 
 function Flow() {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addDraggedNode } = useStore(selector, shallow)
@@ -111,6 +112,7 @@ function Flow() {
       fitViewOptions={fitViewOptions}
       defaultEdgeOptions={defaultEdgeOptions}
       nodeTypes={nodeTypes}
+      proOptions={proOptions}
     >
       <Panel position="top-right">
         <Button
