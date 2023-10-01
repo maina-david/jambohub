@@ -62,7 +62,7 @@ const nodeTypes = {
 }
 
 const fitViewOptions: FitViewOptions = {
-  maxZoom: 1.2
+  padding: 0.2
 }
 
 const defaultEdgeOptions: DefaultEdgeOptions = {
