@@ -16,6 +16,15 @@ import {
 import { create } from 'zustand'
 import { nanoid } from 'nanoid/non-secure'
 
+export type NodeData = {
+  value?: string
+  replyOption?: string
+  teamOption?: string
+  fileOption?: string
+}
+
+export type NodeType = 'sendText' | 'sendTextWait' | 'sendTextResponse' | 'assignToTeam' | 'sendAttachment'
+
 export type RFState = {
   nodes: Node[]
   edges: Edge[]
@@ -25,7 +34,7 @@ export type RFState = {
   onEdgesChange: OnEdgesChange
   onConnect: OnConnect
   onEdgesDelete: OnEdgesDelete
-  addDraggedNode: (type: string, position: XYPosition) => void
+  addDraggedNode: (type: string, position: XYPosition, data?: NodeData) => void
   updateSendTextValue: (nodeId: string, value: string) => void
   updateReplyOption: (nodeId: string, option: string, optionType: 'replyOption' | 'teamOption' | 'fileOption') => void
 }
@@ -92,13 +101,12 @@ const useStore = create<RFState>((set, get) => ({
       }),
     })
   },
-  addDraggedNode: (type: string, position: XYPosition) => {
+  addDraggedNode: (type: NodeType, position: XYPosition, data?: NodeData) => {
     const newNode = {
       id: nanoid(),
       type,
       position,
-      // Todo update to use case for different node types
-      data: { value: '' },
+      data: data || {}
     }
     set({
       nodes: [...get().nodes, newNode],

@@ -31,11 +31,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { Flow } from "@prisma/client"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import SideBar from "./SideBar"
-import useStore, { RFState } from "./store"
+import useStore, { NodeData, RFState } from "./store"
 import SendAttachmentNode from "./flowNodes/sendAttachmentNode"
 import AssignToTeamNode from "./flowNodes/assignToTeam"
 import { toast } from "@/components/ui/use-toast"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import SendTextResponseNode from "./flowNodes/sendTextResponseNode"
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,
@@ -52,6 +53,7 @@ const selector = (state: RFState) => ({
 const nodeTypes = {
   sendText: SendTextNode,
   sendTextWait: SendTextWaitNode,
+  sendTextResponse: SendTextResponseNode,
   sendAttachment: SendAttachmentNode,
   assignToTeam: AssignToTeamNode
 }
@@ -87,7 +89,12 @@ function Flow({ flowData }) {
     event.dataTransfer.dropEffect = 'move'
   }
 
-  const onDrop = (event: { preventDefault: () => void; dataTransfer: { getData: (arg0: string) => any }; clientX: number; clientY: number }) => {
+  const onDrop = (event: {
+    preventDefault: () => void
+    dataTransfer: { getData: (arg0: string) => any }
+    clientX: number
+    clientY: number
+  }) => {
     event.preventDefault()
     const { domNode } = store.getState()
 
@@ -104,7 +111,18 @@ function Flow({ flowData }) {
       y: event.clientY - reactFlowBounds.top,
     })
 
-    addDraggedNode(type, position)
+    let data: NodeData = {}
+    if (type === 'sendText' || type == 'sendTextWait') {
+      data = { value: '' }
+    } else if (type === 'sendTextResponse') {
+      data = { replyOption: '', value: '' }
+    } else if (type === 'assignToTeam') {
+      data = { replyOption: '', teamOption: '' }
+    } else if (type === 'sendAttachment') {
+      data = { replyOption: '', fileOption: '' }
+    }
+
+    addDraggedNode(type, position, data)
   }
 
   useEffect(() => {
