@@ -71,6 +71,22 @@ export default function SideBar() {
         <div
           className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
           draggable
+          onDragStart={(event) => onDragStart(event, 'sendTextResponseWait')}
+        >
+          <div
+            className="grid w-full items-center gap-1.5"
+          >
+            <p className="text-sm font-medium leading-none">
+              Send Text Response And Wait
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Drag this to send text response and wait for a response.
+            </p>
+          </div>
+        </div>
+        <div
+          className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
+          draggable
           onDragStart={(event) => onDragStart(event, 'sendAttachment')}
         >
           <div

@@ -37,6 +37,7 @@ import AssignToTeamNode from "./flowNodes/assignToTeam"
 import { toast } from "@/components/ui/use-toast"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import SendTextResponseNode from "./flowNodes/sendTextResponseNode"
+import SendTextResponseWaitNode from "./flowNodes/sendTextResponseWaitNode"
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,
@@ -54,6 +55,7 @@ const nodeTypes = {
   sendText: SendTextNode,
   sendTextWait: SendTextWaitNode,
   sendTextResponse: SendTextResponseNode,
+  sendTextResponseWait: SendTextResponseWaitNode,
   sendAttachment: SendAttachmentNode,
   assignToTeam: AssignToTeamNode
 }
@@ -302,7 +304,7 @@ export default function AutomationFlow() {
 
   return (
     <div className="hidden h-full flex-col md:flex">
-      <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
+      <div className="container fixed flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
         <Link
           href={`/${flow.companyId}/flows`}
           className={cn(
