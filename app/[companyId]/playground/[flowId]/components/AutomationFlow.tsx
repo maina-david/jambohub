@@ -6,7 +6,7 @@ import { Icons } from "@/components/icons"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { shallow } from 'zustand/shallow'
 import { Separator } from "@/components/ui/separator"
 
@@ -122,6 +122,10 @@ function Flow() {
     }
   }, [reactFlowInstance])
 
+  useEffect(() => {
+    onSave();
+  }, [onSave])
+
   return (
     <ReactFlow
       nodes={nodes}
@@ -138,14 +142,6 @@ function Flow() {
       nodeTypes={nodeTypes}
       proOptions={proOptions}
     >
-      <Panel position="top-right">
-        <Button
-          variant="secondary"
-          onClick={onSave}
-        >
-          Save
-        </Button>
-      </Panel>
       <Background />
       <Controls />
     </ReactFlow>
