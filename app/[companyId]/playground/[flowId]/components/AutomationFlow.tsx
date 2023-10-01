@@ -304,7 +304,7 @@ export default function AutomationFlow() {
 
   return (
     <div className="hidden h-full flex-col md:flex">
-      <div className="container fixed flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
+      <div className="container fixed top-0 z-10 flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
         <Link
           href={`/${flow.companyId}/flows`}
           className={cn(
