@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 
 import React, { useCallback, useState } from 'react'
-import { shallow } from 'zustand/shallow';
+import { shallow } from 'zustand/shallow'
 import { Separator } from "@/components/ui/separator"
 
 import { Actions } from "./actions"
@@ -19,7 +19,6 @@ import ReactFlow, {
   Background,
   useReactFlow,
   useStoreApi,
-  ReactFlowInstance,
   Panel,
 } from 'reactflow'
 
@@ -34,6 +33,7 @@ import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import SideBar from "./SideBar"
 import useStore, { RFState } from "./store"
 import SendAttachmentNode from "./flowNodes/sendAttachmentNode"
+import AssignToTeamNode from "./flowNodes/assignToTeam"
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,
@@ -47,7 +47,8 @@ const selector = (state: RFState) => ({
 const nodeTypes = {
   sendText: SendTextNode,
   sendTextWait: SendTextWaitNode,
-  sendAttachment: SendAttachmentNode
+  sendAttachment: SendAttachmentNode,
+  assignToTeam: AssignToTeamNode
 }
 
 const fitViewOptions: FitViewOptions = {
@@ -92,8 +93,8 @@ function Flow() {
 
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
-      const flow = reactFlowInstance.toObject();
-      localStorage.setItem('FlowObject', JSON.stringify(flow));
+      const flow = reactFlowInstance.toObject()
+      localStorage.setItem('FlowObject', JSON.stringify(flow))
     }
   }, [reactFlowInstance])
 

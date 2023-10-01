@@ -24,7 +24,8 @@ export type RFState = {
   addDraggedNode: (type: string, position: XYPosition) => void
   updateSendTextValue: (nodeId: string, value: string) => void
   updateSendTextWaitValue: (nodeId: string, value: string) => void
-  updateSendAttachmentOption: (nodeId: string, option: string) => void
+  updateSendAttachmentReplyOption: (nodeId: string, option: string) => void
+  updateAssignToTeamReplyOption: (nodeId: string, option: string) => void
 }
 
 const useStore = create<RFState>((set, get) => ({
@@ -62,10 +63,9 @@ const useStore = create<RFState>((set, get) => ({
         if (node.id === nodeId) {
           node.data = { ...node.data, value }
         }
-
         return node
       }),
-    });
+    })
   },
   updateSendTextWaitValue: (nodeId: string, value: string) => {
     set({
@@ -73,21 +73,29 @@ const useStore = create<RFState>((set, get) => ({
         if (node.id === nodeId) {
           node.data = { ...node.data, value }
         }
-
         return node
       }),
-    });
+    })
   },
-  updateSendAttachmentOption: (nodeId: string, option: string) => {
+  updateSendAttachmentReplyOption: (nodeId: string, replyOption: string) => {
     set({
       nodes: get().nodes.map((node) => {
         if (node.id === nodeId) {
-          node.data = { ...node.data, option }
+          node.data = { ...node.data, replyOption}
         }
-
         return node
       }),
-    });
+    })
+  },
+  updateAssignToTeamReplyOption: (nodeId: string, replyOption: string) => {
+    set({
+      nodes: get().nodes.map((node) => {
+        if (node.id === nodeId) {
+          node.data = { ...node.data, replyOption }
+        }
+        return node
+      }),
+    })
   },
 }))
 
