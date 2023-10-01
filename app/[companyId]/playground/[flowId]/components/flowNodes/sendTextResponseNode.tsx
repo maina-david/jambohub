@@ -23,31 +23,33 @@ function SendTextResponseNode({ id, data }: NodeProps<SendTextResponseData>) {
 
   return (
     <div className="flex rounded border border-stone-400 px-4 py-2 shadow">
-      <Select
-        onValueChange={(value) => updateReplyOption(id, value, 'replyOption')}
-        defaultValue={data.replyOption}
-      >
-        <SelectTrigger>
-          <SelectValue placeholder="Select reply option" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value={'1'}>1</SelectItem>
-          <SelectItem value={'2'}>2</SelectItem>
-          <SelectItem value={'3'}>3</SelectItem>
-          <SelectItem value={'4'}>4</SelectItem>
-          <SelectItem value={'5'}>5</SelectItem>
-          <SelectItem value={'6'}>6</SelectItem>
-          <SelectItem value={'7'}>7</SelectItem>
-          <SelectItem value={'8'}>8</SelectItem>
-          <SelectItem value={'9'}>9</SelectItem>
-          <SelectItem value={'0'}>0</SelectItem>
-        </SelectContent>
-      </Select>
-      <Textarea
-        value={data.value}
-        onChange={(evt) => updateSendTextResponseValue(id, evt.target.value)}
-        className="nodrag mt-2"
-      />
+      <div className='flex flex-col'>
+        <Select
+          onValueChange={(value) => updateReplyOption(id, value, 'replyOption')}
+          defaultValue={data.replyOption}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select reply option" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={'1'}>1</SelectItem>
+            <SelectItem value={'2'}>2</SelectItem>
+            <SelectItem value={'3'}>3</SelectItem>
+            <SelectItem value={'4'}>4</SelectItem>
+            <SelectItem value={'5'}>5</SelectItem>
+            <SelectItem value={'6'}>6</SelectItem>
+            <SelectItem value={'7'}>7</SelectItem>
+            <SelectItem value={'8'}>8</SelectItem>
+            <SelectItem value={'9'}>9</SelectItem>
+            <SelectItem value={'0'}>0</SelectItem>
+          </SelectContent>
+        </Select>
+        <Textarea
+          value={data.value}
+          onChange={(evt) => updateSendTextResponseValue(id, evt.target.value)}
+          className="nodrag mt-2"
+        />
+      </div>
       <Handle type="target" position={Position.Top} className="w-10 !bg-teal-500" />
       <Handle type="source" position={Position.Bottom} className="w-10 !bg-teal-500" />
     </div>
