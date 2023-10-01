@@ -40,6 +40,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 const selector = (state: RFState) => ({
   nodes: state.nodes,
   edges: state.edges,
+  setNodes: state.setNodes,
+  setEdges: state.setEdges,
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
@@ -65,10 +67,12 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
 
 const proOptions = { hideAttribution: true }
 
-function Flow() {
+function Flow({ flowData }) {
   const {
     nodes,
     edges,
+    setNodes,
+    setEdges,
     onNodesChange,
     onEdgesChange,
     onConnect,
@@ -102,6 +106,15 @@ function Flow() {
 
     addDraggedNode(type, position)
   }
+
+  useEffect(() => {
+    if (flowData && reactFlowInstance) {
+      const { x = 0, y = 0, zoom = 1 } = flowData.viewport || {}
+      setNodes(flowData.nodes || [])
+      setEdges(flowData.edges || [])
+      reactFlowInstance.setViewport({ x, y, zoom })
+    }
+  }, [flowData, reactFlowInstance, setEdges, setNodes])
 
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
@@ -207,6 +220,7 @@ export default function AutomationFlow() {
             },
           }
         )
+        queryClient.invalidateQueries({ queryKey: ['flowDetails'] })
         toast({
           title: 'Success',
           description: 'Flow saved successfully',
@@ -218,7 +232,7 @@ export default function AutomationFlow() {
           description: 'Failed to save flow',
           variant: 'destructive'
         })
-      } finally{
+      } finally {
         setIsSaving(false)
       }
     } else {
@@ -315,7 +329,7 @@ export default function AutomationFlow() {
           <div className="md:order-1">
             <div className="flex h-full flex-col space-y-4">
               <ReactFlowProvider>
-                <Flow />
+                <Flow flowData={flow.nodes} />
               </ReactFlowProvider>
             </div>
           </div>

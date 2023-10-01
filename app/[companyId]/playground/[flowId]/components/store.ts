@@ -19,6 +19,8 @@ import { nanoid } from 'nanoid/non-secure'
 export type RFState = {
   nodes: Node[]
   edges: Edge[]
+  setNodes: (nodes: Node[]) => void
+  setEdges: (edges: Edge[]) => void
   onNodesChange: OnNodesChange
   onEdgesChange: OnEdgesChange
   onConnect: OnConnect
@@ -33,6 +35,16 @@ export type RFState = {
 const useStore = create<RFState>((set, get) => ({
   nodes: [],
   edges: [],
+  setNodes: (nodes: Node[])  => {
+    set({
+      nodes: nodes,
+    })
+  },
+  setEdges: (edges: Edge[]) => {
+    set({
+      edges: edges,
+    })
+  },
   onNodesChange: (changes: NodeChange[]) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
