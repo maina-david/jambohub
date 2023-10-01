@@ -344,9 +344,7 @@ export default function AutomationFlow() {
       <div className="container flex min-h-full flex-col py-4">
         <div className="grid grow items-stretch gap-6 md:grid-cols-[1fr_200px]">
           <div className="hidden grow flex-col space-y-4 sm:flex md:order-2">
-            <ScrollArea className="h-full w-[200px] rounded-md border p-4">
-              <SideBar />
-            </ScrollArea>
+            <SideBar />
           </div>
           <div className="grow md:order-1">
             <div className="flex flex-col space-y-4">
