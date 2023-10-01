@@ -341,13 +341,13 @@ export default function AutomationFlow() {
         </div>
       </div>
       <Separator />
-      <div className="container min-h-full py-4">
-        <div className="grid min-h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-          <div className="hidden min-h-full flex-col space-y-4 sm:flex md:order-2">
+      <div className="container h-full min-h-full py-4">
+        <div className="grid h-full min-h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
+          <div className="hidden h-full min-h-full flex-col space-y-4 sm:flex md:order-2">
             <SideBar />
           </div>
           <div className="md:order-1">
-            <div className="flex min-h-full flex-col space-y-4">
+            <div className="flex h-full min-h-full flex-col space-y-4">
               <ReactFlowProvider>
                 <Flow flowData={flow.flowData} />
               </ReactFlowProvider>
