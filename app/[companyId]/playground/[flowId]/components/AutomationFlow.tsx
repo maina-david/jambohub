@@ -6,7 +6,7 @@ import { Icons } from "@/components/icons"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { shallow } from 'zustand/shallow'
 import { Separator } from "@/components/ui/separator"
 
@@ -27,7 +27,7 @@ import 'reactflow/dist/base.css'
 import SendTextNode from './flowNodes/sendTextNode'
 import SendTextWaitNode from "./flowNodes/sendTextWaitNode"
 import { useParams } from "next/navigation"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { Flow } from "@prisma/client"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import SideBar from "./SideBar"
@@ -123,8 +123,13 @@ function Flow() {
   }, [reactFlowInstance])
 
   useEffect(() => {
-    onSave();
-  }, [onSave])
+    const saveTimeout = setTimeout(() => {
+      onSave()
+    }, 2000)
+
+    return () => clearTimeout(saveTimeout)
+  }, [nodes, edges, onSave])
+
 
   return (
     <ReactFlow
@@ -150,10 +155,13 @@ function Flow() {
 
 export default function AutomationFlow() {
   const params = useParams()
+  const queryClient = useQueryClient()
   const { isError, isSuccess, data: flow, isLoading } = useQuery({
     queryKey: ['flowDetails'],
     queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
+
+  const [isPublishing, setIsPublishing] = useState(false)
 
   if (isLoading) {
     return (
@@ -172,6 +180,45 @@ export default function AutomationFlow() {
       </EmptyPlaceholder>
     )
   }
+
+  const onPublish = async () => {
+    try {
+      setIsPublishing(true)
+
+      const flowId = params?.flowId
+
+      // Determine whether to publish or unpublish based on the current state
+      const isCurrentlyPublished = flow?.published || false // Default to false if not available
+      const newState = !isCurrentlyPublished
+
+      // Create the payload to send in the PATCH request
+      const payload = {
+        published: newState,
+      }
+
+      // Perform the PATCH request
+      const response = await axios.patch(`/api/companies/${flow.companyId}/flows/${flowId}/publish`, payload)
+
+      toast({
+        title: "Success",
+        description: `Flow ${newState ? 'published' : 'unpublished'} successfully`,
+      })
+
+      queryClient.invalidateQueries({ queryKey: ['flowDetails'] })
+
+    } catch (error) {
+      console.error('Error toggling flow publication:', error)
+      toast({
+        title: 'Error',
+        description: 'Failed to toggle flow publication. Please try again.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsPublishing(false)
+    }
+  }
+
+
   return (
     <div className="hidden h-full flex-col md:flex">
       <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
@@ -189,6 +236,15 @@ export default function AutomationFlow() {
         </Link>
         <h2 className="font-semibold tracking-tight transition-colors">{flow.name}</h2>
         <div className="ml-auto flex space-x-2 sm:justify-end">
+          <Button
+            variant={flow.published ? 'default' : 'destructive'}
+            onClick={onPublish}
+            disabled={isPublishing}
+          >
+            {isPublishing && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}{" "}{flow.published ? 'Unpublish Flow' : 'Publish Flow'}
+          </Button>
           <Actions />
         </div>
       </div>
