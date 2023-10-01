@@ -19,7 +19,7 @@ export type SendTextResponseWaitData = {
 
 function SendTextResponseWaitNode({ id, data }: NodeProps<SendTextResponseWaitData>) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
-  const updateSendTextResponseWaitValue = useStore((state) => state.updateSendTextValue)
+  const updateSendTextValue = useStore((state) => state.updateSendTextValue)
 
   return (
     <div className="flex rounded border border-stone-400 px-4 py-2 shadow">
@@ -44,11 +44,13 @@ function SendTextResponseWaitNode({ id, data }: NodeProps<SendTextResponseWaitDa
             <SelectItem value={'0'}>0</SelectItem>
           </SelectContent>
         </Select>
-        <Textarea
-          value={data.value}
-          onChange={(evt) => updateSendTextResponseWaitValue(id, evt.target.value)}
-          className="nodrag mt-2"
-        />
+        <div className="mt-2 grid w-full gap-1.5">
+          <Textarea
+            value={data.value}
+            onChange={(evt) => updateSendTextValue(id, evt.target.value)}
+            className="nodrag"
+          />
+        </div>
       </div>
       <Handle type="target" position={Position.Top} className="w-10 !bg-teal-500" />
       <Handle type="source" position={Position.Bottom} className="w-10 !bg-teal-500" />

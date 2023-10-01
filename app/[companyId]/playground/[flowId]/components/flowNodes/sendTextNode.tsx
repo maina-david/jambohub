@@ -14,11 +14,13 @@ function SendTextNode({ id, data }: NodeProps<SendTextData>) {
 
   return (
     <div className="flex rounded border border-stone-400 px-4 py-2 shadow">
-      <Textarea
-        value={data.value}
-        onChange={(evt) => updateSendTextValue(id, evt.target.value)}
-        className="nodrag"
-      />
+      <div className="grid w-full gap-1.5">
+        <Textarea
+          value={data.value}
+          onChange={(evt) => updateSendTextValue(id, evt.target.value)}
+          className="nodrag"
+        />
+      </div>
       <Handle type="target" position={Position.Top} className="w-10 !bg-teal-500" />
       <Handle type="source" position={Position.Bottom} className="w-10 !bg-teal-500" />
     </div>

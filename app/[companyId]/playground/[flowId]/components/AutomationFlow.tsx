@@ -20,6 +20,7 @@ import ReactFlow, {
   useReactFlow,
   useStoreApi,
   Panel,
+  Viewport,
 } from 'reactflow'
 
 import 'reactflow/dist/base.css'
@@ -68,6 +69,8 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   deletable: true,
   animated: true,
 }
+
+const defaultViewport: Viewport = { x: 0, y: 0, zoom: 2 }
 
 const proOptions = { hideAttribution: true }
 
@@ -187,6 +190,7 @@ function Flow({ flowData }) {
       defaultEdgeOptions={defaultEdgeOptions}
       nodeTypes={nodeTypes}
       proOptions={proOptions}
+      defaultViewport={defaultViewport}
     >
       <Background />
       <Controls />
