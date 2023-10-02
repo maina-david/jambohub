@@ -1,5 +1,7 @@
+import { AppShell } from "@/components/shell"
 import { Payment, columns } from "./_components/columns"
 import { DataTable } from "./_components/data-table"
+import { AppHeader } from "@/components/header"
 
 const data: Payment[] = [
   {
@@ -37,8 +39,10 @@ const data: Payment[] = [
 
 export default function UsersPage() {
   return (
-    <>
-      <DataTable columns={columns} data={data} />
-    </>
+    <AppShell>
+      <AppHeader heading="Customers" text="Create and manage customers and leads">
+        <DataTable columns={columns} data={data} />
+      </AppHeader>
+    </AppShell>
   )
 }
