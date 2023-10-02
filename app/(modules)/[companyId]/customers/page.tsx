@@ -41,8 +41,8 @@ export default function UsersPage() {
   return (
     <AppShell>
       <AppHeader heading="Customers" text="Create and manage customers and leads">
-        <DataTable columns={columns} data={data} />
       </AppHeader>
+      <DataTable columns={columns} data={data} />
     </AppShell>
   )
 }
