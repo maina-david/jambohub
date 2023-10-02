@@ -14,7 +14,7 @@ function SendTextWaitNode({ id, data }: NodeProps<SendTextWaitData>) {
 
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
-      <div className="grid w-full gap-1.5">
+      <div className="grid w-full">
         <Textarea
           value={data.value}
           onChange={(evt) => updateSendTextValue(id, evt.target.value)}

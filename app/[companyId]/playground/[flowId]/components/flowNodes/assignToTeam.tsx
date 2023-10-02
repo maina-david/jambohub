@@ -21,7 +21,7 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
 
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
-      <div className="flex flex-col">
+      <div className="grid w-full gap-2">
         <Select onValueChange={(value) => updateReplyOption(id, value, 'replyOption')} defaultValue={data.replyOption}>
           <SelectTrigger>
             <SelectValue placeholder="Select reply option" />
@@ -39,7 +39,6 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
             <SelectItem value={'0'}>0</SelectItem>
           </SelectContent>
         </Select>
-        <div className="mt-2">
           <Select onValueChange={(value) => updateReplyOption(id, value, 'teamOption')} defaultValue={data.teamOption}>
             <SelectTrigger>
               <SelectValue placeholder="Select Team to Assign" />
@@ -50,7 +49,6 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
               <SelectItem value={'3'}>Team 3</SelectItem>
             </SelectContent>
           </Select>
-        </div>
       </div>
       <Handle type="target" position={Position.Top} className="w-10 bg-teal-500" />
       <Handle type="source" position={Position.Bottom} className="w-10 bg-teal-500" />

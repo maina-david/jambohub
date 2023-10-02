@@ -47,7 +47,7 @@ const useStore = create<RFState>((set, get) => ({
     set({
       nodes: [],
       edges: [],
-    });
+    })
   },
   setNodes: (nodes: Node[]) => {
     set({
