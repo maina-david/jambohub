@@ -42,7 +42,7 @@ export type RFState = {
 const useStore = create<RFState>((set, get) => ({
   nodes: [],
   edges: [],
-  setNodes: (nodes: Node[])  => {
+  setNodes: (nodes: Node[]) => {
     set({
       nodes: nodes,
     })
@@ -105,7 +105,10 @@ const useStore = create<RFState>((set, get) => ({
     const newNode = {
       id: nanoid(),
       type,
-      position,
+      position: {
+        ...position,
+        zoom: 1.3
+      },
       data: data || {}
     }
     set({
