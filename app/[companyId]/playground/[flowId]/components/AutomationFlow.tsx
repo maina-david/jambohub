@@ -206,8 +206,8 @@ export default function AutomationFlow() {
     queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
 
-  const [isSaving, setIsSaving] = useState(false)
-  const [isPublishing, setIsPublishing] = useState(false)
+  const [isSaving, setIsSaving] = useState<boolean>(false)
+  const [isPublishing, setIsPublishing] = useState<boolean>(false)
 
   if (isLoading) {
     return (
@@ -341,7 +341,7 @@ export default function AutomationFlow() {
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}{" "}{flow.published ? 'Unpublish Flow' : 'Publish Flow'}
           </Button>
-          <Actions />
+          <Actions flow={flow}/>
         </div>
       </div>
       <Separator />
