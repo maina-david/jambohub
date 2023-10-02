@@ -22,7 +22,7 @@ function SendTextResponseWaitNode({ id, data }: NodeProps<SendTextResponseWaitDa
   const updateSendTextValue = useStore((state) => state.updateSendTextValue)
 
   return (
-    <div className="flex h-32 w-64 rounded border border-stone-400 p-2 shadow-md">
+    <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className='flex flex-col'>
         <Select
           onValueChange={(value) => updateReplyOption(id, value, 'replyOption')}
@@ -48,7 +48,7 @@ function SendTextResponseWaitNode({ id, data }: NodeProps<SendTextResponseWaitDa
           <Textarea
             value={data.value}
             onChange={(evt) => updateSendTextValue(id, evt.target.value)}
-            className="nodrag"
+            className="nodrag resize-none"
           />
         </div>
       </div>

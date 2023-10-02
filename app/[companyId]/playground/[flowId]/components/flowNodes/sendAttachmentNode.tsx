@@ -14,7 +14,7 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
 
   return (
-    <div className="flex h-32 w-64 rounded border border-stone-400 p-2 shadow-md">
+    <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className='flex flex-col'>
         <Select onValueChange={(value) => updateReplyOption(id, value, 'replyOption')} defaultValue={data.replyOption}>
           <SelectTrigger>
