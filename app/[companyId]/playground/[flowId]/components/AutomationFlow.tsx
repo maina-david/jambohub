@@ -60,13 +60,9 @@ const nodeTypes = {
   assignToTeam: AssignToTeamNode
 }
 
-const fitViewOptions: FitViewOptions = {
-  padding: 0.2
-}
-
 const defaultEdgeOptions: DefaultEdgeOptions = {
   deletable: true,
-  animated: true,
+  animated: false,
 }
 
 const defaultViewport: Viewport = { x: 0, y: 0, zoom: 1.3 }
