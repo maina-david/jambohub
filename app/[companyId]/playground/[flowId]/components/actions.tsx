@@ -25,8 +25,7 @@ import { Trash2Icon } from "lucide-react"
 import { Icons } from "@/components/icons"
 
 import { useQueryClient } from "@tanstack/react-query"
-import { useRouter } from "next/router"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 
 async function deleteAutomationflow(companyId: string, flowId: string) {
   const response = await fetch(`/api/companies/${companyId}/flows/${flowId}`, {
