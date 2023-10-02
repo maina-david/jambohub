@@ -8,7 +8,6 @@ import {
   applyNodeChanges,
   applyEdgeChanges,
   XYPosition,
-  addEdge,
   Connection,
   OnConnect,
   OnEdgesDelete,
@@ -35,7 +34,7 @@ export type RFState = {
   onEdgesChange: OnEdgesChange
   onConnect: OnConnect
   onEdgesDelete: OnEdgesDelete
-  addDraggedNode: (type: string, position: XYPosition, data?: NodeData) => void
+  addDraggedNode: (type: string, position: XYPosition) => void
   updateSendTextValue: (nodeId: string, value: string) => void
   updateReplyOption: (nodeId: string, option: string, optionType: 'replyOption' | 'teamOption' | 'fileOption') => void
 }
@@ -108,12 +107,12 @@ const useStore = create<RFState>((set, get) => ({
       }),
     })
   },
-  addDraggedNode: (type: NodeType, position: XYPosition, data?: NodeData) => {
+  addDraggedNode: (type: NodeType, position: XYPosition) => {
     const newNode = {
       id: nanoid(),
       type,
       position: {...position},
-      data: data || {}
+      data: {}
     }
     set({
       nodes: [...get().nodes, newNode],

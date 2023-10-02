@@ -16,7 +16,9 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className='grid w-full gap-2'>
-        <Select onValueChange={(value) => updateReplyOption(id, value, 'replyOption')} defaultValue={data.replyOption}>
+        <Select
+          onValueChange={(value) => updateReplyOption(id, value, 'replyOption')}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Select reply option" />
           </SelectTrigger>
@@ -33,7 +35,9 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
             <SelectItem value={'0'}>0</SelectItem>
           </SelectContent>
         </Select>
-        <Select onValueChange={(value) => updateReplyOption(id, value, 'fileOption')} defaultValue={data.fileOption}>
+        <Select
+          onValueChange={(value) => updateReplyOption(id, value, 'fileOption')}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Select file" />
           </SelectTrigger>

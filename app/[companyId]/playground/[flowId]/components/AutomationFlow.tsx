@@ -112,18 +112,7 @@ function Flow({ flowData }) {
       y: event.clientY - reactFlowBounds.top,
     })
 
-    let data: NodeData = {}
-    if (type === 'sendText' || type == 'sendTextWait') {
-      data = { value: '' }
-    } else if (type === 'sendTextResponse') {
-      data = { replyOption: '', value: '' }
-    } else if (type === 'assignToTeam') {
-      data = { replyOption: '', teamOption: '' }
-    } else if (type === 'sendAttachment') {
-      data = { replyOption: '', fileOption: '' }
-    }
-
-    addDraggedNode(type, position, data)
+    addDraggedNode(type, position)
   }
 
   useEffect(() => {

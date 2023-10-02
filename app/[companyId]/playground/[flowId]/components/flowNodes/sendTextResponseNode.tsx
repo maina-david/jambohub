@@ -26,7 +26,6 @@ function SendTextResponseNode({ id, data }: NodeProps<SendTextResponseData>) {
       <div className='grid w-full gap-2'>
         <Select
           onValueChange={(value) => updateReplyOption(id, value, 'replyOption')}
-          defaultValue={data.replyOption}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select reply option" />
