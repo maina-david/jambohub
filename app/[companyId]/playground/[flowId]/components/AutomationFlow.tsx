@@ -19,9 +19,7 @@ import ReactFlow, {
   Background,
   useReactFlow,
   useStoreApi,
-  Panel,
   Viewport,
-  useViewport,
 } from 'reactflow'
 
 import 'reactflow/dist/base.css'
@@ -89,7 +87,6 @@ function Flow({ flowData }) {
   } = useStore(selector, shallow)
   const store = useStoreApi()
   const reactFlowInstance = useReactFlow()
-  const { x, y, zoom } = useViewport()
   const onDragOver = (event: { preventDefault: () => void; dataTransfer: { dropEffect: string } }) => {
     event.preventDefault()
     event.dataTransfer.dropEffect = 'move'
@@ -129,8 +126,6 @@ function Flow({ flowData }) {
     }
 
     addDraggedNode(type, position, data)
-
-    reactFlowInstance.setViewport({ x, y, zoom: 1.3 })
   }
 
   useEffect(() => {
@@ -188,8 +183,6 @@ function Flow({ flowData }) {
       onEdgesDelete={onEdgesDelete}
       onDragOver={onDragOver}
       onDrop={onDrop}
-      fitView
-      fitViewOptions={fitViewOptions}
       defaultEdgeOptions={defaultEdgeOptions}
       nodeTypes={nodeTypes}
       proOptions={proOptions}
