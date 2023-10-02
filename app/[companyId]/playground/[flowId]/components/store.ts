@@ -105,10 +105,7 @@ const useStore = create<RFState>((set, get) => ({
     const newNode = {
       id: nanoid(),
       type,
-      position: {
-        ...position,
-        zoom: 1.3
-      },
+      position: {...position},
       data: data || {}
     }
     set({

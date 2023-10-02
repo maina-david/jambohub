@@ -21,6 +21,7 @@ import ReactFlow, {
   useStoreApi,
   Panel,
   Viewport,
+  useViewport,
 } from 'reactflow'
 
 import 'reactflow/dist/base.css'
@@ -88,7 +89,7 @@ function Flow({ flowData }) {
   } = useStore(selector, shallow)
   const store = useStoreApi()
   const reactFlowInstance = useReactFlow()
-
+  const { x, y, zoom } = useViewport()
   const onDragOver = (event: { preventDefault: () => void; dataTransfer: { dropEffect: string } }) => {
     event.preventDefault()
     event.dataTransfer.dropEffect = 'move'
@@ -128,11 +129,13 @@ function Flow({ flowData }) {
     }
 
     addDraggedNode(type, position, data)
+
+    reactFlowInstance.setViewport({ x, y, zoom: 1.3 })
   }
 
   useEffect(() => {
     if (flowData && reactFlowInstance) {
-      const { x = 0, y = 0, zoom = 1 } = flowData.viewport || {}
+      const { x = 0, y = 0, zoom = 1.3 } = flowData.viewport || {}
       setNodes(flowData.nodes || [])
       setEdges(flowData.edges || [])
       reactFlowInstance.setViewport({ x, y, zoom })
@@ -341,7 +344,7 @@ export default function AutomationFlow() {
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}{" "}{flow.published ? 'Unpublish Flow' : 'Publish Flow'}
           </Button>
-          <Actions flow={flow}/>
+          <Actions flow={flow} />
         </div>
       </div>
       <Separator />
