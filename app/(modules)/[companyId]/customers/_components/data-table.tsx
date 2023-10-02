@@ -35,6 +35,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import { ImportIcon, RefreshCcwIcon } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -83,6 +84,12 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        <Button variant="outline" className="ml-auto">
+          <RefreshCcwIcon className="mr-2 h-4 w-4"/> Refresh
+        </Button>
+        <Button variant="outline" className="ml-auto">
+          <ImportIcon className="mr-2 h-4 w-4"/> Import
+        </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
