@@ -14,10 +14,10 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
 
   return (
-    <div className="rounded border border-stone-400 px-4 py-2 shadow">
+    <div className="flex h-32 w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className='flex flex-col'>
         <Select onValueChange={(value) => updateReplyOption(id, value, 'replyOption')} defaultValue={data.replyOption}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger>
             <SelectValue placeholder="Select reply option" />
           </SelectTrigger>
           <SelectContent>
@@ -34,7 +34,7 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
           </SelectContent>
         </Select>
         <Select onValueChange={(value) => updateReplyOption(id, value, 'fileOption')} defaultValue={data.fileOption}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger>
             <SelectValue placeholder="Select file" />
           </SelectTrigger>
           <SelectContent>
@@ -44,8 +44,8 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
           </SelectContent>
         </Select>
       </div>
-      <Handle type="target" position={Position.Top} className="w-10 !bg-teal-500" />
-      <Handle type="source" position={Position.Bottom} className="w-10 !bg-teal-500" />
+      <Handle type="target" position={Position.Top} className="w-10 bg-teal-500" />
+      <Handle type="source" position={Position.Bottom} className="w-10 bg-teal-500" />
     </div>
   )
 }
