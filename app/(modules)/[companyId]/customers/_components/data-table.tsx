@@ -84,7 +84,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <div className="ml-auto grid grid-flow-row-dense grid-cols-3 grid-rows-3">
+        <div className="ml-auto grid gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
