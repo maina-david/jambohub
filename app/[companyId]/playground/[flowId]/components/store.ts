@@ -28,6 +28,7 @@ export type NodeType = 'sendText' | 'sendTextWait' | 'sendTextResponse' | 'assig
 export type RFState = {
   nodes: Node[]
   edges: Edge[]
+  resetStore: () => void
   setNodes: (nodes: Node[]) => void
   setEdges: (edges: Edge[]) => void
   onNodesChange: OnNodesChange
@@ -42,6 +43,12 @@ export type RFState = {
 const useStore = create<RFState>((set, get) => ({
   nodes: [],
   edges: [],
+  resetStore: () => {
+    set({
+      nodes: [],
+      edges: [],
+    });
+  },
   setNodes: (nodes: Node[]) => {
     set({
       nodes: nodes,

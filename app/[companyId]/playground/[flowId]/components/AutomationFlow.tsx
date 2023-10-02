@@ -42,6 +42,7 @@ import SendTextResponseWaitNode from "./flowNodes/sendTextResponseWaitNode"
 const selector = (state: RFState) => ({
   nodes: state.nodes,
   edges: state.edges,
+  resetStore: state.resetStore,
   setNodes: state.setNodes,
   setEdges: state.setEdges,
   onNodesChange: state.onNodesChange,
@@ -73,6 +74,7 @@ function Flow({ flowData }) {
   const {
     nodes,
     edges,
+    resetStore,
     setNodes,
     setEdges,
     onNodesChange,
@@ -130,6 +132,8 @@ function Flow({ flowData }) {
       setNodes(flowData.nodes || [])
       setEdges(flowData.edges || [])
       reactFlowInstance.setViewport({ x, y, zoom })
+    }else{
+      useStore.getState().resetStore()
     }
   }, [flowData, reactFlowInstance, setEdges, setNodes])
 
