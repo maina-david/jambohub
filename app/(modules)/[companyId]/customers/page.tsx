@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from "react"
 
 import { Payment, columns } from "./_components/columns"
@@ -38,8 +40,6 @@ const data: Payment[] = [
 
 
 export function UsersPage() {
-
-
   return (
     <>
       <DataTable columns={columns} data={data} />
