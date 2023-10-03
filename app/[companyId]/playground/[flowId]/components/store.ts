@@ -12,7 +12,9 @@ import {
   OnConnect,
   OnEdgesDelete,
 } from 'reactflow'
-import { create } from 'zustand'
+import { createWithEqualityFn } from 'zustand/traditional'
+import { shallow } from 'zustand/shallow'
+
 import { nanoid } from 'nanoid/non-secure'
 
 export type NodeData = {
@@ -39,7 +41,7 @@ export type RFState = {
   updateReplyOption: (nodeId: string, option: string, optionType: 'replyOption' | 'teamOption' | 'fileOption') => void
 }
 
-const useStore = create<RFState>((set, get) => ({
+const useFlowStore = createWithEqualityFn<RFState>((set, get) => ({
   nodes: [],
   edges: [],
   resetStore: () => {
@@ -135,8 +137,8 @@ const useStore = create<RFState>((set, get) => ({
       ),
     })
   },
-}))
+}), shallow)
 
-export default useStore
+export default useFlowStore
 
 

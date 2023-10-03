@@ -7,12 +7,10 @@ import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 
 import React, { useCallback, useEffect, useState } from 'react'
-import { shallow } from 'zustand/shallow'
 import { Separator } from "@/components/ui/separator"
 
 import { Actions } from "./actions"
 import ReactFlow, {
-  FitViewOptions,
   Controls,
   ReactFlowProvider,
   DefaultEdgeOptions,
@@ -31,7 +29,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { Flow } from "@prisma/client"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import SideBar from "./SideBar"
-import useStore, { NodeData, RFState } from "./store"
+import useFlowStore, { NodeData, RFState } from "./store"
 import SendAttachmentNode from "./flowNodes/sendAttachmentNode"
 import AssignToTeamNode from "./flowNodes/assignToTeam"
 import { toast } from "@/components/ui/use-toast"
@@ -82,7 +80,7 @@ function Flow({ flowData }) {
     onConnect,
     onEdgesDelete,
     addDraggedNode
-  } = useStore(selector, shallow)
+  } = useFlowStore(selector)
   const store = useStoreApi()
   const reactFlowInstance = useReactFlow()
   const onDragOver = (event: { preventDefault: () => void; dataTransfer: { dropEffect: string } }) => {
@@ -122,9 +120,9 @@ function Flow({ flowData }) {
       setEdges(flowData.edges || [])
       reactFlowInstance.setViewport({ x, y, zoom })
     }else{
-      useStore.getState().resetStore()
+      resetStore()
     }
-  }, [flowData, reactFlowInstance, setEdges, setNodes])
+  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes])
 
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
