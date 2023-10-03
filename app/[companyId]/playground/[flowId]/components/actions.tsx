@@ -62,6 +62,7 @@ export function Actions({flow}) {
         <DropdownMenuContent align="end">
           <DropdownMenuItem
             onSelect={() => setShowDeleteAlert(true)}
+            className="cursor-pointer"
           >
             <Trash2Icon className="mr-2 h-4 w-4 text-red-600" /> Delete flow
           </DropdownMenuItem>
