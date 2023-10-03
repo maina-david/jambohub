@@ -56,7 +56,7 @@ function CustomersSkeleton() {
         <TableRow key={`skeleton-${i}`}>
           {table.getAllColumns().map((column) => (
             <TableCell key={column.id}>
-              <Skeleton className="h-4 w-[50px]" />
+              <Skeleton className="h-4 w-[100px]" />
             </TableCell>
           ))}
         </TableRow>
