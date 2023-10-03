@@ -22,6 +22,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { AppShell } from '@/components/shell'
 import { AppHeader } from '@/components/header'
+import CustomerDialog from './CustomerDialog'
 
 function CustomersSkeleton() {
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -70,6 +71,7 @@ function CustomersSkeleton() {
   return (
     <AppShell>
       <AppHeader heading="Customers" text="Create and manage customers and leads">
+        <CustomerDialog />
       </AppHeader>
       <div className="w-full">
         <div className="flex items-center py-4">
@@ -105,9 +107,6 @@ function CustomersSkeleton() {
                   })}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="outline">
-              <RefreshCcwIcon className="mr-2 h-4 w-4" /> Refresh
-            </Button>
             <Button variant="outline">
               <ImportIcon className="mr-2 h-4 w-4" /> Import
             </Button>
