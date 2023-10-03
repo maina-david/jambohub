@@ -185,7 +185,7 @@ function Flow({ flowData }) {
 export default function AutomationFlow() {
   const params = useParams()
   const queryClient = useQueryClient()
-  const { isError, isSuccess, data: flow, isLoading } = useQuery({
+  const { isError, isSuccess, data: flow, isLoading, error} = useQuery({
     queryKey: ['flowDetails'],
     queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
@@ -200,15 +200,28 @@ export default function AutomationFlow() {
   }
 
   if (isError) {
-    return (
-      <EmptyPlaceholder className="h-full">
-        <EmptyPlaceholder.Icon name="warning" />
-        <EmptyPlaceholder.Title>Flow Error</EmptyPlaceholder.Title>
-        <EmptyPlaceholder.Description>
-          There was an error fetching the flow details. Please try again.
-        </EmptyPlaceholder.Description>
-      </EmptyPlaceholder>
-    )
+    console.log("Error fetching channels:", error)
+    if (error instanceof Error) {
+      return (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="warning" />
+          <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            {error.message}
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )
+    } else {
+      return (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="warning" />
+          <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            An error occurred while fetching flow details.
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )
+    }
   }
 
   const saveFlow = async () => {
