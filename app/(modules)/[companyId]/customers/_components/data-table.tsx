@@ -112,9 +112,6 @@ export function DataTable<TData, TValue>({
             </DropdownMenuContent>
           </DropdownMenu>
           <Button variant="outline">
-            <RefreshCcwIcon className="mr-2 h-4 w-4" /> Refresh
-          </Button>
-          <Button variant="outline">
             <ImportIcon className="mr-2 h-4 w-4" /> Import
           </Button>
         </div>
