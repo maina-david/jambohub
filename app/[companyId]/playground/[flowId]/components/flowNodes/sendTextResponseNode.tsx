@@ -12,12 +12,7 @@ import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
 import useStore from '../store'
 
-export type SendTextResponseData = {
-  replyOption: string
-  value: string
-}
-
-function SendTextResponseNode({ id, data }: NodeProps<SendTextResponseData>) {
+function SendTextResponseNode({ id }: NodeProps) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
   const updateSendTextValue = useStore((state) => state.updateSendTextValue)
 
@@ -43,11 +38,11 @@ function SendTextResponseNode({ id, data }: NodeProps<SendTextResponseData>) {
             <SelectItem value={'0'}>0</SelectItem>
           </SelectContent>
         </Select>
-          <Textarea
-            value={data.value}
-            onChange={(evt) => updateSendTextValue(id, evt.target.value)}
-            className="nodrag resize-none"
-          />
+        <Textarea
+          placeholder='Type your message here'
+          onChange={(evt) => updateSendTextValue(id, evt.target.value)}
+          className="nodrag resize-none"
+        />
       </div>
       <Handle type="target" position={Position.Top} className="w-10 bg-teal-500" />
       <Handle type="source" position={Position.Bottom} className="w-10 bg-teal-500" />

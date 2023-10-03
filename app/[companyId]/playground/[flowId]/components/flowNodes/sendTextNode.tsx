@@ -5,18 +5,14 @@ import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
 import useStore from '../store'
 
-export type SendTextData = {
-  value: string
-}
-
-function SendTextNode({ id, data }: NodeProps<SendTextData>) {
+function SendTextNode({ id }: NodeProps) {
   const updateSendTextValue = useStore((state) => state.updateSendTextValue)
 
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className="grid w-full">
         <Textarea
-          value={data.value}
+          placeholder='Type your message here'
           onChange={(evt) => updateSendTextValue(id, evt.target.value)}
           className="nodrag resize-none"
         />

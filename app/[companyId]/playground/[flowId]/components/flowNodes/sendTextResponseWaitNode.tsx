@@ -12,12 +12,7 @@ import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
 import useStore from '../store'
 
-export type SendTextResponseWaitData = {
-  replyOption: string
-  value: string
-}
-
-function SendTextResponseWaitNode({ id, data }: NodeProps<SendTextResponseWaitData>) {
+function SendTextResponseWaitNode({ id}: NodeProps) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
   const updateSendTextValue = useStore((state) => state.updateSendTextValue)
 
@@ -44,7 +39,7 @@ function SendTextResponseWaitNode({ id, data }: NodeProps<SendTextResponseWaitDa
           </SelectContent>
         </Select>
           <Textarea
-            value={data.value}
+          placeholder='Type your message here'
             onChange={(evt) => updateSendTextValue(id, evt.target.value)}
             className="nodrag resize-none"
           />

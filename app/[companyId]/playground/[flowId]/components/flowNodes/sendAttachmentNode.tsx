@@ -39,7 +39,7 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
           onValueChange={(value) => updateReplyOption(id, value, 'fileOption')}
         >
           <SelectTrigger>
-            <SelectValue placeholder="Select file" />
+            <SelectValue placeholder="Select file to send" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value={'1'}>File 1</SelectItem>
