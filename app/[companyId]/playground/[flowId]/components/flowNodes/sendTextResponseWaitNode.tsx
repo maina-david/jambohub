@@ -8,13 +8,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
 import useStore from '../store'
 
-function SendTextResponseWaitNode({ id}: NodeProps) {
+function SendTextResponseWaitNode({ id }: NodeProps) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
   const updateSendTextValue = useStore((state) => state.updateSendTextValue)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    adjustTextareaHeight()
+  }, [updateSendTextValue])
+
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+    }
+  }
 
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
@@ -38,11 +50,15 @@ function SendTextResponseWaitNode({ id}: NodeProps) {
             <SelectItem value={'0'}>0</SelectItem>
           </SelectContent>
         </Select>
-          <Textarea
+        <Textarea
           placeholder='Type your message here'
-            onChange={(evt) => updateSendTextValue(id, evt.target.value)}
-            className="nodrag resize-none"
-          />
+          onChange={(evt) => {
+            updateSendTextValue(id, evt.target.value)
+            adjustTextareaHeight()
+          }}
+          className="nodrag"
+          ref={textareaRef}
+        />
       </div>
       <Handle type="target" position={Position.Top} className="w-10 bg-teal-500" />
       <Handle type="source" position={Position.Bottom} className="w-10 bg-teal-500" />
@@ -51,3 +67,4 @@ function SendTextResponseWaitNode({ id}: NodeProps) {
 }
 
 export default SendTextResponseWaitNode
+
