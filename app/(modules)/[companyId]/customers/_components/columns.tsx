@@ -36,10 +36,10 @@ export const columns: ColumnDef<Customer>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "fullName",
+    accessorKey: "fullNames",
     header: "Full Names",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("fullName")}</div>
+      <div className="capitalize">{row.getValue("fullNames")}</div>
     ),
   },
   {
