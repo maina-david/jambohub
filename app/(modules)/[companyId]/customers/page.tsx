@@ -9,6 +9,7 @@ import { useParams } from "next/navigation"
 import axios from "axios"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import CustomersSkeleton from "./_components/customers-skeleton"
+import CustomerDialog from "./_components/CustomerDialog"
 
 async function fetchCustomers(companyId: string) {
   const { data } = await axios.get(`/api/companies/${companyId}/customers`)
@@ -55,7 +56,8 @@ export default function UsersPage() {
 
   return (
     <AppShell>
-      <AppHeader heading="Customers" text="Create and manage customers and leads">
+      <AppHeader heading="Customers" text="Manage your customers here.">
+        <CustomerDialog />
       </AppHeader>
       <DataTable columns={columns} data={data} />
     </AppShell>

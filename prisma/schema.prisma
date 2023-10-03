@@ -204,7 +204,7 @@ model Customer {
   fullNames      String
   identification String?  @unique
   email          String?  @unique
-  phone          String?
+  phone          String?  @unique
   occupation     String?
   createdAt      DateTime @default(now()) @map(name: "created_at")
   updatedAt      DateTime @default(now()) @map(name: "updated_at")

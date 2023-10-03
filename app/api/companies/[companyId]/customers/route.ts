@@ -1,14 +1,10 @@
 import { getServerSession } from "next-auth/next"
 import * as z from "zod"
-
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { MaximumPlanResourcesError, RequiresActivePlanError, RequiresProPlanError } from "@/lib/exceptions"
+import { RequiresActivePlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
-
-const customerCreateSchema = z.object({
-  name: z.string(),
-})
+import { CreateCustomerSchema } from '@/lib/validations/customer'
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -39,7 +35,7 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: Request, context: z.infer<typeof routeContextSchema>) {
   try {
     const session = await getServerSession(authOptions)
 
@@ -54,28 +50,30 @@ export async function POST(req: Request) {
       throw new RequiresActivePlanError()
     }
 
+    const { params } = routeContextSchema.parse(context)
+
     const json = await req.json()
-    const body = customerCreateSchema.parse(json)
+    const body = CreateCustomerSchema.parse(json)
 
-    // const customer = await db.customer.create({
-    //   data: {
-    //     name: body.name,
-    //     ownerId: user.id,
-    //   },
-    //   select: {
-    //     id: true,
-    //   },
-    // })
+    const customer = await db.customer.create({
+      data: {
+        fullNames: body.fullNames,
+        identification: body.identification,
+        email: body.email,
+        phone: body.phone,
+        occupation: body.occupation,
+        companyId: params.companyId
+      },
+      select: {
+        id: true,
+      },
+    })
 
-    // return new Response(JSON.stringify(customer), { status: 201 })
+    return new Response(JSON.stringify(customer), { status: 201 })
 
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
-    }
-
-    if (error instanceof RequiresProPlanError) {
-      return new Response("Requires Pro Plan", { status: 402 })
     }
 
     if (error instanceof RequiresActivePlanError) {
