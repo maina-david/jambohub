@@ -120,7 +120,7 @@ function Flow({ flowData }) {
       setEdges(flowData.edges || [])
       reactFlowInstance.setViewport({ x, y, zoom })
     }else{
-      resetStore()
+      resetStore
     }
   }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes])
 
@@ -128,18 +128,18 @@ function Flow({ flowData }) {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject()
       localStorage.setItem('savedFlow', JSON.stringify(flow))
-      toast({
-        title: "Current Flow Instance:",
-        description: (
-          <ScrollArea className="h-[400px] w-[350px] rounded-md border p-4">
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">
-                {JSON.stringify(flow, null, 2)}
-              </code>
-            </pre>
-          </ScrollArea>
-        ),
-      })
+      // toast({
+      //   title: "Current Flow Instance:",
+      //   description: (
+      //     <ScrollArea className="h-[400px] w-[350px] rounded-md border p-4">
+      //       <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+      //         <code className="text-white">
+      //           {JSON.stringify(flow, null, 2)}
+      //         </code>
+      //       </pre>
+      //     </ScrollArea>
+      //   ),
+      // })
     }
   }, [reactFlowInstance])
 

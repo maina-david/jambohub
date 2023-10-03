@@ -49,7 +49,6 @@ model User {
   sessions       Session[]
   ownedCompanies Company[]     @relation("Owner")
   teams          UserTeam[]
-  leads          Lead[]
   chats          Chat[]
   companies      Company[]     @relation("UserCompany")
   UserCompany    UserCompany[]
@@ -69,7 +68,7 @@ model Company {
   flows                Flow[]
   teams                Team[]
   settings             CompanySettings[]
-  leads                Lead[]
+  customers            Customer[]
   campaigns            Campaign[]
   chats                Chat[]
   notificationSettings NotificationSettings[]
@@ -165,7 +164,7 @@ model Flow {
   id          String   @id @default(cuid())
   name        String
   description String?
-  flowData       Json?
+  flowData    Json?
   companyId   String
   published   Boolean  @default(false)
   status      Boolean  @default(true)
@@ -200,31 +199,18 @@ model Channel {
   updatedAt   DateTime    @default(now())
 }
 
-enum LeadStatus {
-  NEW
-  CONTACTED
-  QUALIFIED
-  CONVERTED
-  LOST
-}
-
-model Lead {
-  id               String     @id @default(cuid())
-  firstName        String
-  lastName         String
-  email            String     @unique
-  phone            String?
-  jobTitle         String?
-  status           LeadStatus
-  source           String?
-  conversionDetail String?
-  createdAt        DateTime   @default(now()) @map(name: "created_at")
-  updatedAt        DateTime   @default(now()) @map(name: "updated_at")
-  companyId        String
-  ownerId          String?
-  company          Company    @relation(fields: [companyId], references: [id])
-  owner            User?      @relation(fields: [ownerId], references: [id])
-  Chat             Chat[]
+model Customer {
+  id             String   @id @default(cuid())
+  fullNames      String
+  identification String?  @unique
+  email          String?  @unique
+  phone          String?
+  occupation     String?
+  createdAt      DateTime @default(now()) @map(name: "created_at")
+  updatedAt      DateTime @default(now()) @map(name: "updated_at")
+  companyId      String
+  company        Company  @relation(fields: [companyId], references: [id])
+  Chat           Chat[]
 }
 
 enum CampaignStatus {
@@ -254,8 +240,8 @@ model Chat {
   company     Company  @relation(fields: [companyId], references: [id])
   userId      String
   user        User     @relation(fields: [userId], references: [id])
-  leadId      String
-  lead        Lead     @relation(fields: [leadId], references: [id])
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id])
   externalRef String
   message     String
   timestamp   DateTime @default(now())

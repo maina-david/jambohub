@@ -73,25 +73,25 @@ const useFlowStore = createWithEqualityFn<RFState>((set, get) => ({
   onConnect: (connection: Connection) => {
     const { source, target } = connection
     const sourceNode = get().nodes.find((node) => node.id === source)
-    const targetNodeIndex = get().nodes.findIndex((node) => node.id === target)
+    const targetNode = get().nodes.find((node) => node.id === target)
 
-    if (sourceNode && targetNodeIndex !== -1) {
+    if (sourceNode && targetNode) {
       const newEdge: Edge = {
         id: `edge-${nanoid()}`,
         source: source as string,
         target: target as string,
       }
 
-      const updatedNodes = [...get().nodes];
-      updatedNodes[targetNodeIndex] = {
-        ...updatedNodes[targetNodeIndex],
-        parentNode: sourceNode.id,
-      }
-
       set({
         edges: [...get().edges, newEdge],
-        nodes: updatedNodes,
-      }, false)
+        nodes: [
+          ...get().nodes,
+          {
+            ...targetNode,
+            parentNode: sourceNode.id,
+          },
+        ],
+      })
     }
   },
   onEdgesDelete: (edges: Edge[]) => {
