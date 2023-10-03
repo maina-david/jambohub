@@ -174,6 +174,7 @@ function Flow({ flowData }) {
       nodeTypes={nodeTypes}
       proOptions={proOptions}
       defaultViewport={defaultViewport}
+      zoomOnScroll={false}
     >
       <Background />
       <Controls />
