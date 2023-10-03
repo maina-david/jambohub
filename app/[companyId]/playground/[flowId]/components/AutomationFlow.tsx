@@ -18,7 +18,6 @@ import ReactFlow, {
   useReactFlow,
   useStoreApi,
   Viewport,
-  MiniMap,
 } from 'reactflow'
 
 import 'reactflow/dist/base.css'
@@ -178,7 +177,6 @@ function Flow({ flowData }) {
       zoomOnScroll={false}
     >
       <Background />
-      <MiniMap />
       <Controls />
     </ReactFlow>
   )
