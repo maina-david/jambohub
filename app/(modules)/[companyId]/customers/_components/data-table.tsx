@@ -77,10 +77,10 @@ export function DataTable<TData, TValue>({
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter customers by ID..."
+          value={(table.getColumn("identification")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("identification")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -157,14 +157,25 @@ export function DataTable<TData, TValue>({
                 </TableRow>
               ))
             ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                    {data.length === 0 ? (
+                      <>
+                        No customers found.{" "}
+                        <span style={{ color: "#3182ce", cursor: "pointer" }}>
+                          Create
+                        </span>{" "}
+                        or{" "}
+                        <span style={{ color: "#3182ce", cursor: "pointer" }}>
+                          import
+                        </span>{" "}
+                        customers to view.
+                      </>
+                    ) : (
+                      "No results."
+                    )}
+                  </TableCell>
+                </TableRow>
             )}
           </TableBody>
         </Table>
