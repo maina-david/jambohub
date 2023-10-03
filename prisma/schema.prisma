@@ -49,7 +49,7 @@ model User {
   sessions       Session[]
   ownedCompanies Company[]     @relation("Owner")
   teams          UserTeam[]
-  chats          Chat[]
+  chatMessages   ChatMessage[]
   companies      Company[]     @relation("UserCompany")
   UserCompany    UserCompany[]
   Subscription   Subscription?
@@ -232,17 +232,46 @@ model Campaign {
   company     Company        @relation(fields: [companyId], references: [id])
 }
 
+enum ChatType {
+  AUTOMATED
+  INTERACTIVE
+}
+
 model Chat {
-  id          String   @id @default(cuid())
-  channelId   String
-  channel     Channel  @relation(fields: [channelId], references: [id])
-  companyId   String
-  company     Company  @relation(fields: [companyId], references: [id])
-  userId      String?
-  user        User?     @relation(fields: [userId], references: [id])
-  customerId  String
-  customer    Customer @relation(fields: [customerId], references: [id])
-  externalRef String
-  message     String
-  timestamp   DateTime @default(now())
+  id           String        @id @default(cuid())
+  type         ChatType
+  channelId    String
+  channel      Channel       @relation(fields: [channelId], references: [id])
+  companyId    String
+  company      Company       @relation(fields: [companyId], references: [id])
+  customerId   String
+  customer     Customer      @relation(fields: [customerId], references: [id])
+  externalRef  String
+  timestamp    DateTime      @default(now())
+  chatMessages ChatMessage[]
+}
+
+enum MessageDirection {
+  OUTGOING
+  INCOMING
+}
+
+enum MessageType {
+  AUTOMATED
+  INTERACTIVE
+}
+
+model ChatMessage {
+  id             String           @id @default(cuid())
+  chatId         String
+  chat           Chat             @relation(fields: [chatId], references: [id])
+  externalRef    String?          @unique
+  userId         String?
+  user           User?            @relation(fields: [userId], references: [id])
+  message        String
+  direction      MessageDirection
+  type           MessageType
+  externalStatus String?
+  internalStatus String?
+  timestamp      DateTime         @default(now())
 }
