@@ -19,6 +19,7 @@ import CampaignCharts from './_components/campaign-charts'
 import { Search } from '@/components/search'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
+import { AppShell } from "@/components/shell"
 
 
 export default function CampaignsPage() {
@@ -27,8 +28,8 @@ export default function CampaignsPage() {
     to: addDays(new Date(2022, 0, 20), 20),
   })
   return (
-    <>
-      <div className="container flex w-full items-start justify-between">
+    <AppShell>
+      <div className="flex w-full items-start justify-between">
         <div className="grid">
           <Search />
         </div>
@@ -79,6 +80,6 @@ export default function CampaignsPage() {
         </div>
       </div>
       <CampaignCharts />
-    </>
+    </AppShell>
   )
 }
