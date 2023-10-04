@@ -221,12 +221,18 @@ enum CampaignStatus {
   CANCELED
 }
 
+enum CampaignType {
+  INTERNAL
+  GLOBAL
+}
+
 model Campaign {
   id          String         @id @default(cuid())
   name        String
   description String?
   startDate   DateTime
   endDate     DateTime
+  type        CampaignType
   status      CampaignStatus
   companyId   String
   company     Company        @relation(fields: [companyId], references: [id])
