@@ -22,11 +22,8 @@ export default function CampaignDialog() {
       <DialogContent className="w-full max-w-screen-md">
         <DialogHeader>
           <DialogTitle>
-            Choose Campaign Source
+            Choose a campaign
           </DialogTitle>
-          <DialogDescription>
-            Select whether you want to run campaigns using your own customers or the platform&apos;s enrolled customers.
-          </DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-2">
           <Link href="#">
