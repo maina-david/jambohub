@@ -29,15 +29,11 @@ export default function CampaignsPage() {
   })
   return (
     <AppShell>
-      <div className="flex items-center justify-between px-2">
-        <div className="grid gap-1">
-          <Search />
-        </div>
-        <div className="ml-auto items-center gap-2">
-          <div className="flex items-center space-x-2">
-            <Switch id="charts-on" />
-            <Label htmlFor="charts-on">Charts on</Label>
-          </div>
+      <div className="flex items-start justify-between px-2">
+        <Search />
+        <div className="ml-auto flex items-center space-x-2">
+          <Switch id="charts-on" />
+          <Label htmlFor="charts-on">Charts on</Label>
           <div className="grid gap-2">
             <Popover>
               <PopoverTrigger asChild>
