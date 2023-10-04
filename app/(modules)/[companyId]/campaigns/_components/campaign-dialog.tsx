@@ -7,7 +7,7 @@ import Link from "next/link"
 export default function CampaignDialog() {
   return (
     <Dialog defaultOpen={true}>
-      <DialogContent className="w-full max-w-screen-md">
+      <DialogContent className="w-auto">
         <DialogHeader>
           <DialogTitle>
             Choose Campaign Source
