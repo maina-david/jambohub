@@ -33,7 +33,7 @@ export default async function CompanyLayout({
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="bg-background sticky top-0 z-40 border-b">
+      <header className="sticky top-0 z-40 border-b bg-background">
         <div className="container flex h-16 items-center justify-between py-4">
           <Link href={`/${params.companyId}/dashboard`} className="mr-4 hidden items-center space-x-2 md:flex">
             <Icons.logo />
