@@ -31,7 +31,7 @@ export default function CampaignsPage() {
   return (
     <AppShell>
       <div className="container flex items-start justify-between">
-        <div className="flex-1 sm:grow-0">
+        <div className="grid">
           <Search />
         </div>
         <div className="ml-auto flex space-x-2">
