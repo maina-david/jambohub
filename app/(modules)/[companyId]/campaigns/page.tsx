@@ -29,8 +29,8 @@ export default function CampaignsPage() {
   })
   return (
     <>
-      <div className="container flex flex-col items-start justify-between space-y-2 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
-        <div className="flex gap-2">
+      <div className="flex flex-col items-start justify-between space-y-2 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
+        <div className="mr-2 flex gap-2">
           <Popover>
             <PopoverTrigger asChild>
               <Button
