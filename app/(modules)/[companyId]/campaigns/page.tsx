@@ -29,7 +29,7 @@ export default function CampaignsPage() {
   })
   return (
     <AppShell>
-      <div className="flex items-start justify-between">
+      <div className="container flex items-start justify-between">
         <div className="grid">
           <Search />
         </div>
