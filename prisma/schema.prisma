@@ -221,7 +221,7 @@ enum CampaignStatus {
   CANCELED
 }
 
-enum CampaignType {
+enum CampaignAudience {
   INTERNAL
   GLOBAL
 }
@@ -232,7 +232,7 @@ model Campaign {
   description String?
   startDate   DateTime
   endDate     DateTime
-  type        CampaignType
+  audience        CampaignAudience
   status      CampaignStatus
   companyId   String
   company     Company        @relation(fields: [companyId], references: [id])

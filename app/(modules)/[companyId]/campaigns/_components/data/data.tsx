@@ -37,7 +37,7 @@ export const statuses = [
   },
 ]
 
-export const types = [
+export const audiences = [
   {
     label: "Internal",
     value: "INTERNAL",

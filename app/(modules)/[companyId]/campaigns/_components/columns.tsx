@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 
 import { Checkbox } from "@/components/ui/checkbox"
 
-import { types, statuses } from "./data/data"
+import { audiences, statuses } from "./data/data"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { Campaign } from "@prisma/client"
@@ -74,25 +74,25 @@ export const columns: ColumnDef<Campaign>[] = [
     },
   },
   {
-    accessorKey: "type",
+    accessorKey: "audience",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Audiences" />
     ),
     cell: ({ row }) => {
-      const type = types.find(
-        (type) => type.value === row.getValue("type")
+      const audience = audiences.find(
+        (audience) => audience.value === row.getValue("audience")
       )
 
-      if (!type) {
+      if (!audience) {
         return null
       }
 
       return (
         <div className="flex w-[100px] items-center">
-          {type.icon && (
-            <type.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+          {audience.icon && (
+            <audience.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
-          <span>{type.label}</span>
+          <span>{audience.label}</span>
         </div>
       )
     },
