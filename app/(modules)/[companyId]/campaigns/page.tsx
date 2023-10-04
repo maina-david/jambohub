@@ -30,7 +30,7 @@ export default function CampaignsPage() {
   })
   return (
     <>
-      <div className="container flex items-start justify-between">
+      <div className="flex items-start justify-between space-y-4">
         <div className="grid">
           <Search />
         </div>
@@ -84,7 +84,7 @@ export default function CampaignsPage() {
         </div>
       </div>
       {isShowingCharts && (
-        <CampaignCharts />
+        <CampaignCharts className="space-y-4" />
       )}
       <CampaignsDataTable data={[]} columns={columns} />
     </>

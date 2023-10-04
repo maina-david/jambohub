@@ -120,7 +120,7 @@ const dataFormatter = (number: number) => {
 interface ChartsProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 const CampaignCharts = ({ className }: ChartsProps) => (
-  <div className={cn("container mx-auto flex w-full", className)}>
+  <div className={cn("mx-auto flex w-full", className)}>
     <Tabs defaultValue="impressions" className="w-full">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="impressions">Impressions</TabsTrigger>
