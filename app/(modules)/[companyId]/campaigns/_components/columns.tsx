@@ -32,15 +32,6 @@ export const columns: ColumnDef<Campaign>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Campaign" />
-    ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
     accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Campaign Name" />
@@ -85,7 +76,7 @@ export const columns: ColumnDef<Campaign>[] = [
   {
     accessorKey: "type",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Reach" />
+      <DataTableColumnHeader column={column} title="Audiences" />
     ),
     cell: ({ row }) => {
       const type = types.find(
