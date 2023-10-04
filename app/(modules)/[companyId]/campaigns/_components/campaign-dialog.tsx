@@ -22,7 +22,7 @@ export default function CampaignDialog() {
       <DialogContent className="w-full max-w-screen-md">
         <DialogHeader>
           <DialogTitle>
-            Choose a campaign
+            Choose Campaign Source
           </DialogTitle>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-2">
