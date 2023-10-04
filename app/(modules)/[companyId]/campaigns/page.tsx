@@ -28,7 +28,7 @@ export default function CampaignsPage() {
   })
   return (
     <>
-      <div className="container flex items-start justify-between">
+      <div className="container flex w-full items-start justify-between">
         <div className="grid">
           <Search />
         </div>

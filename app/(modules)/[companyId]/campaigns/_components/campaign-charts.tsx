@@ -117,7 +117,7 @@ const dataFormatter = (number: number) => {
 }
 
 const CampaignCharts = () => (
-  <div className="container flex">
+  <div className="container flex w-full">
     <Tabs defaultValue="impressions" className="w-full">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="impressions">Impressions</TabsTrigger>
