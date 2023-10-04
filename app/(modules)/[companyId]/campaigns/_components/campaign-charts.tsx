@@ -117,7 +117,7 @@ const dataFormatter = (number: number) => {
 }
 
 const CampaignCharts = () => (
-  <Tabs defaultValue="impressions" className="w-full md:w-auto">
+  <Tabs defaultValue="impressions" className="w-[400px]">
     <TabsList className="grid w-full grid-cols-2">
       <TabsTrigger value="impressions">Impressions</TabsTrigger>
       <TabsTrigger value="expenditure">Expenditure</TabsTrigger>
