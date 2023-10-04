@@ -1,12 +1,14 @@
 'use client'
 
-import { Card, BarChart } from "@tremor/react"
+import { BarChart } from "@tremor/react"
+
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import { Card } from "@/components/ui/card"
 
 const impressionsData = [
   {
