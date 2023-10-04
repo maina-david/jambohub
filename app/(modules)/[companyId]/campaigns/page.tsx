@@ -19,23 +19,25 @@ import CampaignCharts from './_components/campaign-charts'
 import { Search } from '@/components/search'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
-import { AppShell } from "@/components/shell"
-
 
 export default function CampaignsPage() {
+  const [isShowingCharts, setIsShowingCharts] = React.useState<boolean>(true)
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   })
   return (
-    <AppShell>
+    <>
       <div className="container flex items-start justify-between">
         <div className="grid">
           <Search />
         </div>
         <div className="ml-auto flex space-x-2">
           <div className="flex items-center space-x-2">
-            <Switch id="charts-on" />
+            <Switch
+              id="charts-on"
+              checked={isShowingCharts}
+              onCheckedChange={setIsShowingCharts} />
             <Label htmlFor="charts-on">Display charts</Label>
           </div>
           <div className="grid gap-2">
@@ -79,9 +81,9 @@ export default function CampaignsPage() {
           <CampaignDialog />
         </div>
       </div>
-      <div className="container mx-auto">
+      {isShowingCharts && (
         <CampaignCharts />
-      </div>
-    </AppShell>
+      )}
+    </>
   )
 }

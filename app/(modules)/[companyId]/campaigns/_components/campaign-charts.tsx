@@ -9,6 +9,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
 
 const impressionsData = [
   {
@@ -116,7 +117,10 @@ const dataFormatter = (number: number) => {
   return "$ " + Intl.NumberFormat("us").format(number).toString();
 }
 
-const CampaignCharts = () => (
+interface ChartsProps extends React.HTMLAttributes<HTMLDivElement> { }
+
+const CampaignCharts = ({ className }: ChartsProps) => (
+  <div className={cn("container mx-auto flex w-full", className)}>
     <Tabs defaultValue="impressions" className="w-full">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="impressions">Impressions</TabsTrigger>
@@ -145,6 +149,7 @@ const CampaignCharts = () => (
         </Card>
       </TabsContent>
     </Tabs>
+  </div>
 )
 
 export default CampaignCharts
