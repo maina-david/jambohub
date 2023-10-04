@@ -14,7 +14,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import { AppShell } from '@/components/shell'
 import CampaignDialog from './_components/campaign-dialog'
 import CampaignCharts from './_components/campaign-charts'
 import { Search } from '@/components/search'
@@ -35,7 +34,7 @@ export default function CampaignsPage() {
           <Search/>
           <CampaignDialog/>
         </div>
-        <div className="ml-auto items-center gap-2">
+        <div className="ml-auto">
           <div className="flex items-center space-x-2">
             <Switch id="charts-on" />
             <Label htmlFor="charts-on">Charts on</Label>
