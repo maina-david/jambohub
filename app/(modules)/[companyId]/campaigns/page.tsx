@@ -69,7 +69,6 @@ export default function CampaignsPage() {
           <CampaignDialog />
         </div>
       </div>
-      <Separator />
       <CampaignCharts />
     </AppShell>
   )
