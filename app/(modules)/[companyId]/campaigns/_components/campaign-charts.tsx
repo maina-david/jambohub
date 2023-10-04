@@ -117,35 +117,36 @@ const dataFormatter = (number: number) => {
 }
 
 const CampaignCharts = () => (
-  <Tabs defaultValue="impressions" className="w-[400px]">
-    <TabsList className="grid w-full grid-cols-2">
-      <TabsTrigger value="impressions">Impressions</TabsTrigger>
-      <TabsTrigger value="expenditure">Expenditure</TabsTrigger>
-    </TabsList>
-    <TabsContent value="impressions">
-      <Card className="dark:text-white">
-        <BarChart
-          data={impressionsData}
-          index="date"
-          categories={["Impressions"]}
-          colors={["blue"]}
-          valueFormatter={dataFormatter}
-        />
-      </Card>
-    </TabsContent>
-    <TabsContent value="expenditure">
-      <Card className="dark:text-white">
-        <BarChart
-          data={expenditureData}
-          index="date"
-          categories={["Expenditure"]}
-          colors={["blue"]}
-          valueFormatter={dataFormatter}
-        />
-      </Card>
-    </TabsContent>
-  </Tabs>
-
+  <div className="container flex">
+    <Tabs defaultValue="impressions" className="w-full">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="impressions">Impressions</TabsTrigger>
+        <TabsTrigger value="expenditure">Expenditure</TabsTrigger>
+      </TabsList>
+      <TabsContent value="impressions">
+        <Card className="dark:text-white">
+          <BarChart
+            data={impressionsData}
+            index="date"
+            categories={["Impressions"]}
+            colors={["blue"]}
+            valueFormatter={dataFormatter}
+          />
+        </Card>
+      </TabsContent>
+      <TabsContent value="expenditure">
+        <Card className="dark:text-white">
+          <BarChart
+            data={expenditureData}
+            index="date"
+            categories={["Expenditure"]}
+            colors={["blue"]}
+            valueFormatter={dataFormatter}
+          />
+        </Card>
+      </TabsContent>
+    </Tabs>
+  </div>
 )
 
 export default CampaignCharts
