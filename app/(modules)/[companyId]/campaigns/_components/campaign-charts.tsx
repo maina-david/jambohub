@@ -130,7 +130,6 @@ const CampaignCharts = () => (
           categories={["Impressions"]}
           colors={["blue"]}
           valueFormatter={dataFormatter}
-          yAxisWidth={48}
         />
       </Card>
     </TabsContent>
@@ -142,7 +141,6 @@ const CampaignCharts = () => (
           categories={["Expenditure"]}
           colors={["blue"]}
           valueFormatter={dataFormatter}
-          yAxisWidth={48}
         />
       </Card>
     </TabsContent>
