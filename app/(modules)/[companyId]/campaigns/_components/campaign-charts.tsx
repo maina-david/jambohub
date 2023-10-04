@@ -124,7 +124,7 @@ const CampaignCharts = () => (
         <TabsTrigger value="expenditure">Expenditure</TabsTrigger>
       </TabsList>
       <TabsContent value="impressions">
-        <Card className="dark:text-white">
+        <Card>
           <BarChart
             data={impressionsData}
             index="date"
@@ -135,7 +135,7 @@ const CampaignCharts = () => (
         </Card>
       </TabsContent>
       <TabsContent value="expenditure">
-        <Card className="dark:text-white">
+        <Card>
           <BarChart
             data={expenditureData}
             index="date"
