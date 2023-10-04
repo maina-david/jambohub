@@ -30,7 +30,7 @@ export default function CampaignsPage() {
   return (
     <>
       <div className="flex items-start justify-between space-y-4">
-        <div className="flex items-center space-x-2">
+        <div className="grid items-center">
           <Switch
             id="charts-on"
             checked={isShowingCharts}
