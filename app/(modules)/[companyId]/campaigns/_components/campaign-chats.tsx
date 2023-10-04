@@ -11,31 +11,103 @@ import {
 const impressionsData = [
   {
     date: "Jan 2023",
-    "Impressions": 2488,
+    Impressions: 3456,
   },
   {
-    name: "Feb 2023",
-    "Impressions": 1445,
+    date: "Feb 2023",
+    Impressions: 5432,
   },
   {
-    name: "March 2023",
-    "Impressions": 743,
+    date: "Mar 2023",
+    Impressions: 6789,
+  },
+  {
+    date: "Apr 2023",
+    Impressions: 7890,
+  },
+  {
+    date: "May 2023",
+    Impressions: 4567,
+  },
+  {
+    date: "Jun 2023",
+    Impressions: 6543,
+  },
+  {
+    date: "Jul 2023",
+    Impressions: 9876,
+  },
+  {
+    date: "Aug 2023",
+    Impressions: 3456,
+  },
+  {
+    date: "Sep 2023",
+    Impressions: 8765,
+  },
+  {
+    date: "Oct 2023",
+    Impressions: 2345,
+  },
+  {
+    date: "Nov 2023",
+    Impressions: 5678,
+  },
+  {
+    date: "Dec 2023",
+    Impressions: 1234,
   },
 ]
 
 const expenditureData = [
   {
     date: "Jan 2023",
-    "Expenditure": 15000
+    Expenditure: 15000,
   },
   {
     date: "Feb 2023",
-    "Expenditure": 12400
+    Expenditure: 12400,
   },
   {
-    date: "March 2023",
-    "Expenditure": 7020
-  }
+    date: "Mar 2023",
+    Expenditure: 7020,
+  },
+  {
+    date: "Apr 2023",
+    Expenditure: 8900,
+  },
+  {
+    date: "May 2023",
+    Expenditure: 4560,
+  },
+  {
+    date: "Jun 2023",
+    Expenditure: 6540,
+  },
+  {
+    date: "Jul 2023",
+    Expenditure: 9870,
+  },
+  {
+    date: "Aug 2023",
+    Expenditure: 3450,
+  },
+  {
+    date: "Sep 2023",
+    Expenditure: 8760,
+  },
+  {
+    date: "Oct 2023",
+    Expenditure: 2340,
+  },
+  {
+    date: "Nov 2023",
+    Expenditure: 5670,
+  },
+  {
+    date: "Dec 2023",
+    Expenditure: 1230,
+  },
 ]
 
 const dataFormatter = (number: number) => {
@@ -53,7 +125,7 @@ const CampaignChats = () => (
         <BarChart
           data={impressionsData}
           index="date"
-          categories={["impressionsData"]}
+          categories={["Impressions"]}
           colors={["blue"]}
           valueFormatter={dataFormatter}
           yAxisWidth={48}
