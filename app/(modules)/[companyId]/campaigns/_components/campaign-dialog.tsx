@@ -10,7 +10,7 @@ export default function CampaignDialog() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button
           variant={'default'}
           onClick={() => setIsOpen(true)}
@@ -18,7 +18,7 @@ export default function CampaignDialog() {
           Create Campaign
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-3/4">
+      <DialogContent className="w-full">
         <DialogHeader>
           <DialogTitle>
             Choose Campaign Source
