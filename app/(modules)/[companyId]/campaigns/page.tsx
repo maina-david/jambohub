@@ -30,44 +30,7 @@ export default function CampaignsPage() {
   })
   return (
     <AppShell>
-      <div className="flex items-start justify-between px-2">
-        <div className="flex">
-          <div className="grid gap-1">
-            <Search />
-          </div>
-          <div className="ml-auto flex items-center space-x-2">
-            <Switch id="charts-on" />
-            <Label htmlFor="charts-on">Charts on</Label>
-          </div>
-          <div className="grid gap-2">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button id="date" variant={"outline"} className={cn("w-[300px] justify-start text-left font-normal", !date
-                  && "text-muted-foreground")}>
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date?.from ? (
-                    date.to ? (
-                      <>
-                        {format(date.from, "LLL dd, y")} -{" "}
-                        {format(date.to, "LLL dd, y")}
-                      </>
-                    ) : (
-                      format(date.from, "LLL dd, y")
-                    )
-                  ) : (
-                    <span>Pick a date</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar initialFocus mode="range" defaultMonth={date?.from} selected={date} onSelect={setDate}
-                  numberOfMonths={2} />
-              </PopoverContent>
-            </Popover>
-          </div>
-          <CampaignDialog />
-        </div>
-      </div>
+      
       <Separator />
       <CampaignCharts />
     </AppShell>
