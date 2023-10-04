@@ -116,16 +116,15 @@ const dataFormatter = (number: number) => {
   return "$ " + Intl.NumberFormat("us").format(number).toString();
 }
 
-const CampaignChats = () => (
+const CampaignCharts = () => (
   <Tabs defaultValue="impressions">
     <TabsList className="grid w-full grid-cols-2">
       <TabsTrigger value="impressions">Impressions</TabsTrigger>
       <TabsTrigger value="expenditure">Expenditure</TabsTrigger>
     </TabsList>
     <TabsContent value="impressions">
-      <Card>
+      <Card className="dark:text-white">
         <BarChart
-          className="dark:text-white"
           data={impressionsData}
           index="date"
           categories={["Impressions"]}
@@ -136,9 +135,8 @@ const CampaignChats = () => (
       </Card>
     </TabsContent>
     <TabsContent value="expenditure">
-      <Card>
+      <Card className="dark:text-white">
         <BarChart
-          className="dark:text-white"
           data={expenditureData}
           index="date"
           categories={["Expenditure"]}
@@ -152,5 +150,5 @@ const CampaignChats = () => (
 
 )
 
-export default CampaignChats
+export default CampaignCharts
 
