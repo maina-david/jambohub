@@ -35,7 +35,7 @@ export default function CampaignsPage() {
           <Search/>
           <CampaignDialog/>
         </div>
-        <div className="ml-auto">
+        <div className="ml-auto flex flex-col">
           <div className="flex items-center space-x-2">
             <Switch id="charts-on" />
             <Label htmlFor="charts-on">Charts on</Label>
