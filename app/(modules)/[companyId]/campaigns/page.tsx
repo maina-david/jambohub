@@ -30,8 +30,10 @@ export default function CampaignsPage() {
   })
   return (
     <AppShell>
-      <div className="flex flex-col items-start justify-between">
-        <Search />
+      <div className="container flex items-start justify-between">
+        <div className="flex-1 sm:grow-0">
+          <Search />
+        </div>
         <div className="ml-auto flex space-x-2">
           <div className="flex items-center space-x-2">
             <Switch id="charts-on" />
