@@ -30,13 +30,6 @@ export default function CampaignsPage() {
   return (
     <>
       <div className="flex items-start justify-between space-y-4">
-        <div className="grid items-center">
-          <Switch
-            id="charts-on"
-            checked={isShowingCharts}
-            onCheckedChange={setIsShowingCharts} />
-          <Label htmlFor="charts-on">Display charts</Label>
-        </div>
         <div className="grid gap-2">
           <Popover>
             <PopoverTrigger asChild>
@@ -74,6 +67,13 @@ export default function CampaignsPage() {
               />
             </PopoverContent>
           </Popover>
+        </div>
+        <div className="grid items-center">
+          <Switch
+            id="charts-on"
+            checked={isShowingCharts}
+            onCheckedChange={setIsShowingCharts} />
+          <Label htmlFor="charts-on">Display charts</Label>
         </div>
         <div className="ml-auto flex space-x-2">
           <CampaignDialog />
