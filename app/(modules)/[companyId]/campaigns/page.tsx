@@ -29,7 +29,7 @@ export default function CampaignsPage() {
   })
   return (
     <AppShell>
-      <div className="flex w-full items-start justify-between">
+      <div className="flex items-start justify-between">
         <div className="grid">
           <Search />
         </div>
@@ -79,7 +79,9 @@ export default function CampaignsPage() {
           <CampaignDialog />
         </div>
       </div>
-      {/* <CampaignCharts /> */}
+      <div className="container mx-auto">
+        <CampaignCharts />
+      </div>
     </AppShell>
   )
 }
