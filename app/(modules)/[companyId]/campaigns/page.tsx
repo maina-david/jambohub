@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { CalendarIcon } from "@radix-ui/react-icons"
-import { addDays, format } from "date-fns"
+import { format, subDays } from "date-fns"
 import { DateRange } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
@@ -16,7 +16,6 @@ import {
 
 import CampaignDialog from './_components/campaign-dialog'
 import CampaignCharts from './_components/campaign-charts'
-import { Search } from '@/components/search'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { CampaignsDataTable } from "./_components/campaigns-table"
@@ -25,8 +24,8 @@ import { columns } from "./_components/columns"
 export default function CampaignsPage() {
   const [isShowingCharts, setIsShowingCharts] = React.useState<boolean>(true)
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: subDays(new Date(), 30),
+    to: new Date(),
   })
   return (
     <>
