@@ -14,40 +14,41 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
+import { AppShell } from '@/components/shell'
 import CampaignDialog from './_components/campaign-dialog'
 import CampaignCharts from './_components/campaign-charts'
 import { Search } from '@/components/search'
 import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
-import { AppShell } from "@/components/shell"
-
-
-// ... (Your imports remain unchanged)
 
 export default function CampaignsPage() {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   })
-
   return (
     <AppShell>
-      <div className="flex flex-col items-start justify-between px-2 lg:flex-row">
-        {/* Left Section (Search) */}
-        <div className="lg:w-1/4">
+      <div className="flex items-center justify-between px-2">
+        <div className="grid gap-1">
           <Search />
         </div>
-
-        {/* Right Section (Other components) */}
-        <div className="flex items-center space-x-2 lg:w-3/4">
-          <Switch id="charts-on" />
-          <Label htmlFor="charts-on">Charts on</Label>
-
+        <div className="ml-auto items-center gap-2">
+          <div className="flex items-center space-x-2">
+            <Switch id="charts-on" />
+            <Label htmlFor="charts-on">Charts on</Label>
+          </div>
           <div className="grid gap-2">
             <Popover>
               <PopoverTrigger asChild>
-                <Button id="date" variant="outline" className={cn("w-[300px] justify-start text-left font-normal", !date && "text-muted-foreground")}>
+                <Button
+                  id="date"
+                  variant={"outline"}
+                  className={cn(
+                    "w-[300px] justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {date?.from ? (
                     date.to ? (
@@ -64,15 +65,21 @@ export default function CampaignsPage() {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
-                <Calendar initialFocus mode="range" defaultMonth={date?.from} selected={date} onSelect={setDate} numberOfMonths={2} />
+                <Calendar
+                  initialFocus
+                  mode="range"
+                  defaultMonth={date?.from}
+                  selected={date}
+                  onSelect={setDate}
+                  numberOfMonths={2}
+                />
               </PopoverContent>
             </Popover>
           </div>
           <CampaignDialog />
         </div>
       </div>
-
-      {/* Campaign Charts */}
+      <Separator />
       <CampaignCharts />
     </AppShell>
   )

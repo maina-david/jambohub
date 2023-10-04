@@ -8,17 +8,18 @@ import { useState } from "react"
 
 export default function CampaignDialog() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
-          variant={'default'}
-          onClick={() => setIsOpen(true)}
+        variant={'default'}
+        onClick={() => setIsOpen(true)}
         >
           Create Campaign
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full">
+      <DialogContent className="w-full max-w-screen-md">
         <DialogHeader>
           <DialogTitle>
             Choose Campaign Source
