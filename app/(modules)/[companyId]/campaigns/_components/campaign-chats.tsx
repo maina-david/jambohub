@@ -123,6 +123,7 @@ const CampaignChats = () => (
     <TabsContent value="impressions">
       <Card>
         <BarChart
+          className="dark:text-white"
           data={impressionsData}
           index="date"
           categories={["Impressions"]}
@@ -135,6 +136,7 @@ const CampaignChats = () => (
     <TabsContent value="expenditure">
       <Card>
         <BarChart
+          className="dark:text-white"
           data={expenditureData}
           index="date"
           categories={["Expenditure"]}

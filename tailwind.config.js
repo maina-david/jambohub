@@ -9,8 +9,6 @@ module.exports = {
     './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    transparent: "transparent",
-    current: "currentColor",
     container: {
       center: true,
       padding: "2rem",
