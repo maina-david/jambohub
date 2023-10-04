@@ -19,6 +19,8 @@ import CampaignCharts from './_components/campaign-charts'
 import { Search } from '@/components/search'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
+import { CampaignsDataTable } from "./_components/campaigns-table"
+import { columns } from "./_components/columns"
 
 export default function CampaignsPage() {
   const [isShowingCharts, setIsShowingCharts] = React.useState<boolean>(true)
@@ -84,6 +86,7 @@ export default function CampaignsPage() {
       {isShowingCharts && (
         <CampaignCharts />
       )}
+      <CampaignsDataTable data={[]} columns={columns} />
     </>
   )
 }
