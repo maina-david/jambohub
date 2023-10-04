@@ -29,7 +29,7 @@ export default function CampaignsPage() {
     to: addDays(new Date(2022, 0, 20), 20),
   })
   return (
-    <AppShell>
+    <>
       <div className="flex items-center justify-between px-2">
         <div className="grid gap-1">
           <Search/>
@@ -82,6 +82,6 @@ export default function CampaignsPage() {
       </div>
       <Separator />
       <CampaignCharts />
-    </AppShell>
+    </>
   )
 }
