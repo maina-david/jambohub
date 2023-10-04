@@ -30,26 +30,20 @@ export default function CampaignsPage() {
   })
   return (
     <AppShell>
-      <div className="flex items-center justify-between px-2">
-        <div className="grid gap-1">
-          <Search />
-        </div>
-        <div className="flex flex-row flex-wrap justify-between gap-2">
-          <div className="flex items-center space-x-2">
+      <div className="flex items-start justify-between px-2">
+        <div className="flex flex-col">
+          <div className="grid gap-1">
+            <Search />
+          </div>
+          <div className="ml-auto flex items-center space-x-2">
             <Switch id="charts-on" />
             <Label htmlFor="charts-on">Charts on</Label>
           </div>
           <div className="grid gap-2">
             <Popover>
               <PopoverTrigger asChild>
-                <Button
-                  id="date"
-                  variant={"outline"}
-                  className={cn(
-                    "w-[300px] justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
+                <Button id="date" variant={"outline"} className={cn("w-[300px] justify-start text-left font-normal", !date
+                  && "text-muted-foreground")}>
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {date?.from ? (
                     date.to ? (
@@ -66,14 +60,8 @@ export default function CampaignsPage() {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  initialFocus
-                  mode="range"
-                  defaultMonth={date?.from}
-                  selected={date}
-                  onSelect={setDate}
-                  numberOfMonths={2}
-                />
+                <Calendar initialFocus mode="range" defaultMonth={date?.from} selected={date} onSelect={setDate}
+                  numberOfMonths={2} />
               </PopoverContent>
             </Popover>
           </div>
