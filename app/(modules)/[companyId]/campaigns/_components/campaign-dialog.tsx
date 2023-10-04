@@ -1,13 +1,24 @@
 'use client'
 
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import Link from "next/link"
+import { useState } from "react"
 
 export default function CampaignDialog() {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   return (
-    <Dialog defaultOpen={true}>
-      <DialogContent className="w-auto">
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger>
+        <Button
+          variant={'default'}
+          onClick={() => setIsOpen(true)}
+        >
+          Create Campaign
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="w-3/4">
         <DialogHeader>
           <DialogTitle>
             Choose Campaign Source

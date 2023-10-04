@@ -32,10 +32,9 @@ export default function CampaignsPage() {
     <AppShell>
       <div className="flex items-center justify-between px-2">
         <div className="grid gap-1">
-          <Search/>
-          <CampaignDialog/>
+          <Search />
         </div>
-        <div className="ml-auto flex flex-col">
+        <div className="flex flex-row flex-wrap justify-between gap-2">
           <div className="flex items-center space-x-2">
             <Switch id="charts-on" />
             <Label htmlFor="charts-on">Charts on</Label>
@@ -78,6 +77,7 @@ export default function CampaignsPage() {
               </PopoverContent>
             </Popover>
           </div>
+          <CampaignDialog />
         </div>
       </div>
       <Separator />
