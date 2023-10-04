@@ -79,7 +79,7 @@ export default function CampaignsPage() {
           <CampaignDialog />
         </div>
       </div>
-      <CampaignCharts />
+      {/* <CampaignCharts /> */}
     </AppShell>
   )
 }
