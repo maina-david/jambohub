@@ -7,7 +7,7 @@ import Link from "next/link"
 export default function CampaignDialog() {
     return (
         <Dialog defaultOpen={true}>
-        <DialogContent>
+        <DialogContent className="w-3/4">
             <DialogHeader>
                 <DialogTitle>
                     Choose Campaign Source
@@ -16,7 +16,7 @@ export default function CampaignDialog() {
                     Select whether you want to run campaigns using your own customers or the platform&apos;s enrolled customers.
                 </DialogDescription>
             </DialogHeader>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid h-full grid-cols-2 gap-2">
                     <Link href="#">
                         <Card className="cursor-pointer shadow-md">
                             <CardHeader>
