@@ -1,12 +1,19 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Campaign } from "@prisma/client"
+import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { ColumnDef } from "@tanstack/react-table"
 
-import { Checkbox } from "@/components/ui/checkbox"
-
-import { DataTableColumnHeader } from "./data-table-column-header"
-import { DataTableRowActions } from "./data-table-row-actions"
-import { Campaign } from "@prisma/client"
 
 export const columns: ColumnDef<Campaign>[] = [
   {
@@ -16,7 +23,6 @@ export const columns: ColumnDef<Campaign>[] = [
         checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
-        className="translate-y-[2px]"
       />
     ),
     cell: ({ row }) => (
@@ -24,7 +30,6 @@ export const columns: ColumnDef<Campaign>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
-        className="translate-y-[2px]"
       />
     ),
     enableSorting: false,
@@ -32,81 +37,94 @@ export const columns: ColumnDef<Campaign>[] = [
   },
   {
     accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Campaign Name" />
+    header: "Campaign Name",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("name")}</div>
     ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("name")}
-          </span>
-        </div>
-      )
-    },
   },
   {
     accessorKey: "startDate",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Start Date" />
-    ),
-    cell: ({ row }) => {
+    header: ({ column }) => {
       return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("startDate")}
-          </span>
-        </div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Identification
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
       )
     },
+    cell: ({ row }) => <div>{row.getValue("startDate")}</div>,
   },
   {
     accessorKey: "endDate",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="End Date" />
-    ),
-    cell: ({ row }) => {
+    header: ({ column }) => {
       return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("endDate")}
-          </span>
-        </div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Identification
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
       )
     },
+    cell: ({ row }) => <div>{row.getValue("endDate")}</div>,
   },
   {
     accessorKey: "status",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
-    ),
-    cell: ({ row }) => {
+    header: ({ column }) => {
       return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("status")}
-          </span>
-        </div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Email
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
       )
     },
+    cell: ({ row }) => <div className="lowercase">{row.getValue("status")}</div>,
   },
   {
     accessorKey: "audience",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Audience" />
-    ),
-    cell: ({ row }) => {
+    header: ({ column }) => {
       return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("audience")}
-          </span>
-        </div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Phone No
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
       )
     },
+    cell: ({ row }) => <div>{row.getValue("audience")}</div>,
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    enableHiding: false,
+    cell: ({ row }) => {
+      const customer = row.original
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <DotsHorizontalIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem>Edit customer</DropdownMenuItem>
+            <DropdownMenuItem>View details</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Start chat</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    },
   },
 ]
