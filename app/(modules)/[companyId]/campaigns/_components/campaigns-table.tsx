@@ -57,6 +57,8 @@ export function CampaignsDataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
+    enableColumnResizing: true,
+    columnResizeMode: 'onChange',
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -76,7 +78,7 @@ export function CampaignsDataTable<TData, TValue>({
   })
 
   return (
-    <div className="w-full">
+    <div className="block max-w-full overflow-y-hidden overflow-x-scroll p-2">
       <div className="flex items-center py-4">
         <Input
           placeholder="Search campaigns"
@@ -116,7 +118,7 @@ export function CampaignsDataTable<TData, TValue>({
         </div>
       </div>
       <div className="rounded-md border">
-        <Table>
+        <Table className="w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
