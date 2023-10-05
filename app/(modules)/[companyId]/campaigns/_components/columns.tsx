@@ -43,6 +43,36 @@ export const columns: ColumnDef<Campaign>[] = [
     ),
   },
   {
+    id: "impressions",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Impressions
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div>{0}</div>,
+  },
+  {
+    id: "spend",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Spend
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div>${0}</div>,
+  },
+  {
     accessorKey: "startDate",
     header: ({ column }) => {
       return (
@@ -50,7 +80,7 @@ export const columns: ColumnDef<Campaign>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Start Date
+          Campaign Start Date
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -65,7 +95,7 @@ export const columns: ColumnDef<Campaign>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          End Date
+          Campaign End Date
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -103,6 +133,36 @@ export const columns: ColumnDef<Campaign>[] = [
     cell: ({ row }) => <div>{row.getValue("audience")}</div>,
   },
   {
+    id: "daily-budget",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Daily Budget
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div>${0}</div>,
+  },
+  {
+    id: "budget",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Total Budget
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div>${0}</div>,
+  },
+  {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
@@ -117,11 +177,7 @@ export const columns: ColumnDef<Campaign>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit customer</DropdownMenuItem>
-            <DropdownMenuItem>View details</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Start chat</DropdownMenuItem>
+
           </DropdownMenuContent>
         </DropdownMenu>
       )
