@@ -123,6 +123,7 @@ export function CampaignsDataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                  header.column.getCanPin() && header.column.pin('left')
                   return (
                     <TableHead key={header.id}>
                       {header.isPlaceholder
