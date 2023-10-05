@@ -19,7 +19,7 @@ import CampaignCharts from './_components/campaign-charts'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { CampaignsDataTable } from "./_components/campaigns-table"
-import { columns } from "./_components/columns"
+import { CampaignProps, columns } from "./_components/columns"
 import { useQuery } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
 
@@ -106,6 +106,6 @@ export default function CampaignsPage() {
   )
 }
 
-const getCompanyCampaigns = (companyId: string): Promise<Campaign[] | undefined> =>
+const getCompanyCampaigns = (companyId: string): Promise<CampaignProps[] | undefined> =>
   axios.get(`/api/companies/${companyId}/campaigns`).then((response) => response.data)
 

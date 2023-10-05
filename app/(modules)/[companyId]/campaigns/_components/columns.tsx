@@ -6,9 +6,17 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
-import { Campaign } from "@prisma/client"
 
-export const columns: ColumnDef<Pick<Campaign, "id" | "name" | "startDate" | "endDate" | "status" | "audience">>[] = [
+export interface CampaignProps {
+  id: string
+  name: string
+  startDate: string
+  endDate: string
+  status: string,
+  audience: string
+}
+
+export const columns: ColumnDef<CampaignProps>[] = [
   {
     id: "select",
     header: ({ table }) => (
