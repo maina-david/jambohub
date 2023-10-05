@@ -20,9 +20,7 @@ export const columns: ColumnDef<Campaign>[] = [
     accessorKey: "name",
     enablePinning: true,
     header: ({ column }) => {
-      if (column.getIsPinned() == false) {
-        column.pin('left')
-      }
+      column.pin('left')
       return (
         <Button
           variant="ghost"
