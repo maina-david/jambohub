@@ -38,7 +38,6 @@ export const columns: ColumnDef<Campaign>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      column.pin('left')
       return (
         <Button
           variant="ghost"
