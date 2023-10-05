@@ -8,11 +8,11 @@ import { ChannelCard } from './channel-card'
 import ChannelModal from './channel-modal'
 import { useParams } from 'next/navigation'
 import ChannelSkeleton from './channel-skeleton'
+import { Channel } from '@prisma/client'
 
-async function fetchChannels(companyId: string) {
-  const { data } = await axios.get(`/api/companies/${companyId}/channels`)
-  return data
-}
+const fetchChannels = (companyId: string): Promise<Channel[]> =>
+   axios.get(`/api/companies/${companyId}/channels`).then((response) => response.data)
+
 
 export default function ListChannels() {
   const params = useParams()

@@ -48,32 +48,46 @@ export const columns: ColumnDef<Campaign>[] = [
   },
   {
     accessorKey: "startDate",
-    header: () => <div className="text-right">Start Date</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Start Date" />
+    ),
     cell: ({ row }) => {
-      const startDate = new Date(row.getValue('startDate')).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      })
-      return <div className="text-right font-medium">{startDate}</div>
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {new Date(row.getValue("startDate")).toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
+            })}
+          </span>
+        </div>
+      )
     },
   },
   {
     accessorKey: "endDate",
-    header: () => <div className="text-right">End Date</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="End Date" />
+    ),
     cell: ({ row }) => {
-      const endDate = new Date(row.getValue('endDate')).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      })
-      return <div className="text-right font-medium">{endDate}</div>
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {new Date(row.getValue("endDate")).toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
+            })}
+          </span>
+        </div>
+      )
     },
   },
   {
