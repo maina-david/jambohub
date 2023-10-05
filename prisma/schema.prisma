@@ -227,15 +227,17 @@ enum CampaignAudience {
 }
 
 model Campaign {
-  id          String         @id @default(cuid())
+  id          String           @id @default(cuid())
   name        String
   description String?
   startDate   DateTime
   endDate     DateTime
-  audience        CampaignAudience
+  audience    CampaignAudience
   status      CampaignStatus
   companyId   String
-  company     Company        @relation(fields: [companyId], references: [id])
+  company     Company          @relation(fields: [companyId], references: [id])
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @default(now())
 }
 
 enum ChatType {

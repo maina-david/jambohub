@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import axios from 'axios'
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { format, subDays } from "date-fns"
 import { DateRange } from "react-day-picker"
@@ -20,6 +21,9 @@ import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { CampaignsDataTable } from "./_components/campaigns-table"
 import { columns } from "./_components/columns"
+import { useQuery } from "@tanstack/react-query"
+import { useParams } from "next/navigation"
+import { Campaign } from "@prisma/client"
 
 export default function CampaignsPage() {
   const [isShowingCharts, setIsShowingCharts] = React.useState<boolean>(true)
@@ -27,6 +31,25 @@ export default function CampaignsPage() {
     from: subDays(new Date(), 30),
     to: new Date(),
   })
+  const params = useParams()
+
+  const campaigns = useQuery({
+    queryKey: ['companyCampaigns'],
+    queryFn: () => getCompanyCampaigns(params?.companyId as string)
+  })
+
+  if (campaigns.isLoading) {
+    return (
+      <></>
+    )
+  }
+
+  if (campaigns.isError) {
+    return (
+      <></>
+    )
+  }
+
   return (
     <>
       <div className="flex flex-col items-start justify-between space-y-2 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
@@ -82,7 +105,10 @@ export default function CampaignsPage() {
       {isShowingCharts && (
         <CampaignCharts className="space-y-4" />
       )}
-      <CampaignsDataTable data={[]} columns={columns} />
+      <CampaignsDataTable data={campaigns.data} columns={columns} />
     </>
   )
 }
+
+const getCompanyCampaigns = (companyId: string): Promise<Campaign[]> =>
+  axios.get(`/api/companies/${companyId}/campaigns`).then((response) => response.data)

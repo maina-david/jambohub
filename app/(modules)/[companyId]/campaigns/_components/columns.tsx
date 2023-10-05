@@ -47,6 +47,36 @@ export const columns: ColumnDef<Campaign>[] = [
     },
   },
   {
+    accessorKey: "startDate",
+    header: () => <div className="text-right">Start Date</div>,
+    cell: ({ row }) => {
+      const startDate = new Date(row.getValue('startDate')).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      })
+      return <div className="text-right font-medium">{startDate}</div>
+    },
+  },
+  {
+    accessorKey: "endDate",
+    header: () => <div className="text-right">End Date</div>,
+    cell: ({ row }) => {
+      const endDate = new Date(row.getValue('endDate')).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      })
+      return <div className="text-right font-medium">{endDate}</div>
+    },
+  },
+  {
     accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
