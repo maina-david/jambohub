@@ -105,10 +105,10 @@ export default function CampaignsPage() {
       {isShowingCharts && (
         <CampaignCharts className="space-y-4" />
       )}
-      <CampaignsDataTable data={campaigns.data} columns={columns} />
+      {campaigns.data && <CampaignsDataTable data={campaigns.data} columns={columns} />}
     </>
   )
 }
 
-const getCompanyCampaigns = (companyId: string): Promise<Campaign[]> =>
+const getCompanyCampaigns = (companyId: string): Promise<Campaign[] | undefined> =>
   axios.get(`/api/companies/${companyId}/campaigns`).then((response) => response.data)
