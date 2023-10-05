@@ -55,14 +55,7 @@ export const columns: ColumnDef<Campaign>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {new Date(row.getValue("startDate")).toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-              second: "numeric",
-            })}
+            {row.getValue("startDate")}
           </span>
         </div>
       )
@@ -77,14 +70,7 @@ export const columns: ColumnDef<Campaign>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {new Date(row.getValue("endDate")).toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-              second: "numeric",
-            })}
+            {row.getValue("endDate")}
           </span>
         </div>
       )
@@ -96,52 +82,28 @@ export const columns: ColumnDef<Campaign>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      const status = statuses.find(
-        (status) => status.value === row.getValue("status")
-      )
-
-      if (!status) {
-        return null
-      }
-
       return (
-        <div className="flex w-[100px] items-center">
-          {status.icon && (
-            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
-          <span>{status.label}</span>
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue("status")}
+          </span>
         </div>
       )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
     },
   },
   {
     accessorKey: "audience",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Audiences" />
+      <DataTableColumnHeader column={column} title="Audience" />
     ),
     cell: ({ row }) => {
-      const audience = audiences.find(
-        (audience) => audience.value === row.getValue("audience")
-      )
-
-      if (!audience) {
-        return null
-      }
-
       return (
-        <div className="flex w-[100px] items-center">
-          {audience.icon && (
-            <audience.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
-          <span>{audience.label}</span>
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue("audience")}
+          </span>
         </div>
       )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
     },
   },
   {
