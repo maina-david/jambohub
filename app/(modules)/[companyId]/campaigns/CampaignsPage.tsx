@@ -46,7 +46,7 @@ export default function CampaignsPage() {
             <></>
         )
     }
-
+console.log(campaigns.data)
     return (
         <>
             <div className="flex flex-col items-start justify-between space-y-2 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
@@ -101,7 +101,7 @@ export default function CampaignsPage() {
             {isShowingCharts && (
                 <CampaignCharts className="space-y-4" />
             )}
-            {campaigns.data && <CampaignsDataTable data={campaigns.data} columns={columns} />}
+            {campaigns.data && <CampaignsDataTable data={[]} columns={columns} />}
         </>
     )
 }
