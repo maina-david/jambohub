@@ -19,7 +19,7 @@ import CampaignCharts from './_components/campaign-charts'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { CampaignsDataTable } from "./_components/campaigns-table"
-import { CampaignProps, columns } from "./_components/columns"
+import { columns } from "./_components/columns"
 import { useQuery } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
 
@@ -30,23 +30,25 @@ export default function CampaignsPage() {
     to: new Date(),
   })
   const params = useParams()
-  const campaigns = useQuery({
+  const getCampaigns = useQuery({
     queryKey: ['companyCampaigns'],
     queryFn: () => getCompanyCampaigns(params?.companyId as string)
   })
 
-  if (campaigns.isLoading) {
+  if (getCampaigns.isLoading) {
     return (
       <></>
     )
   }
 
-  if (campaigns.isError) {
+  if (getCampaigns.isError) {
     return (
       <></>
     )
   }
-  console.log(campaigns.data)
+
+  const campaigns = JSON.parse(getCampaigns.data.toString())
+
   return (
     <>
       <div className="flex flex-col items-start justify-between space-y-2 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
@@ -101,11 +103,11 @@ export default function CampaignsPage() {
       {isShowingCharts && (
         <CampaignCharts className="space-y-4" />
       )}
-      {campaigns.data && <CampaignsDataTable data={campaigns.data} columns={columns} />}
+      {getCampaigns.data && <CampaignsDataTable data={campaigns} columns={columns} />}
     </>
   )
 }
 
-const getCompanyCampaigns = (companyId: string): Promise<CampaignProps[] | undefined> =>
+const getCompanyCampaigns = (companyId: string): Promise<Campaign[]> =>
   axios.get(`/api/companies/${companyId}/campaigns`).then((response) => response.data)
 
