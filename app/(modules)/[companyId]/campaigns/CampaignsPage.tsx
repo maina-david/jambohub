@@ -23,6 +23,7 @@ import { columns } from "./_components/columns"
 import { useQuery } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
+import { AppShell } from "@/components/shell"
 
 export default function CampaignsPage() {
   const [isShowingCharts, setIsShowingCharts] = React.useState<boolean>(true)
@@ -55,7 +56,7 @@ export default function CampaignsPage() {
   const campaigns = getCampaigns.data
 
   return (
-    <>
+    <AppShell>
       <div className="flex flex-col items-start justify-between space-y-2 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
         <div className="mr-2 flex gap-2">
           <Popover>
@@ -109,7 +110,7 @@ export default function CampaignsPage() {
         <CampaignCharts className="space-y-4" />
       )}
       {getCampaigns.data && <CampaignsDataTable data={campaigns} columns={columns} />}
-    </>
+    </AppShell>
   )
 }
 
