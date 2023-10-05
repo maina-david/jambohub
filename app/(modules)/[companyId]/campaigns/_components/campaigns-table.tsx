@@ -159,15 +159,7 @@ export function CampaignsDataTable<TData, TValue>({
                 <TableCell colSpan={columns.length} className="h-24 text-center">
                   {data.length === 0 ? (
                     <>
-                      No customers found.{" "}
-                      <span style={{ color: "#3182ce", cursor: "pointer" }}>
-                        Create
-                      </span>{" "}
-                      or{" "}
-                      <span style={{ color: "#3182ce", cursor: "pointer" }}>
-                        import
-                      </span>{" "}
-                      customers to view.
+                      No campaigns found. Create one
                     </>
                   ) : (
                     "No results."
