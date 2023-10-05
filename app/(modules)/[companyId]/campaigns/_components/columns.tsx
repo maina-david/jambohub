@@ -4,12 +4,11 @@ import { ColumnDef } from "@tanstack/react-table"
 
 import { Checkbox } from "@/components/ui/checkbox"
 
-import { audiences, statuses } from "./data/data"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { Campaign } from "@prisma/client"
 
-export const columns: ColumnDef<Campaign>[] = [
+export const columns: ColumnDef<Pick<Campaign, "id" | "name" | "startDate" | "endDate" | "status" | "audience">>[] = [
   {
     id: "select",
     header: ({ table }) => (
