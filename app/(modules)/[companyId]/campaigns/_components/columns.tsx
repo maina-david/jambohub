@@ -50,7 +50,7 @@ export const columns: ColumnDef<Campaign>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Identification
+          Start Date
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -65,7 +65,7 @@ export const columns: ColumnDef<Campaign>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Identification
+          End Date
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -80,7 +80,7 @@ export const columns: ColumnDef<Campaign>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Status
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -95,7 +95,7 @@ export const columns: ColumnDef<Campaign>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Phone No
+           Audience
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       )
