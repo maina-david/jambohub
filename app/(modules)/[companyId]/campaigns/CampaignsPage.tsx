@@ -22,6 +22,7 @@ import { CampaignsDataTable } from "./_components/campaigns-table"
 import { columns } from "./_components/columns"
 import { useQuery } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
+import { EmptyPlaceholder } from "@/components/empty-placeholder"
 
 export default function CampaignsPage() {
   const [isShowingCharts, setIsShowingCharts] = React.useState<boolean>(true)
@@ -43,11 +44,15 @@ export default function CampaignsPage() {
 
   if (getCampaigns.isError) {
     return (
-      <></>
+      <EmptyPlaceholder>
+        <EmptyPlaceholder.Icon name="warning" />
+        <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
+        <EmptyPlaceholder.Description>Error getting company&apos;s campaigns</EmptyPlaceholder.Description>
+      </EmptyPlaceholder>
     )
   }
 
-  const campaigns = JSON.parse(getCampaigns.data.toString())
+  const campaigns = getCampaigns.data
 
   return (
     <>
