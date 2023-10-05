@@ -37,7 +37,18 @@ export const columns: ColumnDef<Campaign>[] = [
   },
   {
     accessorKey: "name",
-    header: "Campaign Name",
+    header: ({ column }) => {
+      column.pin('left')
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Campaign Name
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("name")}</div>
     ),

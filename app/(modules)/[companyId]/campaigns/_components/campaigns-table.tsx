@@ -52,6 +52,7 @@ export function CampaignsDataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [columnPinning, setColumnPinning] = React.useState({})
 
   const table = useReactTable({
     data,
@@ -63,11 +64,13 @@ export function CampaignsDataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onColumnPinningChange: setColumnPinning,
     onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
+      columnPinning,
       rowSelection,
     },
   })
