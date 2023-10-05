@@ -20,6 +20,9 @@ export const columns: ColumnDef<Campaign>[] = [
     accessorKey: "name",
     enablePinning: true,
     header: ({ column }) => {
+      if (column.getIsPinned() == false) {
+        column.pin('left')
+      }
       return (
         <Button
           variant="ghost"
@@ -117,7 +120,7 @@ export const columns: ColumnDef<Campaign>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-           Audience
+          Audience
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -158,7 +161,7 @@ export const columns: ColumnDef<Campaign>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const customer = row.original
+      const campaign = row.original
 
       return (
         <DropdownMenu>
