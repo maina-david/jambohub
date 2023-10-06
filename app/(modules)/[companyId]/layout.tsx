@@ -10,7 +10,6 @@ import { UserAccountNav } from "@/components/user-account-nav"
 import { ModeToggle } from "@/components/mode-toggle"
 import { siteConfig } from "@/config/site"
 import CompanySwitcher from "@/components/company-switcher"
-import { ScrollArea } from "@/components/ui/scroll-area"
 
 interface CompanyLayoutProps {
   children?: React.ReactNode
@@ -59,9 +58,7 @@ export default async function CompanyLayout({
       </header>
       <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
         <aside className="hidden w-[200px] flex-col md:flex">
-          <ScrollArea className="h-full w-full">
             <SideNav />
-          </ScrollArea>
         </aside>
         <main className="flex w-full flex-1 flex-col overflow-hidden">
           <div className="grid items-start gap-8">
