@@ -95,7 +95,7 @@ export default function CampaignsPage() {
             </PopoverContent>
           </Popover>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center space-x-2">
           <Switch
             id="charts-on"
             checked={isShowingCharts}
