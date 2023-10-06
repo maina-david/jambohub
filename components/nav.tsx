@@ -16,7 +16,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { siteConfig } from "@/config/site"
 import { Subscription, Team } from "@prisma/client"
 import { Key } from "react"
-import { ScrollArea } from "./ui/scroll-area"
 
 export function SideNav({
   className,
@@ -73,7 +72,6 @@ export function SideNav({
 
   return (
     <nav className="grid items-start gap-2">
-      <ScrollArea className="h-full w-[200px] rounded-md border">
       {routes.map((item, index) => {
         const Icon = Icons[item.icon || "arrowRight"]
         return (
@@ -155,7 +153,6 @@ export function SideNav({
           </Card>
         )
       )}
-    </ScrollArea>
     </nav>
   )
 }
