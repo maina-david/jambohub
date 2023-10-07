@@ -9,30 +9,26 @@ export const metadata = {
 
 function ChatsPage() {
   return (
-    <div className='relative flex w-full border-spacing-1 overflow-hidden'>
+    <div className='relative flex w-full border-spacing-1 flex-col overflow-hidden'>
       {/* Chat Sidebar */}
-      <div>
-        <div className='flex items-center space-x-2'>
+      <div className='w-20 flex-1 gap-2'>
+        <div className='items-center space-x-2'>
           <Input
             type="search"
             placeholder="Search customers..."
             className="h-8 w-full sm:w-64 sm:pr-12"
           />
-          <kbd className="pointer-events-none absolute right-1.5 top-1.5 hidden h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 sm:flex">
-            <MagnifyingGlassIcon className='h-4 w-4' />
-          </kbd>
         </div>
         <ScrollArea className='h-64 w-full'>
           <div>Chat 1</div>
-          <div>Chat 1</div>
-          <div>Chat 1</div>
-          <div>Chat 1</div>
-          <div>Chat 1</div>
-          <div>Chat 1</div>
+          <div>Chat 2</div>
+          <div>Chat 3</div>
+          <div>Chat 4</div>
+          <div>Chat 5</div>
         </ScrollArea>
       </div>
       {/* Chat Content Area */}
-      <div>
+      <div className='flex-1'>
         Chat Area content
       </div>
     </div>
