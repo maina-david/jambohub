@@ -10,9 +10,9 @@ export const metadata = {
 
 function ChatsPage() {
   return (
-    <div className='relative grid w-full border-spacing-1 grid-cols-2 space-y-2 overflow-hidden'>
+    <div className='relative grid w-full border-spacing-1 grid-cols-2 space-y-2 overflow-hidden md:container md:mx-auto'>
       {/* Chat Sidebar */}
-      <div className='w-1/4 gap-2 border shadow'>
+      <div className='w-1/4 gap-2'>
         <div className='flex w-full'>
           <Input
             type="search"
@@ -20,7 +20,7 @@ function ChatsPage() {
             className="h-8 w-full sm:w-64 sm:pr-12"
           />
         </div>
-        <ScrollArea className='h-72 w-48 rounded-md border'>
+        <ScrollArea className='h-full w-full rounded-md border'>
           <h5 className="scroll-m-20 text-xl font-semibold tracking-tight">Chats</h5>
           <div>Chat 1</div>
           <div>Chat 2</div>
