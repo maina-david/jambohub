@@ -9,9 +9,9 @@ export const metadata = {
 
 function ChatsPage() {
   return (
-    <div className='relative flex w-full border-spacing-1 flex-col overflow-hidden'>
+    <div className='relative grid w-full border-spacing-1 grid-cols-2 overflow-hidden'>
       {/* Chat Sidebar */}
-      <div className='w-20 flex-1 gap-2'>
+      <div className='w-1/4 gap-2'>
         <div className='items-center space-x-2'>
           <Input
             type="search"
@@ -28,7 +28,7 @@ function ChatsPage() {
         </ScrollArea>
       </div>
       {/* Chat Content Area */}
-      <div className='flex-1'>
+      <div className='w-3/4'>
         Chat Area content
       </div>
     </div>
