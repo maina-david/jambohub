@@ -9,7 +9,7 @@ export const metadata = {
 
 function ChatsPage() {
   return (
-    <div className='relative grid w-full border-spacing-1 grid-cols-2 overflow-hidden'>
+    <div className='relative grid w-full border-spacing-1 grid-cols-2 space-y-2 overflow-hidden'>
       {/* Chat Sidebar */}
       <div className='w-1/4 gap-2'>
         <Input
