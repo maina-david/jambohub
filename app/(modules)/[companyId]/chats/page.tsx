@@ -13,20 +13,21 @@ function ChatsPage() {
     <div className='relative grid w-full border-spacing-1 grid-cols-2 space-y-2 overflow-hidden'>
       {/* Chat Sidebar */}
       <div className='w-1/4 gap-2 border shadow'>
-        <Input
-          type="search"
-          placeholder="Search customers..."
-          className="h-8 w-full sm:w-64 sm:pr-12"
-        />
-        <ScrollArea className='h-64 w-1/4'>
+        <div className='flex w-full'>
+          <Input
+            type="search"
+            placeholder="Search customers..."
+            className="h-8 w-full sm:w-64 sm:pr-12"
+          />
+        </div>
+        <ScrollArea className='h-72 w-48 rounded-md border'>
+          <h5 className="scroll-m-20 text-xl font-semibold tracking-tight">Chats</h5>
           <div>Chat 1</div>
           <div>Chat 2</div>
           <div>Chat 3</div>
           <div>Chat 4</div>
           <div>Chat 5</div>
-        </ScrollArea>
-        <Separator/>
-        <ScrollArea className='h-64 w-1/4'>
+          <h5 className="scroll-m-20 text-xl font-semibold tracking-tight">Contacts</h5>
           <div>Contact 1</div>
           <div>Contact 2</div>
           <div>Contact 3</div>
