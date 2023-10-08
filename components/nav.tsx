@@ -79,8 +79,8 @@ export function SideNav({
             <Link key={index} href={item.disabled ? "/" : item.href}>
               <span
                 className={cn(
-                  "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-                  path?.startsWith(item.href) ? "bg-accent" : "transparent",
+                  "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
+                  path?.startsWith(item.href) ? "bg-accent text-sky-500 dark:text-sky-400" : "transparent",
                   item.disabled && "cursor-not-allowed opacity-80"
                 )}
               >
@@ -119,8 +119,8 @@ export function SideNav({
             <Link key={index} href={`/${companyId}/teams/${team.id}/members`}>
               <span
                 className={cn(
-                  "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-                  path?.startsWith(`/${companyId}/teams/${team.id}`) ? "bg-accent" : "transparent"
+                  "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
+                  path?.startsWith(`/${companyId}/teams/${team.id}`) ? "bg-accent text-sky-500 dark:text-sky-400" : "transparent"
                 )}
               >
                 <Users2 className="mr-2 h-4 w-4" />
