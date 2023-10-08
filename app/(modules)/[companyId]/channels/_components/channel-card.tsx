@@ -207,7 +207,7 @@ export function ChannelCard({ channel }: ChannelProps) {
 
   return (
     <li className="col-span-1 rounded-lg shadow-2xl">
-      <div className="flex w-full items-center justify-between space-x-6 p-6">
+      <div className="flex w-full items-center justify-between space-x-6 border-2 border-current p-6">
         <div className="flex-1 truncate">
           <div className="flex items-center space-x-3">
             <DropdownMenu>

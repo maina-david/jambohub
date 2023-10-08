@@ -80,7 +80,7 @@ export function SideNav({
               <span
                 className={cn(
                   "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
-                  path?.startsWith(item.href) ? "bg-accent text-sky-500 dark:text-sky-400" : "transparent",
+                  path?.startsWith(item.href) ? "bg-accent text-sky-400" : "transparent",
                   item.disabled && "cursor-not-allowed opacity-80"
                 )}
               >
@@ -120,7 +120,7 @@ export function SideNav({
               <span
                 className={cn(
                   "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
-                  path?.startsWith(`/${companyId}/teams/${team.id}`) ? "bg-accent text-sky-500 dark:text-sky-400" : "transparent"
+                  path?.startsWith(`/${companyId}/teams/${team.id}`) ? "bg-accent text-sky-400" : "transparent"
                 )}
               >
                 <Users2 className="mr-2 h-4 w-4" />
