@@ -11,7 +11,7 @@ function ChatsPage() {
     <div className='relative flex w-full'>
       {/* Sidebar Left */}
       <div className="flex h-full w-[360px] flex-col">
-        <div className='flex w-full items-center px-5 py-3'>
+        <div className='flex w-full items-center p-3'>
           <Input placeholder='Search for contact...' />
         </div>
           <div className='gap-4'>
