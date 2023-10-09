@@ -1,9 +1,11 @@
 'use client'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
+import { PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
 import React, { useState } from 'react'
 
 // export const metadata = {
@@ -60,20 +62,47 @@ function ChatsPage() {
       {/* Sidebar Left*/}
 
       {/* ChatContent */}
-      <div className="h-[calc(100% - 8.875rem)] flex flex-1 flex-col overflow-hidden">
-        <ScrollArea className='flex-1'>
-          {/* Your chat area content goes here */}
-        </ScrollArea>
-        <div className='flex p-3'>
-          <Input
-            value={message}
-            onChange={handleInputChange}
-            placeholder='Type your message...'
-          />
-          <Button className="ml-2" disabled={!message} onClick={handleSend}>
-            <PaperPlaneIcon className='mr-2 h-4 w-4' />
-            Send
-          </Button>
+      <div className='h-full w-0 grow'>
+        <div className='flex items-center justify-between px-5 py-2.5 '>
+          <div className='flex items-center'>
+            <div className='flex cursor-pointer items-center'>
+              <Badge className='mr-3'></Badge>
+              <div className='flex flex-col'>
+                <h6 className='scroll-m-20 text-xl font-semibold tracking-tight'>Test User</h6>
+              </div>
+            </div>
+          </div>
+
+          <div className='flex items-center'>
+            <Button size={'icon'}>
+              <PhoneCallIcon className='h-4 w-4' />
+            </Button>
+            <Button size={'icon'}>
+              <VideoIcon className='h-4 w-4' />
+            </Button>
+            <Button size={'icon'}>
+              <SearchIcon className='h-4 w-4' />
+            </Button>
+          </div>
+
+        </div>
+
+
+        <div className="h-[calc(100% - 8.875rem)] flex flex-1 flex-col overflow-hidden">
+          <ScrollArea className='flex-1'>
+            {/* Your chat area content goes here */}
+          </ScrollArea>
+          <div className='flex p-3'>
+            <Input
+              value={message}
+              onChange={handleInputChange}
+              placeholder='Type your message...'
+            />
+            <Button className="ml-2" disabled={!message} onClick={handleSend}>
+              <PaperPlaneIcon className='mr-2 h-4 w-4' />
+              Send
+            </Button>
+          </div>
         </div>
       </div>
       {/* ChatContent */}
