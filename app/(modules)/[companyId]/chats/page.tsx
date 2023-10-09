@@ -26,13 +26,13 @@ function ChatsPage() {
   }
 
   return (
-    <div className='flex w-full space-y-2 shadow-2xl'>
+    <div className='relative flex w-full space-y-2 shadow-2xl'>
       {/* Sidebar Left */}
       <div className="flex w-1/3 flex-col border">
         <div className='flex items-center justify-between py-2.5'>
           <Input placeholder='Search for contact...' />
         </div>
-        <ScrollArea className='h-[450px] w-full'>
+        <ScrollArea className='h-[440px] w-full'>
           <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Chats</h5>
           <div className="mb-5">
             <div className="w-full items-start px-3 py-2">
@@ -71,7 +71,7 @@ function ChatsPage() {
       {/* Sidebar Left*/}
 
       {/* ChatContent */}
-      <div className='flex flex-col border'>
+      <div className='flex grow flex-col border'>
         <div className='flex items-center justify-between px-5 py-2.5'>
             <div className='flex cursor-pointer items-center'>
               <div className='flex flex-col'>
