@@ -28,8 +28,8 @@ function ChatsPage() {
   return (
     <div className='relative flex w-full'>
       {/* Sidebar Left */}
-      <div className="flex h-full w-1/3 flex-col">
-        <div className='flex w-full items-center'>
+      <div className="flex h-full w-1/3 flex-col border">
+        <div className='flex w-full items-center py-2.5'>
           <Input placeholder='Search for contact...' className='rounded'/>
         </div>
         <div className="h-[calc(100% - 4.0625rem)]">
@@ -62,7 +62,7 @@ function ChatsPage() {
       {/* Sidebar Left*/}
 
       {/* ChatContent */}
-      <div className='w-0 grow'>
+      <div className='w-0 grow border'>
         <div className='flex items-center justify-between px-5 py-2.5'>
           <div className='flex items-center'>
             <div className='flex cursor-pointer items-center'>
