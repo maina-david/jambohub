@@ -6,8 +6,6 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import React, { useState } from 'react'
 
-interface ChatsPageProps { }
-
 // export const metadata = {
 //   title: "Chats",
 // }
