@@ -16,9 +16,14 @@ function ChatsPage() {
   }
 
   const handleSend = () => {
-    // Add logic for sending the message
-    // For now, let's just clear the input
     setMessage('')
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      handleSend()
+    }
   }
 
   return (
@@ -98,6 +103,7 @@ function ChatsPage() {
             <Input
               value={message}
               onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
               placeholder='Type your message...'
             />
             <Button className="ml-2" disabled={!message} onClick={handleSend}>
