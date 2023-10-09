@@ -1,6 +1,5 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -72,7 +71,7 @@ function ChatsPage() {
       {/* Sidebar Left*/}
 
       {/* ChatContent */}
-      <div className='flex w-0 grow flex-col border'>
+      <div className='flex grow flex-col border'>
         <div className='flex items-center justify-between px-5 py-2.5'>
           <div className='flex items-center'>
             <div className='flex cursor-pointer items-center'>
