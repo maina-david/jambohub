@@ -28,7 +28,7 @@ function ChatsPage() {
         <div className='flex w-full items-center p-2.5'>
           <Input placeholder='Search for contact...' className='rounded' />
         </div>
-        <ScrollArea className='h-[500px] w-full'>
+        <ScrollArea className='h-[400px] w-full'>
           <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Chats</h5>
           <div className="mb-5">
             <div className="w-full items-start border px-3 py-2">
@@ -90,7 +90,7 @@ function ChatsPage() {
           </div>
         </div>
 
-        <div className="flex h-[500px] flex-1 flex-col overflow-hidden">
+        <div className="flex h-[400px] flex-1 flex-col overflow-hidden">
           <ScrollArea className='flex-1 overflow-y-auto'>
             {/* Your chat area content goes here */}
           </ScrollArea>
