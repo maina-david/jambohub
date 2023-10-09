@@ -8,10 +8,6 @@ import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import { PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
 import React, { useState } from 'react'
 
-// export const metadata = {
-//   title: "Chats",
-// }
-
 function ChatsPage() {
   const [message, setMessage] = useState<string>('')
 
@@ -30,39 +26,37 @@ function ChatsPage() {
       {/* Sidebar Left */}
       <div className="flex h-full w-1/3 flex-col rounded border">
         <div className='flex w-full items-center p-2.5'>
-          <Input placeholder='Search for contact...' className='rounded'/>
+          <Input placeholder='Search for contact...' className='rounded' />
         </div>
-        <div className="h-[calc(100% - 4.0625rem)]">
-          <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Chats</h5>
-          <div className="mb-5">
-            <div className="w-full items-start border px-3 py-2">
-              chat 1
-            </div>
-            <div className="w-full items-start border px-3 py-2">
-              chat 2
-            </div>
-            <div className="w-full items-start border px-3 py-2">
-              chat 3
-            </div>
+        <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Chats</h5>
+        <div className="mb-5">
+          <div className="w-full items-start border px-3 py-2">
+            chat 1
           </div>
-          <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Contacts</h5>
-          <div>
-            <div className="w-full items-start border px-3 py-2">
-              Contact 1
-            </div>
-            <div className="w-full items-start border px-3 py-2">
-              Contact 2
-            </div>
-            <div className="w-full items-start border px-3 py-2">
-              Contact 3
-            </div>
+          <div className="w-full items-start border px-3 py-2">
+            chat 2
+          </div>
+          <div className="w-full items-start border px-3 py-2">
+            chat 3
+          </div>
+        </div>
+        <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Contacts</h5>
+        <div>
+          <div className="w-full items-start border px-3 py-2">
+            Contact 1
+          </div>
+          <div className="w-full items-start border px-3 py-2">
+            Contact 2
+          </div>
+          <div className="w-full items-start border px-3 py-2">
+            Contact 3
           </div>
         </div>
       </div>
       {/* Sidebar Left*/}
 
       {/* ChatContent */}
-      <div className='w-0 grow rounded border'>
+      <div className='flex h-[400px] w-0 grow flex-col rounded border'>
         <div className='flex items-center justify-between px-5 py-2.5'>
           <div className='flex items-center'>
             <div className='flex cursor-pointer items-center'>
@@ -83,12 +77,10 @@ function ChatsPage() {
               <SearchIcon className='h-4 w-4' />
             </Button>
           </div>
-
         </div>
 
-
-        <div className="h-[calc(100% - 8.875rem)] flex flex-1 flex-col overflow-hidden">
-          <ScrollArea className='flex-1'>
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <ScrollArea className='flex-1 overflow-y-auto'>
             {/* Your chat area content goes here */}
           </ScrollArea>
           <div className='flex p-3'>
