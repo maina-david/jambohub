@@ -62,7 +62,7 @@ function ChatsPage() {
       {/* Sidebar Left*/}
 
       {/* ChatContent */}
-      <div className='h-full w-0 grow'>
+      <div className='w-0 grow'>
         <div className='flex items-center justify-between px-5 py-2.5 '>
           <div className='flex items-center'>
             <div className='flex cursor-pointer items-center'>
