@@ -33,30 +33,28 @@ function ChatsPage() {
           <Input placeholder='Search for contact...' />
         </div>
         <div className="h-[calc(100% - 4.0625rem)]">
-          <div className="p-5 md:p-12">
-            <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Chats</h5>
-            <div className="mb-5">
-              <div className="w-full items-start border px-3 py-2">
-                chat 1
-              </div>
-              <div className="w-full items-start border px-3 py-2">
-                chat 2
-              </div>
-              <div className="w-full items-start border px-3 py-2">
-                chat 3
-              </div>
+          <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Chats</h5>
+          <div className="mb-5">
+            <div className="w-full items-start border px-3 py-2">
+              chat 1
             </div>
-            <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Contacts</h5>
-            <div>
-              <div className="w-full items-start border px-3 py-2">
-                Contact 1
-              </div>
-              <div className="w-full items-start border px-3 py-2">
-                Contact 2
-              </div>
-              <div className="w-full items-start border px-3 py-2">
-                Contact 3
-              </div>
+            <div className="w-full items-start border px-3 py-2">
+              chat 2
+            </div>
+            <div className="w-full items-start border px-3 py-2">
+              chat 3
+            </div>
+          </div>
+          <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Contacts</h5>
+          <div>
+            <div className="w-full items-start border px-3 py-2">
+              Contact 1
+            </div>
+            <div className="w-full items-start border px-3 py-2">
+              Contact 2
+            </div>
+            <div className="w-full items-start border px-3 py-2">
+              Contact 3
             </div>
           </div>
         </div>
