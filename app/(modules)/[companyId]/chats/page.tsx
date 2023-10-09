@@ -56,7 +56,7 @@ function ChatsPage() {
       {/* Sidebar Left*/}
 
       {/* ChatContent */}
-      <div className='flex h-[575px] w-0 grow flex-col rounded border'>
+      <div className='flex h-[550px] w-0 grow flex-col rounded border'>
         <div className='flex items-center justify-between px-5 py-2.5'>
           <div className='flex items-center'>
             <div className='flex cursor-pointer items-center'>
