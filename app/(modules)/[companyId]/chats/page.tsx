@@ -12,7 +12,7 @@ interface ChatsPageProps { }
 //   title: "Chats",
 // }
 
-function ChatsPage({ }: ChatsPageProps) {
+function ChatsPage() {
   const [message, setMessage] = useState<string>('')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,18 +26,16 @@ function ChatsPage({ }: ChatsPageProps) {
   }
 
   return (
-    <div className='relative flex h-screen w-full'>
+    <div className='relative flex w-full'>
       {/* Sidebar Left */}
       <div className="flex h-full w-1/3 flex-col">
         <div className='flex w-full items-center p-3'>
           <Input placeholder='Search for contact...' />
         </div>
-        <ScrollArea className='flex-1'>
-          <div className='gap-4'>
-            <h5 className='mb-3.5 ml-3 text-xl font-semibold tracking-tight'>
-              Chats
-            </h5>
-            <div className='mb-1'>
+        <div className="h-[calc(100% - 4.0625rem)]">
+          <div className="p-5 md:p-12">
+            <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Chats</h5>
+            <div className="mb-5">
               <div className="w-full items-start border px-3 py-2">
                 chat 1
               </div>
@@ -48,10 +46,8 @@ function ChatsPage({ }: ChatsPageProps) {
                 chat 3
               </div>
             </div>
-            <h5 className='mb-3.5 ml-3 text-xl font-semibold tracking-tight'>
-              Contacts
-            </h5>
-            <div className='mb-1'>
+            <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Contacts</h5>
+            <div>
               <div className="w-full items-start border px-3 py-2">
                 Contact 1
               </div>
@@ -63,12 +59,12 @@ function ChatsPage({ }: ChatsPageProps) {
               </div>
             </div>
           </div>
-        </ScrollArea>
+        </div>
       </div>
       {/* Sidebar Left*/}
 
       {/* ChatContent */}
-      <div className="flex-2 flex flex-col overflow-hidden">
+      <div className="h-[calc(100% - 8.875rem)] flex flex-1 flex-col overflow-hidden">
         <ScrollArea className='flex-1'>
           {/* Your chat area content goes here */}
         </ScrollArea>
@@ -78,7 +74,7 @@ function ChatsPage({ }: ChatsPageProps) {
             onChange={handleInputChange}
             placeholder='Type your message...'
           />
-          <Button className='ml-2' disabled={!message} onClick={handleSend}>
+          <Button className="ml-2" disabled={!message} onClick={handleSend}>
             <PaperPlaneIcon className='mr-2 h-4 w-4' />
             Send
           </Button>
