@@ -8,7 +8,7 @@ export const metadata = {
 
 function ChatsPage() {
   return (
-    <div className='relative flex w-full overflow-hidden border'>
+    <div className='relative flex w-full border'>
       {/* Sidebar Left */}
       <div className="absolute block h-full w-[360px] flex-col border">
         <div className='flex items-center px-5 py-3'>
