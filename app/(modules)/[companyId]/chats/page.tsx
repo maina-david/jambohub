@@ -24,9 +24,9 @@ function ChatsPage() {
   return (
     <div className='relative flex w-full divide-x shadow-2xl'>
       {/* Sidebar Left */}
-      <div className="flex w-1/3 flex-col rounded">
+      <div className="flex w-1/3 flex-col">
         <div className='flex w-full items-center p-2.5'>
-          <Input placeholder='Search for contact...' className='rounded' />
+          <Input placeholder='Search for contact...' />
         </div>
         <ScrollArea className='h-[440px] w-full'>
           <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Chats</h5>
