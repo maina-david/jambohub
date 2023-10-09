@@ -66,7 +66,6 @@ function ChatsPage() {
         <div className='flex items-center justify-between px-5 py-2.5 '>
           <div className='flex items-center'>
             <div className='flex cursor-pointer items-center'>
-              <Badge className='mr-3'></Badge>
               <div className='flex flex-col'>
                 <h6 className='scroll-m-20 text-xl font-semibold tracking-tight'>Test User</h6>
               </div>
