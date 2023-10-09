@@ -8,13 +8,12 @@ export const metadata = {
 
 function ChatsPage() {
   return (
-    <div className='relative flex w-full border'>
+    <div className='relative flex w-full'>
       {/* Sidebar Left */}
       <div className="absolute block h-full w-[360px] flex-col border">
         <div className='flex items-center px-5 py-3'>
           <Input placeholder='Search for contact...' className='w-full' />
         </div>
-        <ScrollArea className='h-full w-full'>
           <div className='gap-4'>
             <h5 className='mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight'>
               Chats
@@ -45,7 +44,6 @@ function ChatsPage() {
               </div>
             </div>
           </div>
-        </ScrollArea>
       </div>
       {/* Sidebar Left*/}
 
