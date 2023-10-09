@@ -76,7 +76,7 @@ function ChatsPage() {
             onChange={handleInputChange}
             placeholder='Type your message...'
           />
-          <Button disabled={!message} onClick={handleSend}>
+          <Button className="ml-2" disabled={!message} onClick={handleSend}>
             <PaperPlaneIcon className='mr-2 h-4 w-4' />
             Send
           </Button>
