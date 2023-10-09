@@ -73,14 +73,14 @@ function ChatsPage() {
             </div>
           </div>
 
-          <div className='flex items-center'>
-            <Button size={'icon'}>
+          <div className='flex items-center space-x-2'>
+            <Button size={'icon'} variant={'ghost'}>
               <PhoneCallIcon className='h-4 w-4' />
             </Button>
-            <Button size={'icon'}>
+            <Button size={'icon'} variant={'ghost'}>
               <VideoIcon className='h-4 w-4' />
             </Button>
-            <Button size={'icon'}>
+            <Button size={'icon'} variant={'ghost'}>
               <SearchIcon className='h-4 w-4' />
             </Button>
           </div>
