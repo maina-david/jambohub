@@ -22,7 +22,7 @@ function ChatsPage() {
   }
 
   return (
-    <div className='relative flex w-full divide-x shadow-2xl'>
+    <div className='relative flex w-full space-y-2 divide-x shadow-2xl'>
       {/* Sidebar Left */}
       <div className="flex w-1/3 flex-col">
         <div className='flex w-full items-center p-2.5'>
