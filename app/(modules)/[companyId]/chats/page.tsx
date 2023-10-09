@@ -22,9 +22,9 @@ function ChatsPage() {
   }
 
   return (
-    <div className='relative flex w-full'>
+    <div className='relative flex w-full divide-x shadow-2xl'>
       {/* Sidebar Left */}
-      <div className="flex w-1/3 flex-col rounded border">
+      <div className="flex w-1/3 flex-col rounded">
         <div className='flex w-full items-center p-2.5'>
           <Input placeholder='Search for contact...' className='rounded' />
         </div>
