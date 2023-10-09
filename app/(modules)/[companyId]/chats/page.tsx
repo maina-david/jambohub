@@ -29,7 +29,7 @@ function ChatsPage() {
     <div className='relative flex w-full space-y-2 shadow-2xl'>
       {/* Sidebar Left */}
       <div className="flex w-1/3 flex-col border">
-        <div className='flex w-full items-center p-2.5'>
+        <div className='flex items-center justify-between px-5 py-2.5'>
           <Input placeholder='Search for contact...' />
         </div>
         <ScrollArea className='h-[450px] w-full'>
@@ -73,13 +73,11 @@ function ChatsPage() {
       {/* ChatContent */}
       <div className='flex grow flex-col border'>
         <div className='flex items-center justify-between px-5 py-2.5'>
-          <div className='flex items-center'>
             <div className='flex cursor-pointer items-center'>
               <div className='flex flex-col'>
                 <h6 className='scroll-m-20 text-xl font-semibold tracking-tight'>Test User</h6>
               </div>
             </div>
-          </div>
 
           <div className='flex items-center space-x-2'>
             <Button size={'icon'} variant={'ghost'}>
