@@ -1,4 +1,3 @@
-import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import React from 'react'
@@ -11,11 +10,10 @@ function ChatsPage() {
   return (
     <div className='relative flex w-full'>
       {/* Sidebar Left */}
-      <Card className="absolute block h-full w-[360px] flex-col border-2 shadow-2xl">
-        <CardContent>
-          <div className='flex w-full items-center px-5 py-3'>
-            <Input placeholder='Search for contact...' />
-          </div>
+      <div className="flex h-full w-[360px] flex-col">
+        <div className='flex w-full items-center px-5 py-3'>
+          <Input placeholder='Search for contact...' />
+        </div>
           <div className='gap-4'>
             <h5 className='mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight'>
               Chats
@@ -46,8 +44,7 @@ function ChatsPage() {
               </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+      </div>
       {/* Sidebar Left*/}
 
       {/* ChatContent */}
