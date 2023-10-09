@@ -1,12 +1,28 @@
+'use client'
+
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import React from 'react'
+import { PaperPlaneIcon } from '@radix-ui/react-icons'
+import React, { useState } from 'react'
 
-export const metadata = {
-  title: "Chats",
-}
+// export const metadata = {
+//   title: "Chats",
+// }
 
 function ChatsPage() {
+  const [message, setMessage] = useState('');
+
+  const handleInputChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  const handleSend = () => {
+    // Add logic for sending the message
+    // For now, let's just clear the input
+    setMessage('');
+  };
+
   return (
     <div className='relative flex w-full'>
       {/* Sidebar Left */}
@@ -48,9 +64,21 @@ function ChatsPage() {
       {/* Sidebar Left*/}
 
       {/* ChatContent */}
-      <div className="flex-1 overflow-hidden">
-        {/* Your chat content goes here */}
-        {/* Ensure it has a responsive layout for all devices */}
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <ScrollArea className='flex-1'>
+          {/* Your chat area content goes here */}
+        </ScrollArea>
+        <div className='flex p-3'>
+          <Input
+            value={message}
+            onChange={handleInputChange}
+            placeholder='Type your message...'
+          />
+          <Button disabled={!message} onClick={handleSend}>
+            <PaperPlaneIcon className='mr-2 h-4 w-4' />
+            Send
+          </Button>
+        </div>
       </div>
       {/* ChatContent */}
     </div>
