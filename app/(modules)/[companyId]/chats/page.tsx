@@ -6,22 +6,24 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import React, { useState } from 'react'
 
+interface ChatsPageProps { }
+
 // export const metadata = {
 //   title: "Chats",
 // }
 
 function ChatsPage() {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<string>('')
 
-  const handleInputChange = (e) => {
-    setMessage(e.target.value);
-  };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target.value)
+  }
 
   const handleSend = () => {
     // Add logic for sending the message
     // For now, let's just clear the input
-    setMessage('');
-  };
+    setMessage('')
+  }
 
   return (
     <div className='relative flex w-full'>
