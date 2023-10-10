@@ -18,7 +18,7 @@ export type ChatState = {
   sendMessage: (messageObj: SendMsgParamsType) => void
 }
 
-const useChatStore = create<ChatState>((set, get) => ({
+const useChatStore = create<ChatState>()((set, get) => ({
   chats: [],
   contacts: [],
   userProfile: null,
