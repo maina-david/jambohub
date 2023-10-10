@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { createWithEqualityFn } from 'zustand/traditional'
-import { shallow } from 'zustand/shallow'
+import { create } from 'zustand'
 import { Chat } from '@prisma/client'
 import { Contact } from '@prisma/client'
 import { User } from 'next-auth'
@@ -19,7 +18,7 @@ export type ChatState = {
   sendMessage: (messageObj: SendMsgParamsType) => void
 }
 
-const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
+const useChatStore = create<ChatState>((set, get) => ({
   chats: [],
   contacts: [],
   userProfile: null,
@@ -76,7 +75,7 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
     return response.data
 
   }
-}), shallow)
+}))
 
 export default useChatStore
 

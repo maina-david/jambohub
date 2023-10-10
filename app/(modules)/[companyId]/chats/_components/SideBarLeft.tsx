@@ -31,9 +31,9 @@ export default function SideBarLeft() {
     sendMessage,
     setUserProfile } = useChatStore(selector)
 
-  // useEffect(() => {
-  //   setUserProfile()
-  // }, [setUserProfile])
+  useEffect(() => {
+    setUserProfile()
+  }, [setUserProfile])
 
   return (
     <div className="flex flex-col rounded-l border md:w-1/3">
