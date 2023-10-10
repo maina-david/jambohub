@@ -1,21 +1,45 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { UserAvatar } from '@/components/user-avatar'
-import { User } from 'next-auth'
 import { Separator } from '@/components/ui/separator'
+import useChatStore, { ChatState } from '@/store/chat'
 
-interface UserProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, "name" | "image" | "email">
-}
-export default function SideBarLeft({ user }: UserProps) {
+const selector = (state: ChatState) => ({
+  chats: state.chats,
+  contacts: state.contacts,
+  userProfile: state.userProfile,
+  selectedChat: state.selectedChat,
+  setChats: state.setChats,
+  setContacts: state.setContacts,
+  setSelectedChat: state.setContacts,
+  sendMessage: state.sendMessage,
+  setUserProfile: state.setUserProfile
+})
+
+export default function SideBarLeft() {
+  const {
+    chats,
+    contacts,
+    userProfile,
+    selectedChat,
+    setChats,
+    setContacts,
+    setSelectedChat,
+    sendMessage,
+    setUserProfile } = useChatStore(selector)
+
+  useEffect(() => {
+    setUserProfile()
+  }, [setUserProfile])
+
   return (
     <div className="flex flex-col rounded-l border md:w-1/3">
       <div className='flex items-center justify-between space-x-2 p-2.5'>
         <UserAvatar
-          user={{ name: user.name || null, image: user.image || null }}
+          user={{ name: userProfile?.name || null, image: userProfile?.image || null }}
           className="h-8 w-8"
         />
         <Input placeholder='Search for contact...' />

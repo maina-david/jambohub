@@ -5,15 +5,18 @@ import { Chat } from '@prisma/client'
 import { Contact } from '@prisma/client'
 import { User } from 'next-auth'
 import { SendMsgParamsType } from '@/types/chat-types'
+import { getCurrentUser } from '@/lib/session'
 
 export type ChatState = {
   chats: Chat[]
   contacts: Contact[]
   userProfile: User | null
   selectedChat: Chat | null
+  setUserProfile: () => void
   setChats: (companyId: string) => void
   setContacts: (companyId: string) => void
   setSelectedChat: (contactId: string) => void
+  sendMessage: (messageObj: SendMsgParamsType) => void
 }
 
 const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
@@ -21,10 +24,12 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
   contacts: [],
   userProfile: null,
   selectedChat: null,
-  setUserProfile: (user: User) => {
+  setUserProfile: async () => {
+    const user = await getCurrentUser()
     set({
       userProfile: user
     })
+
   },
   setChats: async (companyId: string) => {
     const chats = await axios.get<Chat[]>(`/api/companies/${companyId}/chats`).then((response) => response.data)
