@@ -10,11 +10,10 @@ import axios from "axios"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import CustomersSkeleton from "./_components/customers-skeleton"
 import CustomerDialog from "./_components/CustomerDialog"
+import { Customer } from "@prisma/client"
 
-async function fetchCustomers(companyId: string) {
-  const { data } = await axios.get(`/api/companies/${companyId}/customers`)
-  return data
-}
+const fetchCustomers = (companyId: string): Promise<Customer[]> =>
+  axios.get(`/api/companies/${companyId}/customers`).then((response) => response.data)
 
 export default function UsersPage() {
   const params = useParams()
