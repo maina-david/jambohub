@@ -178,7 +178,6 @@ enum ChannelType {
   WHATSAPP
   TWITTER
   FACEBOOK
-  TIKTOK
   SMS
 }
 
@@ -200,17 +199,27 @@ model Channel {
 }
 
 model Customer {
-  id             String   @id @default(cuid())
+  id             String    @id @default(cuid())
   fullNames      String
-  identification String?  @unique
-  email          String?  @unique
-  phone          String?  @unique
+  identification String?   @unique
+  email          String?   @unique
+  phone          String?   @unique
   occupation     String?
-  createdAt      DateTime @default(now()) @map(name: "created_at")
-  updatedAt      DateTime @default(now()) @map(name: "updated_at")
+  createdAt      DateTime  @default(now()) @map(name: "created_at")
+  updatedAt      DateTime  @default(now()) @map(name: "updated_at")
   companyId      String
-  company        Company  @relation(fields: [companyId], references: [id])
-  Chat           Chat[]
+  company        Company   @relation(fields: [companyId], references: [id])
+  Contact        Contact[]
+}
+
+model Contact {
+  id         String      @id @default(cuid())
+  customerId String?
+  customer   Customer?   @relation(fields: [customerId], references: [id])
+  channel    ChannelType
+  identifier String
+  alias      String?
+  Chat       Chat[]
 }
 
 enum CampaignStatus {
@@ -252,8 +261,8 @@ model Chat {
   channel      Channel       @relation(fields: [channelId], references: [id])
   companyId    String
   company      Company       @relation(fields: [companyId], references: [id])
-  customerId   String
-  customer     Customer      @relation(fields: [customerId], references: [id])
+  contactId    String
+  Contact      Contact       @relation(fields: [contactId], references: [id])
   externalRef  String
   timestamp    DateTime      @default(now())
   chatMessages ChatMessage[]

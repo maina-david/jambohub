@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../store'
+import useStore from '../../../../../../store/automationflow'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 export type SendAttachmentData = {

@@ -3,7 +3,7 @@
 import { Textarea } from '@/components/ui/textarea'
 import React, { useRef, useEffect } from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../store'
+import useStore from '../../../../../../store/automationflow'
 
 function SendTextNode({ id }: NodeProps) {
   const updateSendTextValue = useStore((state) => state.updateSendTextValue)

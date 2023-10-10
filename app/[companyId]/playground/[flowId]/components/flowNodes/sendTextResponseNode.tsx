@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select'
 import React, { useRef, useEffect } from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../store'
+import useStore from '../../../../../../store/automationflow'
 
 function SendTextResponseNode({ id }: NodeProps) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)

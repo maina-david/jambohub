@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../store'
+import useStore from '../../../../../../store/automationflow'
 import {
   Select,
   SelectContent,
@@ -41,18 +41,18 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
             <SelectItem value={'0'}>0</SelectItem>
           </SelectContent>
         </Select>
-          <Select
+        <Select
           onValueChange={(value) => updateReplyOption(id, value, 'teamOption')}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select Team to Assign" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={'1'}>Team 1</SelectItem>
-              <SelectItem value={'2'}>Team 2</SelectItem>
-              <SelectItem value={'3'}>Team 3</SelectItem>
-            </SelectContent>
-          </Select>
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select Team to Assign" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={'1'}>Team 1</SelectItem>
+            <SelectItem value={'2'}>Team 2</SelectItem>
+            <SelectItem value={'3'}>Team 3</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <Handle type="target" position={Position.Top} className="w-10 bg-teal-500" />
       <Handle type="source" position={Position.Bottom} className="w-10 bg-teal-500" />

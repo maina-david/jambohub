@@ -29,11 +29,10 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { Flow } from "@prisma/client"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import SideBar from "./SideBar"
-import useFlowStore, { NodeData, RFState } from "./store"
+import useFlowStore, { NodeData, RFState } from "@/store/automationflow"
 import SendAttachmentNode from "./flowNodes/sendAttachmentNode"
 import AssignToTeamNode from "./flowNodes/assignToTeam"
 import { toast } from "@/components/ui/use-toast"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import SendTextResponseNode from "./flowNodes/sendTextResponseNode"
 import SendTextResponseWaitNode from "./flowNodes/sendTextResponseWaitNode"
 
@@ -119,7 +118,7 @@ function Flow({ flowData }) {
       setNodes(flowData.nodes || [])
       setEdges(flowData.edges || [])
       reactFlowInstance.setViewport({ x, y, zoom })
-    }else{
+    } else {
       resetStore
     }
   }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes])
@@ -185,7 +184,7 @@ function Flow({ flowData }) {
 export default function AutomationFlow() {
   const params = useParams()
   const queryClient = useQueryClient()
-  const { isError, isSuccess, data: flow, isLoading, error} = useQuery({
+  const { isError, isSuccess, data: flow, isLoading, error } = useQuery({
     queryKey: ['flowDetails'],
     queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
