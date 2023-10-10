@@ -11,7 +11,6 @@ const channelCreateSchema = z.object({
     'WHATSAPP',
     'TWITTER',
     'FACEBOOK',
-    'TIKTOK',
     'SMS'
   ]),
   name: z.string().min(1),
