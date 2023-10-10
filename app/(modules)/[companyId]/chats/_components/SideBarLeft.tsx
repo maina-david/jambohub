@@ -49,7 +49,7 @@ export default function SideBarLeft({ user }: UserAccountProps) {
               </div>
             ))
           ) : (
-            <p className="leading-7 [&:not(:first-child)]:mt-6">No chats available</p>
+              <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">No chats available</p>
           )}
         </div>
         <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Contacts</h5>
@@ -63,7 +63,7 @@ export default function SideBarLeft({ user }: UserAccountProps) {
             </div>
           ))
         ) : (
-          <p className="leading-7 [&:not(:first-child)]:mt-6">No contacts available</p>
+            <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">No contacts available</p>
         )}
       </ScrollArea>
     </div>
