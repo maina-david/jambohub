@@ -7,7 +7,7 @@ import { UserAvatar } from '@/components/user-avatar'
 import { Separator } from '@/components/ui/separator'
 import useChatStore from '@/store/chatStore'
 
-export default function SideBarLeft() {
+export default function SideBarLeft(user) {
   const chats = useChatStore((state) => state.chats)
   const contacts = useChatStore((state) => state.contacts)
   const userProfile = useChatStore((state) => state.userProfile)
@@ -15,8 +15,8 @@ export default function SideBarLeft() {
   const setUserProfile = useChatStore((state) => state.setUserProfile)
 
   useEffect(() => {
-    setUserProfile()
-  }, [setUserProfile])
+    setUserProfile(user)
+  }, [setUserProfile, user])
 
   return (
     <div className="flex flex-col rounded-l border md:w-1/3">

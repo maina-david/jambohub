@@ -1,7 +1,6 @@
 import { Chat } from '@prisma/client'
 import { Contact } from '@prisma/client'
 import { User } from 'next-auth'
-import { getCurrentUser } from '@/lib/session'
 import { createWithEqualityFn } from 'zustand/traditional'
 import { shallow } from 'zustand/shallow'
 
@@ -10,7 +9,7 @@ export type ChatState = {
   contacts: Contact[]
   userProfile: User | null
   selectedChat: Chat | null
-  setUserProfile: () => void
+  setUserProfile: (user: User) => void
   setChats: (chats: Chat[]) => void
   setContacts: (contacts: Contact[]) => void
   setSelectedChat: (chats: Chat) => void
@@ -21,9 +20,9 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
   contacts: [],
   userProfile: null,
   selectedChat: null,
-  setUserProfile: () => {
+  setUserProfile: (user: User) => {
     set({
-      userProfile: null
+      userProfile: user
     })
 
   },
