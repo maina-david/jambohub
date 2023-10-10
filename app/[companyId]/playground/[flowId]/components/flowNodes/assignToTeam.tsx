@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../../../../../../store/automationflow'
+import useStore from '../../../../../../store/flowStore'
 import {
   Select,
   SelectContent,

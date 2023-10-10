@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { UserAvatar } from '@/components/user-avatar'
 import { Separator } from '@/components/ui/separator'
-import useChatStore from '@/store/chat'
+import useChatStore from '@/store/chatStore'
 
 export default function SideBarLeft() {
   const chats = useChatStore((state) => state.chats)
@@ -35,7 +35,6 @@ export default function SideBarLeft() {
             <div
               key={chat.id}
               className="w-full cursor-pointer items-start px-3 py-2"
-              onClick={() => setSelectedChat(chat.contactId)}
             >
               {chat.externalRef}
             </div>
