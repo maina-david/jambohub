@@ -8,13 +8,16 @@ import { UserAvatar } from '@/components/user-avatar'
 import { Separator } from '@/components/ui/separator'
 import useChatStore from '@/store/chatStore'
 import { User } from 'next-auth'
-import { Chat, Contact } from '@prisma/client'
+import { Chat, ChatMessage, Contact } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
 
 interface UserAccountProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, 'name' | 'image' | 'email'>
 }
 
+interface ChatProps extends Chat {
+  messages: ChatMessage[]
+}
 export default function SideBarLeft({ user }: UserAccountProps) {
   const chats = useChatStore((state) => state.chats)
   const contacts = useChatStore((state) => state.contacts)
@@ -49,7 +52,7 @@ export default function SideBarLeft({ user }: UserAccountProps) {
               </div>
             ))
           ) : (
-              <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">No chats available</p>
+            <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">No chats available</p>
           )}
         </div>
         <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Contacts</h5>
@@ -63,7 +66,7 @@ export default function SideBarLeft({ user }: UserAccountProps) {
             </div>
           ))
         ) : (
-            <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">No contacts available</p>
+          <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">No contacts available</p>
         )}
       </ScrollArea>
     </div>
@@ -73,5 +76,5 @@ export default function SideBarLeft({ user }: UserAccountProps) {
 const fetchCompanyContacts = (companyId: string): Promise<Contact[]> =>
   axios.get(`/api/companies/${companyId}/contacts`).then((response) => response.data)
 
-const fetchChats = (companyId: string): Promise<Chat[]> =>
+const fetchChats = (companyId: string): Promise<ChatProps[]> =>
   axios.get(`/api/companies/${companyId}/chats`).then((response) => response.data)

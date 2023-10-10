@@ -23,8 +23,12 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
     const chats = await db.chat.findMany({
       where: {
         companyId: params.companyId
+      },
+      include: {
+        chatMessages: true
       }
     })
+    
     return new Response(JSON.stringify(chats))
   } catch (error) {
     console.log('[CHATS_GET]', error)
