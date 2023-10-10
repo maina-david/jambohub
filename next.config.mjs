@@ -12,7 +12,20 @@ const nextConfig = {
     appDir: true,
     serverComponentsExternalPackages: ["@prisma/client"],
   },
-  typescript: { ignoreBuildErrors: true }
+  typescript: {
+    ignoreBuildErrors: true
+  },
+  webpack: (config) => {
+    config.resolve = {
+      ...config.resolve,
+      fallback: {
+        fs: false,
+        path: false,
+        os: false,
+      },
+    };
+    return config;
+  },
 }
 
 export default withContentlayer(nextConfig)
