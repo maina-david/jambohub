@@ -6,23 +6,22 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { UserAvatar } from '@/components/user-avatar'
 import { Separator } from '@/components/ui/separator'
 import useChatStore from '@/store/chatStore'
+import { User } from 'next-auth'
 
-export default function SideBarLeft(user) {
+interface UserAccountProps extends React.HTMLAttributes<HTMLDivElement> {
+  user: Pick<User, "name" | "image" | "email">
+}
+
+export default function SideBarLeft({user}: UserAccountProps) {
   const chats = useChatStore((state) => state.chats)
   const contacts = useChatStore((state) => state.contacts)
-  const userProfile = useChatStore((state) => state.userProfile)
   const setSelectedChat = useChatStore((state) => state.setSelectedChat)
-  const setUserProfile = useChatStore((state) => state.setUserProfile)
-
-  useEffect(() => {
-    setUserProfile(user)
-  }, [setUserProfile, user])
 
   return (
     <div className="flex flex-col rounded-l border md:w-1/3">
       <div className="flex items-center justify-between space-x-2 p-2.5">
         <UserAvatar
-          user={{ name: userProfile?.name || null, image: userProfile?.image || null }}
+          user={{ name: user.name || null, image: user.image || null }}
           className="h-8 w-8"
         />
         <Input placeholder="Search for contact..." />
@@ -35,6 +34,7 @@ export default function SideBarLeft(user) {
             <div
               key={chat.id}
               className="w-full cursor-pointer items-start px-3 py-2"
+              onClick={() => setSelectedChat(chat)}
             >
               {chat.externalRef}
             </div>
