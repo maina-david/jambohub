@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import {Separator} from '@/components/ui/separator'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import { PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
 import React, { useState } from 'react'
@@ -26,13 +27,14 @@ function ChatsPage() {
   }
 
   return (
-    <div className='relative flex w-full space-y-2 shadow-2xl'>
+    <div className='relative flex w-full shadow-2xl'>
       {/* Sidebar Left */}
-      <div className="flex w-1/3 flex-col border">
-        <div className='flex items-center justify-between px-5 py-2.5'>
+      <div className="flex flex-col rounded-l border md:w-1/3">
+        <div className='flex items-center justify-between p-2.5'>
         <Input placeholder='Search for contact...'/>
         </div>
-        <ScrollArea className='h-[440px] w-full'>
+        <Separator />
+        <ScrollArea className='h-[450px] w-full space-y-4'>
           <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">Chats</h5>
           <div className="mb-5">
             <div className="w-full items-start px-3 py-2">
@@ -71,14 +73,13 @@ function ChatsPage() {
       {/* Sidebar Left*/}
 
       {/* ChatContent */}
-      <div className='flex grow flex-col border'>
+      <div className='flex flex-col rounded-r border md:w-2/3'>
         <div className='flex items-center justify-between px-5 py-2.5'>
             <div className='flex cursor-pointer items-center'>
               <div className='flex flex-col'>
                 <h6 className='scroll-m-20 text-xl font-semibold tracking-tight'>Test User</h6>
               </div>
             </div>
-
           <div className='flex items-center space-x-2'>
             <Button size={'icon'} variant={'ghost'}>
               <PhoneCallIcon className='h-4 w-4' />
@@ -91,8 +92,8 @@ function ChatsPage() {
             </Button>
           </div>
         </div>
-
-        <div className="flex h-[450px] flex-1 flex-col overflow-hidden">
+        <Separator/>
+        <div className="flex h-[450px] flex-col overflow-hidden">
           <ScrollArea className='flex-1 overflow-y-auto'>
             {/* Your chat area content goes here */}
           </ScrollArea>
