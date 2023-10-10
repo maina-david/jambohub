@@ -14,7 +14,7 @@ export type ChatState = {
   setUserProfile: () => void
   setChats: (companyId: string) => void
   setContacts: (companyId: string) => void
-  setSelectedChat: (contactId: string) => void
+  setSelectedChat: (chatId: string) => void
   sendMessage: (messageObj: SendMsgParamsType) => void
 }
 
@@ -44,8 +44,8 @@ const useChatStore = create<ChatState>((set, get) => ({
       contacts
     })
   },
-  setSelectedChat: async (contactId: string) => {
-    const selectedChat = await axios.get(`/api/chats/${contactId}`).then((response) => response.data)
+  setSelectedChat: async (chatId: string) => {
+    const selectedChat = await axios.get(`/api/chats/${chatId}`).then((response) => response.data)
     set({
       selectedChat
     })
@@ -64,7 +64,7 @@ const useChatStore = create<ChatState>((set, get) => ({
 
     if(messageObj.contact){
       // set selected chat based on this contact's ID
-      get().setSelectedChat(messageObj.contact.id)
+      get().setSelectedChat(response.data.id)
     }
 
     if (messageObj.contact?.customer){
