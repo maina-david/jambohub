@@ -10,6 +10,7 @@ import useChatStore from '@/store/chatStore'
 import { User } from 'next-auth'
 import { Chat, ChatMessage, Contact } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 
 interface UserAccountProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, 'name' | 'image' | 'email'>
@@ -19,14 +20,24 @@ interface ChatProps extends Chat {
   chatMessages: ChatMessage[]
 }
 export default function SideBarLeft({ user }: UserAccountProps) {
+  const params = useParams()
   const chats = useChatStore((state) => state.chats)
+  const setChats = useChatStore((state) => state.setChats)
+  const setContacts = useChatStore((state) => state.setContacts)
   const contacts = useChatStore((state) => state.contacts)
   const setSelectedChat = useChatStore((state) => state.setSelectedChat)
 
   const companyContacts = useQuery({
     queryKey: ['companyContacts'],
-    queryFn: () => fetchCompanyContacts
+    queryFn: () => fetchCompanyContacts(params?.companyId as string)
   })
+
+  useEffect(() => {
+    if(companyContacts.data){
+      setContacts(companyContacts.data)
+    }
+  }, [companyContacts.data, setContacts])
+
 
   return (
     <div className="flex flex-col rounded-l border md:w-1/3">
