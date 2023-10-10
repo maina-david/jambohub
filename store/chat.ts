@@ -1,4 +1,3 @@
-import React from 'react'
 import axios from 'axios'
 import { createWithEqualityFn } from 'zustand/traditional'
 import { shallow } from 'zustand/shallow'
@@ -23,20 +22,24 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
       userProfile: user
     })
   },
-  setChats: (chats: Chat[]) => {
+  setChats: async (companyId: string) => {
+    const chats = await axios.get<Chat[]>(`/api/companies/${companyId}/chats`).then((response) => response.data)
+
     set({
-      chats: chats
+      chats
     })
   },
-  setContacts: (contacts: Contact[]) => {
+  setContacts: async (companyId: string) => {
+    const contacts = await axios.get<Contact[]>(`/api/companies/${companyId}/contacts`).then((response) => response.data)
+
     set({
-      contacts: contacts
+      contacts
     })
   },
   setSelectedChat: async (chatId: string) => {
-    const chat = await axios.get<Chat>(`/api/chats/${chatId}`).then((response) => response.data)
+    const selectedChat = await axios.get(`/api/chats/${chatId}`).then((response) => response.data)
     set({
-      selectedChat: chat
+      selectedChat
     })
   }
 }), shallow)
