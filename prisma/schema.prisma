@@ -74,6 +74,7 @@ model Company {
   notificationSettings NotificationSettings[]
   users                User[]                 @relation("UserCompany")
   UserCompany          UserCompany[]
+  Contact              Contact[]
 }
 
 model CompanySettings {
@@ -216,6 +217,8 @@ model Contact {
   id         String      @id @default(cuid())
   customerId String?
   customer   Customer?   @relation(fields: [customerId], references: [id])
+  companyId  String
+  company    Company     @relation(fields: [companyId], references: [id])
   channel    ChannelType
   identifier String
   alias      String?
