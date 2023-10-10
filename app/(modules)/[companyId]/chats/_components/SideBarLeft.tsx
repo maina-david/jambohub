@@ -16,7 +16,7 @@ interface UserAccountProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 interface ChatProps extends Chat {
-  messages: ChatMessage[]
+  chatMessages: ChatMessage[]
 }
 export default function SideBarLeft({ user }: UserAccountProps) {
   const chats = useChatStore((state) => state.chats)
