@@ -21,10 +21,9 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
   contacts: [],
   userProfile: null,
   selectedChat: null,
-  setUserProfile: async () => {
-    const user = await getCurrentUser()
+  setUserProfile: () => {
     set({
-      userProfile: user
+      userProfile: null
     })
 
   },
