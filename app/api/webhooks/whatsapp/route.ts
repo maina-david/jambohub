@@ -4,4 +4,5 @@ export async function GET(req: Request) {
   if (body.hub_challenge) {
     return new Response(body.hub_challenge, { status: 200 })
   }
+  return new Response(null, { status: 200 })
 }
