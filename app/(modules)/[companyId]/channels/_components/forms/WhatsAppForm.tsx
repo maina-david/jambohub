@@ -14,14 +14,13 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
 
 export const formSchema = z.object({
   accessToken: z.string().min(1),
   phoneNumberId: z.number(),
 })
 
-export default function WhatsAppForm() {
+export default function WhatsAppForm({ onSubmit }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,11 +28,6 @@ export default function WhatsAppForm() {
       phoneNumberId: undefined,
     },
   })
-
-  const onSubmit = (data) => {
-    // Handle form submission, e.g., send data to the server
-    console.log(data);
-  }
 
   return (
     <Form {...form}>
@@ -70,7 +64,6 @@ export default function WhatsAppForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
   )
