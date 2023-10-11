@@ -73,8 +73,8 @@ export default function ChatContentArea() {
         </div>
       ) : (
         <div className="flex h-[470px] items-center justify-center">
-          <div className='cursor-pointer'>
-            <div className="h-20 w-20 rounded-full bg-muted">
+            <div className='flex cursor-pointer items-center justify-center'>
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
               <Icons.chat className="h-10 w-10" />
             </div>
               <p className='text-lg font-medium leading-normal'>Start Conversation</p>
