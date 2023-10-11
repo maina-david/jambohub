@@ -21,13 +21,11 @@ interface ChannelProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export default function LinkChannelModal({ channel, className, children }: ChannelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [formData, setFormData] = useState<any>(null)
 
   // Handle form submission
   const handleSubmit = (data: any) => {
     try {
-      setFormData(data)
-      console.log(data) 
+      console.log(data)
     } catch (error) {
       // Handle errors, if any
     } finally {
@@ -61,9 +59,7 @@ export default function LinkChannelModal({ channel, className, children }: Chann
           {renderChannelForm()}
         </div>
         <DialogFooter>
-          {formData ? (
-            <Button type="submit">Continue</Button>
-          ) : null}
+          <Button onClick={handleSubmit} type="submit">Continue</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
