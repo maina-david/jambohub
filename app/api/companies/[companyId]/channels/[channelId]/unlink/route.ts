@@ -35,7 +35,7 @@ export async function PATCH(
       },
       data: {
         identifier: null,
-        authDetails: null,
+        authDetails: undefined,
         integrated: false
       },
     })
