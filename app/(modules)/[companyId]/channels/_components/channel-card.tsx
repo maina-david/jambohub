@@ -31,6 +31,7 @@ import { useParams } from "next/navigation"
 import { useState } from "react"
 import { Icons } from "@/components/icons"
 import { useQueryClient } from '@tanstack/react-query'
+import LinkChannelModal from "./LinkChannelModal"
 
 interface ChannelProps {
   channel: Channel
@@ -270,12 +271,9 @@ export function ChannelCard({ channel }: ChannelProps) {
       <div>
         <div className="-mt-px flex">
           <div className="my-1 flex w-0 flex-1">
-            <Button
-              variant={'ghost'}
-              className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold"
-            >
+            <LinkChannelModal className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold" channel={channel}>
               {channel.integrated ? 'Unlink' : 'Link'}
-            </Button>
+            </LinkChannelModal>
           </div>
           <div className="my-1 flex w-0 flex-1">
             <Button
