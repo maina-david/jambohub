@@ -9,6 +9,7 @@ import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import { PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
 import useChatStore from '@/store/chatStore'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
+import { Icons } from '@/components/icons'
 
 export default function ChatContentArea() {
   const selectedChat = useChatStore((state) => state.selectedChat)
@@ -72,12 +73,12 @@ export default function ChatContentArea() {
         </div>
       ) : (
         <div className="flex h-[470px] items-center justify-center">
-            <EmptyPlaceholder>
-              <EmptyPlaceholder.Icon name="chat" />
-              <EmptyPlaceholder.Description>
-                Start Conversation
-              </EmptyPlaceholder.Description>
-            </EmptyPlaceholder>
+          <div className='cursor-pointer'>
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+              <Icons.chat className="h-10 w-10" />
+            </div>
+            Start Conversation
+          </div>
         </div>
       )}
     </div>
