@@ -14,6 +14,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Channel } from '@prisma/client'
 import WhatsAppForm from './forms/WhatsAppForm'
+import SMSForm from './forms/SMSForm'
 import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -34,24 +35,20 @@ const SMSFormSchema = z.object({
 
 export default function LinkChannelModal({ channel, className, children }: ChannelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const formSchema = channel.type === 'WHATSAPP' ? WhatsAppFormSchema : SMSFormSchema
 
-  const form = useForm<z.infer<typeof WhatsAppFormSchema>>({
-    resolver: zodResolver(WhatsAppFormSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       accessToken: "",
       phoneNumberId: undefined,
+      apiKey: "",
     },
   })
 
   // Handle form submission
-  const onSubmit = (data: any) => {
-    try {
-      console.log(data)
-    } catch (error) {
-      // Handle errors, if any
-    } finally {
-      // Close the dialog or perform any necessary actions
-    }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+      console.log(values)
   }
 
   // Determine the form to display based on the channel type
@@ -59,6 +56,8 @@ export default function LinkChannelModal({ channel, className, children }: Chann
     switch (channel.type) {
       case 'WHATSAPP':
         return <WhatsAppForm form={form} />
+      case 'SMS':
+        return <SMSForm form={form} />
       default:
         return null
     }
