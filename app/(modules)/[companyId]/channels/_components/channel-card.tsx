@@ -41,6 +41,8 @@ export function ChannelCard({ channel }: ChannelProps) {
   const queryClient = useQueryClient()
   const params = useParams()
   const [open, setOpen] = useState(false)
+  const [isUnlinkDialogOpen, setIsUnlinkDialogOpen] = useState<boolean>(false)
+  const [isLinkUnlinkLoading, setIsLinkUnlinkLoading] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState(false)
   const channelModal = useChannelModal()
   const [channelStatus, setChannelStatus] = useState(channel.status)
@@ -57,6 +59,44 @@ export function ChannelCard({ channel }: ChannelProps) {
     }
 
     channelModal.onOpen()
+  }
+
+  const handleUnlinkChannel = async () => {
+    try {
+      if (channel && params && params.companyId) {
+        setIsLinkUnlinkLoading(true)
+
+        // Send a GET request to the /channel.id/unlink endpoint
+        const response = await axios.patch(`/api/companies/${params.companyId}/channels/${channel.id}/unlink`)
+
+        if (response.status === 200) {
+          // Successfully unlinked the channel
+          queryClient.invalidateQueries({ queryKey: ['companyChannels'] })
+          toast({
+            title: 'Success',
+            description: 'Channel unlinked successfully!',
+          })
+        } else {
+          // Handle the case where unlinking was not successful
+          console.error('Unlinking failed. Status code: ', response.status)
+          toast({
+            title: 'Unlinking Failed',
+            description: 'Failed to unlink the channel. Please try again.',
+            variant: 'destructive',
+          })
+        }
+      }
+    } catch (error) {
+      // Handle errors, e.g., network issues, in this block
+      console.error('Error unlinking channel: ', error)
+      toast({
+        title: 'Unlinking Failed',
+        description: 'Failed to unlink the channel. Please try again.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsLinkUnlinkLoading(false)
+    }
   }
 
   const handleDeleteChannel = async () => {
@@ -172,7 +212,6 @@ export function ChannelCard({ channel }: ChannelProps) {
     }
   }
 
-
   const typeColorClasses = {
     WHATSAPP: {
       text: 'text-green-700',
@@ -204,7 +243,6 @@ export function ChannelCard({ channel }: ChannelProps) {
     bg: 'bg-gray-50',
     ring: 'ring-gray-600/20'
   }
-
 
   return (
     <li className="col-span-1 rounded-lg border-2 shadow-2xl">
@@ -271,9 +309,41 @@ export function ChannelCard({ channel }: ChannelProps) {
       <div>
         <div className="-mt-px flex">
           <div className="my-1 flex w-0 flex-1">
-            <LinkChannelModal className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold" channel={channel}>
-              {channel.integrated ? 'Unlink' : 'Link'}
-            </LinkChannelModal>
+            {channel.integrated ? (
+              <AlertDialog
+                open={isUnlinkDialogOpen || isLinkUnlinkLoading}
+                onOpenChange={setIsUnlinkDialogOpen}
+              >
+                <AlertDialogTrigger asChild>
+                  <Button variant={'ghost'}>
+                    Unlink Account
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently unlink <span className="font-bold">{channel.name}</span> and remove your saved integration from our servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleUnlinkChannel}
+                      disabled={isLinkUnlinkLoading}
+                    >
+                      {isLinkUnlinkLoading && (
+                        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                      )}{" "}Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            ) : (
+              <LinkChannelModal className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold" channel={channel}>
+                Link Account
+              </LinkChannelModal>
+            )}
           </div>
           <div className="my-1 flex w-0 flex-1">
             <Button
