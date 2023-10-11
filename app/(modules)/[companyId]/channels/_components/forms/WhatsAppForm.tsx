@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
 export const formSchema = z.object({
-  accessToken: z.string(),
+  accessToken: z.string().min(1),
   phoneNumberId: z.number(),
 })
 
