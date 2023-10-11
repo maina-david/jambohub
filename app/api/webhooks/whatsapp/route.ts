@@ -1,9 +1,10 @@
+import { NextRequest } from "next/server"
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
-  const hub_challenge = searchParams.get('hub_challenge')
-  if (hub_challenge) {
-    return new Response(hub_challenge, { status: 200 })
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams
+  const hubChallenge = searchParams.get('hub.challenge')
+  if (hubChallenge) {
+    return new Response(hubChallenge, { status: 200 })
   }
   return new Response(null, { status: 200 })
 }
