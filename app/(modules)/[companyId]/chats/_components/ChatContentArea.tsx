@@ -73,11 +73,11 @@ export default function ChatContentArea() {
         </div>
       ) : (
         <div className="flex h-[470px] flex-col items-center justify-center">
-          <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
-            <Icons.chat className="h-10 w-10" />
+            <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
+            <Icons.chat className="h-16 w-16" />
           </div>
           <div className='cursor-pointer rounded-md px-6 py-2 shadow-2xl'>
-            <p className="bg-current text-lg font-medium leading-normal">Start Conversation</p>
+            <p className="text-lg font-medium leading-normal">Start Conversation</p>
           </div>
         </div>
       )}
