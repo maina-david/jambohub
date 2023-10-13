@@ -1,12 +1,7 @@
-import { db } from "@/lib/db"
+import { Channel } from '@prisma/client'
+import axios from 'axios'
 
-export async function getCompanyChannels(companyId: string) {
+export const fetchChannels = (companyId: string): Promise<Channel[]> =>
+  axios.get(`/api/companies/${companyId}/channels`).then((response) => response.data)
 
-  const channels = await db.channel.findMany({
-    where: {
-      companyId: companyId
-    }
-  })
 
-  return channels
-}

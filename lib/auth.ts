@@ -53,24 +53,30 @@ export const authOptions: NextAuthOptions = {
         const user = await db.user.findFirst({
           where: {
             email: credentials.email
-          },
-          select: {
-            id: true,
-            email: true,
-            password: true,
-            emailVerified: true,
           }
         })
 
         if (!user) {
-          throw new Error('Invalid Credentials. Try again')
+          throw new Error('InvalidCredentials')
+        }
+
+        if (!user.emailVerified) {
+          throw new Error('EmailNotVerified', { cause: `${user.email} is not verified` })
+        }
+
+        if (!user.approved) {
+          throw new Error('AccountNotApproved', { cause: `${user.id} not approved` })
+        }
+
+        if (!user.status) {
+          throw new Error('AccountNotActive', { cause: `${user.id} not active` })
         }
 
         // validate user password
         const isValid = await compare(credentials.password, user.password as string)
 
         if (!isValid) {
-          throw new Error('Invalid Credentials. Try again')
+          throw new Error('InvalidCredentials')
         }
 
         return user
@@ -97,14 +103,14 @@ export const authOptions: NextAuthOptions = {
         if (dbUser && !dbUser.Subscription) {
           // If the user doesn't have a subscription, create a free plan for them
           // Calculate the current date and time
-          const currentDate = new Date()
+          // const currentDate = new Date()
 
-          // Calculate the date 2 weeks from now
-          const twoWeeksLater = new Date(currentDate)
-          twoWeeksLater.setDate(currentDate.getDate() + 14) // Adding 14 days
+          // // Calculate the date 2 weeks from now
+          // const twoWeeksLater = new Date(currentDate)
+          // twoWeeksLater.setDate(currentDate.getDate() + 14) // Adding 14 days
 
-          // Format it as an ISO string
-          const currentPeriodEnd = twoWeeksLater.toISOString()
+          // // Format it as an ISO string
+          // const currentPeriodEnd = twoWeeksLater.toISOString()
 
           await db.subscription.create({
             data: {
@@ -114,8 +120,7 @@ export const authOptions: NextAuthOptions = {
               maxUsers: 1,
               maxChannels: 1,
               maxFlows: 1,
-              maxTeams: 1,
-              currentPeriodEnd: currentPeriodEnd
+              maxTeams: 1
             },
           })
         }

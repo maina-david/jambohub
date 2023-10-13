@@ -19,14 +19,14 @@ export default withAuth(
     }
 
     if (!isAuth) {
-      let from = req.nextUrl.pathname;
+      let from = req.nextUrl.pathname
       if (req.nextUrl.search) {
-        from += req.nextUrl.search;
+        from += req.nextUrl.search
       }
 
       return NextResponse.redirect(
         new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
-      );
+      )
     }
   },
   {
@@ -43,15 +43,16 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    "/dashboard",
-    "/channels/:path*",
-    "/chats/:path*",
-    "/leads/:path*",
-    "/settings/:path*",
-    "/teams/:path*",
-    "/billing",
-    "/editor/:path*",
-    "/login",
-    "/register"
+    "/home",
+    "/playground/:path*",
+    "/:path/dashboard",
+    "/:path/chats",
+    "/:path/campaigns/:path*",
+    "/:path/channels",
+    "/:path/customers",
+    "/:path/flows",
+    "/:path/billing",
+    "/:path/settings",
+    "/:path/teams/:path*",
   ],
 }

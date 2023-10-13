@@ -28,15 +28,27 @@ export default function ListFlows() {
   }
 
   if (isError) {
-    return (
-      <EmptyPlaceholder>
-        <EmptyPlaceholder.Icon name="warning" />
-        <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
-        <EmptyPlaceholder.Description>
-          An error occurred while fetching automation flows
-        </EmptyPlaceholder.Description>
-      </EmptyPlaceholder>
-    )
+    if(error instanceof Error){
+      return (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="warning" />
+          <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            {error.message}
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )
+    }else{
+      return (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="warning" />
+          <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            An error occurred while fetching automation flows
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )
+    }
   }
 
   return (

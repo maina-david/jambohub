@@ -13,48 +13,60 @@ export async function getCurrentUser() {
 export async function getCurrentUserCompanies() {
   const user = (await getCurrentUser()) as User
 
-  const companies = await db.company.findMany({
-    where: {
-      ownerId: user.id,
-    },
-  })
+  if (user) {
+    const companies = await db.company.findMany({
+      where: {
+        ownerId: user.id,
+      },
+    })
 
-  return companies
+    return companies
+  } else {
+    return null
+  }
 }
 
 export async function getCurrentUserSelectedCompany(companyId: string) {
   const user = (await getCurrentUser()) as User
-  const company = await db.company.findFirst({
-    where: {
-      id: companyId,
-      ownerId: user.id,
+  if (user) {
+    const company = await db.company.findFirst({
+      where: {
+        id: companyId,
+        ownerId: user.id,
+      }
     }
-  }
-  )
+    )
 
-  return company
+    return company
+  } else {
+    return null
+  }
 }
 
 export async function validateCompanyTeam(companyId: string, teamId: string) {
   const user = (await getCurrentUser()) as User
-  const company = await db.company.findFirst({
-    where: {
-      id: companyId,
-      ownerId: user.id,
+  if(user){
+    const company = await db.company.findFirst({
+      where: {
+        id: companyId,
+        ownerId: user.id,
+      }
     }
-  }
-  )
+    )
 
-  if (!company) {
+    if (!company) {
+      return null
+    }
+
+    const teamCount = await db.team.count({
+      where: {
+        id: teamId,
+        companyId: companyId
+      }
+    })
+
+    return teamCount > 0
+  }else{
     return null
   }
-
-  const teamCount = await db.team.count({
-    where: {
-      id: teamId,
-      companyId: companyId
-    }
-  })
-
-  return teamCount > 0
 }

@@ -10,9 +10,9 @@ import {
 } from '@/components/ui/select'
 import React, { useRef, useEffect } from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../../../../../../store/flowStore'
+import useStore from '../../../../../../../store/flowStore'
 
-function SendTextResponseNode({ id }: NodeProps) {
+function SendTextResponseWaitNode({ id }: NodeProps) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
   const updateSendTextValue = useStore((state) => state.updateSendTextValue)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -66,5 +66,5 @@ function SendTextResponseNode({ id }: NodeProps) {
   )
 }
 
-export default SendTextResponseNode
+export default SendTextResponseWaitNode
 

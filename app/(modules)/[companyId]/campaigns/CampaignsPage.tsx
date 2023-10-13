@@ -44,13 +44,23 @@ export default function CampaignsPage() {
   }
 
   if (getCampaigns.isError) {
-    return (
-      <EmptyPlaceholder>
-        <EmptyPlaceholder.Icon name="warning" />
-        <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
-        <EmptyPlaceholder.Description>Error getting company&apos;s campaigns</EmptyPlaceholder.Description>
-      </EmptyPlaceholder>
-    )
+    if (getCampaigns.error instanceof Error) {
+      return (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="warning" />
+          <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>{getCampaigns.error.message}</EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )
+    } else {
+      return (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="warning" />
+          <EmptyPlaceholder.Title>Error</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>Error getting company&apos;s campaigns</EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )
+    }
   }
 
   const campaigns = getCampaigns.data

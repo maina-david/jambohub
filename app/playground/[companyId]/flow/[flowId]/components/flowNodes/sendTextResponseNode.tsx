@@ -1,17 +1,32 @@
 'use client'
 
-import React from 'react'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import React, { useRef, useEffect } from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../../../../../../store/flowStore'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import useStore from '../../../../../../../store/flowStore'
 
-export type SendAttachmentData = {
-  replyOption: string
-  fileOption: string
-}
-
-function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
+function SendTextResponseNode({ id }: NodeProps) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
+  const updateSendTextValue = useStore((state) => state.updateSendTextValue)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    adjustTextareaHeight()
+  }, [updateSendTextValue])
+
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+    }
+  }
 
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
@@ -35,18 +50,15 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
             <SelectItem value={'0'}>0</SelectItem>
           </SelectContent>
         </Select>
-        <Select
-          onValueChange={(value) => updateReplyOption(id, value, 'fileOption')}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select file to send" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={'1'}>File 1</SelectItem>
-            <SelectItem value={'2'}>File 2</SelectItem>
-            <SelectItem value={'3'}>File 3</SelectItem>
-          </SelectContent>
-        </Select>
+        <Textarea
+          placeholder='Type your message here'
+          onChange={(evt) => {
+            updateSendTextValue(id, evt.target.value)
+            adjustTextareaHeight()
+          }}
+          className="nodrag"
+          ref={textareaRef}
+        />
       </div>
       <Handle type="target" position={Position.Top} className="w-10 bg-teal-500" />
       <Handle type="source" position={Position.Bottom} className="w-10 bg-teal-500" />
@@ -54,4 +66,5 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
   )
 }
 
-export default SendAttachmentNode
+export default SendTextResponseNode
+

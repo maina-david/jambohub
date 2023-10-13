@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
@@ -51,9 +51,6 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
     },
   })
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [isTwitterLoading, setIsTwitterLoading] = React.useState<boolean>(false)
-  const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false)
-  const [isFacebookLoading, setIsFacebookLoading] = React.useState<boolean>(false)
   const router = useRouter()
 
   async function onSubmit(values: FormData) {
@@ -124,7 +121,7 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
                       />
                     </FormControl>
                     <FormDescription>
-                      Please enter your full name as it appears on your identification document.
+                      Enter your full names as it appears on your identification document.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -146,7 +143,7 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
                       />
                     </FormControl>
                     <FormDescription>
-                      Enter a valid email address. It will be used for communication and verification.
+                      Enter a valid email address. It will be used for verification.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -168,7 +165,7 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
                       />
                     </FormControl>
                     <FormDescription>
-                      Create a strong password with a mix of letters, numbers, and symbols.
+                      Create a password with a mix of letters, numbers, and symbols.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -198,73 +195,15 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
               />
 
             </div>
-            <button className={cn(buttonVariants())} disabled={isLoading}>
+            <Button disabled={isLoading}>
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
               Continue
-            </button>
+            </Button>
           </div>
         </form>
       </Form>
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={() => {
-          setIsTwitterLoading(true)
-          signIn("twitter")
-        }}
-        disabled={isLoading || isTwitterLoading}
-      >
-        {isTwitterLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.twitter className="mr-2 h-4 w-4" />
-        )}{" "}
-        Twitter
-      </button>
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={() => {
-          setIsFacebookLoading(true)
-          signIn("facebook")
-        }}
-        disabled={isLoading || isFacebookLoading}
-      >
-        {isFacebookLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.facebook className="mr-2 h-4 w-4" />
-        )}{" "}
-        Facebook
-      </button>
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={() => {
-          setIsGoogleLoading(true)
-          signIn("google")
-        }}
-        disabled={isLoading || isGoogleLoading}
-      >
-        {isGoogleLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
-        )}{" "}
-        Google
-      </button>
     </div>
   )
 }

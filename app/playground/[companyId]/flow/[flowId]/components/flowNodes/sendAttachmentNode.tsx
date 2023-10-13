@@ -2,26 +2,20 @@
 
 import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../../../../../../store/flowStore'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
+import useStore from '../../../../../../../store/flowStore'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
-export type AssignToTeamData = {
+export type SendAttachmentData = {
   replyOption: string
-  teamOption: string
+  fileOption: string
 }
 
-function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
+function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
 
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
-      <div className="grid w-full gap-2">
+      <div className='grid w-full gap-2'>
         <Select
           onValueChange={(value) => updateReplyOption(id, value, 'replyOption')}
         >
@@ -42,15 +36,15 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
           </SelectContent>
         </Select>
         <Select
-          onValueChange={(value) => updateReplyOption(id, value, 'teamOption')}
+          onValueChange={(value) => updateReplyOption(id, value, 'fileOption')}
         >
           <SelectTrigger>
-            <SelectValue placeholder="Select Team to Assign" />
+            <SelectValue placeholder="Select file to send" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={'1'}>Team 1</SelectItem>
-            <SelectItem value={'2'}>Team 2</SelectItem>
-            <SelectItem value={'3'}>Team 3</SelectItem>
+            <SelectItem value={'1'}>File 1</SelectItem>
+            <SelectItem value={'2'}>File 2</SelectItem>
+            <SelectItem value={'3'}>File 3</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -60,5 +54,4 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
   )
 }
 
-export default AssignToTeamNode
-
+export default SendAttachmentNode

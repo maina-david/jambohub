@@ -184,7 +184,7 @@ function Flow({ flowData }) {
 export default function AutomationFlow() {
   const params = useParams()
   const queryClient = useQueryClient()
-  const { isError, isSuccess, data: flow, isLoading, error } = useQuery({
+  const { isError, data: flow, isLoading, error } = useQuery({
     queryKey: ['flowDetails'],
     queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
@@ -231,7 +231,7 @@ export default function AutomationFlow() {
       const savedFlow = JSON.parse(savedFlowString)
 
       try {
-        const response = await axios.patch(
+        await axios.patch(
           `/api/companies/${params?.companyId}/flows/${params?.flowId}/save-flow`,
           { flow: savedFlow },
           {
@@ -281,7 +281,7 @@ export default function AutomationFlow() {
       }
 
       // Perform the PATCH request
-      const response = await axios.patch(`/api/companies/${flow.companyId}/flows/${flowId}/publish`, payload)
+      await axios.patch(`/api/companies/${flow.companyId}/flows/${flowId}/publish`, payload)
 
       toast({
         title: "Success",

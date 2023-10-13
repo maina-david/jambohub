@@ -1,7 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import {
+  usePathname,
+  useRouter,
+  useSearchParams
+} from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
@@ -9,7 +13,7 @@ import * as z from "zod"
 
 import { cn } from "@/lib/utils"
 import { userAuthSchema } from "@/lib/validations/auth"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
@@ -24,13 +28,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     register,
     handleSubmit,
     formState: { errors },
+    setError
   } = useForm<FormData>({
     resolver: zodResolver(userAuthSchema),
   })
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [isTwitterLoading, setIsTwitterLoading] = React.useState<boolean>(false)
-  const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false)
-  const [isFacebookLoading, setIsFacebookLoading] = React.useState<boolean>(false)
+  const searchParams = useSearchParams()
   const router = useRouter()
 
   async function onSubmit(data: FormData) {
@@ -43,24 +46,66 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         redirect: false,
       })
 
-      if (!signInResult?.error) {
-        // Redirect to the home page on successful authentication
-        router.push('/home')
-        return
+      if (!signInResult?.ok) {
+        if (signInResult?.error) {
+          if (signInResult?.error == 'InvalidCredentials') {
+            setError('email', {
+              type: 'manual',
+              message: 'Invalid credentials',
+            })
+            toast({
+              title: "Authentication Failed",
+              description: "Please check your credentials.",
+              variant: "destructive",
+            })
+          } else if (signInResult?.error == 'AccountNotApproved') {
+            toast({
+              title: "Authentication Failed",
+              description: "Your account is not approved yet.",
+              variant: "destructive",
+            })
+          } else if (signInResult?.error == 'AccountNotActive') {
+            toast({
+              title: "Authentication Failed",
+              description: "Your account is not active. Contact support for assistance.",
+              variant: "destructive",
+            })
+          } else if (signInResult?.error == 'EmailNotVerified') {
+            toast({
+              title: "Authentication Failed",
+              description: "You have not verified your email address.",
+              variant: "destructive",
+            })
+          } else {
+            toast({
+              title: "Authentication Failed",
+              description: "Unknown error occurred. Please try again.",
+              variant: "destructive",
+            })
+          }
+        }
+        else {
+          toast({
+            title: "Authentication Failed",
+            description: "Unknown error occurred. Please try again.",
+            variant: "destructive",
+          })
+        }
+      } else {
+        const redirectUri = searchParams?.get("from") ? searchParams?.get("from") as string : '/home'
+        router.push(redirectUri)
       }
     } catch (error) {
       // Handle unexpected errors
       console.error("Authentication error:", error)
+      toast({
+        title: "Authentication Failed",
+        description: "Error occurred during sign in request. Please try again later.",
+        variant: "destructive",
+      })
     } finally {
       setIsLoading(false)
     }
-
-    // Show Toastr message for authentication failure
-    toast({
-      title: "Authentication Failed",
-      description: "Please check your credentials.",
-      variant: "destructive",
-    })
   }
 
   return (
@@ -78,12 +123,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={
-                isLoading ||
-                isTwitterLoading ||
-                isFacebookLoading ||
-                isGoogleLoading
-              }
+              disabled={isLoading}
               {...register("email")}
             />
             {errors?.email && (
@@ -104,10 +144,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoComplete="password"
               autoCorrect="off"
               disabled={
-                isLoading ||
-                isTwitterLoading ||
-                isFacebookLoading ||
-                isGoogleLoading
+                isLoading
               }
               {...register("password")}
             />
@@ -117,72 +154,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               </p>
             )}
           </div>
-          <button className={cn(buttonVariants())} disabled={isLoading}>
+          <Button disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
             Sign In with Credentials
-          </button>
+          </Button>
         </div>
       </form>
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={() => {
-          setIsTwitterLoading(true)
-          signIn("twitter")
-        }}
-        disabled={isLoading || isTwitterLoading}
-      >
-        {isTwitterLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.twitter className="mr-2 h-4 w-4" />
-        )}{" "}
-        Twitter
-      </button>
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={() => {
-          setIsFacebookLoading(true)
-          signIn("facebook")
-        }}
-        disabled={isLoading || isFacebookLoading}
-      >
-        {isFacebookLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.facebook className="mr-2 h-4 w-4" />
-        )}{" "}
-        Facebook
-      </button>
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={() => {
-          setIsGoogleLoading(true)
-          signIn("google")
-        }}
-        disabled={isLoading || isGoogleLoading}
-      >
-        {isGoogleLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
-        )}{" "}
-        Google
-      </button>
     </div>
   )
 }

@@ -43,6 +43,7 @@ model User {
   password       String?
   image          String?
   status         Boolean       @default(true)
+  approved       Boolean       @default(false)
   createdAt      DateTime      @default(now()) @map(name: "created_at")
   updatedAt      DateTime      @default(now()) @map(name: "updated_at")
   accounts       Account[]

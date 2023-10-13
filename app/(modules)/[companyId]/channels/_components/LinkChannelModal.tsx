@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import axios from 'axios'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -19,6 +20,9 @@ import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { useForm } from 'react-hook-form'
+import { toast } from "@/components/ui/use-toast"
+import { Icons } from '@/components/icons'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface ChannelProps extends React.HTMLAttributes<HTMLDivElement> {
   channel: Channel
@@ -34,21 +38,41 @@ const SMSFormSchema = z.object({
 })
 
 export default function LinkChannelModal({ channel, className, children }: ChannelProps) {
+  const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const formSchema = channel.type === 'WHATSAPP' ? WhatsAppFormSchema : SMSFormSchema
-
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       accessToken: "",
-      phoneNumberId: undefined,
+      phoneNumberId: 0,
       apiKey: "",
     },
   })
 
   // Handle form submission
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-      console.log(values)
+    try {
+      setIsLoading(true)
+      await axios.patch(`/api/companies/${channel.companyId}/channels/${channel.id}/link`, {
+        ...values
+      })
+      queryClient.invalidateQueries({ queryKey: ['companyChannels'] })
+      toast({
+        title: 'Success',
+        description: 'Channel linked successfully!',
+      })
+      setIsOpen(false)
+    } catch (error) {
+      toast({
+        title: 'Update Failed',
+        description: 'Failed to update the channel. Please try again.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   // Determine the form to display based on the channel type
@@ -80,7 +104,14 @@ export default function LinkChannelModal({ channel, className, children }: Chann
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               {renderChannelForm()}
               <DialogFooter>
-                <Button type="submit">Continue</Button>
+                <Button
+                  disabled={isLoading}
+                  type="submit"
+                >
+                  {isLoading && (
+                    <Icons.spinner className='mr-2 h-4 w-4'/>
+                  )}{" "} Continue
+                </Button>
               </DialogFooter>
             </form>
           </Form>

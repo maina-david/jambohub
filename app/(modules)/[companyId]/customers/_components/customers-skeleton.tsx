@@ -5,7 +5,7 @@ import { DropdownMenuCheckboxItem, DropdownMenuContent } from '@/components/ui/d
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { DropdownMenu, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
-import { ChevronDownIcon, ImportIcon, RefreshCcwIcon } from 'lucide-react'
+import { ChevronDownIcon, ImportIcon } from 'lucide-react'
 import React from 'react'
 import { columns } from "./columns"
 import {
@@ -77,7 +77,6 @@ function CustomersSkeleton() {
         <div className="flex items-center py-4">
           <Input
             placeholder="Filter emails..."
-            value=""
             className="max-w-sm"
           />
           <div className="ml-auto flex gap-2">
