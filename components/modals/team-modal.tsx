@@ -13,7 +13,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
 } from '@/components/ui/dialog'
 import {
   Form,
@@ -31,6 +30,7 @@ import { useTeamModal } from '@/hooks/use-team-modal'
 import { useParams } from 'next/navigation'
 import { Textarea } from '@/components/ui/textarea'
 import { useQueryClient } from '@tanstack/react-query'
+import { AnimatePresence, MotionConfig, motion } from "framer-motion"
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -156,73 +156,84 @@ export default function TeamModal() {
   }
 
   return (
-    <Dialog open={teamModal.isOpen} onOpenChange={onChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{isUpdateMode ? 'Edit Team' : 'New Team'}</DialogTitle>
-          <DialogDescription>
-            {isUpdateMode
-              ? 'Edit the team details below:'
-              : 'Create a new team by filling in the details below:'}
-          </DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Team Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isLoading}
-                      placeholder="Enter the team name"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter a unique name for the team.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Team Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      disabled={isLoading}
-                      placeholder="Enter a brief team description"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Provide a brief description of the team&apos;s purpose and responsibilities.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DialogFooter>
-              <Button
-                disabled={isLoading}
-                type="submit">
-                {isLoading && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                )}{' '}
-                {isUpdateMode ? 'Update Team' : 'Create Team'}
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
-
+    <MotionConfig
+      transition={{
+        type: "spring",
+        bounce: 0.3,
+        duration: teamModal.isOpen ? 0.7 : 0.4
+      }}
+    >
+      <AnimatePresence initial={false}>
+        <Dialog
+        open={teamModal.isOpen}
+        onOpenChange={onChange}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{isUpdateMode ? "Edit Team" : "New Team"}</DialogTitle>
+              <DialogDescription>
+                {isUpdateMode
+                  ? 'Edit the team details below:'
+                  : 'Create a new team by filling in the details below:'}
+              </DialogDescription>
+            </DialogHeader>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Team Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isLoading}
+                          placeholder="Enter the team name"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Enter a unique name for the team.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Team Description</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          disabled={isLoading}
+                          placeholder="Enter a brief team description"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Provide a brief description of the team&apos;s purpose and responsibilities.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DialogFooter>
+                  <Button
+                    disabled={isLoading}
+                    type="submit">
+                    {isLoading && (
+                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                    )}{' '}
+                    {isUpdateMode ? 'Update Team' : 'Create Team'}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </Form>
+          </DialogContent>
+        </Dialog>
+      </AnimatePresence>
+    </MotionConfig>
   )
 }
 
