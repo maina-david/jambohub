@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
-import { PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
+import { MenuIcon, PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
 import useChatStore from '@/store/chatStore'
 import { Icons } from '@/components/icons'
 import { cn } from '@/lib/utils'
@@ -48,10 +48,15 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
 
   return (
     <div className={cn("flex flex-col rounded-r border",
-      isMdAndAbove ? 'h-[470px] w-2/3' : 'h-full grow')}>
+      isMdAndAbove ? 'w-2/3' : 'grow')}>
       {selectedChat ? (
         <>
           <div className="flex items-center justify-between px-5 py-2.5">
+            {isMdAndAbove ? null : (
+              <div className='mx-2 cursor-pointer' onClick={handleLeftSidebarToggle}>
+                <MenuIcon className="h-4 w-4" />
+              </div>
+            )}
             <div className="flex cursor-pointer items-center">
               <div className="flex flex-col">
                 <h6 className="scroll-m-20 text-xl font-semibold tracking-tight">Test User</h6>
@@ -70,7 +75,8 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
             </div>
           </div>
           <Separator />
-          <div className="flex flex-col overflow-hidden">
+          <div className={cn("flex flex-col overflow-hidden",
+            isMdAndAbove ? 'h-[470px]' : 'h-full')}>
             <ScrollArea className="flex-1 overflow-y-auto">
               {/* Your chat area content goes here */}
             </ScrollArea>
@@ -89,7 +95,8 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center">
+        <div className={cn("flex flex-col items-center justify-center",
+          isMdAndAbove ? 'h-[470px]' : 'h-full')}>
           <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
             <Icons.chat className="h-16 w-16" />
           </div>
