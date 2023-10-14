@@ -30,7 +30,7 @@ import { useTeamModal } from '@/hooks/use-team-modal'
 import { useParams } from 'next/navigation'
 import { Textarea } from '@/components/ui/textarea'
 import { useQueryClient } from '@tanstack/react-query'
-import { AnimatePresence, MotionConfig, motion } from "framer-motion"
+
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -156,17 +156,9 @@ export default function TeamModal() {
   }
 
   return (
-    <MotionConfig
-      transition={{
-        type: "spring",
-        bounce: 0.3,
-        duration: teamModal.isOpen ? 0.7 : 0.4
-      }}
-    >
-      <AnimatePresence initial={false}>
         <Dialog
-        open={teamModal.isOpen}
-        onOpenChange={onChange}>
+          open={teamModal.isOpen}
+          onOpenChange={onChange}>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>{isUpdateMode ? "Edit Team" : "New Team"}</DialogTitle>
@@ -232,8 +224,6 @@ export default function TeamModal() {
             </Form>
           </DialogContent>
         </Dialog>
-      </AnimatePresence>
-    </MotionConfig>
   )
 }
 
