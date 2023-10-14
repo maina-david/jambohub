@@ -31,7 +31,6 @@ import { useParams } from 'next/navigation'
 import { Textarea } from '@/components/ui/textarea'
 import { useQueryClient } from '@tanstack/react-query'
 
-
 const formSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(3).max(128)
