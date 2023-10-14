@@ -30,7 +30,7 @@ interface ChannelProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const WhatsAppFormSchema = z.object({
   accessToken: z.string().min(1),
-  phoneNumberId: z.number(),
+  phoneNumberId: z.string(),
 })
 
 const SMSFormSchema = z.object({
@@ -46,7 +46,7 @@ export default function LinkChannelModal({ channel, className, children }: Chann
     resolver: zodResolver(formSchema),
     defaultValues: {
       accessToken: "",
-      phoneNumberId: 0,
+      phoneNumberId: "",
       apiKey: "",
     },
   });
