@@ -94,7 +94,8 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
           </div>
         </>
       ) : (
-          <div className="flex h-[470px] flex-col items-center justify-center">
+          <div className={cn("flex flex-col items-center justify-center",
+            isMdAndAbove ? 'h-[470px]' : 'h-[500px]')}>
           <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
             <Icons.chat className="h-16 w-16" />
           </div>

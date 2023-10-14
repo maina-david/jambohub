@@ -55,9 +55,9 @@ const SideBarLeft = (props: SideBarLeftProps) => {
     }
   }, [assignedChats.data, companyContacts.data, setChats, setContacts])
 
-  if (isMdAndAbove) {
+  const renderChatsAndContacts = () => {
     return (
-      <div className="flex flex-col rounded-l border md:w-1/3">
+      <>
         <div className="flex items-center justify-between space-x-2 p-2.5">
           <UserAvatar
             user={{ name: user.name || null, image: user.image || null }}
@@ -105,59 +105,20 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             </p>
           )}
         </ScrollArea>
+      </>
+    )
+  }
+  if (isMdAndAbove) {
+    return (
+      <div className="flex flex-col rounded-l border md:w-1/3">
+        {renderChatsAndContacts()}
       </div>
     )
   } else {
     return (
       <Sheet open={leftSidebarOpen} onOpenChange={handleLeftSidebarToggle}>
         <SheetContent side={'left'}>
-          <div className="flex items-center justify-between space-x-2 p-2.5">
-            <UserAvatar
-              user={{ name: user.name || null, image: user.image || null }}
-              className="h-8 w-8"
-            />
-            <Input placeholder="Search for contact..." />
-          </div>
-          <Separator />
-          <ScrollArea className="h-[470px] w-full space-y-4">
-            <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">
-              Chats
-            </h5>
-            <div className="mb-5">
-              {chats.length > 0 ? (
-                chats.map((chat) => (
-                  <div
-                    key={chat.id}
-                    className="w-full cursor-pointer items-start px-3 py-2"
-                    onClick={() => setSelectedChat(chat)}
-                  >
-                    {chat.externalRef}
-                  </div>
-                ))
-              ) : (
-                <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">
-                  No chats available
-                </p>
-              )}
-            </div>
-            <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">
-              Contacts
-            </h5>
-            {contacts.length > 0 ? (
-              contacts.map((contact) => (
-                <div
-                  key={contact.id}
-                  className="w-full cursor-pointer items-start px-3 py-2"
-                >
-                  {contact.alias}
-                </div>
-              ))
-            ) : (
-              <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">
-                No contacts available
-              </p>
-            )}
-          </ScrollArea>
+          {renderChatsAndContacts()}
         </SheetContent>
       </Sheet>
     )
