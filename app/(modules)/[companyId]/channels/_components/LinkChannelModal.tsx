@@ -38,10 +38,10 @@ const SMSFormSchema = z.object({
 })
 
 export default function LinkChannelModal({ channel, className, children }: ChannelProps) {
-  const queryClient = useQueryClient()
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const formSchema = channel.type === 'WHATSAPP' ? WhatsAppFormSchema : SMSFormSchema
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const queryClient = useQueryClient();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const formSchema = channel.type === 'WHATSAPP' ? WhatsAppFormSchema : SMSFormSchema;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,41 +49,59 @@ export default function LinkChannelModal({ channel, className, children }: Chann
       phoneNumberId: 0,
       apiKey: "",
     },
-  })
-
-  // Handle form submission
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      setIsLoading(true)
-      await axios.patch(`/api/companies/${channel.companyId}/channels/${channel.id}/link`, {
-        ...values
-      })
-      queryClient.invalidateQueries({ queryKey: ['companyChannels'] })
-      toast({
-        title: 'Success',
-        description: 'Channel linked successfully!',
-      })
-      setIsOpen(false)
-    } catch (error) {
-      toast({
-        title: 'Update Failed',
-        description: 'Failed to update the channel. Please try again.',
-        variant: 'destructive',
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  });
 
   // Determine the form to display based on the channel type
   const renderChannelForm = () => {
     switch (channel.type) {
       case 'WHATSAPP':
-        return <WhatsAppForm form={form} />
+        return <WhatsAppForm form={form} />;
       case 'SMS':
-        return <SMSForm form={form} />
+        return <SMSForm form={form} />;
       default:
-        return null
+        return null;
+    }
+  }
+
+  // Conditionally render the "Continue" button
+  const renderContinueButton = () => {
+    if (renderChannelForm()) {
+      // Display the button only if a form is returned
+      return (
+        <Button
+          disabled={isLoading}
+          type="submit"
+        >
+          {isLoading && (
+            <Icons.spinner className='mr-2 h-4 w-4' />
+          )}{" "} Continue
+        </Button>
+      );
+    }
+    return null;
+  }
+
+  // Handle form submission
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setIsLoading(true);
+      await axios.patch(`/api/companies/${channel.companyId}/channels/${channel.id}/link`, {
+        ...values
+      });
+      queryClient.invalidateQueries({ queryKey: ['companyChannels'] });
+      toast({
+        title: 'Success',
+        description: 'Channel linked successfully!',
+      });
+      setIsOpen(false);
+    } catch (error) {
+      toast({
+        title: 'Update Failed',
+        description: 'Failed to update the channel. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -104,19 +122,13 @@ export default function LinkChannelModal({ channel, className, children }: Chann
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               {renderChannelForm()}
               <DialogFooter>
-                <Button
-                  disabled={isLoading}
-                  type="submit"
-                >
-                  {isLoading && (
-                    <Icons.spinner className='mr-2 h-4 w-4'/>
-                  )}{" "} Continue
-                </Button>
+                {renderContinueButton()} {/* Render the "Continue" button */}
               </DialogFooter>
             </form>
           </Form>
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
+
