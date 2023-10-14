@@ -8,12 +8,13 @@ import { Separator } from '@/components/ui/separator'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import { PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
 import useChatStore from '@/store/chatStore'
-import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { Icons } from '@/components/icons'
+import { useMediaQuery } from 'usehooks-ts'
 
 export default function ChatContentArea() {
   const selectedChat = useChatStore((state) => state.selectedChat)
   const [message, setMessage] = useState<string>('')
+  const mdAbove = useMediaQuery('md')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value)
@@ -28,6 +29,12 @@ export default function ChatContentArea() {
       e.preventDefault()
       handleSend()
     }
+  }
+
+  if (mdAbove){
+    console.log('above md')
+  }else{
+    console.log('below md')
   }
 
   return (
