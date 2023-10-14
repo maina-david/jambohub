@@ -102,7 +102,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
           <div
             onClick={handleStartConversation}
             className={cn('rounded-md px-6 py-2 shadow-2xl',
-              isMdAndAbove ? 'cursor-pointer' : 'cursor-default')}
+              isMdAndAbove ? 'cursor-default' : 'cursor-pointer')}
           >
             <p className="text-lg font-medium leading-normal">Start Conversation</p>
           </div>

@@ -81,7 +81,7 @@ export function SideNav(props: SideNavProps) {
 
   const renderSideNav = () => {
     return (
-      <>
+      <nav className="grid items-start gap-2">
         {routes.map((item, index) => {
           const Icon = Icons[item.icon || "arrowRight"]
           return (
@@ -163,25 +163,16 @@ export function SideNav(props: SideNavProps) {
             </Card>
           )
         )}
-      </>
+      </nav>
     )
   }
 
-  if (mdAndAbove) {
-    return (
-      <nav className="grid items-start gap-2">
+  return mdAndAbove ? renderSideNav() : (
+    <Sheet open={sidebarOpen} onOpenChange={handleSidebarToggle}>
+      <SheetContent side={'left'}>
         {renderSideNav()}
-      </nav>
-    )
-  } else {
-    return (
-      <Sheet open={sidebarOpen} onOpenChange={handleSidebarToggle}>
-        <SheetContent>
-          <nav className="grid items-start gap-2">
-            {renderSideNav()}
-          </nav>
-        </SheetContent>
-      </Sheet>
-    )
-  }
+      </SheetContent>
+    </Sheet>
+  )
+
 }

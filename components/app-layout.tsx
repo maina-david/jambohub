@@ -38,7 +38,7 @@ export function AppLayout({
       <header className="sticky top-0 z-40 border-b bg-background">
         <div className="container flex h-16 items-center justify-between py-4">
           {mdAndAbove ? null : (
-            <div className='mx-2' onClick={handleSidebarToggle}>
+            <div className='mr-4' onClick={handleSidebarToggle}>
               <MenuIcon className="h-4 w-4" />
             </div>
           )}
