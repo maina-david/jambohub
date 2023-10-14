@@ -48,7 +48,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
 
   return (
     <div className={cn("flex flex-col rounded-r border",
-      isMdAndAbove ? 'w-2/3' : 'grow')}>
+      isMdAndAbove ? 'h-[470px] w-2/3' : 'h-full grow')}>
       {selectedChat ? (
         <>
           <div className="flex items-center justify-between px-5 py-2.5">
@@ -70,7 +70,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
             </div>
           </div>
           <Separator />
-          <div className="flex h-[470px] flex-col overflow-hidden">
+          <div className="flex flex-col overflow-hidden">
             <ScrollArea className="flex-1 overflow-y-auto">
               {/* Your chat area content goes here */}
             </ScrollArea>
@@ -89,7 +89,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
           </div>
         </>
       ) : (
-        <div className="flex h-[470px] flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
           <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
             <Icons.chat className="h-16 w-16" />
           </div>
