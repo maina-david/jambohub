@@ -10,11 +10,12 @@ import { PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
 import useChatStore from '@/store/chatStore'
 import { Icons } from '@/components/icons'
 import { useMediaQuery } from 'usehooks-ts'
+import { cn } from '@/lib/utils'
 
 export default function ChatContentArea() {
   const selectedChat = useChatStore((state) => state.selectedChat)
   const [message, setMessage] = useState<string>('')
-  const mdAbove = useMediaQuery('md')
+  const isMdAndAbove = useMediaQuery('(min-width: 768px)')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value)
@@ -29,12 +30,6 @@ export default function ChatContentArea() {
       e.preventDefault()
       handleSend()
     }
-  }
-
-  if (mdAbove){
-    console.log('above md')
-  }else{
-    console.log('below md')
   }
 
   return (
@@ -83,7 +78,7 @@ export default function ChatContentArea() {
             <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
             <Icons.chat className="h-16 w-16" />
           </div>
-          <div className='cursor-pointer rounded-md px-6 py-2 shadow-2xl'>
+            <div className={cn('rounded-md px-6 py-2 shadow-2xl', isMdAndAbove && 'cursor-pointer')}>
             <p className="text-lg font-medium leading-normal">Start Conversation</p>
           </div>
         </div>
