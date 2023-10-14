@@ -53,7 +53,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
         <>
           <div className="flex items-center justify-between px-5 py-2.5">
             {isMdAndAbove ? null : (
-              <div className='mx-2 cursor-pointer' onClick={handleLeftSidebarToggle}>
+              <div className='mx-2' onClick={handleLeftSidebarToggle}>
                 <MenuIcon className="h-4 w-4" />
               </div>
             )}
