@@ -80,15 +80,13 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
         if (error.response.status === 422 && error.response.data) {
           // Handle validation errors
           const validationErrors = error.response.data
-          // Update form field errors
-          form.setError('name', {
-            type: 'manual',
-            message: validationErrors.name || '',
-          })
-          form.setError('email', {
-            type: 'manual',
-            message: validationErrors.email || '',
-          })
+          if (validationErrors.email) {
+            // Set an error message for the email field
+            form.setError('email', {
+              type: 'manual',
+              message: 'Email already taken',
+            })
+          }
         } else {
           return toast({
             title: "Something went wrong.",

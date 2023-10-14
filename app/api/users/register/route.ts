@@ -2,20 +2,7 @@ import * as z from "zod"
 
 import { db } from "@/lib/db"
 import { hash } from 'bcrypt'
-
-const userRegisterSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100),
-  email: z.string().email("Invalid email").min(1, "Email is required"),
-  password: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must have more than 8 characters"),
-  confirmPassword: z.string().min(1, "Password confirmation is required"),
-})
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Passwords do not match",
-  })
+import { userRegisterSchema } from "@/lib/validations/user"
 
 export async function POST(req: Request) {
   try {
@@ -29,7 +16,10 @@ export async function POST(req: Request) {
     })
 
     if (count > 0) {
-      return new Response("Email already taken", { status: 422 })
+      return new Response(
+        JSON.stringify({ error: { email: 'Email already taken' } }),
+        { status: 422 }
+      )
     }
 
     const hashedPassword = await hash(body.password, 12);
