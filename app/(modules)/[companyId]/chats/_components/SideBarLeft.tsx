@@ -110,7 +110,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
   } else {
     return (
       <Sheet open={leftSidebarOpen} onOpenChange={handleLeftSidebarToggle}>
-        <SheetContent>
+        <SheetContent side={'left'}>
           <div className="flex items-center justify-between space-x-2 p-2.5">
             <UserAvatar
               user={{ name: user.name || null, image: user.image || null }}

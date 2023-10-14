@@ -47,9 +47,10 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
   }
 
   return (
-    <div className="flex flex-col rounded-r border md:w-2/3">
+    <div className={cn("flex flex-col rounded-r border",
+      isMdAndAbove ? 'w-2/3' : 'grow')}>
       {selectedChat ? (
-        <div className="flex flex-col rounded-r border md:w-2/3">
+        <>
           <div className="flex items-center justify-between px-5 py-2.5">
             <div className="flex cursor-pointer items-center">
               <div className="flex flex-col">
@@ -86,7 +87,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
               </Button>
             </div>
           </div>
-        </div>
+        </>
       ) : (
         <div className="flex h-[470px] flex-col items-center justify-center">
           <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
@@ -96,7 +97,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
             onClick={handleStartConversation}
             className={cn('rounded-md px-6 py-2 shadow-2xl',
               isMdAndAbove ? 'cursor-pointer' : 'cursor-default')}
-              >
+          >
             <p className="text-lg font-medium leading-normal">Start Conversation</p>
           </div>
         </div>
