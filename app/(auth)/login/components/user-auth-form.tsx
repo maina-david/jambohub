@@ -93,7 +93,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         }
       } else {
         const redirectUri = searchParams?.get("from") ? searchParams?.get("from") as string : '/home'
-        router.push(redirectUri)
+        router.replace(redirectUri)
       }
     } catch (error) {
       // Handle unexpected errors
