@@ -77,11 +77,10 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
       }
     } catch (error) {
       if (error.response) {
-        console.log(error.response)
         if (error.response.status === 422 && error.response.data) {
           // Handle validation errors
           const validationErrors = error.response.data
-          if (validationErrors.email) {
+          if (validationErrors.error.email) {
             // Set an error message for the email field
             form.setError('email', {
               type: 'manual',
