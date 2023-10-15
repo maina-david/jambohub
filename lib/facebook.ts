@@ -7,7 +7,7 @@ export const ConfigurationId = '2699996580161254'
 export const initializeFacebookSDK = () => {
   window.fbAsyncInit = function () {
     FB.init({
-      appId: FacebookAppId,
+      appId: '287872977404983',
       cookie: true,
       xfbml: true,
       version: 'v18.0',
@@ -43,7 +43,7 @@ export const launchWhatsAppSignup = () => {
       console.log('User cancelled login or did not fully authorize.');
     }
   }, {
-    config_id: ConfigurationId,
+    config_id: '2699996580161254',
     response_type: 'code',
     override_default_response_type: true,
     // extras: {
