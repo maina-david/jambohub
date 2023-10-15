@@ -4,30 +4,41 @@ export const FacebookAppId = '2699996580161254'
 
 export const ConfigurationId = '287872977404983'
 
-export function initializeFacebookSDK () {
-  return new Promise(resolve => {
-    // wait for facebook sdk to initialize before starting the react app
-    window.fbAsyncInit = function () {
-      window.FB.init({
-        appId: FacebookAppId,
-        cookie: true,
-        xfbml: true,
-        version: 'v18.0'
-      });
-    };
+export function initializeFacebookSDK() {
+  return new Promise<void>(resolve => {
+    if (typeof FB !== 'undefined') {
+      resolve()
+    } else {
+      window.fbAsyncInit = function () {
+        window.FB.init({
+          appId: FacebookAppId,
+          cookie: true,
+          xfbml: true,
+          version: 'v18.0'
+        })
+        resolve()
+      };
 
-    // load facebook sdk script
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) { return; }
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      if (fjs && fjs.parentNode) {
-        fjs.parentNode.insertBefore(js, fjs);
-      }
-    }(document, 'script', 'facebook-jssdk'));
-  });
-};
+      // load facebook sdk script
+      (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0]
+
+        if (d.getElementById(id)) {
+          return
+        }
+
+        js = d.createElement(s)
+        js.id = id
+        js.src = "https://connect.facebook.net/en_US/sdk.js"
+
+        if (fjs && fjs.parentNode) {
+          fjs.parentNode.insertBefore(js, fjs)
+        }
+
+      }(document, 'script', 'facebook-jssdk'))
+    }
+  })
+}
 
 export const launchWhatsAppSignup = () => {
   // Conversion tracking code
@@ -39,10 +50,10 @@ export const launchWhatsAppSignup = () => {
   // Launch Facebook login
   FB.login(function (response) {
     if (response.authResponse) {
-      const code = response.authResponse.code;
+      const code = response.authResponse.code
       console.log('returned code: ', code)
     } else {
-      console.log('User cancelled login or did not fully authorize.');
+      console.log('User cancelled login or did not fully authorize.')
     }
   }, {
     config_id: ConfigurationId,
@@ -74,6 +85,6 @@ export const launchWhatsAppSignup = () => {
     //     },
     //   },
     // },
-  });
-};
+  })
+}
 
