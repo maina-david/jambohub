@@ -46,7 +46,8 @@ export async function PATCH(
       },
       data: {
         identifier: body.phoneNumberId,
-        authDetails: json
+        authDetails: json,
+        integrated: true
       },
     })
 
