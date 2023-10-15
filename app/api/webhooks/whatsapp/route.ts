@@ -11,6 +11,6 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: Request) {
 
-  console.log('WHATSAPP_WEBHOOK', request)
+  console.log('WHATSAPP_WEBHOOK', request.body)
   return new Response(null, { status: 200 })
 }
