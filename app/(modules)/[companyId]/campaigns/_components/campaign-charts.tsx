@@ -124,8 +124,8 @@ const expenditureDataFormatter = (number: number) => {
 interface ChartsProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 const CampaignCharts = ({ className }: ChartsProps) => (
-  <div className={cn("flex", className)}>
-    <Tabs defaultValue="impressions">
+  <div className={cn("flex max-w-fit", className)}>
+    <Tabs defaultValue="impressions" className="max-w-fit">
       <TabsList className="grid grid-cols-2">
         <TabsTrigger value="impressions">Impressions</TabsTrigger>
         <TabsTrigger value="expenditure">Expenditure</TabsTrigger>
