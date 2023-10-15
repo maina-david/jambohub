@@ -4,15 +4,13 @@ export const FacebookAppId = '287872977404983'
 
 export const ConfigurationId = '2699996580161254'
 
-// facebook.ts
 export const initializeFacebookSDK = () => {
   window.fbAsyncInit = function () {
-    // JavaScript SDK configuration and setup
     FB.init({
       appId: FacebookAppId,
-      cookie: true, // Enable cookies
-      xfbml: true, // Parse social plugins on this page
-      version: 'v18.0', // Graph API version
+      cookie: true,
+      xfbml: true,
+      version: '',
     });
   };
 
