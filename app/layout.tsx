@@ -11,6 +11,7 @@ import NextTopLoader from 'nextjs-toploader'
 import { CompanyModalProvider } from "@/providers/company-modal-provider"
 import { TeamModalProvider } from "@/providers/team-modal-provider"
 import Providers from "@/utils/provider"
+import { initializeFacebookSDK } from "@/lib/facebook"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -73,6 +74,8 @@ export const metadata = {
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
 }
+
+initializeFacebookSDK().then(RootLayout)
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
