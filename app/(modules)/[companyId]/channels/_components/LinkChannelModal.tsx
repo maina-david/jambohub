@@ -56,7 +56,7 @@ export default function LinkChannelModal({ channel, className, children }: Chann
   const renderChannelForm = () => {
     switch (channel.type) {
       case 'WHATSAPP':
-        return <WhatsAppSignUpFlow />
+        return <WhatsAppForm />
       case 'SMS':
         return <SMSForm form={form} />
       default:

@@ -10,7 +10,7 @@ export const initializeFacebookSDK = () => {
       appId: FacebookAppId,
       cookie: true,
       xfbml: true,
-      version: '',
+      version: 'v18.0',
     });
   };
 
