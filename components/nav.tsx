@@ -79,6 +79,12 @@ export function SideNav(props: SideNavProps) {
     },
   ]
 
+  const handleMobileSidebar = () => {
+    if (!mdAndAbove) {
+      handleSidebarToggle()
+    }
+  }
+
   const renderSideNav = () => {
     return (
       <nav className="grid items-start gap-2">
@@ -86,7 +92,7 @@ export function SideNav(props: SideNavProps) {
           const Icon = Icons[item.icon || "arrowRight"]
           return (
             item.href && (
-              <Link key={index} href={item.disabled ? "/" : item.href}>
+              <Link onClick={handleMobileSidebar} key={index} href={item.disabled ? "/" : item.href}>
                 <span
                   className={cn(
                     "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
