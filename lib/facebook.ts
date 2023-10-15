@@ -1,8 +1,8 @@
-import { env } from 'env.mjs'
+// import { env } from 'env.mjs'
 
-export const FacebookAppId = env.FACEBOOK_APP_ID
+export const FacebookAppId = '287872977404983'
 
-export const ConfigurationId = env.CONFIGURATION_ID
+export const ConfigurationId = '2699996580161254'
 
 // facebook.ts
 export const initializeFacebookSDK = () => {
