@@ -23,10 +23,10 @@ export const env = createEnv({
     EMAIL_FROM: z.string().min(1),
     MAILGUN_SIGN_UP_TEMPLATE: z.string().min(1),
     MAILGUN_SIGN_IN_TEMPLATE: z.string().min(1),
-    FACEBOOK_APP_ID: z.string().min(1),
-    CONFIGURATION_ID: z.string().min(1),
   },
   client: {
+    FACEBOOK_APP_ID: z.string().min(1),
+    CONFIGURATION_ID: z.string().min(1),
     NEXT_PUBLIC_APP_URL: z.string().min(1),
   },
   runtimeEnv: {
