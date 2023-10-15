@@ -15,6 +15,7 @@ import { dashboardConfig } from "@/config/hub"
 import { Company } from "@prisma/client"
 import { useMediaQuery } from 'usehooks-ts'
 import { MenuIcon } from 'lucide-react'
+import Notifications from './notifications'
 
 interface AppLayoutProps {
   user: User
@@ -52,6 +53,7 @@ export function AppLayout({
           <div className="ml-auto flex items-center space-x-4">
             <MainNav items={dashboardConfig.mainNav} />
             <ModeToggle />
+            <Notifications />
             <UserAccountNav
               user={{
                 name: user.name,

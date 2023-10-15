@@ -6,7 +6,6 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { UserAvatar } from '@/components/user-avatar'
 import { Separator } from '@/components/ui/separator'
 import useChatStore from '@/store/chatStore'
-import { User } from 'next-auth'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { fetchAssignedChats, fetchCompanyContacts } from '@/actions/chat-actions'
@@ -16,7 +15,6 @@ import {
 } from '@/components/ui/sheet'
 
 interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, 'name' | 'image' | 'email'>
   isMdAndAbove: boolean
   leftSidebarOpen: boolean
   handleLeftSidebarToggle: () => void
@@ -24,7 +22,6 @@ interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const SideBarLeft = (props: SideBarLeftProps) => {
   const {
-    user,
     isMdAndAbove,
     leftSidebarOpen,
     handleLeftSidebarToggle
@@ -59,10 +56,6 @@ const SideBarLeft = (props: SideBarLeftProps) => {
     return (
       <>
         <div className="flex items-center justify-between space-x-2 p-2.5">
-          <UserAvatar
-            user={{ name: user.name || null, image: user.image || null }}
-            className="h-8 w-8"
-          />
           <Input placeholder="Search for contact..." />
         </div>
         <Separator />

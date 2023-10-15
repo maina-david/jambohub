@@ -5,7 +5,7 @@ import SideBarLeft from './SideBarLeft'
 import ChatContentArea from './ChatContentArea'
 import { useMediaQuery } from 'usehooks-ts'
 
-export default function ChatArea(user: any) {
+export default function ChatArea() {
   const isMdAndAbove = useMediaQuery('(min-width: 768px)')
   const [leftSidebarOpen, setLeftSidebarOpen] = useState<boolean>(false)
 
@@ -15,7 +15,6 @@ export default function ChatArea(user: any) {
     <>
       {/* Sidebar Left */}
       <SideBarLeft
-        user={user}
         isMdAndAbove={isMdAndAbove}
         leftSidebarOpen={leftSidebarOpen}
         handleLeftSidebarToggle={handleLeftSidebarToggle} />
