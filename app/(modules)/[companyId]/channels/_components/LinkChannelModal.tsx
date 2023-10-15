@@ -23,6 +23,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from '@/components/icons'
 import { useQueryClient } from '@tanstack/react-query'
+import WhatsAppSignUpFlow from './forms/WhatsAppSignUpFlow'
 
 interface ChannelProps extends React.HTMLAttributes<HTMLDivElement> {
   channel: Channel
@@ -38,10 +39,10 @@ const SMSFormSchema = z.object({
 })
 
 export default function LinkChannelModal({ channel, className, children }: ChannelProps) {
-  const queryClient = useQueryClient();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const formSchema = channel.type === 'WHATSAPP' ? WhatsAppFormSchema : SMSFormSchema;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const queryClient = useQueryClient()
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const formSchema = channel.type === 'WHATSAPP' ? WhatsAppFormSchema : SMSFormSchema
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,17 +50,17 @@ export default function LinkChannelModal({ channel, className, children }: Chann
       phoneNumberId: "",
       apiKey: "",
     },
-  });
+  })
 
   // Determine the form to display based on the channel type
   const renderChannelForm = () => {
     switch (channel.type) {
       case 'WHATSAPP':
-        return <WhatsAppForm form={form} />;
+        return <WhatsAppSignUpFlow />
       case 'SMS':
-        return <SMSForm form={form} />;
+        return <SMSForm form={form} />
       default:
-        return null;
+        return null
     }
   }
 
@@ -76,32 +77,32 @@ export default function LinkChannelModal({ channel, className, children }: Chann
             <Icons.spinner className='mr-2 h-4 w-4' />
           )}{" "} Continue
         </Button>
-      );
+      )
     }
-    return null;
+    return null
   }
 
   // Handle form submission
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setIsLoading(true);
+      setIsLoading(true)
       await axios.patch(`/api/companies/${channel.companyId}/channels/${channel.id}/link`, {
         ...values
-      });
-      queryClient.invalidateQueries({ queryKey: ['companyChannels'] });
+      })
+      queryClient.invalidateQueries({ queryKey: ['companyChannels'] })
       toast({
         title: 'Success',
         description: 'Channel linked successfully!',
-      });
-      setIsOpen(false);
+      })
+      setIsOpen(false)
     } catch (error) {
       toast({
         title: 'Update Failed',
         description: 'Failed to update the channel. Please try again.',
         variant: 'destructive',
-      });
+      })
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
@@ -129,6 +130,6 @@ export default function LinkChannelModal({ channel, className, children }: Chann
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }
 

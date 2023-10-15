@@ -152,6 +152,9 @@ dependencies:
   '@tremor/react':
     specifier: ^3.8.2
     version: 3.8.2(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.3)
+  '@types/facebook-js-sdk':
+    specifier: ^3.3.8
+    version: 3.3.8
   '@typescript-eslint/parser':
     specifier: ^5.62.0
     version: 5.62.0(eslint@8.49.0)(typescript@5.2.2)
@@ -4124,6 +4127,10 @@ packages:
   /@types/extend@3.0.1:
     resolution: {integrity: sha512-R1g/VyKFFI2HLC1QGAeTtCBWCo6n75l41OnsVYNbmKG+kempOESaodf6BeJyUM3Q0rKa/NQcTHbB2+66lNnxLw==}
     dev: true
+
+  /@types/facebook-js-sdk@3.3.8:
+    resolution: {integrity: sha512-WLxZcnlfxgCfyhB5st9OMThSqgR0uutmWuHNlnNdKZJKh3m3gg/R1tevjOg21QPh+QrknXmgXyGUQjGNqONLyw==}
+    dev: false
 
   /@types/geojson@7946.0.11:
     resolution: {integrity: sha512-L7A0AINMXQpVwxHJ4jxD6/XjZ4NDufaRlUJHjNIFKYUFBH1SvOW+neaqb0VTRSLW5suSrSu19ObFEFnfNcr+qg==}

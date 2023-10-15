@@ -60,6 +60,7 @@
     "@tanstack/react-query-next-experimental": "5.0.0-alpha.80",
     "@tanstack/react-table": "^8.10.3",
     "@tremor/react": "^3.8.2",
+    "@types/facebook-js-sdk": "^3.3.8",
     "@typescript-eslint/parser": "^5.62.0",
     "@vercel/analytics": "^1.0.2",
     "@vercel/og": "^0.0.21",

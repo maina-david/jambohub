@@ -77,7 +77,14 @@ export const metadata = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <script
+          async
+          defer
+          crossOrigin="anonymous"
+          src="https://connect.facebook.net/en_US/sdk.js"
+        ></script>
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
@@ -90,7 +97,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <CompanyModalProvider />
           <Providers>
             <TeamModalProvider />
-              {children}
+            {children}
           </Providers>
           <Analytics />
           <Toaster />
