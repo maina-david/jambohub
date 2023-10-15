@@ -12,8 +12,8 @@ export default function Notifications() {
   return (
     <Popover>
       <PopoverTrigger>
-        <Button variant={'ghost'} size={'sm'} className="h-8 w-8">
-          <BellDotIcon />
+        <Button variant={'ghost'} size={'sm'}>
+          <BellDotIcon className="h-8 w-8" />
         </Button>
       </PopoverTrigger>
       <PopoverContent>
