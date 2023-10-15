@@ -1,11 +1,15 @@
 import { env } from 'env.mjs'
 
+export const ConfigurationId = env.CONFIGURATION_ID
+
+export const FacebookAppId = env.FACEBOOK_APP_ID
+
 // facebook.ts
 export const initializeFacebookSDK = () => {
   window.fbAsyncInit = function () {
     // JavaScript SDK configuration and setup
     FB.init({
-      appId: env.FACEBOOK_APP_ID,
+      appId: FacebookAppId,
       cookie: true, // Enable cookies
       xfbml: true, // Parse social plugins on this page
       version: 'v18.0', // Graph API version
@@ -28,7 +32,7 @@ export const initializeFacebookSDK = () => {
 export const launchWhatsAppSignup = () => {
   // Conversion tracking code
   // fbq && fbq('trackCustom', 'WhatsAppOnboardingStart', {
-  //   appId: env.FACEBOOK_APP_ID,
+  //   appId: FacebookAppId,
   //   feature: 'whatsapp_embedded_signup',
   // });
 
@@ -41,8 +45,8 @@ export const launchWhatsAppSignup = () => {
       console.log('User cancelled login or did not fully authorize.');
     }
   }, {
-    config_id: env.CONFIGURATION_ID,
-    response_type: 'code', 
+    config_id: ConfigurationId,
+    response_type: 'code',
     override_default_response_type: true,
     // extras: {
     //   setup: {
