@@ -113,16 +113,20 @@ const expenditureData = [
   },
 ]
 
-const dataFormatter = (number: number) => {
+const impressionsDataFormatter = (number: number) => {
+  return Intl.NumberFormat("us").format(number).toString();
+}
+
+const expenditureDataFormatter = (number: number) => {
   return "$ " + Intl.NumberFormat("us").format(number).toString();
 }
 
 interface ChartsProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 const CampaignCharts = ({ className }: ChartsProps) => (
-  <div className={cn("mx-auto flex w-full", className)}>
-    <Tabs defaultValue="impressions" className="w-full">
-      <TabsList className="grid w-full grid-cols-2">
+  <div className={cn("flex", className)}>
+    <Tabs defaultValue="impressions">
+      <TabsList className="grid grid-cols-2">
         <TabsTrigger value="impressions">Impressions</TabsTrigger>
         <TabsTrigger value="expenditure">Expenditure</TabsTrigger>
       </TabsList>
@@ -133,7 +137,7 @@ const CampaignCharts = ({ className }: ChartsProps) => (
             index="date"
             categories={["Impressions"]}
             colors={["blue"]}
-            valueFormatter={dataFormatter}
+            valueFormatter={impressionsDataFormatter}
           />
         </Card>
       </TabsContent>
@@ -144,7 +148,7 @@ const CampaignCharts = ({ className }: ChartsProps) => (
             index="date"
             categories={["Expenditure"]}
             colors={["blue"]}
-            valueFormatter={dataFormatter}
+            valueFormatter={expenditureDataFormatter}
           />
         </Card>
       </TabsContent>
