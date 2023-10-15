@@ -4,27 +4,29 @@ export const FacebookAppId = '2699996580161254'
 
 export const ConfigurationId = '287872977404983'
 
-export const initializeFacebookSDK = () => {
-  window.fbAsyncInit = function () {
-    FB.init({
-      appId: FacebookAppId,
-      cookie: true,
-      xfbml: true,
-      version: 'v18.0',
-    });
-  };
+export function initializeFacebookSDK () {
+  return new Promise(resolve => {
+    // wait for facebook sdk to initialize before starting the react app
+    window.fbAsyncInit = function () {
+      window.FB.init({
+        appId: FacebookAppId,
+        cookie: true,
+        xfbml: true,
+        version: 'v18.0'
+      });
+    };
 
-  // Load the JavaScript SDK asynchronously
-  (function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = 'https://connect.facebook.net/en_US/sdk.js';
-    if (fjs && fjs.parentNode) {
-      fjs.parentNode.insertBefore(js, fjs);
-    }
-  })(document, 'script', 'facebook-jssdk');
+    // load facebook sdk script
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      if (fjs && fjs.parentNode) {
+        fjs.parentNode.insertBefore(js, fjs);
+      }
+    }(document, 'script', 'facebook-jssdk'));
+  });
 };
 
 export const launchWhatsAppSignup = () => {
