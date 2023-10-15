@@ -13,7 +13,7 @@ export default function Notifications() {
     <Popover>
       <PopoverTrigger>
         <Button variant={'ghost'} size={'sm'}>
-          <BellDotIcon className="h-8 w-8" />
+          <BellDotIcon className="h-6 w-6" />
         </Button>
       </PopoverTrigger>
       <PopoverContent>
