@@ -51,19 +51,29 @@ export default function LinkChannelDropdown() {
         <DropdownMenuItem
           disabled={!sdkInitialized}
           onSelect={handleWhatsAppSignup}
+          className='cursor-pointer'
         >
           <FaWhatsapp className='mr-2 h-4 w-4' />
           WhatsApp
         </DropdownMenuItem>
-        <DropdownMenuItem disabled>
+        <DropdownMenuItem
+          disabled
+          className='cursor-not-allowed'
+        >
           <FaFacebookF className='mr-2 h-4 w-4' />
           FaceBook
         </DropdownMenuItem>
-        <DropdownMenuItem disabled>
+        <DropdownMenuItem
+          disabled
+          className='cursor-not-allowed'
+        >
           <FaCommentSms className='mr-2 h-4 w-4' />
           SMS
         </DropdownMenuItem>
-        <DropdownMenuItem disabled>
+        <DropdownMenuItem
+          disabled
+          className='cursor-not-allowed'
+        >
           <FaXTwitter className='mr-2 h-4 w-4' />
           Twitter
         </DropdownMenuItem>
