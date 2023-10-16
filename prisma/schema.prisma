@@ -65,10 +65,12 @@ model Company {
   owner                User                  @relation("Owner", fields: [ownerId], references: [id])
   status               Boolean               @default(true)
   default              Boolean               @default(false)
-  email                String             @unique
+  email                String                @unique
+  emailVerified        DateTime?
   website              String
   dialingCode          String
   phone                String
+  phoneVerified        DateTime?
   streetAddress        String
   city                 String
   state                String
