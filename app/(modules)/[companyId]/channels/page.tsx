@@ -15,7 +15,7 @@ export default async function ChannelsPage() {
     <AppShell>
       <AppHeader heading='Channels' text='Create and manage communication channels'>
         <WhatsAppSignUpFlow />
-        <ChannelModal />
+        {/* <ChannelModal /> */}
       </AppHeader>
       <ListChannels />
     </AppShell>

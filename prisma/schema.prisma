@@ -57,56 +57,53 @@ model User {
 }
 
 model Company {
-  id                   String                 @id @default(cuid())
+  id                   String                @id @default(cuid())
   name                 String
-  createdAt            DateTime               @default(now()) @map(name: "created_at")
-  updatedAt            DateTime               @default(now()) @map(name: "updated_at")
-  owner                User                   @relation("Owner", fields: [ownerId], references: [id])
+  createdAt            DateTime              @default(now()) @map(name: "created_at")
+  updatedAt            DateTime              @default(now()) @map(name: "updated_at")
   ownerId              String
-  status               Boolean                @default(true)
-  default              Boolean                @default(false)
+  owner                User                  @relation("Owner", fields: [ownerId], references: [id])
+  status               Boolean               @default(true)
+  default              Boolean               @default(false)
+  email                String?               @unique
+  website              String?
+  dialingCode          String?
+  phone                String?
+  streetAddress        String?
+  city                 String?
+  state                String?
+  zipCode              String?
+  country              String?
+  timeZone             String?
+  language             String                @default("EN")
+  currency             String?
   channels             Channel[]
   flows                Flow[]
   teams                Team[]
-  settings             CompanySettings[]
   customers            Customer[]
   campaigns            Campaign[]
   chats                Chat[]
-  notificationSettings NotificationSettings[]
-  users                User[]                 @relation("UserCompany")
-  UserCompany          UserCompany[]
+  users                User[]                @relation("UserCompany")
   Contact              Contact[]
-}
-
-model CompanySettings {
-  id                     String               @id @default(cuid())
-  companyId              String
-  company                Company              @relation(fields: [companyId], references: [id])
-  timeZone               String
-  language               String               @default("EN")
-  currency               String
-  notificationSettingsId String
-  notificationSettings   NotificationSettings @relation(fields: [notificationSettingsId], references: [id])
+  NotificationSettings NotificationSettings?
+  UserCompany          UserCompany[]
 }
 
 model NotificationSettings {
-  id                 String            @id @default(cuid())
-  emailNotifications Boolean           @default(true)
-  pushNotifications  Boolean           @default(true)
-  smsNotifications   Boolean           @default(true)
-  companyId          String
-  company            Company           @relation(fields: [companyId], references: [id])
-  CompanySettings    CompanySettings[]
+  id                 String  @id @default(cuid())
+  emailNotifications Boolean @default(true)
+  pushNotifications  Boolean @default(true)
+  smsNotifications   Boolean @default(true)
+  companyId          String  @unique
+  Company            Company @relation(fields: [companyId], references: [id])
 }
 
 model UserCompany {
   id        String  @id @default(cuid())
   userId    String
-  companyId String
   user      User    @relation(fields: [userId], references: [id])
+  companyId String
   company   Company @relation(fields: [companyId], references: [id])
-
-  @@unique([userId, companyId])
 }
 
 enum SubscriptionPlan {

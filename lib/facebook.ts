@@ -1,8 +1,9 @@
-// import { env } from 'env.mjs'
+import { env } from 'env.mjs'
+import { getCurrentUserSelectedCompany } from './session'
 
-export const FacebookAppId = '2699996580161254'
+export const FacebookAppId = env.NEXT_PUBLIC_FACEBOOK_APP_ID
 
-export const ConfigurationId = '287872977404983'
+export const ConfigurationId = env.NEXT_PUBLIC_CONFIGURATION_ID
 
 export function initializeFacebookSDK() {
   return new Promise<void>(resolve => {
@@ -40,12 +41,14 @@ export function initializeFacebookSDK() {
   })
 }
 
-export const launchWhatsAppSignup = () => {
+export async function launchWhatsAppSignup(companyId: string) {
   // Conversion tracking code
   // fbq && fbq('trackCustom', 'WhatsAppOnboardingStart', {
   //   appId: FacebookAppId,
   //   feature: 'whatsapp_embedded_signup',
   // });
+
+  const company = await getCurrentUserSelectedCompany(companyId)
 
   // Launch Facebook login
   FB.login(function (response) {
