@@ -9,9 +9,6 @@ const routeContextSchema = z.object({
   }),
 })
 
-const whatsAppCodeValidationSchema = z.object({
-  code: z.string().min(1)
-})
 export async function GET(request: Request, context: z.infer<typeof routeContextSchema>) {
   try {
     const session = await getServerSession(authOptions)
@@ -27,15 +24,19 @@ export async function GET(request: Request, context: z.infer<typeof routeContext
 
     const appId = env.NEXT_PUBLIC_FACEBOOK_APP_ID
     const appSecret = env.FACEBOOK_APP_SECRET
-    const res = await fetch(`https://graph.facebook.com/v18.0/oauth/access_token?client_id=${appId}&client_secret=${appSecret}&code=${code}`, {
+    const response = await fetch(`https://graph.facebook.com/v18.0/oauth/access_token?client_id=${appId}&client_secret=${appSecret}&code=${code}`, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
 
-    const facebookResponse = await res.json()
+    const data: { access_token: string } = await response.json()
 
-    return Response.json(facebookResponse, { status: 200 })
+    if (!response.ok) {
+      return new Response("Failed to verify code", { status: 422 })
+    }
+
+    return new Response(JSON.stringify(data), { status: 200 })
   } catch (error) {
 
   }
