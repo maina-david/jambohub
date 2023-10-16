@@ -12,7 +12,7 @@ const routeContextSchema = z.object({
 const whatsAppCodeValidationSchema = z.object({
   code: z.string().min(1)
 })
-export async function POST(request: Request, context: z.infer<typeof routeContextSchema>) {
+export async function GET(request: Request, context: z.infer<typeof routeContextSchema>) {
   try {
     const session = await getServerSession(authOptions)
 
@@ -22,10 +22,9 @@ export async function POST(request: Request, context: z.infer<typeof routeContex
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
-    const json = await request.json()
-    const body = whatsAppCodeValidationSchema.parse(json)
+    const { searchParams } = new URL(request.url)
+    const code = searchParams.get('code')
 
-    const code = body.code
     const appId = env.NEXT_PUBLIC_FACEBOOK_APP_ID
     const appSecret = env.FACEBOOK_APP_SECRET
     const res = await fetch(`https://graph.facebook.com/v18.0/oauth/access_token?client_id=${appId}&client_secret=${appSecret}&code=${code}`, {
@@ -34,7 +33,9 @@ export async function POST(request: Request, context: z.infer<typeof routeContex
       },
     })
 
-    return new Response(JSON.stringify(res), { status: 200 })
+    const facebookResponse = await res.json()
+
+    return Response.json(facebookResponse, { status: 200 })
   } catch (error) {
 
   }
