@@ -42,11 +42,21 @@ export default function LinkChannelDropdown() {
           fetch(`/api/companies/${companyId}/channels/verify-business-code?code=${code}`)
             .then(async (response) => {
               if (response.ok) {
-                const data = await response.json()
-                console.log('Successful Response:', data)
+                try {
+                  const data = await response.json()
+                  console.log('Successful Response:', data)
+                } catch (jsonError) {
+                  console.error('JSON Parsing Error:', jsonError)
+                  toast({
+                    title: 'Error',
+                    description: 'Error parsing the response',
+                    variant: 'destructive',
+                  })
+                }
               } else {
-                const errorData = await response.json()
-                console.error('Error Response:', errorData)
+                // Handle non-JSON responses here
+                const textData = await response.text()
+                console.error('Error Response:', textData)
                 toast({
                   title: 'Error',
                   description: 'An error occurred while verifying the code',
@@ -54,8 +64,8 @@ export default function LinkChannelDropdown() {
                 })
               }
             })
-            .catch((error) => {
-              console.error('Fetch Error:', error)
+            .catch((fetchError) => {
+              console.error('Fetch Error:', fetchError)
               toast({
                 title: 'Error',
                 description: 'An error occurred during the fetch request',
@@ -76,6 +86,7 @@ export default function LinkChannelDropdown() {
       })
     }
   }
+
 
   return (
     <DropdownMenu>
