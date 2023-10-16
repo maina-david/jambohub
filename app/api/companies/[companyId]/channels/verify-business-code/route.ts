@@ -36,7 +36,7 @@ export async function GET(request: Request, context: z.infer<typeof routeContext
       return new Response("Failed to verify code", { status: 422 })
     }
 
-    return new Response(JSON.stringify(data), { status: 200 })
+    return new Response(JSON.stringify(data.access_token), { status: 200 })
   } catch (error) {
 
   }
