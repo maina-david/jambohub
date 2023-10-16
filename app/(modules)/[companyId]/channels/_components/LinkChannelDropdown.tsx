@@ -37,29 +37,10 @@ export default function LinkChannelDropdown() {
   const handleWhatsAppSignup = async () => {
     if (sdkInitialized) {
       const companyId = params?.companyId
-      window.FB.login(async function (response) {
+      window.FB.login(function (response) {
         if (response.authResponse) {
           const code = response.authResponse.code
-          const res = await axios.post(`/api/companies/${companyId}/channels/verify-business-code`, {
-            data: {
-              code
-            }
-          })
-
-          console.log(res)
-          if (res.status == 200) {
-            toast({
-              title: 'Success',
-              description: 'Code verified successfully!',
-            })
-          } else {
-            console.log("Code verification failed: ", res.data)
-            toast({
-              title: 'Error',
-              description: "Failed to verify user's code",
-              variant: 'destructive',
-            })
-          }
+          fetch(`/api/companies/${companyId}/channels/verify-business-code?code=${code}`).then((response) => console.log("Got response from api: ", response))
 
         } else {
           toast({
