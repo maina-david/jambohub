@@ -1,6 +1,4 @@
 import { env } from 'env.mjs'
-import axios from 'axios'
-import { Company } from '@prisma/client'
 import { fetchCompanyDetails } from '@/actions/user-actions'
 
 export const FacebookAppId = env.NEXT_PUBLIC_FACEBOOK_APP_ID
