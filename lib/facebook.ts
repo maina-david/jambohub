@@ -42,7 +42,7 @@ export async function launchWhatsAppSignup(companyId: string) {
   //   feature: 'whatsapp_embedded_signup',
   // });
 
-  const company = fetchCompanyDetails(companyId)
+  // const company = fetchCompanyDetails(companyId)
   // Launch Facebook login
   FB.login(function (response) {
     if (response.authResponse) {
