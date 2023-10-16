@@ -101,7 +101,7 @@ export const CompanyModal = () => {
 
   return (
     <Dialog open={companyModal.isOpen} onOpenChange={onChange}>
-      <DialogContent className="w-2/3 md:w-full">
+      <DialogContent className="w-full">
         <DialogHeader>
           <DialogTitle>Create company</DialogTitle>
           <DialogDescription>
@@ -117,7 +117,7 @@ export const CompanyModal = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Company&apos;s Name</FormLabel>
                     <FormControl>
                       <Input disabled={loading} placeholder="Enter company name" {...field} />
                     </FormControl>
