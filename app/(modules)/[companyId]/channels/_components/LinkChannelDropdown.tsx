@@ -111,7 +111,7 @@ export default function LinkChannelDropdown() {
           className='cursor-not-allowed'
         >
           <FaFacebookF className='mr-2 h-4 w-4' />
-          FaceBook
+          Facebook
         </DropdownMenuItem>
         <DropdownMenuItem
           disabled

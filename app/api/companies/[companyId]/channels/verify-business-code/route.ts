@@ -38,6 +38,7 @@ export async function GET(request: Request, context: z.infer<typeof routeContext
     return new Response(JSON.stringify(inspectionResponse), { status: 200, headers: { 'Content-Type': 'application/json' } })
   } catch (error) {
     // Handle errors here
+    console.log('VALIDATE_CODE_GET_ERROR', error.message)
     return new Response(`An error occurred: ${error.message}`, { status: 500 })
   }
 }
