@@ -12,6 +12,7 @@ import { CompanyModalProvider } from "@/providers/company-modal-provider"
 import { TeamModalProvider } from "@/providers/team-modal-provider"
 import Providers from "@/utils/provider"
 import { FacebookAppId } from "@/lib/facebook"
+import Script from "next/script"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -78,14 +79,7 @@ export const metadata = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          async
-          defer
-          crossOrigin="anonymous"
-          src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"
-        ></script>
-      </head>
+      <head />
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
@@ -93,6 +87,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontHeading.variable
         )}
       >
+        <Script
+          async
+          defer
+          crossOrigin="anonymous"
+          src="https://connect.facebook.net/en_US/sdk.js"
+        />
         <NextTopLoader showSpinner={false} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <CompanyModalProvider />
