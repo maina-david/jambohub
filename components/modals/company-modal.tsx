@@ -101,7 +101,7 @@ export const CompanyModal = () => {
 
   return (
     <Dialog open={companyModal.isOpen} onOpenChange={onChange}>
-      <DialogContent className="w-full">
+      <DialogContent className="min-w-full">
         <DialogHeader>
           <DialogTitle>Create company</DialogTitle>
           <DialogDescription>
@@ -109,7 +109,7 @@ export const CompanyModal = () => {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="md:flex md:grow">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="md:flex md:flex-wrap">
             {/* Name and Email */}
             <div className="md:w-1/2 md:pr-2">
               <FormField
