@@ -10,17 +10,24 @@ export default function WhatsAppSignUpFlow() {
   const params = useParams()
 
   useEffect(() => {
-    (function (d: Document, s: string, id: string) {
-      var js: HTMLScriptElement
-      var fjs: HTMLScriptElement | null = d.getElementsByTagName(s)[0] as HTMLScriptElement | null
-      if (d.getElementById(id)) { return }
-      js = d.createElement(s) as HTMLScriptElement
-      js.id = id
-      js.src = `https://connect.facebook.net/en_US/sdk.js#version=v18.0&appId=${FacebookAppId}&status=true&cookie=true&xfbml=true`
-      if (fjs && fjs.parentNode) {
-        fjs.parentNode.insertBefore(js, fjs)
-      }
-    }(document, 'script', 'facebook-jssdk'))
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: FacebookAppId,
+        xfbml: true,
+        version: 'v18.0'
+      })
+    }
+    // (function (d: Document, s: string, id: string) {
+    //   var js: HTMLScriptElement
+    //   var fjs: HTMLScriptElement | null = d.getElementsByTagName(s)[0] as HTMLScriptElement | null
+    //   if (d.getElementById(id)) { return }
+    //   js = d.createElement(s) as HTMLScriptElement
+    //   js.id = id
+    //   js.src = `https://connect.facebook.net/en_US/sdk.js`
+    //   if (fjs && fjs.parentNode) {
+    //     fjs.parentNode.insertBefore(js, fjs)
+    //   }
+    // }(document, 'script', 'facebook-jssdk'))
   }, [])
 
   const handleWhatsAppSignup = () => {
