@@ -10,20 +10,9 @@ export const initializeFaceBookSDK = () => {
     FB.init({
       appId: FacebookAppId,
       xfbml: true,
-      version: 'v18.0'
+      version: 'v11.0'
     })
-  };
-  (function (d: Document, s: string, id: string) {
-    var js: HTMLScriptElement
-    var fjs: HTMLScriptElement | null = d.getElementsByTagName(s)[0] as HTMLScriptElement | null
-    if (d.getElementById(id)) { return }
-    js = d.createElement(s) as HTMLScriptElement
-    js.id = id
-    js.src = `https://connect.facebook.net/en_US/sdk.js`
-    if (fjs && fjs.parentNode) {
-      fjs.parentNode.insertBefore(js, fjs)
-    }
-  }(document, 'script', 'facebook-jssdk'))
+  }
 }
 
 export const startWhatsAppSignupFlow = () => {
