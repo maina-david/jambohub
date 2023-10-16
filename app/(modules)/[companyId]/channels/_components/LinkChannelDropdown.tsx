@@ -1,9 +1,11 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { initializeFaceBookSDK, startWhatsAppSignupFlow } from '@/lib/facebook'
+import axios from 'axios'
+import { ConfigurationId, initializeFaceBookSDK } from '@/lib/facebook'
 import { FaWhatsapp, FaXTwitter, FaFacebookF, FaCommentSms } from "react-icons/fa6"
 import { useParams } from 'next/navigation'
+import { toast } from "@/components/ui/use-toast"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,9 +34,46 @@ export default function LinkChannelDropdown() {
     initializeSDK()
   }, [])
 
-  const handleWhatsAppSignup = () => {
+  const handleWhatsAppSignup = async () => {
     if (sdkInitialized) {
-      startWhatsAppSignupFlow()
+      const companyId = params?.companyId
+      window.FB.login(async function (response) {
+        if (response.authResponse) {
+          const code = response.authResponse.code
+          const res = await axios.post(`/api/companies/${companyId}/channels/verify-business-code`, {
+            data: {
+              code
+            }
+          })
+
+          console.log(res)
+          if (res.status == 200) {
+            toast({
+              title: 'Success',
+              description: 'Code verified successfully!',
+            })
+          } else {
+            console.log("Code verification failed: ", res.data)
+            toast({
+              title: 'Error',
+              description: "Failed to verify user's code",
+              variant: 'destructive',
+            })
+          }
+
+        } else {
+          toast({
+            title: 'Error',
+            description: 'User cancelled login or did not fully authorize',
+            variant: 'destructive',
+          })
+        }
+      }, {
+        config_id: ConfigurationId,
+        response_type: 'code',
+        override_default_response_type: true,
+      })
+
     }
   }
 

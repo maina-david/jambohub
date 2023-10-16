@@ -23,6 +23,7 @@ export const env = createEnv({
     EMAIL_FROM: z.string().min(1),
     MAILGUN_SIGN_UP_TEMPLATE: z.string().min(1),
     MAILGUN_SIGN_IN_TEMPLATE: z.string().min(1),
+    FACEBOOK_APP_SECRET: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().min(1),
@@ -50,6 +51,7 @@ export const env = createEnv({
     MAILGUN_SIGN_UP_TEMPLATE: process.env.MAILGUN_SIGN_UP_TEMPLATE,
     MAILGUN_SIGN_IN_TEMPLATE: process.env.MAILGUN_SIGN_IN_TEMPLATE,
     NEXT_PUBLIC_FACEBOOK_APP_ID: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
-    NEXT_PUBLIC_CONFIGURATION_ID: process.env.NEXT_PUBLIC_CONFIGURATION_ID
+    NEXT_PUBLIC_CONFIGURATION_ID: process.env.NEXT_PUBLIC_CONFIGURATION_ID,
+    FACEBOOK_APP_SECRET: process.env.FACEBOOK_APP_SECRET
   },
 })
