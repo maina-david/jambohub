@@ -21,8 +21,7 @@ export const initializeFaceBookSDK = (): Promise<void> => {
 export const startWhatsAppSignupFlow = () => {
   window.FB.login(function (response) {
     if (response.authResponse) {
-      const code = response.authResponse.code
-      console.log('returned code: ', code)
+      console.log('Auth Response: ', response.authResponse)
     } else {
       console.log('User cancelled login or did not fully authorize.')
     }
