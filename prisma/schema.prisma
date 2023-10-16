@@ -65,16 +65,16 @@ model Company {
   owner                User                  @relation("Owner", fields: [ownerId], references: [id])
   status               Boolean               @default(true)
   default              Boolean               @default(false)
-  email                String?               @unique
-  website              String?
-  dialingCode          String?
-  phone                String?
-  streetAddress        String?
-  city                 String?
-  state                String?
-  zipCode              String?
-  country              String?
-  timeZone             String?
+  email                String             @unique
+  website              String
+  dialingCode          String
+  phone                String
+  streetAddress        String
+  city                 String
+  state                String
+  zipCode              String
+  country              String
+  timeZone             String
   language             String                @default("EN")
   currency             String?
   channels             Channel[]

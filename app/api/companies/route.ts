@@ -5,10 +5,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { MaximumPlanResourcesError, RequiresActivePlanError, RequiresProPlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
-
-const companyCreateSchema = z.object({
-  name: z.string(),
-})
+import { companySchema } from "@/lib/validations/company"
 
 export async function GET() {
   try {
@@ -67,12 +64,20 @@ export async function POST(req: Request) {
     }
 
     const json = await req.json()
-    const body = companyCreateSchema.parse(json)
+    const body = companySchema.parse(json)
 
     const company = await db.company.create({
       data: {
         name: body.name,
         ownerId: user.id,
+        email: body.email,
+        website: body.website,
+        phone: body.phone,
+        streetAddress: body.streetAddress,
+        city: body.city,
+        state: body.state,
+        zipCode: body.zipCode,
+        country: body.country,
       },
       select: {
         id: true,
