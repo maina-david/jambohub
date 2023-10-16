@@ -91,6 +91,7 @@
     "react-dom": "^18.2.0",
     "react-editor-js": "^2.1.0",
     "react-hook-form": "^7.46.1",
+    "react-phone-number-input": "^3.3.6",
     "react-social-icons": "^6.3.0",
     "react-textarea-autosize": "^8.5.3",
     "reactflow": "^11.8.3",
