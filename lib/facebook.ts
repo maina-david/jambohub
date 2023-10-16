@@ -6,39 +6,33 @@ export const FacebookAppId = env.NEXT_PUBLIC_FACEBOOK_APP_ID
 export const ConfigurationId = env.NEXT_PUBLIC_CONFIGURATION_ID
 
 export const initializeFacebookSDK = () => {
-  return new Promise<void>(resolve => {
-    if (typeof FB !== 'undefined') {
-      resolve()
-    } else {
-      window.fbAsyncInit = function () {
-        window.FB.init({
-          appId: FacebookAppId,
-          cookie: true,
-          xfbml: true,
-          version: 'v18.0'
-        })
-        resolve()
-      };
+  window.fbAsyncInit = function () {
+    window.FB.init({
+      appId: FacebookAppId,
+      cookie: true,
+      xfbml: true,
+      version: 'v18.0'
+    })
+  };
 
-      // load facebook sdk script
-      (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0]
+  // load facebook sdk script
+  (function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0]
 
-        if (d.getElementById(id)) {
-          return
-        }
-
-        js = d.createElement(s)
-        js.id = id
-        js.src = "https://connect.facebook.net/en_US/sdk.js"
-
-        if (fjs && fjs.parentNode) {
-          fjs.parentNode.insertBefore(js, fjs)
-        }
-
-      }(document, 'script', 'facebook-jssdk'))
+    if (d.getElementById(id)) {
+      return
     }
-  })
+
+    js = d.createElement(s)
+    js.id = id
+    js.src = "https://connect.facebook.net/en_US/sdk.js"
+
+    if (fjs && fjs.parentNode) {
+      fjs.parentNode.insertBefore(js, fjs)
+    }
+
+  }(document, 'script', 'facebook-jssdk'))
+
 }
 
 export async function launchWhatsAppSignup(companyId: string) {
