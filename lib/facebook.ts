@@ -48,8 +48,6 @@ export async function launchWhatsAppSignup(companyId: string) {
   //   feature: 'whatsapp_embedded_signup',
   // });
 
-  const company = await getCurrentUserSelectedCompany(companyId)
-
   // Launch Facebook login
   FB.login(function (response) {
     if (response.authResponse) {
