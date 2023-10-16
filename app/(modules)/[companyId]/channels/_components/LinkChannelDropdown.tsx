@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Button } from '@/components/ui/button'
 
 export default function LinkChannelDropdown() {
   const params = useParams()
@@ -39,7 +40,11 @@ export default function LinkChannelDropdown() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>Connect Channel</DropdownMenuTrigger>
+      <DropdownMenuTrigger>
+        <Button variant={'outline'}>
+          Connect Channel
+        </Button>
+      </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Supported Channels</DropdownMenuLabel>
         <DropdownMenuSeparator />

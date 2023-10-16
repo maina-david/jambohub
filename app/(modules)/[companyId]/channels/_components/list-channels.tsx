@@ -1,14 +1,13 @@
 'use client'
 
 import React from 'react'
-import axios from "axios"
 import { useQuery } from '@tanstack/react-query'
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { ChannelCard } from './channel-card'
-import ChannelModal from './channel-modal'
 import { useParams } from 'next/navigation'
 import ChannelSkeleton from './channel-skeleton'
 import { fetchChannels } from '@/actions/channel-actions'
+import LinkChannelDropdown from './LinkChannelDropdown'
 
 export default function ListChannels() {
   const params = useParams()
@@ -65,11 +64,11 @@ export default function ListChannels() {
       ) : (
         <EmptyPlaceholder>
           <EmptyPlaceholder.Icon name="channels" />
-          <EmptyPlaceholder.Title>No channels created</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Title>No channels integrated</EmptyPlaceholder.Title>
           <EmptyPlaceholder.Description>
             You don&apos;t have any channels yet. Start integrating.
           </EmptyPlaceholder.Description>
-          <ChannelModal />
+          <LinkChannelDropdown />
         </EmptyPlaceholder>
       )}
     </>
