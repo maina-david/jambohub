@@ -23,7 +23,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from '@/components/icons'
 import { useQueryClient } from '@tanstack/react-query'
-import WhatsAppSignUpFlow from './forms/WhatsAppSignUpFlow'
+import WhatsAppSignUpFlow from './LinkChannelDropdown'
 
 interface ChannelProps extends React.HTMLAttributes<HTMLDivElement> {
   channel: Channel
