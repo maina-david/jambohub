@@ -109,7 +109,7 @@ export const CompanyModal = () => {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="md:flex md:flex-wrap">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="md:flex md:grow">
             {/* Name and Email */}
             <div className="md:w-1/2 md:pr-2">
               <FormField
