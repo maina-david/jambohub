@@ -10,19 +10,11 @@ export default function WhatsAppSignUpFlow() {
   const params = useParams()
 
   useEffect(() => {
-    window.fbAsyncInit = () => {
-      window.FB.init({
-        appId: FacebookAppId,
-        autoLogAppEvents: true,
-        xfbml: true,
-        version: 'v18.0'
-      });
-    };
     (function (d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) { return; }
       js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
+      js.src = `https://connect.facebook.net/en_US/sdk.js#version=v18.0&appId=${FacebookAppId}&status=true&cookie=true&xfbml=true`;
       if (fjs && fjs.parentNode) {
         fjs.parentNode.insertBefore(js, fjs);
       }
