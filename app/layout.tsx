@@ -83,7 +83,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           async
           defer
           crossOrigin="anonymous"
-          src="https://connect.facebook.net/en_US/sdk.js"
+          src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"
         ></script>
       </head>
       <body
