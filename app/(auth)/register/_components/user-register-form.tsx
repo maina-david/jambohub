@@ -67,7 +67,7 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
           description: "We sent you an activation email. Be sure to check your spam too.",
         })
 
-        router.replace('/login')
+        router.push('/login')
       } else {
         toast({
           title: "Something went wrong.",

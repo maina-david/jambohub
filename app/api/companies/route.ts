@@ -78,6 +78,8 @@ export async function POST(req: Request) {
         state: body.state,
         zipCode: body.zipCode,
         country: body.country,
+        dialingCode: '254',
+        timeZone: 'UTC+3'
       },
       select: {
         id: true,

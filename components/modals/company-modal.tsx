@@ -108,152 +108,164 @@ export const CompanyModal = () => {
             Add a new company to manage channels, teams, flows and campaigns.
           </DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="Enter company name" {...field} />
-                  </FormControl>
-                  <FormDescription>This will be your company&apos;s display name.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div>
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input disabled={loading} placeholder="Enter company name" {...field} />
+                      </FormControl>
+                      <FormDescription>This will be your company&apos;s display name.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company&apos;s Email</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="Enter company's email" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter the email address for your company.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company&apos;s Email</FormLabel>
+                      <FormControl>
+                        <Input disabled={loading} placeholder="Enter company's email" {...field} />
+                      </FormControl>
+                      <FormDescription>Enter the email address for your company.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="Enter phone number" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter the phone number for your company.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <div>
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input disabled={loading} placeholder="Enter phone number" {...field} />
+                      </FormControl>
+                      <FormDescription>Enter the phone number for your company.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="website"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company&apos;s Website</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="Enter company's website" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter the website URL for your company.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="website"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company&apos;s Website</FormLabel>
+                      <FormControl>
+                        <Input disabled={loading} placeholder="Enter company's website" {...field} />
+                      </FormControl>
+                      <FormDescription>Enter the website URL for your company.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <FormField
-              control={form.control}
-              name="streetAddress"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Street Address</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="Enter street address" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter the street address for your company.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <div>
+                <FormField
+                  control={form.control}
+                  name="streetAddress"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Street Address</FormLabel>
+                      <FormControl>
+                        <Input disabled={loading} placeholder="Enter street address" {...field} />
+                      </FormControl>
+                      <FormDescription>Enter the street address for your company.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>City</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="Enter city" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter the city where your company is located.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <div>
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>City</FormLabel>
+                      <FormControl>
+                        <Input disabled={loading} placeholder="Enter city" {...field} />
+                      </FormControl>
+                      <FormDescription>Enter the city where your company is located.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="state"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>State</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="Enter state" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter the state where your company is located.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="state"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>State</FormLabel>
+                      <FormControl>
+                        <Input disabled={loading} placeholder="Enter state" {...field} />
+                      </FormControl>
+                      <FormDescription>Enter the state where your company is located.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <FormField
-              control={form.control}
-              name="zipCode"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Zip Code</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="Enter zip code" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter the ZIP code for your company&apos;s location.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <div>
+                <FormField
+                  control={form.control}
+                  name="zipCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Zip Code</FormLabel>
+                      <FormControl>
+                        <Input disabled={loading} placeholder="Enter zip code" {...field} />
+                      </FormControl>
+                      <FormDescription>Enter the ZIP code for your company&apos;s location.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="country"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Country</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="Enter country" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter the country where your company is located.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="country"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Country</FormLabel>
+                      <FormControl>
+                        <Input disabled={loading} placeholder="Enter country" {...field} />
+                      </FormControl>
+                      <FormDescription>Enter the country where your company is located.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <DialogFooter>
-              <Button disabled={loading} type="submit">
-                {loading && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                )}{" "}Continue
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
+              <DialogFooter>
+                <Button disabled={loading} type="submit">
+                  {loading && (
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  )}{" "}Continue
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </div>
       </DialogContent>
     </Dialog>
 
