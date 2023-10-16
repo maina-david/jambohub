@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { ConfigurationId, initializeFaceBookSDK } from '@/lib/facebook'
 import { FaWhatsapp, FaXTwitter, FaFacebookF, FaCommentSms } from "react-icons/fa6"
 import { useParams } from 'next/navigation'
@@ -40,8 +39,29 @@ export default function LinkChannelDropdown() {
       window.FB.login(function (response) {
         if (response.authResponse) {
           const code = response.authResponse.code
-          fetch(`/api/companies/${companyId}/channels/verify-business-code?code=${code}`).then((response) => console.log("Got response from api: ", response))
-
+          fetch(`/api/companies/${companyId}/channels/verify-business-code?code=${code}`)
+            .then(async (response) => {
+              if (response.ok) {
+                const data = await response.json()
+                console.log('Successful Response:', data)
+              } else {
+                const errorData = await response.json()
+                console.error('Error Response:', errorData)
+                toast({
+                  title: 'Error',
+                  description: 'An error occurred while verifying the code',
+                  variant: 'destructive',
+                })
+              }
+            })
+            .catch((error) => {
+              console.error('Fetch Error:', error)
+              toast({
+                title: 'Error',
+                description: 'An error occurred during the fetch request',
+                variant: 'destructive',
+              })
+            })
         } else {
           toast({
             title: 'Error',
@@ -54,7 +74,6 @@ export default function LinkChannelDropdown() {
         response_type: 'code',
         override_default_response_type: true,
       })
-
     }
   }
 

@@ -9,51 +9,6 @@ const routeContextSchema = z.object({
   })
 })
 
-async function exchangeCodeForAccessToken(code: string): Promise<{ access_token: string }> {
-  try {
-    const appId = env.NEXT_PUBLIC_FACEBOOK_APP_ID
-    const appSecret = env.FACEBOOK_APP_SECRET
-
-    const res = await fetch(`https://graph.facebook.com/v18.0/oauth/access_token?client_id=${appId}&client_secret=${appSecret}&code=${code}`, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    if (!res.ok) {
-      throw new Error(`Failed to exchange code for access token: ${res.statusText}`)
-    }
-
-    return await res.json()
-  } catch (error) {
-    throw new Error(`Error in exchangeCodeForAccessToken: ${error.message}`)
-  }
-}
-
-async function inspectAccessToken(inputToken: string): Promise<{ app_id: number; user_id: string; scopes: string[] } | null> {
-  try {
-    const appTokenOrAdminToken = env.FACEBOOK_APP_SECRET
-
-    const inspectionRes = await fetch(`https://graph.facebook.com/debug_token?input_token=${inputToken}&access_token=${appTokenOrAdminToken}`)
-
-    if (!inspectionRes.ok) {
-      throw new Error(`Failed to inspect access token: ${inspectionRes.statusText}`)
-    }
-
-    const inspectionData = await inspectionRes.json()
-
-    if (inspectionData.data) {
-      const { app_id, user_id, scopes } = inspectionData.data
-      return { app_id, user_id, scopes }
-    }
-
-    return null
-  } catch (error) {
-    throw new Error(`Error in inspectAccessToken: ${error.message}`)
-  }
-}
-
-
 export async function GET(request: Request, context: z.infer<typeof routeContextSchema>): Promise<Response> {
   try {
     const session = await getServerSession(authOptions)
@@ -84,5 +39,49 @@ export async function GET(request: Request, context: z.infer<typeof routeContext
   } catch (error) {
     // Handle errors here
     return new Response(`An error occurred: ${error.message}`, { status: 500 })
+  }
+}
+
+async function exchangeCodeForAccessToken(code: string): Promise<{ access_token: string }> {
+  try {
+    const appId = env.NEXT_PUBLIC_FACEBOOK_APP_ID
+    const appSecret = env.FACEBOOK_APP_SECRET
+
+    const res = await fetch(`https://graph.facebook.com/v18.0/oauth/access_token?client_id=${appId}&client_secret=${appSecret}&code=${code}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (!res.ok) {
+      throw new Error(`Failed to exchange code for access token: ${res.statusText}`)
+    }
+
+    return await res.json()
+  } catch (error) {
+    throw new Error(`Error in exchangeCodeForAccessToken: ${error.message}`)
+  }
+}
+
+async function inspectAccessToken(inputToken: string): Promise<{ app_id: number; user_id: string; scopes: string[] } | null> {
+  try {
+    const appSecret = env.FACEBOOK_APP_SECRET
+
+    const inspectionRes = await fetch(`https://graph.facebook.com/debug_token?input_token=${inputToken}&access_token=${appSecret}`)
+
+    if (!inspectionRes.ok) {
+      throw new Error(`Failed to inspect access token: ${inspectionRes.statusText}`)
+    }
+
+    const inspectionData = await inspectionRes.json()
+
+    if (inspectionData.data) {
+      const { app_id, user_id, scopes } = inspectionData.data
+      return { app_id, user_id, scopes }
+    }
+
+    return null
+  } catch (error) {
+    throw new Error(`Error in inspectAccessToken: ${error.message}`)
   }
 }
