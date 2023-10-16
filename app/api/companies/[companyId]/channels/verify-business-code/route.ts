@@ -47,12 +47,9 @@ async function exchangeCodeForAccessToken(code: string): Promise<{ access_token:
   try {
     const appId = env.NEXT_PUBLIC_FACEBOOK_APP_ID
     const appSecret = env.FACEBOOK_APP_SECRET
+    const redirectUri = env.NEXTAUTH_URL
 
-    const res = await fetch(`https://graph.facebook.com/v18.0/oauth/access_token?client_id=${appId}&client_secret=${appSecret}&code=${code}`, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    const res = await fetch(`https://graph.facebook.com/v18.0/oauth/access_token?client_id=${appId}&redirect_uri=${redirectUri}&client_secret=${appSecret}&code=${code}`)
 
     if (!res.ok) {
       throw new Error(`Failed to exchange code for access token: ${res.statusText}`)
