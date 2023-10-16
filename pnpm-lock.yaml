@@ -248,6 +248,9 @@ dependencies:
   react-phone-number-input:
     specifier: ^3.3.6
     version: 3.3.6(react-dom@18.2.0)(react@18.2.0)
+  react-select-country-list:
+    specifier: ^2.2.3
+    version: 2.2.3
   react-social-icons:
     specifier: ^6.3.0
     version: 6.3.0(react-dom@18.2.0)(react@18.2.0)
@@ -319,6 +322,9 @@ devDependencies:
   '@types/react-dom':
     specifier: 18.0.6
     version: 18.0.6
+  '@types/react-select-country-list':
+    specifier: ^2.2.1
+    version: 2.2.1
   autoprefixer:
     specifier: ^10.4.15
     version: 10.4.15(postcss@8.4.30)
@@ -4197,6 +4203,10 @@ packages:
     resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
     dependencies:
       '@types/react': 18.0.15
+
+  /@types/react-select-country-list@2.2.1:
+    resolution: {integrity: sha512-Ixc9Vk+X+7P5KEEOK22ASf3y2McupLTfjQwhCUYUzlj00AgkDiERxT3t6Iv9MYkXQxkNx3pi+w8z/u7hdT3khg==}
+    dev: true
 
   /@types/react@18.0.15:
     resolution: {integrity: sha512-iz3BtLuIYH1uWdsv6wXYdhozhqj20oD4/Hk2DNXIn1kFsmp9x8d9QB6FnPhfkbhd2PgEONt9Q1x/ebkwjfFLow==}
@@ -10892,6 +10902,10 @@ packages:
       lodash: 4.17.21
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /react-select-country-list@2.2.3:
+    resolution: {integrity: sha512-eRgXL613dVyJiE99yKDYLvSBKDxvIlhkmvO2DVIjdKVyUQq6kBqoMUV/2zuRIAsbRXgBGmKjeL1dxjf7zTfszg==}
     dev: false
 
   /react-smooth@2.0.4(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):

@@ -6,11 +6,32 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import PhoneInput from 'react-phone-number-input'
 import { toast } from "@/components/ui/use-toast"
-import { useState } from "react"
-
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { useState, useMemo } from "react"
+import countryList from 'react-select-country-list'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "@/components/ui/dialog"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { useCompanyModal } from "@/hooks/use-company-modal"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -22,6 +43,7 @@ import { ScrollArea } from "../ui/scroll-area"
 export const CompanyModal = () => {
   const companyModal = useCompanyModal()
   const [loading, setLoading] = useState(false)
+  const countryOptions = useMemo(() => countryList().getData(), []);
 
   const form = useForm<z.infer<typeof companySchema>>({
     resolver: zodResolver(companySchema),
@@ -156,8 +178,7 @@ export const CompanyModal = () => {
                     <FormItem>
                       <FormLabel>Phone Number</FormLabel>
                       <FormControl>
-                        <PhoneInput
-                          className="rounded-md border border-input bg-transparent text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                        <Input
                           disabled={loading}
                           placeholder="Enter phone number"
                           {...field}
@@ -263,9 +284,23 @@ export const CompanyModal = () => {
                     <FormItem>
                       <FormLabel>Country</FormLabel>
                       <FormControl>
-                        <Input disabled={loading} placeholder="Enter country" {...field} />
+                        <Select
+                          onValueChange={field.onChange}
+                          disabled={loading}
+                          >
+                          <SelectTrigger >
+                            <SelectValue placeholder="Country" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {countryOptions.map((option) => (
+                              <SelectItem key={option.label} value={option.label}>
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </FormControl>
-                      <FormDescription>Enter the country where your company is located.</FormDescription>
+                      <FormDescription>Select the country where your company is located.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
