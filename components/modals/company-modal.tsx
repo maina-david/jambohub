@@ -101,7 +101,7 @@ export const CompanyModal = () => {
 
   return (
     <Dialog open={companyModal.isOpen} onOpenChange={onChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="w-screen">
         <DialogHeader>
           <DialogTitle>Create company</DialogTitle>
           <DialogDescription>
