@@ -10,16 +10,18 @@ export default function WhatsAppSignUpFlow() {
   const params = useParams()
 
   useEffect(() => {
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) { return; }
-      js = d.createElement(s); js.id = id;
-      js.src = `https://connect.facebook.net/en_US/sdk.js#version=v18.0&appId=${FacebookAppId}&status=true&cookie=true&xfbml=true`;
+    (function (d: Document, s: string, id: string) {
+      var js: HTMLScriptElement
+      var fjs: HTMLScriptElement | null = d.getElementsByTagName(s)[0] as HTMLScriptElement | null
+      if (d.getElementById(id)) { return }
+      js = d.createElement(s) as HTMLScriptElement
+      js.id = id
+      js.src = `https://connect.facebook.net/en_US/sdk.js#version=v18.0&appId=${FacebookAppId}&status=true&cookie=true&xfbml=true`
       if (fjs && fjs.parentNode) {
-        fjs.parentNode.insertBefore(js, fjs);
+        fjs.parentNode.insertBefore(js, fjs)
       }
-    }(document, 'script', 'facebook-jssdk'));
-  }, []);
+    }(document, 'script', 'facebook-jssdk'))
+  }, [])
 
   const handleWhatsAppSignup = () => {
     window.FB.login(function (response) {
