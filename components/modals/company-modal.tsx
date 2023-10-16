@@ -110,7 +110,7 @@ export const CompanyModal = () => {
             Add a new company to manage channels, teams, flows, and campaigns.
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea>
+        <ScrollArea className="h-full w-full">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="md:flex md:flex-wrap">
               {/* Name and Email */}
