@@ -10,7 +10,6 @@ export const metadata = {
 }
 
 export default async function ChannelsPage() {
-
   return (
     <AppShell>
       <AppHeader heading='Channels' text='Create and manage communication channels'>
