@@ -14,7 +14,6 @@ export default function WhatsAppSignUpFlow() {
   }, [])
 
   const handleWhatsAppSignup = () => {
-    // Call the function to launch WhatsApp signup
     launchWhatsAppSignup(params?.companyId as string)
   }
 

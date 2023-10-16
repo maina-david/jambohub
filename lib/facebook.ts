@@ -5,7 +5,7 @@ export const FacebookAppId = env.NEXT_PUBLIC_FACEBOOK_APP_ID
 
 export const ConfigurationId = env.NEXT_PUBLIC_CONFIGURATION_ID
 
-export function initializeFacebookSDK() {
+export const initializeFacebookSDK = () => {
   return new Promise<void>(resolve => {
     if (typeof FB !== 'undefined') {
       resolve()
