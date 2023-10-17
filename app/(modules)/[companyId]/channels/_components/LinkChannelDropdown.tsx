@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { ConfigurationId, initializeFaceBookSDK } from '@/lib/facebook'
 import { FaWhatsapp, FaXTwitter, FaFacebookF, FaCommentSms } from "react-icons/fa6"
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { toast } from "@/components/ui/use-toast"
 import {
   DropdownMenu,
@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button'
 
 export default function LinkChannelDropdown() {
   const params = useParams()
+  const pathname = usePathname()
   const [sdkInitialized, setSdkInitialized] = useState<boolean>(false)
 
   useEffect(() => {
