@@ -24,13 +24,14 @@ export default function LinkChannelDropdown() {
     const initializeSDK = async () => {
       try {
         await initializeFaceBookSDK()
-        setSdkInitialized(true)
+        window.addEventListener('facebookSdkReady', () => {
+          setSdkInitialized(true)
+        })
       } catch (error) {
         console.error('Failed to initialize Facebook SDK', error)
         setSdkInitialized(false)
       }
     }
-
     initializeSDK()
   }, [])
 
