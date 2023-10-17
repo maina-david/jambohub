@@ -39,6 +39,8 @@ export default function LinkChannelDropdown() {
       window.FB.login(function (response) {
         if (response.authResponse) {
           const code = response.authResponse.code
+          console.log("Returned Code: ", code)
+          console.log("Entire response: ", response)
           fetch(`/api/companies/${companyId}/channels/verify-business-code?code=${code}`)
             .then(async (response) => {
               if (response.ok) {

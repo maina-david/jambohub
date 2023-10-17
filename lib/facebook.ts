@@ -9,8 +9,9 @@ export const initializeFaceBookSDK = (): Promise<void> => {
       try {
         FB.init({
           appId: FacebookAppId,
+          cookie: true,
           xfbml: true,
-          version: 'v18.0',
+          version: 'v18.0'
         })
         resolve()
       } catch (error) {
