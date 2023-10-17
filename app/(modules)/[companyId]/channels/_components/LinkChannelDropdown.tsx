@@ -24,9 +24,7 @@ export default function LinkChannelDropdown() {
     const initializeSDK = async () => {
       try {
         await initializeFaceBookSDK()
-        window.addEventListener('facebookSdkReady', () => {
           setSdkInitialized(true)
-        })
       } catch (error) {
         console.error('Failed to initialize Facebook SDK', error)
         setSdkInitialized(false)
@@ -41,7 +39,6 @@ export default function LinkChannelDropdown() {
       window.FB.login(function (response) {
         if (response.authResponse) {
           const code = response.authResponse.code
-          console.log("Returned code: ", code)
           fetch(`/api/companies/${companyId}/channels/verify-business-code?code=${code}`)
             .then(async (response) => {
               if (response.ok) {
@@ -89,7 +86,6 @@ export default function LinkChannelDropdown() {
       })
     }
   }
-
 
   return (
     <DropdownMenu>

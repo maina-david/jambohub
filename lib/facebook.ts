@@ -13,9 +13,6 @@ export const initializeFaceBookSDK = (): Promise<void> => {
           version: 'v18.0',
         })
         resolve()
-        // Dispatch a custom event to signal that the SDK is fully initialized
-        const sdkReadyEvent = new Event('facebookSdkReady')
-        window.dispatchEvent(sdkReadyEvent)
       } catch (error) {
         reject(error)
       }
