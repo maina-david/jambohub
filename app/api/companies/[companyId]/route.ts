@@ -3,7 +3,7 @@ import * as z from "zod"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { companyPatchSchema } from "@/lib/validations/company"
+import { companySchema } from "@/lib/validations/company"
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -87,7 +87,7 @@ export async function PATCH(
 
     // Get the request body and validate it.
     const json = await req.json()
-    const body = companyPatchSchema.parse(json)
+    const body = companySchema.parse(json)
 
     // Update the company.
     await db.company.update({
@@ -96,6 +96,16 @@ export async function PATCH(
       },
       data: {
         name: body.name,
+        email: body.email,
+        website: body.website,
+        phone: body.phone,
+        streetAddress: body.streetAddress,
+        city: body.city,
+        state: body.state,
+        zipCode: body.zipCode,
+        country: body.country,
+        dialingCode: '254',
+        timeZone: 'UTC+3'
       },
     })
 
