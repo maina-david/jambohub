@@ -61,7 +61,7 @@ export default function LinkChannelDropdown() {
                 console.error('Error Response:', textData)
                 toast({
                   title: 'Error',
-                  description: 'An error occurred while verifying the code',
+                  description: 'An error occurred while verifying your account',
                   variant: 'destructive',
                 })
               }
