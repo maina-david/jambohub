@@ -16,9 +16,6 @@ export async function POST(request: NextRequest) {
     const requestBody = await request.text()
     const webhookData = JSON.parse(requestBody)
 
-    // Log the received webhook data for debugging purposes
-    console.log('Received WhatsApp Webhook Data:', webhookData)
-
     // Check if the webhook object is WhatsApp Business Account
     if (webhookData.object === 'whatsapp_business_account') {
       // Extract the message data from the webhook
@@ -27,6 +24,7 @@ export async function POST(request: NextRequest) {
       const phoneNumberId = messageData.metadata.phone_number_id
       const channel = await fetchChannelDetails(phoneNumberId)
 
+      console.log('Message Data: ', messageData)
       if (channel) {
         // Save or update the contact
         const contactData = {
@@ -43,7 +41,7 @@ export async function POST(request: NextRequest) {
             type: ChatType.INTERACTIVE,
             channelId: channel.id,
             companyId: channel.companyId,
-            contactId: contact.id, 
+            contactId: contact.id,
             externalRef: messageData.id,
           },
         })
@@ -71,8 +69,6 @@ export async function POST(request: NextRequest) {
     // Log the error for debugging and error tracking
     console.error('Error handling webhook data:', error)
 
-    // You can add more detailed error logging here as needed
-
     // Send a response to indicate an error occurred
     return new Response('Error handling webhook data', { status: 500 })
   }
@@ -99,9 +95,7 @@ async function fetchChannelDetails(phoneNumberId: string) {
   } catch (error) {
     // Log the error for debugging and error tracking
     console.error('Error fetching channel details:', error)
-
-    // You can add more detailed error logging here as needed
-
+    
     return null
   }
 }
