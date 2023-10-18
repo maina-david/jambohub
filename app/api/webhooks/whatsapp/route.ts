@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
         // Check if a chat with the same contact ID exists
         const existingChat = await findChatByContactId(contact.id)
-
+        console.log("Message array: ", messageData.messages[0])
         if (existingChat) {
           // Add a new message to the existing chat
           const newChatMessage = await db.chatMessage.create({
