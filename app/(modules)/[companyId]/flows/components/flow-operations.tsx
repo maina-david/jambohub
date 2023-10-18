@@ -52,6 +52,23 @@ export function FlowOperations({ flow }: FlowOperationsProps) {
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
 
+  const deleteFlowAction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault()
+    setIsDeleteLoading(true)
+
+    const deleted = await deleteAutomationflow(flow.companyId, flow.id)
+
+    if (deleted) {
+      setIsDeleteLoading(false)
+      setShowDeleteAlert(false)
+      queryClient.invalidateQueries({ queryKey: ['companyFlows'] })
+      toast({
+        title: "Success",
+        description: "Flow deleted successfully",
+      })
+    }
+  }
+
   return (
     <>
       <DropdownMenu>
@@ -91,22 +108,7 @@ export function FlowOperations({ flow }: FlowOperationsProps) {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={async (event) => {
-                event.preventDefault()
-                setIsDeleteLoading(true)
-
-                const deleted = await deleteAutomationflow(flow.companyId, flow.id)
-
-                if (deleted) {
-                  setIsDeleteLoading(false)
-                  setShowDeleteAlert(false)
-                  queryClient.invalidateQueries({ queryKey: ['companyFlows'] })
-                  toast({
-                    title: "Success",
-                    description: "Flow deleted successfully",
-                  })
-                }
-              }}
+              onClick={deleteFlowAction}
               className="bg-red-600 focus:ring-red-600 dark:text-white"
             >
               {isDeleteLoading ? (

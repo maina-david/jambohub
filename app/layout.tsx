@@ -7,11 +7,13 @@ import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
-import NextTopLoader from 'nextjs-toploader'
+import { Router } from 'next/router'
 import { CompanyModalProvider } from "@/providers/company-modal-provider"
 import { TeamModalProvider } from "@/providers/team-modal-provider"
 import Providers from "@/utils/provider"
-import { FacebookAppId } from "@/lib/facebook"
+// ** Loader Import
+import NProgress from 'nprogress'
+
 import Script from "next/script"
 
 const fontSans = FontSans({
@@ -35,20 +37,6 @@ export const metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: [
-    "Next.js",
-    "React",
-    "Tailwind CSS",
-    "Server Components",
-    "Radix UI",
-  ],
-  authors: [
-    {
-      name: "shadcn",
-      url: "https://shadcn.com",
-    },
-  ],
-  creator: "shadcn",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
@@ -76,6 +64,16 @@ export const metadata = {
   manifest: `${siteConfig.url}/site.webmanifest`,
 }
 
+Router.events.on('routeChangeStart', () => {
+  NProgress.start()
+})
+Router.events.on('routeChangeError', () => {
+  NProgress.done()
+})
+Router.events.on('routeChangeComplete', () => {
+  NProgress.done()
+})
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -93,7 +91,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
           crossOrigin="anonymous"
           src="https://connect.facebook.net/en_US/sdk.js"
         />
-        <NextTopLoader showSpinner={false} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <CompanyModalProvider />
           <Providers>

@@ -31,7 +31,6 @@ import { useParams } from "next/navigation"
 import { useState } from "react"
 import { Icons } from "@/components/icons"
 import { useQueryClient } from '@tanstack/react-query'
-import LinkChannelModal from "./LinkChannelModal"
 import { AnimatePresence, motion } from 'framer-motion'
 interface ChannelProps {
   channel: Channel
@@ -344,9 +343,7 @@ export function ChannelCard({ channel }: ChannelProps) {
                   </AlertDialogContent>
                 </AlertDialog>
               ) : (
-                <LinkChannelModal className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold" channel={channel}>
-                  Link Account
-                </LinkChannelModal>
+                <p>Link Phone</p>
               )}
             </div>
             <div className="my-1 flex w-0 flex-1">

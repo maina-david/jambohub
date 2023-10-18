@@ -221,6 +221,9 @@ dependencies:
   nodemailer:
     specifier: ^6.9.5
     version: 6.9.5
+  nprogress:
+    specifier: ^0.2.0
+    version: 0.2.0
   postmark:
     specifier: ^3.0.19
     version: 3.0.19
@@ -319,6 +322,9 @@ devDependencies:
   '@types/nodemailer':
     specifier: ^6.4.10
     version: 6.4.10
+  '@types/nprogress':
+    specifier: ^0.2.1
+    version: 0.2.1
   '@types/react':
     specifier: 18.0.15
     version: 18.0.15
@@ -4192,9 +4198,8 @@ packages:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
 
-  /@types/nprogress@0.2.0:
-    resolution: {integrity: sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==}
-    dev: false
+  /@types/nprogress@0.2.1:
+    resolution: {integrity: sha512-TYuyVnp+nOnimgdOydDIDYIxv2kSeuJZw4tF0p/KG7hpzcMF1WkHaREwM8O4blqfT1F7rq0nht6Ko2KVUfWzBA==}
 
   /@types/parse5@6.0.3:
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
@@ -9849,7 +9854,7 @@ packages:
       react: '>= 16.0.0'
       react-dom: '>= 16.0.0'
     dependencies:
-      '@types/nprogress': 0.2.0
+      '@types/nprogress': 0.2.1
       next: 13.3.2-canary.13(@babel/core@7.22.20)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
       nprogress: 0.2.0
       prop-types: 15.8.1

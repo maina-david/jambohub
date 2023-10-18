@@ -57,7 +57,7 @@ export default function UserRegistrationForm({ className, ...props }: UserRegist
     try {
       setIsLoading(true)
 
-      const response = await axios.post('/api/users/register', {
+      const response = await axios.post('/api/auth/register', {
         ...values,
       })
 
