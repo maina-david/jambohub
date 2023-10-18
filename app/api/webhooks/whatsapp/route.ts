@@ -24,38 +24,52 @@ export async function POST(request: NextRequest) {
       const phoneNumberId = messageData.metadata.phone_number_id
       const channel = await fetchChannelDetails(phoneNumberId)
 
-      console.log('Message Data: ', messageData)
       if (channel) {
         // Save or update the contact
         const contactData = {
           companyId: channel.companyId,
           channel: ChannelType.WHATSAPP,
           identifier: messageData.contacts[0].wa_id,
-          alias: messageData.contacts[0].profile.name
+          alias: messageData.contacts[0].profile.name,
         }
         const contact = await saveOrUpdateContact(contactData)
 
-        // Create a new Chat record to represent the conversation
-        const newChat = await db.chat.create({
-          data: {
-            type: ChatType.INTERACTIVE,
-            channelId: channel.id,
-            companyId: channel.companyId,
-            contactId: contact.id,
-          },
-        })
+        // Check if a chat with the same contact ID exists
+        const existingChat = await findChatByContactId(contact.id)
 
-        // Create a new ChatMessage record for the incoming message
-        const newChatMessage = await db.chatMessage.create({
-          data: {
-            chatId: newChat.id,
-            externalRef: messageData.id,
-            direction: MessageDirection.INCOMING,
-            type: MessageType.INTERACTIVE,
-            message: messageData.messages[0].text.body,
-            timestamp: new Date(messageData.messages[0].timestamp),
-          },
-        })
+        if (existingChat) {
+          // Add a new message to the existing chat
+          const newChatMessage = await db.chatMessage.create({
+            data: {
+              chatId: existingChat.id,
+              externalRef: messageData.id,
+              direction: MessageDirection.INCOMING,
+              type: MessageType.INTERACTIVE,
+              message: messageData.messages[0].text.body,
+            },
+          })
+        } else {
+          // Create a new Chat record to represent the conversation
+          const newChat = await db.chat.create({
+            data: {
+              type: ChatType.INTERACTIVE,
+              channelId: channel.id,
+              companyId: channel.companyId,
+              contactId: contact.id,
+            },
+          })
+
+          // Create a new ChatMessage record for the incoming message
+          const newChatMessage = await db.chatMessage.create({
+            data: {
+              chatId: newChat.id,
+              externalRef: messageData.id,
+              direction: MessageDirection.INCOMING,
+              type: MessageType.INTERACTIVE,
+              message: messageData.messages[0].text.body,
+            },
+          })
+        }
       }
 
       // Send a response to acknowledge the receipt and processing of the webhook data
@@ -124,3 +138,12 @@ async function saveOrUpdateContact(data: { identifier: string, companyId: string
   }
 }
 
+// Function to find a chat by contact ID
+async function findChatByContactId(contactId: string) {
+  const existingChat = await db.chat.findFirst({
+    where: {
+      contactId,
+    },
+  })
+  return existingChat
+}

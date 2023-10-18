@@ -257,6 +257,11 @@ enum ChatType {
   INTERACTIVE
 }
 
+enum ChatStatus {
+  OPEN
+  CLOSED
+}
+
 model Chat {
   id           String        @id @default(cuid())
   type         ChatType
@@ -267,6 +272,7 @@ model Chat {
   contactId    String
   Contact      Contact       @relation(fields: [contactId], references: [id])
   externalRef  String?
+  status      ChatStatus    @default(OPEN)
   timestamp    DateTime      @default(now())
   chatMessages ChatMessage[]
 }
