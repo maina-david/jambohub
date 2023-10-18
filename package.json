@@ -80,6 +80,7 @@
     "next": "13.3.2-canary.13",
     "next-auth": "4.22.1",
     "next-contentlayer": "^0.3.4",
+    "next-nprogress-bar": "^2.1.2",
     "next-themes": "^0.2.1",
     "nextjs-toploader": "^1.4.2",
     "nodemailer": "^6.9.5",

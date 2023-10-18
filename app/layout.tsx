@@ -7,13 +7,10 @@ import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Router } from 'next/router'
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar'
 import { CompanyModalProvider } from "@/providers/company-modal-provider"
 import { TeamModalProvider } from "@/providers/team-modal-provider"
 import Providers from "@/utils/provider"
-// ** Loader Import
-import NProgress from 'nprogress'
-
 import Script from "next/script"
 
 const fontSans = FontSans({
@@ -64,16 +61,6 @@ export const metadata = {
   manifest: `${siteConfig.url}/site.webmanifest`,
 }
 
-Router.events.on('routeChangeStart', () => {
-  NProgress.start()
-})
-Router.events.on('routeChangeError', () => {
-  NProgress.done()
-})
-Router.events.on('routeChangeComplete', () => {
-  NProgress.done()
-})
-
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -96,6 +83,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <Providers>
             <TeamModalProvider />
             {children}
+            <ProgressBar
+              height="4px"
+              color="#fffd00"
+              options={{ showSpinner: false }}
+              shallowRouting
+            />
           </Providers>
           <Analytics />
           <Toaster />

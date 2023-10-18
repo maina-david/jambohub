@@ -3,11 +3,10 @@
 import React from 'react'
 import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { cn } from "@/lib/utils"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
@@ -20,7 +19,7 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form"
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar'
 
 interface UserRegistrationFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
