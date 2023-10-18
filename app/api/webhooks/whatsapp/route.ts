@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server"
 import { db } from "@/lib/db"
+import { ChannelType } from "@/types/channel"
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -16,7 +17,7 @@ export async function POST(request: NextRequest) {
     const webhookData = JSON.parse(requestBody)
 
     // Log the received webhook data for debugging purposes
-    console.log('Received WhatsApp Webhook Data:', webhookData);
+    console.log('Received WhatsApp Webhook Data:', webhookData)
 
     // Check if the webhook object is WhatsApp Business Account
     if (webhookData.object === 'whatsapp_business_account') {
@@ -27,13 +28,21 @@ export async function POST(request: NextRequest) {
       const channel = await fetchChannelDetails(phoneNumberId)
 
       if (channel) {
+        // Save or update the contact
+        const contactData = {
+          companyId: channel.companyId,
+          channel: ChannelType.WHATSAPP,
+          identifier: phoneNumberId,
+        }
+        const contact = await saveOrUpdateContact(contactData)
+
         // Create a new Chat record to represent the conversation
         const newChat = await db.chat.create({
           data: {
             type: 'INTERACTIVE',
             channelId: channel.id,
             companyId: channel.companyId,
-            contactId: messageData.contacts[0].wa_id,
+            contactId: contact.id, // Use the contact ID
             externalRef: messageData.id,
           },
         })
@@ -59,7 +68,7 @@ export async function POST(request: NextRequest) {
     return new Response('Invalid webhook data', { status: 400 })
   } catch (error) {
     // Log the error for debugging and error tracking
-    console.error('Error handling webhook data:', error);
+    console.error('Error handling webhook data:', error)
 
     // You can add more detailed error logging here as needed
 
@@ -88,10 +97,36 @@ async function fetchChannelDetails(phoneNumberId: string) {
     }
   } catch (error) {
     // Log the error for debugging and error tracking
-    console.error('Error fetching channel details:', error);
+    console.error('Error fetching channel details:', error)
 
     // You can add more detailed error logging here as needed
 
-    return null;
+    return null
   }
 }
+
+// Function to save or update a contact
+async function saveOrUpdateContact(data: { identifier: string, companyId: string, channel: ChannelType }) {
+  try {
+    const existingContact = await db.contact.findFirst({
+      where: { identifier: data.identifier },
+    })
+
+    if (existingContact) {
+      // Contact with the given identifier already exists, update it
+      const updatedContact = await db.contact.update({
+        where: { id: existingContact.id },
+        data,
+      })
+      return updatedContact
+    } else {
+      // Contact with the given identifier does not exist, create a new one
+      const newContact = await db.contact.create({ data })
+      return newContact
+    }
+  } catch (error) {
+    console.error('Error saving/updating contact:', error)
+    throw error
+  }
+}
+
