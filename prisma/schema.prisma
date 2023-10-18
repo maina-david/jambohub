@@ -266,7 +266,7 @@ model Chat {
   company      Company       @relation(fields: [companyId], references: [id])
   contactId    String
   Contact      Contact       @relation(fields: [contactId], references: [id])
-  externalRef  String
+  externalRef  String?
   timestamp    DateTime      @default(now())
   chatMessages ChatMessage[]
 }

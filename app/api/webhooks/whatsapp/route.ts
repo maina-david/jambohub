@@ -42,7 +42,6 @@ export async function POST(request: NextRequest) {
             channelId: channel.id,
             companyId: channel.companyId,
             contactId: contact.id,
-            externalRef: messageData.id,
           },
         })
 
@@ -95,7 +94,7 @@ async function fetchChannelDetails(phoneNumberId: string) {
   } catch (error) {
     // Log the error for debugging and error tracking
     console.error('Error fetching channel details:', error)
-    
+
     return null
   }
 }
