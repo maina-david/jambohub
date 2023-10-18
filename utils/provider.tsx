@@ -13,8 +13,6 @@ function Providers({ children }: React.PropsWithChildren) {
     <QueryClientProvider client={client}>
       <ReactQueryStreamedHydration>{children}
         <ProgressBar
-          height="4px"
-          color="#fffd00"
           options={{ showSpinner: false }}
           shallowRouting
         />
