@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server"
 import { db } from "@/lib/db"
 import { ChannelType, ChatCategory, MessageDirection, MessageCategory, MessageType } from "@prisma/client"
+import { sendMessage } from "@/services/chat-service"
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -20,61 +21,67 @@ export async function POST(request: NextRequest) {
     if (webhookData.object === 'whatsapp_business_account') {
       // Extract the message data from the webhook
       const messageData = webhookData.entry[0].changes[0].value
-      // Fetch the Channel based on the phone number id
-      const phoneNumberId = messageData.metadata.phone_number_id
-      const channel = await fetchChannelDetails(phoneNumberId)
+      // Fetch the Channel based on the phone number
+      const phoneNumber = messageData.metadata.display_phone_number
+      const channel = await fetchChannelDetails(phoneNumber)
+      const identifier = messageData.contacts[0].wa_id
+
 
       if (channel) {
-        // Check if the message type is valid
-        const messageType = messageData.messages[0].type
-        if (isValidMessageType(messageType)) {
-          // Save or update the contact
-          const contactData = {
-            companyId: channel.companyId,
-            channel: ChannelType.WHATSAPP,
-            identifier: messageData.contacts[0].wa_id,
-            alias: messageData.contacts[0].profile.name,
+        if (channel.status) {
+          // Check if the message type is valid
+          const messageType = messageData.messages[0].type
+          if (isValidMessageType(messageType)) {
+            // Save or update the contact
+            const contactData = {
+              companyId: channel.companyId,
+              channel: ChannelType.WHATSAPP,
+              identifier,
+              alias: messageData.contacts[0].profile.name,
+            }
+            const contact = await saveOrUpdateContact(contactData)
+
+            // Check if a chat with the same contact ID exists
+            const existingChat = await findChatByContactId(contact.id)
+
+            if (existingChat) {
+              // Add a new message to the existing chat
+              const newChatMessage = await db.chatMessage.create({
+                data: {
+                  chatId: existingChat.id,
+                  externalRef: messageData.messages[0].id,
+                  direction: MessageDirection.INCOMING,
+                  category: MessageCategory.INTERACTIVE,
+                  type: getMessageType(messageType),
+                  message: messageData.messages[0].text.body,
+                },
+              })
+            } else {
+              // Create a new Chat record to represent the conversation
+              const newChat = await db.chat.create({
+                data: {
+                  category: ChatCategory.INTERACTIVE,
+                  channelId: channel.id,
+                  companyId: channel.companyId,
+                  contactId: contact.id,
+                },
+              })
+
+              // Create a new ChatMessage record for the incoming message
+              const newChatMessage = await db.chatMessage.create({
+                data: {
+                  chatId: newChat.id,
+                  externalRef: messageData.messages[0].id,
+                  direction: MessageDirection.INCOMING,
+                  category: MessageCategory.INTERACTIVE,
+                  type: getMessageType(messageType),
+                  message: messageData.messages[0].text.body,
+                },
+              })
+            }
           }
-          const contact = await saveOrUpdateContact(contactData)
-
-          // Check if a chat with the same contact ID exists
-          const existingChat = await findChatByContactId(contact.id)
-
-          if (existingChat) {
-            // Add a new message to the existing chat
-            const newChatMessage = await db.chatMessage.create({
-              data: {
-                chatId: existingChat.id,
-                externalRef: messageData.messages[0].id,
-                direction: MessageDirection.INCOMING,
-                category: MessageCategory.INTERACTIVE,
-                type: getMessageType(messageType),
-                message: messageData.messages[0].text.body,
-              },
-            })
-          } else {
-            // Create a new Chat record to represent the conversation
-            const newChat = await db.chat.create({
-              data: {
-                category: ChatCategory.INTERACTIVE,
-                channelId: channel.id,
-                companyId: channel.companyId,
-                contactId: contact.id,
-              },
-            })
-
-            // Create a new ChatMessage record for the incoming message
-            const newChatMessage = await db.chatMessage.create({
-              data: {
-                chatId: newChat.id,
-                externalRef: messageData.messages[0].id,
-                direction: MessageDirection.INCOMING,
-                category: MessageCategory.INTERACTIVE,
-                type: getMessageType(messageType),
-                message: messageData.messages[0].text.body,
-              },
-            })
-          }
+        } else {
+          await sendMessage(channel.id, 'TEXT', identifier, 'Account not active. Check back later.')
         }
       }
 
@@ -94,13 +101,13 @@ export async function POST(request: NextRequest) {
 }
 
 // Function to fetch channel details
-async function fetchChannelDetails(phoneNumberId: string) {
+async function fetchChannelDetails(phoneNumber: string) {
   try {
     // Use db to find the channel that matches the criteria
     const whatsappChannel = await db.channel.findFirst({
       where: {
         type: ChannelType.WHATSAPP,
-        identifier: phoneNumberId,
+        identifier: phoneNumber,
       },
     })
 

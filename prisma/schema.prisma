@@ -178,7 +178,7 @@ model Flow {
 enum ChannelType {
   WHATSAPP
   TWITTER
-  FACEBOOK
+  FACEBOOK_MESSENGER
   SMS
 }
 
