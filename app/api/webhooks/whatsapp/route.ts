@@ -23,8 +23,8 @@ export async function POST(request: NextRequest) {
     if (webhookData.object === 'whatsapp_business_account') {
       // Extract the message data from the webhook
       const messageData = webhookData.entry[0].changes[0].value
-      // Fetch the Channel based on the WhatsApp ID (phoneNumberId)
-      const phoneNumberId = messageData.contacts[0].wa_id
+      // Fetch the Channel based on the phone number id
+      const phoneNumberId = messageData.metadata.phone_number_id
       const channel = await fetchChannelDetails(phoneNumberId)
 
       if (channel) {
@@ -32,7 +32,8 @@ export async function POST(request: NextRequest) {
         const contactData = {
           companyId: channel.companyId,
           channel: ChannelType.WHATSAPP,
-          identifier: phoneNumberId,
+          identifier: messageData.contacts[0].wa_id,
+          alias: messageData.contacts[0].profile.name
         }
         const contact = await saveOrUpdateContact(contactData)
 
