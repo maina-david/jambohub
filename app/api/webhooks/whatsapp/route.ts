@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server"
 import { db } from "@/lib/db"
-import { ChannelType, ChatType, MessageDirection, MessageType } from "@prisma/client"
+import { ChannelType, ChatCategory, MessageDirection, MessageCategory, MessageType } from "@prisma/client"
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -25,50 +25,56 @@ export async function POST(request: NextRequest) {
       const channel = await fetchChannelDetails(phoneNumberId)
 
       if (channel) {
-        // Save or update the contact
-        const contactData = {
-          companyId: channel.companyId,
-          channel: ChannelType.WHATSAPP,
-          identifier: messageData.contacts[0].wa_id,
-          alias: messageData.contacts[0].profile.name,
-        }
-        const contact = await saveOrUpdateContact(contactData)
+        // Check if the message type is valid
+        const messageType = messageData.messages[0].type
+        if (isValidMessageType(messageType)) {
+          // Save or update the contact
+          const contactData = {
+            companyId: channel.companyId,
+            channel: ChannelType.WHATSAPP,
+            identifier: messageData.contacts[0].wa_id,
+            alias: messageData.contacts[0].profile.name,
+          }
+          const contact = await saveOrUpdateContact(contactData)
 
-        // Check if a chat with the same contact ID exists
-        const existingChat = await findChatByContactId(contact.id)
-        console.log("Message array: ", messageData.messages[0])
-        if (existingChat) {
-          // Add a new message to the existing chat
-          const newChatMessage = await db.chatMessage.create({
-            data: {
-              chatId: existingChat.id,
-              externalRef: messageData.messages[0].id,
-              direction: MessageDirection.INCOMING,
-              type: MessageType.INTERACTIVE,
-              message: messageData.messages[0].text.body,
-            },
-          })
-        } else {
-          // Create a new Chat record to represent the conversation
-          const newChat = await db.chat.create({
-            data: {
-              type: ChatType.INTERACTIVE,
-              channelId: channel.id,
-              companyId: channel.companyId,
-              contactId: contact.id,
-            },
-          })
+          // Check if a chat with the same contact ID exists
+          const existingChat = await findChatByContactId(contact.id)
 
-          // Create a new ChatMessage record for the incoming message
-          const newChatMessage = await db.chatMessage.create({
-            data: {
-              chatId: newChat.id,
-              externalRef: messageData.messages[0].id,
-              direction: MessageDirection.INCOMING,
-              type: MessageType.INTERACTIVE,
-              message: messageData.messages[0].text.body,
-            },
-          })
+          if (existingChat) {
+            // Add a new message to the existing chat
+            const newChatMessage = await db.chatMessage.create({
+              data: {
+                chatId: existingChat.id,
+                externalRef: messageData.messages[0].id,
+                direction: MessageDirection.INCOMING,
+                category: MessageCategory.INTERACTIVE,
+                type: getMessageType(messageType),
+                message: messageData.messages[0].text.body,
+              },
+            })
+          } else {
+            // Create a new Chat record to represent the conversation
+            const newChat = await db.chat.create({
+              data: {
+                category: ChatCategory.INTERACTIVE,
+                channelId: channel.id,
+                companyId: channel.companyId,
+                contactId: contact.id,
+              },
+            })
+
+            // Create a new ChatMessage record for the incoming message
+            const newChatMessage = await db.chatMessage.create({
+              data: {
+                chatId: newChat.id,
+                externalRef: messageData.messages[0].id,
+                direction: MessageDirection.INCOMING,
+                category: MessageCategory.INTERACTIVE,
+                type: getMessageType(messageType),
+                message: messageData.messages[0].text.body,
+              },
+            })
+          }
         }
       }
 
@@ -146,4 +152,37 @@ async function findChatByContactId(contactId: string) {
     },
   })
   return existingChat
+}
+
+// Function to validate if the message type is valid
+function isValidMessageType(messageType: string) {
+  const validTypes = [
+    "text",
+    "media",
+    "contact",
+    "location",
+    "interactive",
+    "template"
+  ]
+  return validTypes.includes(messageType)
+}
+
+// Function to map the message type to the MessageType enum
+function getMessageType(messageType: string) {
+  switch (messageType) {
+    case "text":
+      return MessageType.TEXT
+    case "media":
+      return MessageType.MEDIA
+    case "contact":
+      return MessageType.CONTACT
+    case "location":
+      return MessageType.LOCATION
+    case "interactive":
+      return MessageType.INTERACTIVE
+    case "template":
+      return MessageType.TEMPLATE
+    default:
+      return MessageType.TEXT
+  }
 }

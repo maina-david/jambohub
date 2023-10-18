@@ -252,7 +252,7 @@ model Campaign {
   updatedAt   DateTime         @default(now())
 }
 
-enum ChatType {
+enum ChatCategory {
   AUTOMATED
   INTERACTIVE
 }
@@ -264,7 +264,7 @@ enum ChatStatus {
 
 model Chat {
   id           String        @id @default(cuid())
-  type         ChatType
+  category     ChatCategory
   channelId    String
   channel      Channel       @relation(fields: [channelId], references: [id])
   companyId    String
@@ -272,7 +272,7 @@ model Chat {
   contactId    String
   Contact      Contact       @relation(fields: [contactId], references: [id])
   externalRef  String?
-  status      ChatStatus    @default(OPEN)
+  status       ChatStatus    @default(OPEN)
   timestamp    DateTime      @default(now())
   chatMessages ChatMessage[]
 }
@@ -282,9 +282,18 @@ enum MessageDirection {
   INCOMING
 }
 
-enum MessageType {
+enum MessageCategory {
   AUTOMATED
   INTERACTIVE
+}
+
+enum MessageType {
+  TEXT
+  MEDIA
+  CONTACT
+  LOCATION
+  INTERACTIVE
+  TEMPLATE
 }
 
 model ChatMessage {
@@ -297,6 +306,7 @@ model ChatMessage {
   message        String
   direction      MessageDirection
   type           MessageType
+  category       MessageCategory
   externalStatus String?
   internalStatus String?
   timestamp      DateTime         @default(now())
