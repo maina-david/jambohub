@@ -19,7 +19,7 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form"
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar'
 
 interface UserRegistrationFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 

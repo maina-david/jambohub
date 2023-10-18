@@ -1,7 +1,8 @@
 "use client"
 
 import * as React from "react"
-import {useRouter, useSearchParams} from "next/navigation"
+import {useSearchParams} from "next/navigation"
+import { useRouter } from 'next-nprogress-bar'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"

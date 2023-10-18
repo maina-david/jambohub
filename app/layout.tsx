@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
-import { AppProgressBar as ProgressBar } from 'next-nprogress-bar'
 import { CompanyModalProvider } from "@/providers/company-modal-provider"
 import { TeamModalProvider } from "@/providers/team-modal-provider"
 import Providers from "@/utils/provider"
@@ -83,12 +82,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <Providers>
             <TeamModalProvider />
             {children}
-            <ProgressBar
-              height="4px"
-              color="#fffd00"
-              options={{ showSpinner: false }}
-              shallowRouting
-            />
           </Providers>
           <Analytics />
           <Toaster />
