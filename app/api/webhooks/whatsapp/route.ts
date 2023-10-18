@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server"
 import { db } from "@/lib/db"
-import { ChannelType } from "@/types/channel"
+import { ChannelType, ChatType, MessageDirection, MessageType } from "@prisma/client"
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -40,10 +40,10 @@ export async function POST(request: NextRequest) {
         // Create a new Chat record to represent the conversation
         const newChat = await db.chat.create({
           data: {
-            type: 'INTERACTIVE',
+            type: ChatType.INTERACTIVE,
             channelId: channel.id,
             companyId: channel.companyId,
-            contactId: contact.id, // Use the contact ID
+            contactId: contact.id, 
             externalRef: messageData.id,
           },
         })
@@ -53,8 +53,8 @@ export async function POST(request: NextRequest) {
           data: {
             chatId: newChat.id,
             externalRef: messageData.id,
-            direction: 'INCOMING',
-            type: 'INTERACTIVE',
+            direction: MessageDirection.INCOMING,
+            type: MessageType.INTERACTIVE,
             message: messageData.messages[0].text.body,
             timestamp: new Date(messageData.messages[0].timestamp),
           },
@@ -107,7 +107,7 @@ async function fetchChannelDetails(phoneNumberId: string) {
 }
 
 // Function to save or update a contact
-async function saveOrUpdateContact(data: { identifier: string, companyId: string, channel: ChannelType }) {
+async function saveOrUpdateContact(data: { identifier: string, companyId: string, channel: ChannelType, alias: string }) {
   try {
     const existingContact = await db.contact.findFirst({
       where: { identifier: data.identifier },
