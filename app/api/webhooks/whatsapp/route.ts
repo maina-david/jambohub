@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
                   category: MessageCategory.INTERACTIVE,
                   type: getMessageType(messageType),
                   message: messageData.messages[0].text.body,
+                  internalStatus: 'Unread'
                 },
               })
             } else {
@@ -76,6 +77,7 @@ export async function POST(request: NextRequest) {
                   category: MessageCategory.INTERACTIVE,
                   type: getMessageType(messageType),
                   message: messageData.messages[0].text.body,
+                  internalStatus: 'Unread'
                 },
               })
             }

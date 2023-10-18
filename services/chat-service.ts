@@ -92,3 +92,53 @@ async function sendWhatsAppTextMessage(phoneNumberId: string, accessToken: strin
   }
 }
 
+export async function markWhatsAppMessageAsRead(channelId: string, messageId: string) {
+  try {
+    // Fetch the channel and ensure it's a WhatsApp channel
+    const selectedChannel = await getActiveIntegratedChannel(channelId)
+
+    if (selectedChannel.type === ChannelType.WHATSAPP) {
+      const authDetails = selectedChannel.authDetails as WhatsAppAuthDetails
+
+      if (!authDetails || !isValidWhatsAppAuthDetails(authDetails)) {
+        throw new Error('Invalid or missing WhatsApp authDetails.')
+      }
+
+      // Mark the message as read using the provided messageId
+      await markMessageAsRead(authDetails.phoneNumberId, authDetails.accessToken, messageId)
+
+      console.log('WhatsApp message marked as "read".')
+    }
+  } catch (error) {
+    console.error('Error marking WhatsApp message as "read":', error)
+    throw new Error('Failed to mark WhatsApp message as "read".')
+  }
+}
+
+async function markMessageAsRead(phoneNumberId: string, accessToken: string, messageId: string) {
+  try {
+    const response = await axios.put(
+      `https://graph.facebook.com/v18.0/${phoneNumberId}/messages/${messageId}`,
+      {
+        status: 'read'
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      }
+    )
+
+    if (response.status === 204 || (response.data && Object.keys(response.data).length === 0)) {
+      console.log('WhatsApp message marked as "read".')
+    } else {
+      console.error('WhatsApp API Error:', response.data)
+      throw new Error('Failed to mark WhatsApp message as "read".')
+    }
+  } catch (error) {
+    console.error('WhatsApp API Error:', error)
+    throw new Error('Failed to mark WhatsApp message as "read".')
+  }
+}
+
+
