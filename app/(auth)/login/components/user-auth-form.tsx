@@ -1,18 +1,15 @@
 "use client"
 
 import * as React from "react"
-import {
-  useSearchParams
-} from "next/navigation"
+import {useSearchParams} from "next/navigation"
 import { useRouter } from 'next-nprogress-bar'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-
 import { cn } from "@/lib/utils"
 import { userAuthSchema } from "@/lib/validations/auth"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button} from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
@@ -92,7 +89,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         }
       } else {
         const redirectUri = searchParams?.get("from") ? searchParams?.get("from") as string : '/home'
-        router.replace(redirectUri)
+        router.push(redirectUri)
       }
     } catch (error) {
       // Handle unexpected errors
