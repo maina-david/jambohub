@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { ConfigurationId, initializeFaceBookSDK } from '@/lib/facebook'
-import { FaWhatsapp, FaXTwitter, FaFacebookF, FaCommentSms } from "react-icons/fa6"
+import { FaWhatsapp, FaXTwitter, FaFacebookMessenger, FaCommentSms } from "react-icons/fa6"
 import { useParams, usePathname } from 'next/navigation'
 import { toast } from "@/components/ui/use-toast"
 import {
@@ -111,8 +111,8 @@ export default function LinkChannelDropdown() {
           disabled
           className='cursor-not-allowed'
         >
-          <FaFacebookF className='mr-2 h-4 w-4' />
-          Facebook
+          <FaFacebookMessenger className='mr-2 h-4 w-4' />
+          Messenger
         </DropdownMenuItem>
         <DropdownMenuItem
           disabled
