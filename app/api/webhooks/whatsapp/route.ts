@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
           const newChatMessage = await db.chatMessage.create({
             data: {
               chatId: existingChat.id,
-              externalRef: messageData.id,
+              externalRef: messageData.messages[0].id,
               direction: MessageDirection.INCOMING,
               type: MessageType.INTERACTIVE,
               message: messageData.messages[0].text.body,
