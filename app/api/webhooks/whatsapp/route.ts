@@ -79,7 +79,7 @@ async function fetchChannelDetails(phoneNumberId: string) {
     // Use db to find the channel that matches the criteria
     const whatsappChannel = await db.channel.findFirst({
       where: {
-        type: 'WHATSAPP',
+        type: ChannelType.WHATSAPP,
         identifier: phoneNumberId,
       },
     })
