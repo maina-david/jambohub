@@ -128,58 +128,53 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                   <div className="mb-2 max-w-[70%] p-2">
                     <div
                       className={cn(
-                        chatMessage.userId ? 'ml-auto bg-green-200 dark:bg-indigo-500' : 'mr-auto bg-blue-200 dark:bg-blue-600',
+                        chatMessage.userId ? 'bg-green-200 dark:bg-indigo-500' : 'bg-blue-200 dark:bg-blue-600',
                         'rounded-lg p-2'
                       )}
                     >
                       {chatMessage.message}
                     </div>
                     <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
-                      {chatMessage.internalStatus === 'sent' ? (
-                        <span className="flex">
-                          {chatMessage.userId ? (
-                            <p className="ml-2">
-                              {new Date(chatMessage.timestamp).toLocaleString('en-US', {
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                hour12: true,
-                              })}
-                            </p>
-                          ) : null}
-                          <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
-                        </span>
-                      ) : chatMessage.internalStatus === 'failed' ? (
+                      {chatMessage.userId ? (
                         <span>
-                          {chatMessage.userId ? (
-                            <p className="ml-2">
+                          {chatMessage.internalStatus === 'sent' ? (
+                            <>
+                              <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
+                              <p>
+                                {new Date(chatMessage.timestamp).toLocaleString('en-US', {
+                                  hour: 'numeric',
+                                  minute: 'numeric',
+                                  hour12: true,
+                                })}
+                              </p>
+                            </>
+                          ) : chatMessage.internalStatus === 'failed' ? (
+                            <>
+                              <XCircleIcon className="h-4 w-4 text-red-500 dark:text-red-300" />
+                              <p>
+                                {new Date(chatMessage.timestamp).toLocaleString('en-US', {
+                                  hour: 'numeric',
+                                  minute: 'numeric',
+                                  hour12: true,
+                                })}
+                              </p>
+                            </>
+                          ) : (
+                            <p>
                               {new Date(chatMessage.timestamp).toLocaleString('en-US', {
                                 hour: 'numeric',
                                 minute: 'numeric',
                                 hour12: true,
                               })}
                             </p>
-                          ) : null}
-                          <XCircleIcon className="h-4 w-4 text-red-500 dark:text-red-300" />
+                          )}
                         </span>
-                      ) : (
-                        <span className="flex">
-                          {chatMessage.userId ? (
-                            <p className="ml-2">
-                              {new Date(chatMessage.timestamp).toLocaleString('en-US', {
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                hour12: true,
-                              })}
-                            </p>
-                          ) : null}
-                        </span>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 </div>
               ))}
             </ScrollArea>
-
 
             {/* Input area */}
             <div className="flex border p-3">
