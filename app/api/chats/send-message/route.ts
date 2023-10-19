@@ -62,7 +62,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
 
     try {
       // Attempt to send the message
-      await sendMessage(chat.channelId, body.messageType, chat.Contact.identifier, body.message)
+      const sentMessageId = await sendMessage(chat.channelId, body.messageType, chat.Contact.identifier, body.message)
 
       // If the message is successfully sent, update the internalStatus to "sent"
       await db.chatMessage.update({
@@ -70,6 +70,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
           id: message.id,
         },
         data: {
+          externalRef: sentMessageId,
           internalStatus: "sent",
         },
       })

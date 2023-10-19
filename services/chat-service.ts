@@ -26,7 +26,7 @@ export async function sendMessage(
 
       if (messageType === MessageType.TEXT) {
         const response = await sendWhatsAppTextMessage(authDetails.phoneNumberId, authDetails.accessToken, recipient, messageContent)
-        console.log('WhatsApp Text Message Sent:', response)
+        return response
       }
     }
   } catch (error) {
