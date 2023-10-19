@@ -125,10 +125,15 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                   key={index}
                   className={cn('flex', chatMessage.userId ? 'flex-row-reverse' : 'flex-row')}
                 >
-                  <div
-                    className={cn('mb-2 max-w-[70%] rounded-lg p-2', chatMessage.userId ? 'bg-green-200 dark:bg-indigo-500' : 'bg-blue-200 dark:bg-blue-600')}
-                  >
-                    {chatMessage.message}
+                  <div className="mb-2 max-w-[70%] rounded-lg p-2">
+                    <div
+                      className={cn(
+                        chatMessage.userId ? 'bg-green-200 dark:bg-indigo-500' : 'bg-blue-200 dark:bg-blue-600',
+                        'rounded-lg p-2'
+                      )}
+                    >
+                      {chatMessage.message}
+                    </div>
                     <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
                       {chatMessage.internalStatus === 'sent' ? (
                         <span className="flex">
