@@ -64,12 +64,10 @@ const SideBarLeft = (props: SideBarLeftProps) => {
 
                   onClick={() => setSelectedChat(chat.contactId)}
                 >
-                  <div className="col-span-1">
                     <UserAvatar
                       user={{ name: chat.Contact.alias || null, image: null }}
-                      className="h-8 w-8"
-                    />
-                  </div>
+                      className="col-span-1 h-8 w-8"
+                      />
                   <div className="col-span-2">
                     <div>{chat.Contact.alias || chat.Contact.identifier}</div>
                     <div>{getLastChatMessage(chat)}</div>
