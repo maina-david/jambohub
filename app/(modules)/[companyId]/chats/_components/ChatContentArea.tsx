@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import axios from 'axios'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -26,7 +27,6 @@ import {
 } from "@/components/ui/dialog"
 import { SmilePlusIcon } from "lucide-react"
 import { ChatProps } from '@/types/chat-types'
-import { sendMessage } from '@/services/chat-service'
 import { toast } from '@/components/ui/use-toast'
 
 interface ChatContentAreaProps {
@@ -63,8 +63,12 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
 
   const handleSend = async () => {
     try {
-      if (selectedChat && selectedChat.channelId && selectedChat.Contact.identifier) {
-        const response = await sendMessage(selectedChat.channelId, 'TEXT', selectedChat.Contact.identifier, message)
+      if (selectedChat) {
+        const response = await axios.post('/api/chats/send-message', {
+          chatId: selectedChat.id,
+          messageType: 'TEXT',
+          message
+        })
       }
     } catch (error) {
       console.log("Error sending message: ", error.message)
