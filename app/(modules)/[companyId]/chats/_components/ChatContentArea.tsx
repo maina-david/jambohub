@@ -28,6 +28,7 @@ import {
 import { SmilePlusIcon } from "lucide-react"
 import { ChatProps } from '@/types/chat-types'
 import { toast } from '@/components/ui/use-toast'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface ChatContentAreaProps {
   isMdAndAbove: boolean
@@ -41,7 +42,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
     handleLeftSidebarToggle,
     selectedChat
   } = props
-
+  const queryClient = useQueryClient()
   const [isSending, setIsSending] = useState<boolean>(false)
 
   const handleStartConversation = () => {
@@ -72,7 +73,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
           messageType: 'TEXT',
           message
         })
-
+        queryClient.invalidateQueries({ queryKey: ['assignedChats'] })
         setMessage('')
       }
     } catch (error) {
