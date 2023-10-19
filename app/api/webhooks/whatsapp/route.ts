@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
       const channel = await fetchChannelDetails(phoneNumber)
       const identifier = messageData.contacts[0].wa_id
 
+      console.log("RECEIVED WEBHOOK: ", messageData)
 
       if (channel) {
         if (channel.status) {

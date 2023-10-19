@@ -42,6 +42,8 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
     selectedChat
   } = props
 
+  const [isSending, setIsSending] = useState<boolean>(false)
+
   const handleStartConversation = () => {
     if (!isMdAndAbove) {
       handleLeftSidebarToggle()
@@ -64,6 +66,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
   const handleSend = async () => {
     try {
       if (selectedChat) {
+        setIsSending(true)
         const response = await axios.post('/api/chats/send-message', {
           chatId: selectedChat.id,
           messageType: 'TEXT',
@@ -77,6 +80,8 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
         title: 'Error',
         description: 'Error sending message. Try again'
       })
+    } finally {
+      setIsSending(false)
     }
   }
 
@@ -210,7 +215,10 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                   />
                 </DialogContent>
               </Dialog>
-              <Button className="ml-2" disabled={!message} onClick={handleSend}>
+              <Button
+                className="ml-2"
+                disabled={!message || isSending }
+                onClick={handleSend}>
                 <PaperPlaneIcon className="mr-2 h-4 w-4" />
                 Send
               </Button>
