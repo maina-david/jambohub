@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
-import { Check, MenuIcon, PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
+import { Check, CheckIcon, MenuIcon, PhoneCallIcon, SearchIcon, VideoIcon, XCircleIcon } from 'lucide-react'
 import { Icons } from '@/components/icons'
 import { cn } from '@/lib/utils'
 import EmojiPicker, {
@@ -53,7 +53,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
   function onClick(emojiData: EmojiClickData, event: MouseEvent) {
     setMessage(
       (message: string) =>
-        message + (emojiData.isCustom ? emojiData.unified : emojiData.emoji)
+        message + (emojiData.emoji)
     )
   }
 
@@ -120,37 +120,33 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
           {/* Chat messages */}
           <div className="flex h-[470px] flex-col overflow-hidden">
             <ScrollArea className="flex-1 overflow-y-auto">
-              {selectedChat.chatMessages?.map((chatMessage, index) => {
-                return (
-                  <div
-                    key={index}
-                    className={cn('flex', chatMessage.userId ? 'flex-row-reverse' : 'flex-row')}
-                  >
-                    <div className='&:not(:last-of-type)-mb-3'>
-                      {/* Message content */}
-                      <div>
-                        <span
-                          className={cn(
-                            'w-fit max-w-[100%] break-normal rounded-2xl shadow',
-                            chatMessage.userId ? 'ml-auto rounded-tr-none bg-accent' : 'rounded-tl-none'
-                          )}
-                        >
-                          {chatMessage.message}
-                        </span>
-                      </div>
-                      {/* Message content */}
-
-                      {/* Message feedback */}
-                      <div className={cn('mt-1 flex items-center')}>
+              {selectedChat.chatMessages?.map((chatMessage, index) => (
+                <div
+                  key={index}
+                  className={cn('flex', chatMessage.userId ? 'flex-row-reverse' : 'flex-row')}
+                >
+                  <div className="mb-2 max-w-[70%] rounded-lg p-2">
+                    {chatMessage.message}
+                    <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                      {chatMessage.internalStatus === 'sent' ? (
                         <span className='flex'>
-                          <Check />
+                          <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
+                          <p>{new Date(chatMessage.timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
                         </span>
-                      </div>
-                      {/* Message feedback */}
+                      ) : chatMessage.internalStatus === 'failed' ? (
+                        <span>
+                          <XCircleIcon className="h-4 w-4 text-red-500 dark:text-red-300" />
+                          <p>{new Date(chatMessage.timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+                        </span>
+                      ) : (
+                        <span className='flex'>
+                          <p>{new Date(chatMessage.timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+                        </span>
+                      )}
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </ScrollArea>
 
             {/* Input area */}
