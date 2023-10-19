@@ -194,6 +194,9 @@ dependencies:
   email-templates:
     specifier: ^11.1.1
     version: 11.1.1(@babel/core@7.22.20)(pug@3.0.2)(react-dom@18.2.0)(react@18.2.0)(underscore@1.13.6)
+  emoji-picker-react:
+    specifier: ^4.5.3
+    version: 4.5.3(react@18.2.0)
   framer-motion:
     specifier: ^10.16.4
     version: 10.16.4(react-dom@18.2.0)(react@18.2.0)
@@ -6441,6 +6444,16 @@ packages:
       - velocityjs
       - walrus
       - whiskers
+    dev: false
+
+  /emoji-picker-react@4.5.3(react@18.2.0):
+    resolution: {integrity: sha512-sF3ALUvfB2AjgxgYMK0c1CG3a6zDZV9EpwPWCJsu8+H6tO5XQW4Fbz2TqDKhu5Nk+/EiBg+g7ZuR41KYtIRnIA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      clsx: 1.2.1
+      react: 18.2.0
     dev: false
 
   /emoji-regex@10.2.1:

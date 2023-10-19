@@ -27,6 +27,9 @@ export async function GET(
     const chat = await db.chat.findFirst({
       where: {
         contactId: params.contactId
+      },
+      include: {
+        chatMessages: true
       }
     })
 

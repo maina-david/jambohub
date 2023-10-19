@@ -10,16 +10,20 @@ import { MenuIcon, PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
 import useChatStore from '@/store/chatStore'
 import { Icons } from '@/components/icons'
 import { cn } from '@/lib/utils'
+import { EmojiPickerDialog } from '@/components/emoji-picker-dialog'
+import { Chat } from '@prisma/client'
 
 interface ChatContentAreaProps {
   isMdAndAbove: boolean
   handleLeftSidebarToggle: () => void
+  selectedChat: Chat | null
 }
 
 const ChatContentArea = (props: ChatContentAreaProps) => {
   const {
     isMdAndAbove,
-    handleLeftSidebarToggle
+    handleLeftSidebarToggle,
+    selectedChat
   } = props
 
   const handleStartConversation = () => {
@@ -28,7 +32,6 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
     }
   }
 
-  const selectedChat = useChatStore((state) => state.selectedChat)
   const [message, setMessage] = useState<string>('')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,13 +82,14 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
             <ScrollArea className="flex-1 overflow-y-auto">
               {/* Your chat area content goes here */}
             </ScrollArea>
-            <div className="flex p-3">
+            <div className="flex border p-3">
               <Input
                 value={message}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
                 placeholder="Type your message..."
               />
+              <EmojiPickerDialog className='mx-2' />
               <Button className="ml-2" disabled={!message} onClick={handleSend}>
                 <PaperPlaneIcon className="mr-2 h-4 w-4" />
                 Send
@@ -94,8 +98,8 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
           </div>
         </>
       ) : (
-          <div className={cn("flex flex-col items-center justify-center",
-            isMdAndAbove ? 'h-[470px]' : 'h-[500px]')}>
+        <div className={cn("flex flex-col items-center justify-center",
+          isMdAndAbove ? 'h-[470px]' : 'h-[500px]')}>
           <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
             <Icons.chat className="h-16 w-16" />
           </div>

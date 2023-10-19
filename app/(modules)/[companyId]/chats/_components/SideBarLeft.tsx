@@ -6,51 +6,30 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { UserAvatar } from '@/components/user-avatar'
 import { Separator } from '@/components/ui/separator'
 import useChatStore from '@/store/chatStore'
-import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
-import { fetchAssignedChats, fetchCompanyContacts } from '@/actions/chat-actions'
 import {
   Sheet,
   SheetContent,
 } from '@/components/ui/sheet'
+import { Chat, Contact } from '@prisma/client'
 
 interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
   isMdAndAbove: boolean
   leftSidebarOpen: boolean
   handleLeftSidebarToggle: () => void
+  chats: Chat[]
+  contacts: Contact[]
+  setSelectedChat: (contactId: string) => void
 }
 
 const SideBarLeft = (props: SideBarLeftProps) => {
   const {
     isMdAndAbove,
     leftSidebarOpen,
-    handleLeftSidebarToggle
+    handleLeftSidebarToggle,
+    chats,
+    contacts,
+    setSelectedChat
   } = props
-  const params = useParams()
-  const chats = useChatStore((state) => state.chats)
-  const setChats = useChatStore((state) => state.setChats)
-  const setContacts = useChatStore((state) => state.setContacts)
-  const contacts = useChatStore((state) => state.contacts)
-  const setSelectedChat = useChatStore((state) => state.setSelectedChat)
-
-  const companyContacts = useQuery({
-    queryKey: ['companyContacts'],
-    queryFn: () => fetchCompanyContacts(params?.companyId as string),
-  })
-
-  const assignedChats = useQuery({
-    queryKey: ['assignedChats'],
-    queryFn: () => fetchAssignedChats(params?.companyId as string),
-  })
-
-  useEffect(() => {
-    if (companyContacts.data) {
-      setContacts(companyContacts.data)
-    }
-    if (assignedChats.data) {
-      setChats(assignedChats.data)
-    }
-  }, [assignedChats.data, companyContacts.data, setChats, setContacts])
 
   const renderChatsAndContacts = () => {
     return (
@@ -69,7 +48,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                 <div
                   key={chat.id}
                   className="w-full cursor-pointer items-start px-3 py-2"
-                  onClick={() => setSelectedChat(chat)}
+                  onClick={() => setSelectedChat(chat.contactId)}
                 >
                   {chat.externalRef}
                 </div>
@@ -88,6 +67,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
               <div
                 key={contact.id}
                 className="w-full cursor-pointer items-start px-3 py-2"
+                onClick={() => setSelectedChat(contact.id)}
               >
                 {contact.alias}
               </div>

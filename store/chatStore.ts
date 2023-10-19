@@ -2,6 +2,7 @@ import { Chat } from '@prisma/client'
 import { Contact } from '@prisma/client'
 import { createWithEqualityFn } from 'zustand/traditional'
 import { shallow } from 'zustand/shallow'
+import axios from 'axios'
 
 export type ChatState = {
   chats: Chat[]
@@ -9,7 +10,7 @@ export type ChatState = {
   selectedChat: Chat | null
   setChats: (chats: Chat[]) => void
   setContacts: (contacts: Contact[]) => void
-  setSelectedChat: (chats: Chat) => void
+  setSelectedChat: (contactId: string) => void
 }
 
 const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
@@ -26,7 +27,8 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
       contacts
     })
   },
-  setSelectedChat: (selectedChat: Chat) => {
+  setSelectedChat: async (contactId: string) => {
+    const selectedChat = await axios.get<Chat>(`/api/chats/${contactId}`).then((response) => response.data)
     set({
       selectedChat
     })
