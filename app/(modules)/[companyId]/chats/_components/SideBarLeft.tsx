@@ -62,10 +62,10 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                   className={cn("flex w-full cursor-pointer flex-col items-center px-3 py-2", chat.contactId === selectedChat?.contactId && "bg-accent")}
                   onClick={() => setSelectedChat(chat.contactId)}
                 >
-                    <UserAvatar
-                      user={{ name: chat.Contact.alias || null, image: null }}
-                      className="h-8 w-8"
-                    />
+                  <UserAvatar
+                    user={{ name: chat.Contact.alias || null, image: null }}
+                    className="h-8 w-8"
+                  />
                   <div className="flex flex-col">
                     <div>{chat.Contact.alias || chat.Contact.identifier}</div>
                     <div>{getLastChatMessage(chat)}</div>
