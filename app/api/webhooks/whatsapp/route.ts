@@ -133,13 +133,18 @@ async function fetchChannelDetails(phoneNumber: string) {
 async function saveOrUpdateContact(data: { identifier: string, companyId: string, channel: ChannelType, alias: string }) {
   try {
     const existingContact = await db.contact.findFirst({
-      where: { identifier: data.identifier },
+      where: {
+        identifier: data.identifier,
+        companyId: data.companyId
+      },
     })
 
     if (existingContact) {
       // Contact with the given identifier already exists, update it
       const updatedContact = await db.contact.update({
-        where: { id: existingContact.id },
+        where: {
+          id: existingContact.id
+        },
         data,
       })
       return updatedContact
