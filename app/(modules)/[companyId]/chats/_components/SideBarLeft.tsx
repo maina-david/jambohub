@@ -64,7 +64,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                 >
                   <UserAvatar
                     user={{ name: chat.Contact.alias || null, image: null }}
-                    className="h-8 w-8"
+                    className="mr-2 h-8 w-8"
                   />
                   <div className="flex flex-col">
                     <div>{chat.Contact.alias || chat.Contact.identifier}</div>
