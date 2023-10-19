@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
-import { MenuIcon, PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
+import { Check, MenuIcon, PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
 import { Icons } from '@/components/icons'
 import { cn } from '@/lib/utils'
 import EmojiPicker, {
@@ -117,7 +117,40 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
           <Separator />
           <div className="flex h-[470px] flex-col overflow-hidden">
             <ScrollArea className="flex-1 overflow-y-auto">
-              {/* Your chat area content goes here */}
+              {selectedChat.chatMessages?.map((chatMessage, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={cn('flex', chatMessage.userId ? 'flex-row-reverse' : 'flex-row')}
+                  >
+                    <div
+                      className='&:not(:last-of-type)-mb-3'
+                    >
+                      {/* message content */}
+                      <div>
+                        <span
+                          className={cn('w-fit max-w-[100%] break-normal rounded-2xl shadow',
+                            chatMessage.userId ? 'ml-auto rounded-tr-none bg-accent' : 'rounded-tl-none')}
+                        >
+                          {chatMessage.message}
+                        </span>
+                      </div>
+                      {/* message content */}
+
+                      {/* message feedback */}
+                      <div
+                        className={cn('mt-1 flex items-center',)}
+                      >
+                        <span className='flex'>
+                          <Check />
+                        </span>
+                      </div>
+                      {/* message feedback */}
+
+                    </div>
+                  </div>
+                )
+              })}
             </ScrollArea>
             <div className="flex border p-3">
               <Input
