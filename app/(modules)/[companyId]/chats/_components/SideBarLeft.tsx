@@ -12,6 +12,7 @@ import {
 import { Chat, ChatMessage, Contact } from '@prisma/client'
 import { ChatProps } from '@/types/chat-types'
 import { AvatarImage } from '@/components/ui/avatar'
+import { cn } from '@/lib/utils'
 
 interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
   isMdAndAbove: boolean
@@ -58,24 +59,24 @@ const SideBarLeft = (props: SideBarLeftProps) => {
               chats.map((chat) => (
                 <div
                   key={chat.id}
-                  className={`w-full cursor-pointer items-start px-3 py-2 ${chat.contactId === selectedChat?.contactId ? 'bg-accent' : ''
-                    }`}
+                  className={cn("grid w-full cursor-pointer grid-cols-3 items-center px-3 py-2",
+                    chat.contactId === selectedChat?.contactId && "bg-accent")}
+
                   onClick={() => setSelectedChat(chat.contactId)}
                 >
-                  <div className='flex flex-col'>
-                    <div className='flex flex-row'>
-                      <UserAvatar
-                        user={{ name: chat.Contact.alias || null, image: null }}
-                        className="mr-2 h-8 w-8"
-                      />
-                      <div>{chat.Contact.alias || chat.Contact.identifier}</div>
-                    </div>
-                    <div className='items-center'>
-                      {getLastChatMessage(chat)}
-                    </div>
+                  <div className="col-span-1">
+                    <UserAvatar
+                      user={{ name: chat.Contact.alias || null, image: null }}
+                      className="h-8 w-8"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <div>{chat.Contact.alias || chat.Contact.identifier}</div>
+                    <div>{getLastChatMessage(chat)}</div>
                   </div>
                 </div>
               ))
+
             ) : (
               <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">
                 No chats available
