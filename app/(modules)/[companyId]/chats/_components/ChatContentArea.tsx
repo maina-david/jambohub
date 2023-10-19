@@ -127,7 +127,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                 >
                   <div className="mb-2 max-w-[70%] rounded-lg p-2">
                     {chatMessage.message}
-                    <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                    <div className={cn("flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400", chatMessage.userId && 'bg-accent')}>
                       {chatMessage.internalStatus === 'sent' ? (
                         <span className='flex'>
                           <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
