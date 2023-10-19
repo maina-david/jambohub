@@ -217,7 +217,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
               </Dialog>
               <Button
                 className="ml-2"
-                disabled={!message || isSending }
+                disabled={!message || isSending}
                 onClick={handleSend}>
                 <PaperPlaneIcon className="mr-2 h-4 w-4" />
                 Send
