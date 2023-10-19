@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
 import { getCurrentUser, getCurrentUserCompanies } from "@/lib/session"
 import { Company } from '@prisma/client'
-import { useRouter } from 'next-nprogress-bar'
 
 interface DashboardLayoutProps {
   children?: React.ReactNode
@@ -11,7 +10,6 @@ export default async function RootLayout({
   children,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser()
-  const router = useRouter()
 
   if (!user) {
     return redirect('/login')
@@ -30,7 +28,7 @@ export default async function RootLayout({
     // Now, 'selectedCompany' will hold the default company, or null if no companies are available
 
     if (selectedCompany) {
-      router.push(`/${selectedCompany.id}/dashboard`)
+      return redirect(`/${selectedCompany.id}/dashboard`)
     }
   }
 
