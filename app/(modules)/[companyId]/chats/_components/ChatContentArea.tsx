@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/dialog"
 import { SmilePlusIcon } from "lucide-react"
 import { ChatProps } from '@/types/chat-types'
+import { sendMessage } from '@/services/chat-service'
+import { toast } from '@/components/ui/use-toast'
 
 interface ChatContentAreaProps {
   isMdAndAbove: boolean
@@ -59,8 +61,18 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
     setMessage(e.target.value)
   }
 
-  const handleSend = () => {
-    setMessage('')
+  const handleSend = async () => {
+    try {
+      if (selectedChat && selectedChat.channelId && selectedChat.Contact.identifier) {
+        const response = await sendMessage(selectedChat.channelId, 'TEXT', selectedChat.Contact.identifier, message)
+      }
+    } catch (error) {
+      console.log("Error sending message: ", error.message)
+      toast({
+        title: 'Error',
+        description: 'Error sending message. Try again'
+      })
+    }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
