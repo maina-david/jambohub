@@ -134,7 +134,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                     >
                       {chatMessage.message}
                     </div>
-                    <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                    <div className={cn("flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400", chatMessage.userId ? "justify-items-end" : "justify-items-start")}>
                       {chatMessage.userId ? (
                         <span>
                           {chatMessage.internalStatus === 'sent' ? (
@@ -169,7 +169,17 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                             </p>
                           )}
                         </span>
-                      ) : null}
+                      ) : (
+                        <span>
+                          <p>
+                            {new Date(chatMessage.timestamp).toLocaleString('en-US', {
+                              hour: 'numeric',
+                              minute: 'numeric',
+                              hour12: true,
+                            })}
+                          </p>
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
