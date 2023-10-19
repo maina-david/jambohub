@@ -70,7 +70,9 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                       />
                       <div>{chat.Contact.alias || chat.Contact.identifier}</div>
                     </div>
-                    {getLastChatMessage(chat)}
+                    <div className='items-center'>
+                      {getLastChatMessage(chat)}
+                    </div>
                   </div>
                 </div>
               ))
