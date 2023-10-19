@@ -135,7 +135,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                       {chatMessage.message}
                     </div>
                     <div className={cn("flex space-x-1 text-sm text-gray-600 dark:text-gray-400",
-                      chatMessage.userId ? 'justify-start' : 'justify-end')}>
+                      chatMessage.userId ? 'justify-end' : 'justify-start')}>
                       {chatMessage.userId ? (
                         <div className='flex'>
                           {chatMessage.internalStatus === 'sent' ? (
