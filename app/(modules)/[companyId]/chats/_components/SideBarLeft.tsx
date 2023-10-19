@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/sheet'
 import { Chat, ChatMessage, Contact } from '@prisma/client'
 import { ChatProps } from '@/types/chat-types'
+import { AvatarImage } from '@/components/ui/avatar'
 
 interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
   isMdAndAbove: boolean
@@ -61,7 +62,16 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     }`}
                   onClick={() => setSelectedChat(chat.contactId)}
                 >
-                  {getLastChatMessage(chat)}
+                  <div className='flex flex-col'>
+                    <div className='flex flex-row'>
+                      <UserAvatar
+                        user={{ name: chat.Contact.alias || null, image: null }}
+                        className="mr-2 h-8 w-8"
+                      />
+                      <div>{chat.Contact.alias || chat.Contact.identifier}</div>
+                    </div>
+                    {getLastChatMessage(chat)}
+                  </div>
                 </div>
               ))
             ) : (
@@ -80,7 +90,13 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                 className="w-full cursor-pointer items-start px-3 py-2"
                 onClick={() => setSelectedChat(contact.id)}
               >
-                {contact.alias}
+                <div className='flex flex-row'>
+                  <UserAvatar
+                    user={{ name: contact.alias || null, image: null }}
+                    className="mr-2 h-8 w-8"
+                  />
+                  <div>{contact.alias || contact.identifier}</div>
+                </div>
               </div>
             ))
           ) : (
