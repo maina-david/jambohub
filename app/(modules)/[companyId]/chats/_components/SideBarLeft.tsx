@@ -68,7 +68,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                   />
                   <div className="flex flex-col">
                     <h6 className="scroll-m-20 text-base font-medium tracking-tight">{chat.Contact.alias || chat.Contact.identifier}</h6>
-                    <p>{getLastChatMessage(chat)}</p>
+                    <p className='overflow-hidden text-ellipsis'>{getLastChatMessage(chat)}</p>
                   </div>
                 </div>
               ))
