@@ -69,6 +69,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
           messageType: 'TEXT',
           message
         })
+        setMessage('')
       }
     } catch (error) {
       console.log("Error sending message: ", error.message)
@@ -87,10 +88,10 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
   }
 
   return (
-    <div className={cn("flex flex-col rounded-r border",
-      isMdAndAbove ? 'w-2/3' : 'grow')}>
+    <div className={cn("whatsapp-chat-container flex flex-col", isMdAndAbove ? 'w-2/3' : 'grow')}>
       {selectedChat ? (
         <>
+          {/* Chat header */}
           <div className="flex items-center justify-between px-5 py-2.5">
             {isMdAndAbove ? null : (
               <div className='mx-2' onClick={handleLeftSidebarToggle}>
@@ -115,6 +116,8 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
             </div>
           </div>
           <Separator />
+
+          {/* Chat messages */}
           <div className="flex h-[470px] flex-col overflow-hidden">
             <ScrollArea className="flex-1 overflow-y-auto">
               {selectedChat.chatMessages?.map((chatMessage, index) => {
@@ -123,35 +126,34 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                     key={index}
                     className={cn('flex', chatMessage.userId ? 'flex-row-reverse' : 'flex-row')}
                   >
-                    <div
-                      className='&:not(:last-of-type)-mb-3'
-                    >
-                      {/* message content */}
+                    <div className='&:not(:last-of-type)-mb-3'>
+                      {/* Message content */}
                       <div>
                         <span
-                          className={cn('w-fit max-w-[100%] break-normal rounded-2xl shadow',
-                            chatMessage.userId ? 'ml-auto rounded-tr-none bg-accent' : 'rounded-tl-none')}
+                          className={cn(
+                            'w-fit max-w-[100%] break-normal rounded-2xl shadow',
+                            chatMessage.userId ? 'ml-auto rounded-tr-none bg-accent' : 'rounded-tl-none'
+                          )}
                         >
                           {chatMessage.message}
                         </span>
                       </div>
-                      {/* message content */}
+                      {/* Message content */}
 
-                      {/* message feedback */}
-                      <div
-                        className={cn('mt-1 flex items-center',)}
-                      >
+                      {/* Message feedback */}
+                      <div className={cn('mt-1 flex items-center')}>
                         <span className='flex'>
                           <Check />
                         </span>
                       </div>
-                      {/* message feedback */}
-
+                      {/* Message feedback */}
                     </div>
                   </div>
-                )
+                );
               })}
             </ScrollArea>
+
+            {/* Input area */}
             <div className="flex border p-3">
               <Input
                 value={message}
@@ -161,11 +163,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
               />
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size={'icon'}
-                    className='mx-2'
-                  >
+                  <Button variant="ghost" size={'icon'} className='mx-2'>
                     <SmilePlusIcon className="h-4 w-4" />
                   </Button>
                 </DialogTrigger>
@@ -175,40 +173,6 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                     autoFocusSearch={false}
                     emojiStyle={EmojiStyle.NATIVE}
                     width={'100%'}
-                  // theme={Theme.AUTO}
-                  // searchDisabled
-                  // skinTonePickerLocation={SkinTonePickerLocation.PREVIEW}
-                  // height={350}
-                  // width="50%"
-                  // emojiVersion="0.6"
-                  // lazyLoadEmojis={true}
-                  // previewConfig={{
-                  //   defaultCaption: "Pick one!",
-                  //   defaultEmoji: "1f92a" // 🤪
-                  // }}
-                  // suggestedEmojisMode={SuggestionMode.RECENT}
-                  // skinTonesDisabled
-                  // searchPlaceHolder="Filter"
-                  // defaultSkinTone={SkinTones.MEDIUM}
-                  // emojiStyle={EmojiStyle.NATIVE}
-                  // categories={[
-                  //   {
-                  //     name: "Fun and Games",
-                  //     category: Categories.ACTIVITIES
-                  //   },
-                  //   {
-                  //     name: "Smiles & Emotions",
-                  //     category: Categories.SMILEYS_PEOPLE
-                  //   },
-                  //   {
-                  //     name: "Flags",
-                  //     category: Categories.FLAGS
-                  //   },
-                  //   {
-                  //     name: "Yum Yum",
-                  //     category: Categories.FOOD_DRINK
-                  //   }
-                  // ]}
                   />
                 </DialogContent>
               </Dialog>
@@ -220,21 +184,17 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
           </div>
         </>
       ) : (
-        <div className={cn("flex flex-col items-center justify-center",
-          isMdAndAbove ? 'h-[470px]' : 'h-[500px]')}>
+        <div className={cn("flex flex-col items-center justify-center", isMdAndAbove ? 'h-[470px]' : 'h-[500px]')}>
           <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
             <Icons.chat className="h-16 w-16" />
           </div>
-          <div
-            onClick={handleStartConversation}
-            className={cn('rounded-md px-6 py-2 shadow-2xl',
-              isMdAndAbove ? 'cursor-default' : 'cursor-pointer')}
-          >
+          <div onClick={handleStartConversation} className={cn('rounded-md px-6 py-2 shadow-2xl', isMdAndAbove ? 'cursor-default' : 'cursor-pointer')}>
             <p className="text-lg font-medium leading-normal">Start Conversation</p>
           </div>
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   )
 }
 
