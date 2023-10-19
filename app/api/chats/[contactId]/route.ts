@@ -29,6 +29,7 @@ export async function GET(
         contactId: params.contactId
       },
       include: {
+        Contact: true,
         chatMessages: true
       }
     })

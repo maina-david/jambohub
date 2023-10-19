@@ -5,20 +5,21 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { UserAvatar } from '@/components/user-avatar'
 import { Separator } from '@/components/ui/separator'
-import useChatStore from '@/store/chatStore'
 import {
   Sheet,
   SheetContent,
 } from '@/components/ui/sheet'
-import { Chat, Contact } from '@prisma/client'
+import { Chat, ChatMessage, Contact } from '@prisma/client'
+import { ChatProps } from '@/types/chat-types'
 
 interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
   isMdAndAbove: boolean
   leftSidebarOpen: boolean
   handleLeftSidebarToggle: () => void
-  chats: Chat[]
+  chats: ChatProps[]
   contacts: Contact[]
   setSelectedChat: (contactId: string) => void
+  selectedChat: ChatProps | null
 }
 
 const SideBarLeft = (props: SideBarLeftProps) => {
@@ -28,8 +29,17 @@ const SideBarLeft = (props: SideBarLeftProps) => {
     handleLeftSidebarToggle,
     chats,
     contacts,
-    setSelectedChat
+    setSelectedChat,
+    selectedChat
   } = props
+
+  const getLastChatMessage = (chat: ChatProps) => {
+    const messages = chat.chatMessages || []
+    if (messages.length > 0) {
+      return messages[messages.length - 1].message
+    }
+    return 'No messages'
+  }
 
   const renderChatsAndContacts = () => {
     return (
@@ -42,15 +52,16 @@ const SideBarLeft = (props: SideBarLeftProps) => {
           <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">
             Chats
           </h5>
-          <div className="mb-5">
+          <div className="mb-5 hover:bg-accent">
             {chats.length > 0 ? (
               chats.map((chat) => (
                 <div
                   key={chat.id}
-                  className="w-full cursor-pointer items-start px-3 py-2"
+                  className={`w-full cursor-pointer items-start px-3 py-2 ${chat.contactId === selectedChat?.contactId ? 'bg-accent' : ''
+                    }`}
                   onClick={() => setSelectedChat(chat.contactId)}
                 >
-                  {chat.externalRef}
+                  {getLastChatMessage(chat)}
                 </div>
               ))
             ) : (

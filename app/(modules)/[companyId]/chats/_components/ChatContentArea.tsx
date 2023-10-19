@@ -7,10 +7,8 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import { MenuIcon, PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
-import useChatStore from '@/store/chatStore'
 import { Icons } from '@/components/icons'
 import { cn } from '@/lib/utils'
-import { Chat } from '@prisma/client'
 import EmojiPicker, {
   EmojiStyle,
   SkinTones,
@@ -27,11 +25,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { SmilePlusIcon } from "lucide-react"
+import { ChatProps } from '@/types/chat-types'
 
 interface ChatContentAreaProps {
   isMdAndAbove: boolean
   handleLeftSidebarToggle: () => void
-  selectedChat: Chat | null
+  selectedChat: ChatProps | null
 }
 
 const ChatContentArea = (props: ChatContentAreaProps) => {
@@ -84,7 +83,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
             )}
             <div className="flex cursor-pointer items-center">
               <div className="flex flex-col">
-                <h6 className="scroll-m-20 text-xl font-semibold tracking-tight">{selectedChat.contactId}</h6>
+                <h6 className="scroll-m-20 text-xl font-semibold tracking-tight">{selectedChat.Contact.identifier}</h6>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -126,6 +125,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                     onEmojiClick={onClick}
                     autoFocusSearch={false}
                     emojiStyle={EmojiStyle.NATIVE}
+                    width={'100%'}
                   // theme={Theme.AUTO}
                   // searchDisabled
                   // skinTonePickerLocation={SkinTonePickerLocation.PREVIEW}
@@ -158,74 +158,6 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                   //   {
                   //     name: "Yum Yum",
                   //     category: Categories.FOOD_DRINK
-                  //   }
-                  // ]}
-                  // customEmojis={[
-                  //   {
-                  //     names: ["Alice", "alice in wonderland"],
-                  //     imgUrl:
-                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/alice.png",
-                  //     id: "alice"
-                  //   },
-                  //   {
-                  //     names: ["Dog"],
-                  //     imgUrl:
-                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/dog.png",
-                  //     id: "dog"
-                  //   },
-                  //   {
-                  //     names: ["Hat"],
-                  //     imgUrl:
-                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/hat.png",
-                  //     id: "hat"
-                  //   },
-                  //   {
-                  //     names: ["Kid"],
-                  //     imgUrl:
-                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/kid.png",
-                  //     id: "kid"
-                  //   },
-                  //   {
-                  //     names: ["Mic"],
-                  //     imgUrl:
-                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/mic.png",
-                  //     id: "mic"
-                  //   },
-                  //   {
-                  //     names: ["Moab", "desert"],
-                  //     imgUrl:
-                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/moab.png",
-                  //     id: "moab"
-                  //   },
-                  //   {
-                  //     names: ["Potter", "harry", "harry potter"],
-                  //     imgUrl:
-                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/potter.png",
-                  //     id: "potter"
-                  //   },
-                  //   {
-                  //     names: ["Shroom", "mushroom"],
-                  //     imgUrl:
-                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/shroom.png",
-                  //     id: "shroom"
-                  //   },
-                  //   {
-                  //     names: ["Smily"],
-                  //     imgUrl:
-                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/smily.png",
-                  //     id: "smily"
-                  //   },
-                  //   {
-                  //     names: ["Tabby", "cat"],
-                  //     imgUrl:
-                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/tabby.png",
-                  //     id: "tabby"
-                  //   },
-                  //   {
-                  //     names: ["Vest"],
-                  //     imgUrl:
-                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/vest.png",
-                  //     id: "vest"
                   //   }
                   // ]}
                   />

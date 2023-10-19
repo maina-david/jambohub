@@ -61,6 +61,7 @@ export default function ChatArea() {
         chats={chats}
         contacts={contacts}
         setSelectedChat={setSelectedChat}
+        selectedChat={selectedChat}
       />
       {/* Sidebar Left*/}
 
