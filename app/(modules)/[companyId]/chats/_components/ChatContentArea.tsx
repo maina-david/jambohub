@@ -129,8 +129,8 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
               {selectedChat.chatMessages?.map((chatMessage, index) => (
                 <div
                   key={index}
-                  className={cn('flex space-x-1',
-                    chatMessage.userId ? 'flex-row-reverse' : 'flex-row')}
+                  className={cn('flex',
+                    chatMessage.userId ? 'mr-1 flex-row-reverse' : 'flex-row')}
                 >
                   <div className="mb-2 max-w-[70%] p-2">
                     <div
