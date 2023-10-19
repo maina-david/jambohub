@@ -25,10 +25,11 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
         companyId: params.companyId
       },
       include: {
+        Contact: true,
         chatMessages: true
       }
     })
-    
+
     return new Response(JSON.stringify(chats))
   } catch (error) {
     console.log('[CHATS_GET]', error)
