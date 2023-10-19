@@ -87,7 +87,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             contacts.map((contact) => (
               <div
                 key={contact.id}
-                className="w-full cursor-pointer items-start px-3 py-2"
+                className="w-full cursor-pointer items-start px-3 py-2 hover:bg-accent"
                 onClick={() => setSelectedChat(contact.id)}
               >
                 <div className='flex flex-row'>
