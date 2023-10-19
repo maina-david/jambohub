@@ -125,11 +125,13 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                   key={index}
                   className={cn('flex', chatMessage.userId ? 'flex-row-reverse' : 'flex-row')}
                 >
-                  <div className="mb-2 max-w-[70%] rounded-lg p-2">
+                  <div
+                    className={cn('mb-2 max-w-[70%] rounded-lg p-2', chatMessage.userId ? 'bg-green-200 dark:bg-indigo-500' : 'bg-blue-200 dark:bg-blue-600')}
+                  >
                     {chatMessage.message}
-                    <div className={cn("flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400", chatMessage.userId && 'bg-accent')}>
+                    <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
                       {chatMessage.internalStatus === 'sent' ? (
-                        <span className='flex'>
+                        <span className="flex">
                           <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
                           <p>{new Date(chatMessage.timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
                         </span>
@@ -139,7 +141,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                           <p>{new Date(chatMessage.timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
                         </span>
                       ) : (
-                        <span className='flex'>
+                        <span className="flex">
                           <p>{new Date(chatMessage.timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
                         </span>
                       )}
