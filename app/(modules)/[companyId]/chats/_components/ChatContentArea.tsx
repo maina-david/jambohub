@@ -10,8 +10,23 @@ import { MenuIcon, PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
 import useChatStore from '@/store/chatStore'
 import { Icons } from '@/components/icons'
 import { cn } from '@/lib/utils'
-import { EmojiPickerDialog } from '@/components/emoji-picker-dialog'
 import { Chat } from '@prisma/client'
+import EmojiPicker, {
+  EmojiStyle,
+  SkinTones,
+  Theme,
+  Categories,
+  EmojiClickData,
+  Emoji,
+  SuggestionMode,
+  SkinTonePickerLocation
+} from "emoji-picker-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { SmilePlusIcon } from "lucide-react"
 
 interface ChatContentAreaProps {
   isMdAndAbove: boolean
@@ -33,6 +48,13 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
   }
 
   const [message, setMessage] = useState<string>('')
+
+  function onClick(emojiData: EmojiClickData, event: MouseEvent) {
+    setMessage(
+      (message: string) =>
+        message + (emojiData.isCustom ? emojiData.unified : emojiData.emoji)
+    )
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value)
@@ -62,7 +84,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
             )}
             <div className="flex cursor-pointer items-center">
               <div className="flex flex-col">
-                <h6 className="scroll-m-20 text-xl font-semibold tracking-tight">Test User</h6>
+                <h6 className="scroll-m-20 text-xl font-semibold tracking-tight">{selectedChat.contactId}</h6>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -89,7 +111,126 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
                 onKeyDown={handleKeyDown}
                 placeholder="Type your message..."
               />
-              <EmojiPickerDialog className='mx-2' />
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size={'icon'}
+                    className='mx-2'
+                  >
+                    <SmilePlusIcon className="h-4 w-4" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <EmojiPicker
+                    onEmojiClick={onClick}
+                    autoFocusSearch={false}
+                    emojiStyle={EmojiStyle.NATIVE}
+                  // theme={Theme.AUTO}
+                  // searchDisabled
+                  // skinTonePickerLocation={SkinTonePickerLocation.PREVIEW}
+                  // height={350}
+                  // width="50%"
+                  // emojiVersion="0.6"
+                  // lazyLoadEmojis={true}
+                  // previewConfig={{
+                  //   defaultCaption: "Pick one!",
+                  //   defaultEmoji: "1f92a" // 🤪
+                  // }}
+                  // suggestedEmojisMode={SuggestionMode.RECENT}
+                  // skinTonesDisabled
+                  // searchPlaceHolder="Filter"
+                  // defaultSkinTone={SkinTones.MEDIUM}
+                  // emojiStyle={EmojiStyle.NATIVE}
+                  // categories={[
+                  //   {
+                  //     name: "Fun and Games",
+                  //     category: Categories.ACTIVITIES
+                  //   },
+                  //   {
+                  //     name: "Smiles & Emotions",
+                  //     category: Categories.SMILEYS_PEOPLE
+                  //   },
+                  //   {
+                  //     name: "Flags",
+                  //     category: Categories.FLAGS
+                  //   },
+                  //   {
+                  //     name: "Yum Yum",
+                  //     category: Categories.FOOD_DRINK
+                  //   }
+                  // ]}
+                  // customEmojis={[
+                  //   {
+                  //     names: ["Alice", "alice in wonderland"],
+                  //     imgUrl:
+                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/alice.png",
+                  //     id: "alice"
+                  //   },
+                  //   {
+                  //     names: ["Dog"],
+                  //     imgUrl:
+                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/dog.png",
+                  //     id: "dog"
+                  //   },
+                  //   {
+                  //     names: ["Hat"],
+                  //     imgUrl:
+                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/hat.png",
+                  //     id: "hat"
+                  //   },
+                  //   {
+                  //     names: ["Kid"],
+                  //     imgUrl:
+                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/kid.png",
+                  //     id: "kid"
+                  //   },
+                  //   {
+                  //     names: ["Mic"],
+                  //     imgUrl:
+                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/mic.png",
+                  //     id: "mic"
+                  //   },
+                  //   {
+                  //     names: ["Moab", "desert"],
+                  //     imgUrl:
+                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/moab.png",
+                  //     id: "moab"
+                  //   },
+                  //   {
+                  //     names: ["Potter", "harry", "harry potter"],
+                  //     imgUrl:
+                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/potter.png",
+                  //     id: "potter"
+                  //   },
+                  //   {
+                  //     names: ["Shroom", "mushroom"],
+                  //     imgUrl:
+                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/shroom.png",
+                  //     id: "shroom"
+                  //   },
+                  //   {
+                  //     names: ["Smily"],
+                  //     imgUrl:
+                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/smily.png",
+                  //     id: "smily"
+                  //   },
+                  //   {
+                  //     names: ["Tabby", "cat"],
+                  //     imgUrl:
+                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/tabby.png",
+                  //     id: "tabby"
+                  //   },
+                  //   {
+                  //     names: ["Vest"],
+                  //     imgUrl:
+                  //       "https://cdn.jsdelivr.net/gh/ealush/emoji-picker-react@custom_emojis_assets/vest.png",
+                  //     id: "vest"
+                  //   }
+                  // ]}
+                  />
+                </DialogContent>
+              </Dialog>
               <Button className="ml-2" disabled={!message} onClick={handleSend}>
                 <PaperPlaneIcon className="mr-2 h-4 w-4" />
                 Send
