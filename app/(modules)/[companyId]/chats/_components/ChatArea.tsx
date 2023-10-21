@@ -64,7 +64,7 @@ export default function ChatArea() {
     if (assignedChats.data) {
       setChats(assignedChats.data)
     }
-  }, [selectedChat, addMessages, assignedChats.data, companyContacts.data, setChats, setContacts, setSelectedChat])
+  }, [assignedChats.data, companyContacts.data, setChats, setContacts])
 
   return (
     <>
