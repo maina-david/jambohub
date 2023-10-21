@@ -28,7 +28,14 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
   const { hidden, isMdAndAbove, handleLeftSidebarToggle, selectedChat } = props
   const queryClient = useQueryClient()
   const [isSending, setIsSending] = useState<boolean>(false)
-  const chatArea = useRef(null)
+  const chatArea = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (chatArea.current) {
+      chatArea.current.scrollTop = chatArea.current.scrollHeight
+    }
+  }, [selectedChat])
+
 
   const handleStartConversation = () => {
     if (!isMdAndAbove) {
