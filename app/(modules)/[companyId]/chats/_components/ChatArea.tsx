@@ -52,10 +52,10 @@ export default function ChatArea() {
       setChats(assignedChats.data)
       if (selectedChat) {
         // Update chatMessages for the selected chat
-        const chatId = selectedChat.id;
-        const chatMessages = assignedChats.data.find(chat => chat.id === chatId)?.chatMessages;
+        const chatId = selectedChat.id
+        const chatMessages = assignedChats.data.find(chat => chat.id === chatId)?.chatMessages
         if (chatMessages) {
-          addMessages(chatId, chatMessages);
+          addMessages(chatId, chatMessages)
         }
       }
     }
