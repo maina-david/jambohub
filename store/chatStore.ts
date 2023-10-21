@@ -30,7 +30,7 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
   },
   setSelectedChat: (contactId: string) => {
     // Find the chat in the chats array with the matching contactId
-    const chat = get().chats.find((chat) => chat.Contact.id === contactId)
+    const chat = get().chats.find((chat) => chat.contactId === contactId)
 
     if (chat) {
       set({
@@ -54,10 +54,10 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
           timestamp: new Date(),
         }
 
-        set((state) => ({
-          chats: [...state.chats, newChat],
+        set({
+          chats: [...get().chats, newChat],
           selectedChat: newChat
-        }))
+        })
       }
     }
   },
