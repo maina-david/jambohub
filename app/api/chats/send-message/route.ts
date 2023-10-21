@@ -89,7 +89,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
       return new Response(null, { status: 500 })
     }
 
-    return new Response(null, { status: 201 })
+    return new Response(JSON.stringify(message), { status: 201 })
   } catch (error) {
     console.log("[SEND_MESSAGE]", error)
     return new Response(null, { status: 500 })

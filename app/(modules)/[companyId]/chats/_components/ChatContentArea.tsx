@@ -16,16 +16,23 @@ import { SmilePlusIcon } from 'lucide-react'
 import { ChatProps } from '@/types/chat-types'
 import { toast } from '@/components/ui/use-toast'
 import { useQueryClient } from '@tanstack/react-query'
+import { ChatMessage } from '@prisma/client'
 
 interface ChatContentAreaProps {
   hidden: boolean
   isMdAndAbove: boolean
   handleLeftSidebarToggle: () => void
   selectedChat: ChatProps | null
+  addMessages: (chatId: string, messages: ChatMessage[]) => void
 }
 
 const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
-  const { hidden, isMdAndAbove, handleLeftSidebarToggle, selectedChat } = props
+  const {
+    hidden,
+    isMdAndAbove,
+    handleLeftSidebarToggle,
+    selectedChat,
+    addMessages } = props
   const queryClient = useQueryClient()
   const [isSending, setIsSending] = useState<boolean>(false)
   const scrollAreaRef = useRef<HTMLDivElement | null>(null)
@@ -66,6 +73,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
           message,
         })
         queryClient.invalidateQueries({ queryKey: ['assignedChats'] })
+        addMessages(selectedChat.id, [response.data])
         setMessage('')
       }
     } catch (error) {
