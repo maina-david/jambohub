@@ -41,29 +41,18 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
   },
   addMessages: (chatId: string, messages: ChatMessage[]) => {
     set((state) => {
-      // Find the selected chat
-      const selectedChat = state.selectedChat
-
-      if (selectedChat && selectedChat.id === chatId) {
-        // If the selected chat matches the provided chatId, update its chatMessages
+      if (state.selectedChat && state.selectedChat.id === chatId) {
         const updatedChat = {
-          ...selectedChat,
-          chatMessages: selectedChat.chatMessages
-            ? [...selectedChat.chatMessages, ...messages]
+          ...state.selectedChat,
+          chatMessages: state.selectedChat.chatMessages
+            ? [...state.selectedChat.chatMessages, ...messages]
             : [...messages],
         }
-
-        // Update the selectedChat with the updated chat
-        return {
-          selectedChat: updatedChat,
-        }
+        return { selectedChat: updatedChat }
       }
-
-      // If the selected chat doesn't match the provided chatId, do nothing
       return state
     })
   }
-
 }), shallow)
 
 export default useChatStore
