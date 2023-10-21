@@ -65,7 +65,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
       const sentMessageId = await sendMessage(chat.channelId, body.messageType, chat.Contact.identifier, body.message)
 
       // If the message is successfully sent, update the internalStatus to "sent"
-      await db.chatMessage.update({
+      const sentMessage = await db.chatMessage.update({
         where: {
           id: message.id,
         },
@@ -74,9 +74,13 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
           internalStatus: "sent",
         },
       })
+
+      // Return the sent message with status 200 (OK)
+      return new Response(JSON.stringify(sentMessage), { status: 200 })
     } catch (error) {
-      // If there is an error in sending the message, update the internalStatus to "failed"
-      await db.chatMessage.update({
+      // If there is an error in sending the message, you can still return the message
+      // with internalStatus set to "failed" and status 200 (OK) to ensure the UI receives the message.
+      const failedMessage = await db.chatMessage.update({
         where: {
           id: message.id,
         },
@@ -86,12 +90,14 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
       })
 
       console.error("[SEND_MESSAGE]", error)
-      return new Response(null, { status: 500 })
-    }
 
-    return new Response(JSON.stringify(message), { status: 201 })
+      // Return the message with status 200 (OK)
+      return new Response(JSON.stringify(failedMessage), { status: 200 })
+    }
   } catch (error) {
     console.log("[SEND_MESSAGE]", error)
-    return new Response(null, { status: 500 })
+
+    // If there's an error at the server level, you can return an error response with status 500 (Internal Server Error).
+    return new Response("Internal Server Error", { status: 500 })
   }
 }

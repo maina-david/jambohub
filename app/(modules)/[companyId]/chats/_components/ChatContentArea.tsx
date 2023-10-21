@@ -72,9 +72,21 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
           messageType: 'TEXT',
           message,
         })
-        queryClient.invalidateQueries({ queryKey: ['assignedChats'] })
-        addMessages(selectedChat.id, [response.data])
-        setMessage('')
+
+        if (response.status === 200) {
+          // Check the status code and internalStatus to determine success or failure.
+          if (response.data.internalStatus === "sent") {
+            // Message was successfully sent
+            queryClient.invalidateQueries({ queryKey: ['assignedChats'] })
+            addMessages(selectedChat.id, [response.data])
+            setMessage('')
+          } else if (response.data.internalStatus === "failed") {
+            // Message sending failed but still received by the server
+            // Update the UI with the failed status
+            addMessages(selectedChat.id, [response.data])
+            setMessage('')
+          }
+        }
       }
     } catch (error) {
       console.error('Error sending message:', error.message)
