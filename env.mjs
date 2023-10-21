@@ -24,11 +24,15 @@ export const env = createEnv({
     MAILGUN_SIGN_UP_TEMPLATE: z.string().min(1),
     MAILGUN_SIGN_IN_TEMPLATE: z.string().min(1),
     FACEBOOK_APP_SECRET: z.string().min(1),
+    PUSHER_APP_SECRET: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().min(1),
     NEXT_PUBLIC_FACEBOOK_APP_ID: z.string().min(1),
     NEXT_PUBLIC_CONFIGURATION_ID: z.string().min(1),
+    NEXT_PUBLIC_PUSHER_APP_ID: z.string().min(1),
+    NEXT_PUBLIC_PUSHER_APP_KEY: z.string().min(1),
+    NEXT_PUBLIC_PUSHER_CLUSTER: z.string().min(1),
   },
   runtimeEnv: {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
@@ -52,6 +56,10 @@ export const env = createEnv({
     MAILGUN_SIGN_IN_TEMPLATE: process.env.MAILGUN_SIGN_IN_TEMPLATE,
     NEXT_PUBLIC_FACEBOOK_APP_ID: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
     NEXT_PUBLIC_CONFIGURATION_ID: process.env.NEXT_PUBLIC_CONFIGURATION_ID,
-    FACEBOOK_APP_SECRET: process.env.FACEBOOK_APP_SECRET
+    FACEBOOK_APP_SECRET: process.env.FACEBOOK_APP_SECRET,
+    PUSHER_APP_SECRET: process.env.PUSHER_APP_SECRET,
+    NEXT_PUBLIC_PUSHER_APP_ID: process.env.NEXT_PUBLIC_PUSHER_APP_ID,
+    NEXT_PUBLIC_PUSHER_APP_KEY: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
+    NEXT_PUBLIC_PUSHER_CLUSTER: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
   },
 })

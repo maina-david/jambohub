@@ -73,6 +73,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
       toast({
         title: 'Error',
         description: 'Error sending message. Try again',
+        variant: 'destructive'
       })
     } finally {
       setIsSending(false)

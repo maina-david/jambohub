@@ -8,6 +8,9 @@ import useChatStore, { ChatState } from '@/store/chatStore'
 import { useQuery } from '@tanstack/react-query'
 import { fetchAssignedChats, fetchCompanyContacts, getSelectedChatMessages } from '@/actions/chat-actions'
 import { useParams } from 'next/navigation'
+import Pusher from 'pusher-js'
+import { env } from '@/env.mjs'
+import { toast } from '@/components/ui/use-toast'
 
 const selector = (state: ChatState) => ({
   chats: state.chats,
@@ -52,6 +55,26 @@ export default function ChatArea() {
     if (assignedChats.data) {
       setChats(assignedChats.data)
     }
+
+    const pusher = new Pusher(env.PUSHER_APP_SECRET, {
+      cluster: env.NEXT_PUBLIC_PUSHER_CLUSTER
+    })
+
+    // Subscribe to the "chat" channel to receive new chat messages
+    const chatChannel = pusher.subscribe("chat");
+
+    // Listen for the "new-chat-message" event
+    chatChannel.bind("new-chat-message", function (data: { existingChat: { contact: { alias: string } } }) {
+      toast({
+        title: 'New Message',
+        description: `You have a new message from ${data.existingChat.contact.alias}`,
+      })
+    })
+
+    return () => {
+      pusher.unsubscribe("chat")
+    }
+
   }, [assignedChats.data, companyContacts.data, setChats, setContacts])
 
   return (

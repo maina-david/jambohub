@@ -1,7 +1,13 @@
 import { NextRequest } from "next/server"
 import { db } from "@/lib/db"
-import { ChannelType, ChatCategory, MessageDirection, MessageCategory, MessageType } from "@prisma/client"
-import { sendMessage } from "@/services/chat-service"
+import {
+  ChannelType,
+  ChatCategory,
+  MessageDirection,
+  MessageCategory,
+  MessageType
+} from "@prisma/client"
+import { pusher } from "@/lib/pusher"
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -26,62 +32,71 @@ export async function POST(request: NextRequest) {
       const channel = await fetchChannelDetails(phoneNumber)
       const identifier = messageData.contacts[0].wa_id
 
-      console.log("RECEIVED WEBHOOK: ", messageData)
-
       if (channel) {
-          // Check if the message type is valid
-          const messageType = messageData.messages[0].type
-          if (isValidMessageType(messageType)) {
-            // Save or update the contact
-            const contactData = {
-              companyId: channel.companyId,
-              channel: ChannelType.WHATSAPP,
-              identifier,
-              alias: messageData.contacts[0].profile.name,
-            }
-            const contact = await saveOrUpdateContact(contactData)
-
-            // Check if a chat with the same contact ID exists
-            const existingChat = await findChatByContactId(contact.id)
-
-            if (existingChat) {
-              // Add a new message to the existing chat
-              const newChatMessage = await db.chatMessage.create({
-                data: {
-                  chatId: existingChat.id,
-                  externalRef: messageData.messages[0].id,
-                  direction: MessageDirection.INCOMING,
-                  category: MessageCategory.INTERACTIVE,
-                  type: getMessageType(messageType),
-                  message: messageData.messages[0].text.body,
-                  internalStatus: 'Unread'
-                },
-              })
-            } else {
-              // Create a new Chat record to represent the conversation
-              const newChat = await db.chat.create({
-                data: {
-                  category: ChatCategory.INTERACTIVE,
-                  channelId: channel.id,
-                  companyId: channel.companyId,
-                  contactId: contact.id,
-                },
-              })
-
-              // Create a new ChatMessage record for the incoming message
-              const newChatMessage = await db.chatMessage.create({
-                data: {
-                  chatId: newChat.id,
-                  externalRef: messageData.messages[0].id,
-                  direction: MessageDirection.INCOMING,
-                  category: MessageCategory.INTERACTIVE,
-                  type: getMessageType(messageType),
-                  message: messageData.messages[0].text.body,
-                  internalStatus: 'Unread'
-                },
-              })
-            }
+        // Check if the message type is valid
+        const messageType = messageData.messages[0].type
+        if (isValidMessageType(messageType)) {
+          // Save or update the contact
+          const contactData = {
+            companyId: channel.companyId,
+            channel: ChannelType.WHATSAPP,
+            identifier,
+            alias: messageData.contacts[0].profile.name,
           }
+          const contact = await saveOrUpdateContact(contactData)
+
+          // Check if a chat with the same contact ID exists
+          const existingChat = await findChatByContactId(contact.id)
+
+          if (existingChat) {
+            // Add a new message to the existing chat
+            const newChatMessage = await db.chatMessage.create({
+              data: {
+                chatId: existingChat.id,
+                externalRef: messageData.messages[0].id,
+                direction: MessageDirection.INCOMING,
+                category: MessageCategory.INTERACTIVE,
+                type: getMessageType(messageType),
+                message: messageData.messages[0].text.body,
+                internalStatus: 'Unread'
+              },
+            })
+
+            const response = await pusher.trigger("chat", "new-chat-message", {
+              existingChat,
+              newChatMessage
+            })
+
+          } else {
+            // Create a new Chat record to represent the conversation
+            const newChat = await db.chat.create({
+              data: {
+                category: ChatCategory.INTERACTIVE,
+                channelId: channel.id,
+                companyId: channel.companyId,
+                contactId: contact.id,
+              },
+            })
+
+            // Create a new ChatMessage record for the incoming message
+            const newChatMessage = await db.chatMessage.create({
+              data: {
+                chatId: newChat.id,
+                externalRef: messageData.messages[0].id,
+                direction: MessageDirection.INCOMING,
+                category: MessageCategory.INTERACTIVE,
+                type: getMessageType(messageType),
+                message: messageData.messages[0].text.body,
+                internalStatus: 'Unread'
+              },
+            })
+
+            const response = await pusher.trigger("chat", "new-chat-message", {
+              newChat,
+              newChatMessage
+            })
+          }
+        }
       }
 
       // Send a response to acknowledge the receipt and processing of the webhook data
