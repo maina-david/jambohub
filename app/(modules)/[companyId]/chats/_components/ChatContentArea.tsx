@@ -28,13 +28,16 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
   const { hidden, isMdAndAbove, handleLeftSidebarToggle, selectedChat } = props
   const queryClient = useQueryClient()
   const [isSending, setIsSending] = useState<boolean>(false)
-  const chatArea = useRef<HTMLDivElement | null>(null)
+  const scrollAreaRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    if (chatArea.current) {
-      chatArea.current.scrollTop = chatArea.current.scrollHeight
+    if (scrollAreaRef.current && selectedChat) {
+      // Scroll to the bottom only if new messages were added
+      if (scrollAreaRef.current.scrollHeight - scrollAreaRef.current.clientHeight > 0) {
+        scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
+      }
     }
-  }, [selectedChat])
+  }, [selectedChat, selectedChat?.chatMessages])
 
 
   const handleStartConversation = () => {
@@ -114,7 +117,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
           </div>
           <Separator />
           <div className="flex h-[470px] flex-col overflow-hidden">
-            <ScrollArea ref={chatArea} className="flex-1 overflow-y-auto">
+            <ScrollArea ref={scrollAreaRef} className="flex-1 overflow-y-auto">
               {selectedChat.chatMessages?.map((chatMessage, index) => (
                 <div
                   key={index}
