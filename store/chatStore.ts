@@ -29,23 +29,20 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
     })
   },
   setSelectedChat: async (contactId: string) => {
-    set((state) => {
-      // Find the chat in the chats array with the matching contactId
-      const chat = state.chats.find((chat) => chat.Contact && chat.Contact.id === contactId)
+    // Find the chat in the chats array with the matching contactId
+    const chat = get().chats.find((chat) => chat.Contact && chat.Contact.id === contactId)
 
-      if (chat) {
-        return {
-          ...state,
-          selectedChat: chat,
-        }
-      }
-
+    if (chat) {
+      set({
+        selectedChat: chat
+      })
+    } else {
       // If no chat is found, create a new chat object and add it to the chats array
-      const contact = state.contacts.find((contact) => contact.id === contactId)
+      const contact = get().contacts.find((contact) => contact.id === contactId)
 
       if (contact) {
         const newChat: ChatProps = {
-          id:  nanoid(),
+          id: nanoid(),
           Contact: contact,
           chatMessages: [],
           category: 'INTERACTIVE',
@@ -56,19 +53,14 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
           status: 'OPEN',
           timestamp: new Date(),
         }
+        const newChats = [...get().chats, newChat]
 
-        // Create a new chats array that includes the new chat
-        const newChats = [...state.chats, newChat]
+        set({
+          chats: newChats
+        })
 
-        return {
-          ...state,
-          chats: newChats,
-          selectedChat: newChat,
-        }
       }
-
-      return state
-    })
+    }
   },
   removeSelectedChat: () => {
     set({
