@@ -29,7 +29,6 @@ export async function POST(request: NextRequest) {
       console.log("RECEIVED WEBHOOK: ", messageData)
 
       if (channel) {
-        if (channel.status) {
           // Check if the message type is valid
           const messageType = messageData.messages[0].type
           if (isValidMessageType(messageType)) {
@@ -83,9 +82,6 @@ export async function POST(request: NextRequest) {
               })
             }
           }
-        } else {
-          await sendMessage(channel.id, 'TEXT', identifier, 'Account not active. Check back later.')
-        }
       }
 
       // Send a response to acknowledge the receipt and processing of the webhook data
