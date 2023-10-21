@@ -32,13 +32,11 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
 
   useEffect(() => {
     if (scrollAreaRef.current && selectedChat) {
-      // Scroll to the bottom only if new messages were added
-      if (scrollAreaRef.current.scrollHeight - scrollAreaRef.current.clientHeight > 0) {
-        scrollAreaRef.current.scrollTo({
-          top: scrollAreaRef.current.scrollHeight - scrollAreaRef.current.clientHeight,
-          behavior: 'smooth',
-        })
-      }
+      // Scroll to the bottom every time a new message is added
+      scrollAreaRef.current.scrollTo({
+        top: scrollAreaRef.current.scrollHeight,
+        behavior: 'smooth',
+      })
     }
   }, [selectedChat, selectedChat?.chatMessages])
 
