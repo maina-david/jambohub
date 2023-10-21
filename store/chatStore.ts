@@ -29,7 +29,7 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
     })
   },
   setSelectedChat: async (contactId: string) => {
-    const selectedChat = await axios.get<ChatProps>(`/api/chats/${contactId}`).then((response) => response.data)
+    const selectedChat = await axios.get<ChatProps>(`/api/contacts/${contactId}/chats`).then((response) => response.data)
     set({
       selectedChat
     })
