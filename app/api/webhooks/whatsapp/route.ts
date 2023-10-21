@@ -5,7 +5,9 @@ import {
   ChatCategory,
   MessageDirection,
   MessageCategory,
-  MessageType
+  MessageType,
+  Chat,
+  ChatMessage
 } from "@prisma/client"
 import { pusher } from "@/lib/pusher"
 
@@ -48,6 +50,9 @@ export async function POST(request: NextRequest) {
           // Check if a chat with the same contact ID exists
           const existingChat = await findChatByContactId(contact.id)
 
+          let chat: Chat
+          let ChatMessage: ChatMessage
+
           if (existingChat) {
             // Add a new message to the existing chat
             const newChatMessage = await db.chatMessage.create({
@@ -61,12 +66,8 @@ export async function POST(request: NextRequest) {
                 internalStatus: 'Unread'
               },
             })
-
-            const response = await pusher.trigger("chat", "new-chat-message", {
-              existingChat,
-              newChatMessage
-            })
-
+            chat = existingChat
+            ChatMessage = newChatMessage
           } else {
             // Create a new Chat record to represent the conversation
             const newChat = await db.chat.create({
@@ -76,6 +77,10 @@ export async function POST(request: NextRequest) {
                 companyId: channel.companyId,
                 contactId: contact.id,
               },
+              include: {
+                Contact: true,
+                chatMessages: true
+              }
             })
 
             // Create a new ChatMessage record for the incoming message
@@ -90,12 +95,14 @@ export async function POST(request: NextRequest) {
                 internalStatus: 'Unread'
               },
             })
-
-            const response = await pusher.trigger("chat", "new-chat-message", {
-              newChat,
-              newChatMessage
-            })
+            chat = newChat
+            ChatMessage = newChatMessage
           }
+
+          const response = await pusher.trigger("chat", "new-chat-message", {
+            chat,
+            ChatMessage
+          })
         }
       }
 
@@ -176,6 +183,10 @@ async function findChatByContactId(contactId: string) {
     where: {
       contactId,
     },
+    include: {
+      Contact: true,
+      chatMessages: true
+    }
   })
   return existingChat
 }

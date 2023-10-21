@@ -11,6 +11,8 @@ import { useParams } from 'next/navigation'
 import Pusher from 'pusher-js'
 import { env } from '@/env.mjs'
 import { toast } from '@/components/ui/use-toast'
+import { ChatProps } from '@/types/chat-types'
+import { ChatMessage } from '@prisma/client'
 
 const selector = (state: ChatState) => ({
   chats: state.chats,
@@ -64,10 +66,10 @@ export default function ChatArea() {
     const chatChannel = pusher.subscribe("chat");
 
     // Listen for the "new-chat-message" event
-    chatChannel.bind("new-chat-message", function (data: { existingChat: { contact: { alias: string } } }) {
+    chatChannel.bind("new-chat-message", function (data: { chat: ChatProps, ChatMessage: ChatMessage }) {
       toast({
         title: 'New Message',
-        description: `You have a new message from ${data.existingChat.contact.alias}`,
+        description: `You have a new message from ${data.chat.Contact.alias}`,
       })
     })
 
