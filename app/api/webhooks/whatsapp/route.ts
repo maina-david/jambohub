@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
           const existingChat = await findChatByContactId(contact.id)
 
           let chat: Chat
-          let ChatMessage: ChatMessage
+          let chatMessage: ChatMessage
 
           if (existingChat) {
             // Add a new message to the existing chat
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
               },
             })
             chat = existingChat
-            ChatMessage = newChatMessage
+            chatMessage = newChatMessage
           } else {
             // Create a new Chat record to represent the conversation
             const newChat = await db.chat.create({
@@ -96,12 +96,12 @@ export async function POST(request: NextRequest) {
               },
             })
             chat = newChat
-            ChatMessage = newChatMessage
+            chatMessage = newChatMessage
           }
 
           const response = await pusher.trigger("chat", "new-chat-message", {
             chat,
-            ChatMessage
+            chatMessage
           })
         }
       }

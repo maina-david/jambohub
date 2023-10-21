@@ -5,7 +5,7 @@ import SideBarLeft from './SideBarLeft'
 import ChatContentArea from './ChatContentArea'
 import { useMediaQuery } from 'usehooks-ts'
 import useChatStore, { ChatState } from '@/store/chatStore'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchAssignedChats, fetchCompanyContacts, getSelectedChatMessages } from '@/actions/chat-actions'
 import { useParams } from 'next/navigation'
 import Pusher from 'pusher-js'
@@ -21,7 +21,6 @@ const selector = (state: ChatState) => ({
   setChats: state.setChats,
   setContacts: state.setContacts,
   setSelectedChat: state.setSelectedChat,
-  addMessages: state.addMessages,
 })
 
 export default function ChatArea() {
@@ -32,7 +31,6 @@ export default function ChatArea() {
     setChats,
     setContacts,
     setSelectedChat,
-    addMessages
   } = useChatStore(selector)
   const params = useParams()
   const isMdAndAbove = useMediaQuery('(min-width: 768px)')
@@ -40,6 +38,8 @@ export default function ChatArea() {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState<boolean>(false)
   const hidden = useMediaQuery('(min-width: 1024px)')
   const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)
+  const queryClient = useQueryClient()
+
   const companyContacts = useQuery({
     queryKey: ['companyContacts'],
     queryFn: () => fetchCompanyContacts(params?.companyId as string),
@@ -66,18 +66,20 @@ export default function ChatArea() {
     const chatChannel = pusher.subscribe("chat");
 
     // Listen for the "new-chat-message" event
-    chatChannel.bind("new-chat-message", function (data: { chat: ChatProps, ChatMessage: ChatMessage }) {
+    chatChannel.bind("new-chat-message", function (data: { chat: ChatProps, chatMessage: ChatMessage }) {
       toast({
         title: 'New Message',
         description: `You have a new message from ${data.chat.Contact.alias}`,
       })
+
+      queryClient.invalidateQueries(['assignedChats'])
     })
 
     return () => {
       pusher.unsubscribe("chat")
     }
 
-  }, [assignedChats.data, companyContacts.data, setChats, setContacts])
+  }, [assignedChats.data, companyContacts.data, queryClient, setChats, setContacts])
 
   return (
     <>
