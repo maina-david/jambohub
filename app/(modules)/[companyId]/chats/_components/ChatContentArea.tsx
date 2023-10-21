@@ -34,11 +34,13 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
     if (scrollAreaRef.current && selectedChat) {
       // Scroll to the bottom only if new messages were added
       if (scrollAreaRef.current.scrollHeight - scrollAreaRef.current.clientHeight > 0) {
-        scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
+        scrollAreaRef.current.scrollTo({
+          top: scrollAreaRef.current.scrollHeight - scrollAreaRef.current.clientHeight,
+          behavior: 'smooth',
+        })
       }
     }
   }, [selectedChat, selectedChat?.chatMessages])
-
 
   const handleStartConversation = () => {
     if (!isMdAndAbove) {
