@@ -1,4 +1,4 @@
-import { Contact } from '@prisma/client'
+import { $Enums, ChatMessage, Contact } from '@prisma/client'
 import { createWithEqualityFn } from 'zustand/traditional'
 import { shallow } from 'zustand/shallow'
 import axios from 'axios'
@@ -11,11 +11,12 @@ export type ChatState = {
   setChats: (chats: ChatProps[]) => void
   setContacts: (contacts: Contact[]) => void
   setSelectedChat: (contactId: string) => void
+  addMessages: (chatId: string, messages: ChatMessage[]) => void
 }
 
 const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
-  chats: [],
-  contacts: [],
+  chats: [] as ChatProps[],
+  contacts: [] as Contact[],
   selectedChat: null,
   setChats: (chats: ChatProps[]) => {
     set({
@@ -37,6 +38,19 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
     set({
       selectedChat: null
     })
+  },
+  addMessages: (chatId: string, messages: ChatMessage[]) => {
+    set((state) => ({
+      chats: state.chats.map((chat) => {
+        if (chat.id === chatId) {
+          return {
+            ...chat,
+            chatMessages: [...(chat.chatMessages || []), ...messages],
+          }
+        }
+        return chat
+      }),
+    }))
   },
 }), shallow)
 

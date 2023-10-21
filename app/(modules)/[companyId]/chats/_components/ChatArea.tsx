@@ -15,7 +15,8 @@ const selector = (state: ChatState) => ({
   selectedChat: state.selectedChat,
   setChats: state.setChats,
   setContacts: state.setContacts,
-  setSelectedChat: state.setSelectedChat
+  setSelectedChat: state.setSelectedChat,
+  addMessages: state.addMessages,
 })
 
 export default function ChatArea() {
@@ -25,7 +26,8 @@ export default function ChatArea() {
     selectedChat,
     setChats,
     setContacts,
-    setSelectedChat
+    setSelectedChat,
+    addMessages
   } = useChatStore(selector)
   const params = useParams()
   const isMdAndAbove = useMediaQuery('(min-width: 768px)')
@@ -49,7 +51,25 @@ export default function ChatArea() {
     if (assignedChats.data) {
       setChats(assignedChats.data)
     }
-  }, [assignedChats.data, companyContacts.data, setChats, setContacts])
+
+    // Subscribe to real-time message updates and handle them
+    const unsubscribe = useChatStore.subscribe(
+      (state) => {
+        if (state.selectedChat) {
+          const chatId = state.selectedChat.id
+          const newMessages =
+            state.chats.find((chat) => chat.id === chatId)?.chatMessages || []
+          setSelectedChat(chatId)
+          setChats(state.chats)
+          addMessages(chatId, newMessages)
+        }
+      },
+    )
+
+    return () => {
+      unsubscribe() // Unsubscribe from the store when the component unmounts
+    }
+  }, [addMessages, assignedChats.data, companyContacts.data, setChats, setContacts, setSelectedChat])
 
   return (
     <>
