@@ -6,7 +6,7 @@ import ChatContentArea from './ChatContentArea'
 import { useMediaQuery } from 'usehooks-ts'
 import useChatStore, { ChatState } from '@/store/chatStore'
 import { useQuery } from '@tanstack/react-query'
-import { fetchAssignedChats, fetchCompanyContacts } from '@/actions/chat-actions'
+import { fetchAssignedChats, fetchCompanyContacts, getSelectedChatMessages } from '@/actions/chat-actions'
 import { useParams } from 'next/navigation'
 
 const selector = (state: ChatState) => ({
@@ -44,6 +44,18 @@ export default function ChatArea() {
     queryKey: ['assignedChats'],
     queryFn: () => fetchAssignedChats(params?.companyId as string),
   })
+
+  if (selectedChat) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const getMessages = useQuery({
+      queryKey: ['selectedChat', selectedChat?.id],
+      queryFn: () => getSelectedChatMessages(selectedChat?.id as string)
+    })
+
+    if (getMessages.data) {
+      addMessages(selectedChat.id, getMessages.data)
+    }
+  }
 
   useEffect(() => {
     if (companyContacts.data) {
