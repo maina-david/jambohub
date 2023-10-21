@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -44,6 +44,21 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
   } = props
   const queryClient = useQueryClient()
   const [isSending, setIsSending] = useState<boolean>(false)
+  const scrollAreaRef = useRef(null)
+
+  // Function to scroll to the bottom of the chat area
+  const scrollToBottom = () => {
+    if (scrollAreaRef.current) {
+      const scrollArea = scrollAreaRef.current
+      // @ts-ignore
+      scrollArea.scrollTop = scrollArea.scrollHeight
+    }
+  }
+
+  useEffect(() => {
+    // Scroll to the bottom when new messages are added
+    scrollToBottom()
+  }, [selectedChat])
 
   const handleStartConversation = () => {
     if (!isMdAndAbove) {
@@ -126,7 +141,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
 
           {/* Chat messages */}
           <div className="flex h-[470px] flex-col overflow-hidden">
-            <ScrollArea className="flex-1 overflow-y-auto">
+            <ScrollArea ref={scrollAreaRef} className="flex-1 overflow-y-auto">
               {selectedChat.chatMessages?.map((chatMessage, index) => (
                 <div
                   key={index}
