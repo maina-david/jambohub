@@ -45,18 +45,6 @@ export default function ChatArea() {
     queryFn: () => fetchAssignedChats(params?.companyId as string),
   })
 
-  if (selectedChat) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const getMessages = useQuery({
-      queryKey: ['selectedChat', selectedChat?.id],
-      queryFn: () => getSelectedChatMessages(selectedChat?.id as string)
-    })
-
-    if (getMessages.data) {
-      addMessages(selectedChat.id, getMessages.data)
-    }
-  }
-
   useEffect(() => {
     if (companyContacts.data) {
       setContacts(companyContacts.data)
