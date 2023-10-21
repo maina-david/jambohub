@@ -30,15 +30,15 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
   const [isSending, setIsSending] = useState<boolean>(false)
   const scrollAreaRef = useRef<HTMLDivElement | null>(null)
 
-  // useEffect(() => {
-  //   if (scrollAreaRef.current && selectedChat) {
-  //     // Scroll to the bottom every time a new message is added
-  //     scrollAreaRef.current.scrollTo({
-  //       top: scrollAreaRef.current.scrollHeight,
-  //       behavior: 'smooth',
-  //     })
-  //   }
-  // }, [selectedChat, selectedChat?.chatMessages])
+  useEffect(() => {
+    if (scrollAreaRef.current && selectedChat) {
+      // Scroll to the bottom every time a new message is added
+      scrollAreaRef.current.scrollTo({
+        top: scrollAreaRef.current.scrollHeight,
+        behavior: 'smooth',
+      })
+    }
+  }, [selectedChat, selectedChat?.chatMessages])
 
   const handleStartConversation = () => {
     if (!isMdAndAbove) {
