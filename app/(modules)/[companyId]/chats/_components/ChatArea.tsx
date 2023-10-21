@@ -52,23 +52,23 @@ export default function ChatArea() {
       setChats(assignedChats.data)
     }
 
-    // Subscribe to real-time message updates and handle them
-    const unsubscribe = useChatStore.subscribe(
-      (state) => {
-        if (state.selectedChat) {
-          const chatId = state.selectedChat.id
-          const newMessages =
-            state.chats.find((chat) => chat.id === chatId)?.chatMessages || []
-          setSelectedChat(chatId)
-          setChats(state.chats)
-          addMessages(chatId, newMessages)
-        }
-      },
-    )
+    // // Subscribe to real-time message updates and handle them
+    // const unsubscribe = useChatStore.subscribe(
+    //   (state) => {
+    //     if (state.selectedChat) {
+    //       const chatId = state.selectedChat.id
+    //       const newMessages =
+    //         state.chats.find((chat) => chat.id === chatId)?.chatMessages || []
+    //       setSelectedChat(chatId)
+    //       setChats(state.chats)
+    //       addMessages(chatId, newMessages)
+    //     }
+    //   },
+    // )
 
-    return () => {
-      unsubscribe() // Unsubscribe from the store when the component unmounts
-    }
+    // return () => {
+    //   unsubscribe() // Unsubscribe from the store when the component unmounts
+    // }
   }, [addMessages, assignedChats.data, companyContacts.data, setChats, setContacts, setSelectedChat])
 
   return (
