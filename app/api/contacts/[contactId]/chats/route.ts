@@ -3,7 +3,6 @@ import * as z from "zod"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { channelPatchSchema } from "@/lib/validations/channel"
 
 const routeContextSchema = z.object({
   params: z.object({
