@@ -30,25 +30,6 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
   const [isSending, setIsSending] = useState<boolean>(false)
   const chatArea = useRef(null)
 
-  const scrollToBottom = () => {
-    if (chatArea.current) {
-      if (hidden) {
-        // @ts-ignore
-        chatArea.current.scrollTop = chatArea.current.scrollHeight
-      } else {
-        // @ts-ignore
-        chatArea.current._container.scrollTop = chatArea.current._container.scrollHeight
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (selectedChat && selectedChat.chatMessages && selectedChat.chatMessages.length) {
-      scrollToBottom()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedChat, hidden])
-
   const handleStartConversation = () => {
     if (!isMdAndAbove) {
       handleLeftSidebarToggle()
