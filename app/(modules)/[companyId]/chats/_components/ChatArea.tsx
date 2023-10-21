@@ -50,26 +50,16 @@ export default function ChatArea() {
     }
     if (assignedChats.data) {
       setChats(assignedChats.data)
+      if (selectedChat) {
+        // Update chatMessages for the selected chat
+        const chatId = selectedChat.id;
+        const chatMessages = assignedChats.data.find(chat => chat.id === chatId)?.chatMessages;
+        if (chatMessages) {
+          addMessages(chatId, chatMessages);
+        }
+      }
     }
-
-    // // Subscribe to real-time message updates and handle them
-    // const unsubscribe = useChatStore.subscribe(
-    //   (state) => {
-    //     if (state.selectedChat) {
-    //       const chatId = state.selectedChat.id
-    //       const newMessages =
-    //         state.chats.find((chat) => chat.id === chatId)?.chatMessages || []
-    //       setSelectedChat(chatId)
-    //       setChats(state.chats)
-    //       addMessages(chatId, newMessages)
-    //     }
-    //   },
-    // )
-
-    // return () => {
-    //   unsubscribe() // Unsubscribe from the store when the component unmounts
-    // }
-  }, [addMessages, assignedChats.data, companyContacts.data, setChats, setContacts, setSelectedChat])
+  }, [selectedChat, addMessages, assignedChats.data, companyContacts.data, setChats, setContacts, setSelectedChat])
 
   return (
     <>
