@@ -56,7 +56,7 @@ export default function ChatArea() {
       setChats(assignedChats.data)
     }
 
-    const pusher = new Pusher(env.PUSHER_APP_SECRET, {
+    const pusher = new Pusher(env.NEXT_PUBLIC_PUSHER_APP_KEY, {
       cluster: env.NEXT_PUBLIC_PUSHER_CLUSTER
     })
 
