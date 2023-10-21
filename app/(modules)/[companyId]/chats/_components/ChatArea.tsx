@@ -31,8 +31,9 @@ export default function ChatArea() {
   } = useChatStore(selector)
   const params = useParams()
   const isMdAndAbove = useMediaQuery('(min-width: 768px)')
+  const isSmAndAbove = useMediaQuery('(min-width: 640px)')
   const [leftSidebarOpen, setLeftSidebarOpen] = useState<boolean>(false)
-
+  const hidden = useMediaQuery('(min-width: 1024px)')
   const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)
   const companyContacts = useQuery({
     queryKey: ['companyContacts'],
@@ -69,6 +70,7 @@ export default function ChatArea() {
 
       {/* ChatContent */}
       <ChatContentArea
+        hidden={hidden}
         isMdAndAbove={isMdAndAbove}
         handleLeftSidebarToggle={handleLeftSidebarToggle}
         selectedChat={selectedChat} />

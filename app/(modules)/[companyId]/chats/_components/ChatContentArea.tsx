@@ -31,6 +31,7 @@ import { toast } from '@/components/ui/use-toast'
 import { useQueryClient } from '@tanstack/react-query'
 
 interface ChatContentAreaProps {
+  hidden: boolean,
   isMdAndAbove: boolean
   handleLeftSidebarToggle: () => void
   selectedChat: ChatProps | null
@@ -38,26 +39,34 @@ interface ChatContentAreaProps {
 
 const ChatContentArea = (props: ChatContentAreaProps) => {
   const {
+    hidden,
     isMdAndAbove,
     handleLeftSidebarToggle,
     selectedChat
   } = props
   const queryClient = useQueryClient()
   const [isSending, setIsSending] = useState<boolean>(false)
-  const scrollAreaRef = useRef(null)
+  // ** Ref
+  const chatArea = useRef(null)
 
   // Function to scroll to the bottom of the chat area
   const scrollToBottom = () => {
-    if (scrollAreaRef.current) {
-      const scrollArea = scrollAreaRef.current
-      // @ts-ignore
-      scrollArea.scrollTop = scrollArea.scrollHeight
+    if (chatArea.current) {
+      if (hidden) {
+        // @ts-ignore
+        chatArea.current.scrollTop = chatArea.current.scrollHeight
+      } else {
+        // @ts-ignore
+        chatArea.current._container.scrollTop = chatArea.current._container.scrollHeight
+      }
     }
   }
 
   useEffect(() => {
-    // Scroll to the bottom when new messages are added
-    scrollToBottom()
+    if (selectedChat && selectedChat.chatMessages && selectedChat.chatMessages.length) {
+      scrollToBottom()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedChat])
 
   const handleStartConversation = () => {
@@ -141,7 +150,7 @@ const ChatContentArea = (props: ChatContentAreaProps) => {
 
           {/* Chat messages */}
           <div className="flex h-[470px] flex-col overflow-hidden">
-            <ScrollArea ref={scrollAreaRef} className="flex-1 overflow-y-auto">
+            <ScrollArea ref={chatArea} className="flex-1 overflow-y-auto">
               {selectedChat.chatMessages?.map((chatMessage, index) => (
                 <div
                   key={index}
