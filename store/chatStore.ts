@@ -1,8 +1,8 @@
-import { $Enums, ChatMessage, Contact } from '@prisma/client'
+import { ChatMessage, Contact } from '@prisma/client'
 import { createWithEqualityFn } from 'zustand/traditional'
 import { shallow } from 'zustand/shallow'
-import axios from 'axios'
 import { ChatProps } from '@/types/chat-types'
+import { nanoid } from 'nanoid/non-secure'
 
 export type ChatState = {
   chats: ChatProps[]
@@ -28,14 +28,46 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
       contacts
     })
   },
-  setSelectedChat: (contactId: string) => {
+  setSelectedChat: async (contactId: string) => {
     set((state) => {
       // Find the chat in the chats array with the matching contactId
-      const chat = state.chats.find((chat) => chat.Contact.id === contactId)
+      const chat = state.chats.find((chat) => chat.Contact && chat.Contact.id === contactId)
 
-      return {
-        selectedChat: chat || null,
+      if (chat) {
+        return {
+          ...state,
+          selectedChat: chat,
+        }
       }
+
+      // If no chat is found, create a new chat object and add it to the chats array
+      const contact = state.contacts.find((contact) => contact.id === contactId)
+
+      if (contact) {
+        const newChat: ChatProps = {
+          id:  nanoid(),
+          Contact: contact,
+          chatMessages: [],
+          category: 'INTERACTIVE',
+          channelId: '',
+          companyId: '',
+          contactId: '',
+          externalRef: null,
+          status: 'OPEN',
+          timestamp: new Date(),
+        }
+
+        // Create a new chats array that includes the new chat
+        const newChats = [...state.chats, newChat]
+
+        return {
+          ...state,
+          chats: newChats,
+          selectedChat: newChat,
+        }
+      }
+
+      return state
     })
   },
   removeSelectedChat: () => {
