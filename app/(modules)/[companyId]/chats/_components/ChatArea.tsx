@@ -50,14 +50,6 @@ export default function ChatArea() {
     }
     if (assignedChats.data) {
       setChats(assignedChats.data)
-      if (selectedChat) {
-        // Update chatMessages for the selected chat
-        const chatId = selectedChat.id
-        const chatMessages = assignedChats.data.find(chat => chat.id === chatId)?.chatMessages
-        if (chatMessages) {
-          addMessages(chatId, chatMessages)
-        }
-      }
     }
   }, [selectedChat, addMessages, assignedChats.data, companyContacts.data, setChats, setContacts, setSelectedChat])
 
