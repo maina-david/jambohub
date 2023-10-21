@@ -21,6 +21,7 @@ const selector = (state: ChatState) => ({
   setChats: state.setChats,
   setContacts: state.setContacts,
   setSelectedChat: state.setSelectedChat,
+  addMessages: state.addMessages
 })
 
 export default function ChatArea() {
@@ -31,6 +32,7 @@ export default function ChatArea() {
     setChats,
     setContacts,
     setSelectedChat,
+    addMessages
   } = useChatStore(selector)
   const params = useParams()
   const isMdAndAbove = useMediaQuery('(min-width: 768px)')
@@ -73,13 +75,16 @@ export default function ChatArea() {
       })
 
       queryClient.invalidateQueries(['assignedChats'])
+      if (selectedChat && selectedChat.id === data.chat.id) {
+        addMessages(data.chat.id, [data.chatMessage])
+      }
     })
 
     return () => {
       pusher.unsubscribe("chat")
     }
 
-  }, [assignedChats.data, companyContacts.data, queryClient, setChats, setContacts])
+  }, [addMessages, assignedChats.data, companyContacts.data, queryClient, selectedChat, setChats, setContacts])
 
   return (
     <>

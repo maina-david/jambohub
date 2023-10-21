@@ -11,6 +11,7 @@ export type ChatState = {
   setChats: (chats: ChatProps[]) => void
   setContacts: (contacts: Contact[]) => void
   setSelectedChat: (contactId: string) => void
+  addMessages: (chatId: string, chatMessage: ChatMessage[]) => void
 }
 
 const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
@@ -65,6 +66,20 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
       selectedChat: null
     })
   },
+  addMessages: (chatId: string, messages: ChatMessage[]) => {
+    set((state) => {
+      if (state.selectedChat && state.selectedChat.id === chatId) {
+        const updatedChat = {
+          ...state.selectedChat,
+          chatMessages: state.selectedChat.chatMessages
+            ? [...state.selectedChat.chatMessages, ...messages]
+            : [...messages],
+        }
+        return { selectedChat: updatedChat }
+      }
+      return state
+    })
+  }
 }), shallow)
 
 export default useChatStore
