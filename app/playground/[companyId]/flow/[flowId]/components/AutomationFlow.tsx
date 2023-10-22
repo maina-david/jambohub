@@ -35,6 +35,7 @@ import AssignToTeamNode from "./flowNodes/assignToTeam"
 import { toast } from "@/components/ui/use-toast"
 import SendTextResponseNode from "./flowNodes/sendTextResponseNode"
 import SendTextResponseWaitNode from "./flowNodes/sendTextResponseWaitNode"
+import { fetchFlowDetails } from "@/actions/flow-actions"
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,
@@ -127,18 +128,6 @@ function Flow({ flowData }) {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject()
       localStorage.setItem('savedFlow', JSON.stringify(flow))
-      // toast({
-      //   title: "Current Flow Instance:",
-      //   description: (
-      //     <ScrollArea className="h-[400px] w-[350px] rounded-md border p-4">
-      //       <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-      //         <code className="text-white">
-      //           {JSON.stringify(flow, null, 2)}
-      //         </code>
-      //       </pre>
-      //     </ScrollArea>
-      //   ),
-      // })
     }
   }, [reactFlowInstance])
 
@@ -358,7 +347,4 @@ export default function AutomationFlow() {
     </div>
   )
 }
-
-const fetchFlowDetails = (companyId: string, flowId: string): Promise<Flow> =>
-  axios.get(`/api/companies/${companyId}/flows/${flowId}`).then((response) => response.data)
 

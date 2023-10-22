@@ -10,7 +10,7 @@ export default function SideBar() {
   }
 
   return (
-    <Tabs defaultValue='free' className="h-full flex-1 text-center">
+    <Tabs defaultValue='free' className="flex-1 text-center">
       <TabsList className="grid grid-cols-2">
         <TabsTrigger value="free">
           Free
@@ -19,7 +19,7 @@ export default function SideBar() {
           Pro
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="free" className="mt-0 border-0 p-0">
+      <TabsContent value="free" className="mt-0 min-h-full border-0 p-0">
         <div
           className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
           draggable
@@ -117,7 +117,7 @@ export default function SideBar() {
           </div>
         </div>
       </TabsContent>
-      <TabsContent value="pro" className="mt-0 border-0 p-0">
+      <TabsContent value="pro" className="mt-0 min-h-full border-0 p-0">
         <div
           className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
           draggable
