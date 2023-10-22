@@ -25,6 +25,8 @@ export async function POST(
     // Validate route params.
     const { params } = routeContextSchema.parse(context)
 
+    const json = await req.json()
+    console.log('Post req: ', json)
     const messageIds = markMessagesAsReadSchema.parse(await req.json())
 
     // Update each message in the array
