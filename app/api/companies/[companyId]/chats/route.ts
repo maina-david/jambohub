@@ -34,7 +34,7 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
     // Calculate the number of unread messages for each chat
     const chatsWithUnreadCounts = chats.map((chat) => {
       const unreadCount = chat.chatMessages.filter(
-        (message) => message.externalStatus === "unread"
+        (message) => message.internalStatus === "unread"
       ).length
 
       return {
