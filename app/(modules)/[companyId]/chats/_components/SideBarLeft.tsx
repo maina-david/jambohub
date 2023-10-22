@@ -34,9 +34,13 @@ const SideBarLeft = (props: SideBarLeftProps) => {
   const getLastChatMessage = (chat: ChatProps) => {
     const messages = chat.chatMessages || []
     if (messages.length > 0) {
-      return messages[messages.length - 1].message
+      return messages[messages.length - 1]
     }
-    return 'No messages'
+  }
+
+  const formatTimestamp = (timestamp?: Date) => {
+    const date = timestamp ? new Date(timestamp) : new Date()
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
 
   const renderChatsAndContacts = () => {
@@ -74,9 +78,9 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                         {chat.unreadMessageCount}
                       </span>
                     )}
-                    {getLastChatMessage(chat)}
-                    <p className="mt-2 text-sm text-gray-500">
-                      {new Date(chat.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    {getLastChatMessage(chat) ? getLastChatMessage(chat)?.message : null}
+                    <p className="text-sm text-gray-500">
+                      {getLastChatMessage(chat) ? formatTimestamp(getLastChatMessage(chat)?.timestamp) : formatTimestamp()}
                     </p>
                   </div>
                 </div>
