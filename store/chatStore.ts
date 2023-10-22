@@ -48,7 +48,7 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
           category: 'INTERACTIVE',
           channelId: '',
           companyId: contact.companyId,
-          contactId: '',
+          contactId: contact.id,
           externalRef: null,
           status: 'OPEN',
           timestamp: new Date(),

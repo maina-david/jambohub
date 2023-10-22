@@ -75,6 +75,10 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
           companyId: channel.companyId,
           contactId: contact.id,
         },
+        include: {
+          channel: true,
+          Contact: true,
+        },
       })
 
       chatId = newChat.id
@@ -82,10 +86,9 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
       chatId = chat.id
     }
 
-    // Create a chat message with initial internalStatus "pending"
     const message: ChatMessage = await db.chatMessage.create({
       data: {
-        chatId: chatId, // Use the assigned chatId
+        chatId: chatId,
         userId: session.user.id,
         message: body.message,
         direction: MessageDirection.OUTGOING,
