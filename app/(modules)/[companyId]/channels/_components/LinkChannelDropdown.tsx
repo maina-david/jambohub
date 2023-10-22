@@ -5,6 +5,7 @@ import { ConfigurationId, initializeFaceBookSDK } from '@/lib/facebook'
 import { FaWhatsapp, FaXTwitter, FaFacebookMessenger, FaCommentSms } from "react-icons/fa6"
 import { useParams, usePathname } from 'next/navigation'
 import { toast } from "@/components/ui/use-toast"
+import axios from 'axios'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +25,7 @@ export default function LinkChannelDropdown() {
     const initializeSDK = async () => {
       try {
         await initializeFaceBookSDK()
-          setSdkInitialized(true)
+        setSdkInitialized(true)
       } catch (error) {
         console.error('Failed to initialize Facebook SDK', error)
         setSdkInitialized(false)
@@ -36,29 +37,18 @@ export default function LinkChannelDropdown() {
   const handleWhatsAppSignup = async () => {
     if (sdkInitialized) {
       const companyId = params?.companyId
+
       window.FB.login(function (response) {
         if (response.authResponse) {
           const code = response.authResponse.code
-          console.log("Returned Code: ", code)
-          console.log("Entire response: ", response)
-          fetch(`/api/companies/${companyId}/channels/verify-business-code?code=${code}`)
-            .then(async (response) => {
-              if (response.ok) {
-                try {
-                  const data = await response.json()
-                  console.log('Successful Response:', data)
-                } catch (jsonError) {
-                  console.error('JSON Parsing Error:', jsonError)
-                  toast({
-                    title: 'Error',
-                    description: 'Error parsing the response',
-                    variant: 'destructive',
-                  })
-                }
+
+          axios
+            .get(`/api/companies/${companyId}/channels/verify-business-code?code=${code}`)
+            .then((response) => {
+              if (response.status === 200) {
+                console.log('Successful Response:', response.data)
               } else {
-                // Handle non-JSON responses here
-                const textData = await response.text()
-                console.error('Error Response:', textData)
+                console.error('Error Response:', response.data)
                 toast({
                   title: 'Error',
                   description: 'An error occurred while verifying your account',
@@ -66,11 +56,11 @@ export default function LinkChannelDropdown() {
                 })
               }
             })
-            .catch((fetchError) => {
-              console.error('Fetch Error:', fetchError)
+            .catch((error) => {
+              console.log("Axios error: ", error)
               toast({
                 title: 'Error',
-                description: 'An error occurred during the fetch request',
+                description: error.message,
                 variant: 'destructive',
               })
             })
@@ -88,6 +78,7 @@ export default function LinkChannelDropdown() {
       })
     }
   }
+
 
   return (
     <DropdownMenu>
