@@ -38,14 +38,35 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
   const scrollAreaRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
+    const markChatAsRead = async () => {
+      try {
+        if (selectedChat) {
+          const messageIds = selectedChat?.chatMessages?.map((message) => message.id)
+
+          if (messageIds?.length) {
+            const response = await axios.post(`/api/chats/${selectedChat.id}/messages/mark-read`, {
+              messageIds,
+            })
+
+            if (response.status === 201) {
+              queryClient.invalidateQueries({ queryKey: ['assignedChats'] })
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error marking chat as read:', error.message)
+      }
+    }
+
     if (scrollAreaRef.current && selectedChat) {
       // Scroll to the bottom every time a new message is added
       scrollAreaRef.current.scrollTo({
         top: scrollAreaRef.current.scrollHeight,
         behavior: 'smooth',
       })
+      markChatAsRead()
     }
-  }, [selectedChat, selectedChat?.chatMessages])
+  }, [queryClient, selectedChat])
 
   const handleStartConversation = () => {
     if (!isMdAndAbove) {
