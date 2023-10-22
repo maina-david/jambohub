@@ -5,10 +5,10 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { UserAvatar } from '@/components/user-avatar'
 import { Separator } from '@/components/ui/separator'
-import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { ChatProps } from '@/types/chat-types'
 import { cn } from '@/lib/utils'
 import { Contact } from '@prisma/client'
+import { Sheet, SheetContent } from '@/components/ui/sheet'
 
 interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
   isMdAndAbove: boolean
@@ -47,7 +47,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
         </div>
         <Separator />
         <ScrollArea className="h-[470px] w-full space-y-4">
-          <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">
+          <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
             Chats
           </h5>
           <div className="mb-5 hover:bg-accent">
@@ -56,7 +56,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                 <div
                   key={chat.id}
                   className={cn(
-                    "relative flex w-full cursor-pointer flex-row items-center px-3 py-2", // Make the div relative
+                    "relative flex w-full cursor-pointer flex-row items-center px-3 py-2",
                     chat.contactId === selectedChat?.contactId && "bg-accent"
                   )}
                   onClick={() => setSelectedChat(chat.contactId)}
@@ -66,7 +66,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     className="mr-2 h-8 w-8"
                   />
                   <div className="flex flex-col">
-                    <p className="scroll-m-20 text-base font-medium tracking-tight">
+                    <p className="text-base font-medium tracking-tight">
                       {chat.Contact.alias || chat.Contact.identifier}
                     </p>
                     {chat.unreadMessageCount > 0 && (
@@ -82,32 +82,32 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                 </div>
               ))
             ) : (
-              <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">
+              <p className="mt-6 text-center text-sm">
                 No chats available
               </p>
             )}
           </div>
-          <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">
+          <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
             Contacts
           </h5>
           {contacts.length > 0 ? (
             contacts.map((contact) => (
               <div
                 key={contact.id}
-                className="w-full cursor-pointer items-start px-3 py-2 hover:bg-accent"
+                className="w-full cursor-pointer px-3 py-2 hover:bg-accent"
                 onClick={() => setSelectedChat(contact.id)}
               >
-                <div className='flex flex-row'>
+                <div className='flex flex-row items-start'>
                   <UserAvatar
                     user={{ name: contact.alias || null, image: null }}
                     className="mr-2 h-8 w-8"
                   />
-                  <p className="scroll-m-20 text-base font-medium tracking-tight">{contact.alias || contact.identifier}</p>
+                  <p className="text-base font-medium tracking-tight">{contact.alias || contact.identifier}</p>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">
+            <p className="mt-6 text-center text-sm">
               No contacts available
             </p>
           )}
@@ -118,17 +118,19 @@ const SideBarLeft = (props: SideBarLeftProps) => {
 
   if (isMdAndAbove) {
     return (
-      <div className="flex flex-col rounded-l border md:w-1/3">
+      <div className="flex w-[320px] flex-col border-r">
         {renderChatsAndContacts()}
       </div>
     )
   } else {
     return (
-      <Sheet open={leftSidebarOpen} onOpenChange={handleLeftSidebarToggle}>
-        <SheetContent side={'left'}>
-          {renderChatsAndContacts()}
-        </SheetContent>
-      </Sheet>
+      <div className="md:hidden">
+        <Sheet open={leftSidebarOpen} onOpenChange={handleLeftSidebarToggle}>
+          <SheetContent side={'left'}>
+            {renderChatsAndContacts()}
+          </SheetContent>
+        </Sheet>
+      </div>
     )
   }
 }
