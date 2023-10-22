@@ -172,8 +172,10 @@ model Flow {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
 
-  company          Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  ConversationFlow ConversationFlow[]
+  company             Company               @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  ConversationFlow    ConversationFlow[]
+  ChannelToFlow       ChannelToFlow[]
+  ConversationFlowLog ConversationFlowLog[]
 }
 
 enum ChannelType {
@@ -184,20 +186,21 @@ enum ChannelType {
 }
 
 model Channel {
-  id          String      @id @default(cuid())
-  name        String
-  description String
-  status      Boolean     @default(true)
-  companyId   String
-  type        ChannelType
-  identifier  String?
-  authDetails Json?
-  integrated  Boolean     @default(false)
-  teams       Team[]      @relation("ChannelToTeams")
-  chats       Chat[]
-  company     Company     @relation(fields: [companyId], references: [id])
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @default(now())
+  id            String          @id @default(cuid())
+  name          String
+  description   String
+  status        Boolean         @default(true)
+  companyId     String
+  type          ChannelType
+  identifier    String?
+  authDetails   Json?
+  integrated    Boolean         @default(false)
+  teams         Team[]          @relation("ChannelToTeams")
+  chats         Chat[]
+  company       Company         @relation(fields: [companyId], references: [id])
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now())
+  ChannelToFlow ChannelToFlow[]
 }
 
 model Customer {
@@ -264,18 +267,19 @@ enum ChatStatus {
 }
 
 model Chat {
-  id           String        @id @default(cuid())
-  category     ChatCategory
-  channelId    String
-  channel      Channel       @relation(fields: [channelId], references: [id])
-  companyId    String
-  company      Company       @relation(fields: [companyId], references: [id])
-  contactId    String
-  Contact      Contact       @relation(fields: [contactId], references: [id])
-  externalRef  String?
-  status       ChatStatus    @default(OPEN)
-  timestamp    DateTime      @default(now())
-  chatMessages ChatMessage[]
+  id                  String                @id @default(cuid())
+  category            ChatCategory
+  channelId           String
+  channel             Channel               @relation(fields: [channelId], references: [id])
+  companyId           String
+  company             Company               @relation(fields: [companyId], references: [id])
+  contactId           String
+  Contact             Contact               @relation(fields: [contactId], references: [id])
+  externalRef         String?
+  status              ChatStatus            @default(OPEN)
+  timestamp           DateTime              @default(now())
+  chatMessages        ChatMessage[]
+  ConversationFlowLog ConversationFlowLog[]
 }
 
 enum MessageDirection {
@@ -314,14 +318,34 @@ model ChatMessage {
 }
 
 model ConversationFlow {
-  id            String   @id @default(cuid())
-  nodeId        String
-  parentNodeId  String?
-  nodeType      String
-  nodeOption    String?
-  nodeData      String
-  flowId        String
-  Flow          Flow     @relation(fields: [flowId], references: [id])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
+  id           String   @id @default(cuid())
+  nodeId       String
+  parentNodeId String?
+  nodeType     String
+  nodeOption   String?
+  nodeData     String
+  flowId       String
+  Flow         Flow     @relation(fields: [flowId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+}
+
+model ChannelToFlow {
+  id        String  @id @default(cuid())
+  channelId String
+  Channel   Channel @relation(fields: [channelId], references: [id])
+  flowId    String
+  Flow      Flow    @relation(fields: [flowId], references: [id])
+}
+
+model ConversationFlowLog {
+  id                        String   @id @default(cuid())
+  flowId                    String
+  Flow                      Flow     @relation(fields: [flowId], references: [id])
+  chatId                    String
+  Chat                      Chat     @relation(fields: [chatId], references: [id])
+  currentConversationFlowId String
+  nextConversationFlowId    String?
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @default(now())
 }
