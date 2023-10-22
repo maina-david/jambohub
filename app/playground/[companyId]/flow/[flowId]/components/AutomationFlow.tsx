@@ -68,7 +68,7 @@ const defaultViewport: Viewport = { x: 0, y: 0, zoom: 1.3 }
 
 const proOptions = { hideAttribution: true }
 
-function Flow({ flowData }) {
+function FlowArea({ flowData }) {
   const {
     nodes,
     edges,
@@ -188,7 +188,7 @@ export default function AutomationFlow() {
   }
 
   if (isError) {
-    console.log("Error fetching channels:", error)
+    console.log("Error fetching flow data:", error)
     if (error instanceof Error) {
       return (
         <EmptyPlaceholder>
@@ -338,7 +338,7 @@ export default function AutomationFlow() {
           <div className="md:order-1">
             <div className="flex h-full min-h-full flex-col space-y-4">
               <ReactFlowProvider>
-                <Flow flowData={flow.flowData} />
+                <FlowArea flowData={flow.flowData} />
               </ReactFlowProvider>
             </div>
           </div>
