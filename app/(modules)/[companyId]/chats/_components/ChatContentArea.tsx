@@ -319,7 +319,11 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup heading="Integrated Channels">
                 {channels.map((channel) => (
-                  <CommandItem key={channel.id} onClick={() => setSelectedChannel(channel.id)}>
+                  <CommandItem
+                    key={channel.id}
+                    onClick={() => setSelectedChannel(channel.id)}
+                    className='cursor-pointer'
+                  >
                     {channel.type === ChannelType.WHATSAPP && (
                       <FaWhatsapp className="mr-2 h-4 w-4" />
                     )}
