@@ -70,11 +70,14 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     className="mr-2 h-8 w-8"
                   />
                   <div className="flex flex-col">
-                    <p className="text-base font-medium tracking-tight">
+                    <span className="truncate text-base font-medium tracking-tight">
                       {chat.Contact.alias || chat.Contact.identifier}
-                    </p>
-                    {getLastChatMessage(chat) ? getLastChatMessage(chat)?.message : null}
+                    </span>
+                    <span className='truncate'>
+                      {getLastChatMessage(chat) ? getLastChatMessage(chat)?.message : null}
+                    </span>
                   </div>
+
                   <div className='flex flex-col items-end justify-start'>
                     <p className="whitespace-nowrap text-sm text-gray-500">
                       {getLastChatMessage(chat) ? formatTimestamp(getLastChatMessage(chat)?.timestamp) : formatTimestamp()}
