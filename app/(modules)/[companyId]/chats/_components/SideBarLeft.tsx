@@ -9,6 +9,8 @@ import { ChatProps } from '@/types/chat-types'
 import { cn } from '@/lib/utils'
 import { Contact } from '@prisma/client'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
+import { Button } from '@/components/ui/button'
+import { UserPlus2Icon } from 'lucide-react'
 
 interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
   isMdAndAbove: boolean
@@ -95,9 +97,15 @@ const SideBarLeft = (props: SideBarLeftProps) => {
               </p>
             )}
           </div>
-          <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
-            Contacts
-          </h5>
+          <div className='flex items-center gap-2'>
+            <h5 className="group mb-3.5 ml-3 flex items-center px-3 py-2 text-xl font-semibold">
+              Contacts
+            </h5>
+            <div className="grow"></div>
+            <Button variant={'ghost'} size={'icon'}>
+              <UserPlus2Icon className="h-4 w-4" />
+            </Button>
+            </div>
           {contacts.length > 0 ? (
             contacts.map((contact) => (
               <div
