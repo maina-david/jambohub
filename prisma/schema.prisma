@@ -338,6 +338,11 @@ model ChannelToFlow {
   Flow      Flow    @relation(fields: [flowId], references: [id])
 }
 
+enum conversationFlowStatus {
+  OPEN
+  CLOSED
+}
+
 model ConversationFlowLog {
   id                        String   @id @default(cuid())
   flowId                    String
@@ -345,7 +350,7 @@ model ConversationFlowLog {
   chatId                    String
   Chat                      Chat     @relation(fields: [chatId], references: [id])
   currentConversationFlowId String
-  nextConversationFlowId    String?
+  status                    conversationFlowStatus @default(OPEN)
   createdAt                 DateTime @default(now())
   updatedAt                 DateTime @default(now())
 }
