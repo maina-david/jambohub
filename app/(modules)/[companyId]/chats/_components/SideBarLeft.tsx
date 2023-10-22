@@ -56,31 +56,32 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                 <div
                   key={chat.id}
                   className={cn(
-                    "relative flex w-full cursor-pointer flex-row items-center px-3 py-2", 
+                    "relative flex w-full cursor-pointer flex-row items-center justify-between px-3 py-2",
                     chat.contactId === selectedChat?.contactId && "bg-accent"
                   )}
                   onClick={() => setSelectedChat(chat.contactId)}
                 >
-                  <UserAvatar
-                    user={{ name: chat.Contact.alias || null, image: null }}
-                    className="mr-2 h-8 w-8"
-                  />
-                  <div className="flex flex-col">
-                    <p className="scroll-m-20 text-base font-medium tracking-tight">
-                      {chat.Contact.alias || chat.Contact.identifier}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      {new Date(chat.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                    </p>
-                    {getLastChatMessage(chat)}
-                    {chat.unreadMessageCount > 0 && (
-                      <span className="absolute rounded-full bg-red-500 p-1 text-xs text-white">
-                        {chat.unreadMessageCount}
-                      </span>
-                    )}
+                  <div className="flex items-center">
+                    <UserAvatar
+                      user={{ name: chat.Contact.alias || null, image: null }}
+                      className="mr-2 h-8 w-8"
+                    />
+                    <div className="flex flex-col">
+                      <p className="scroll-m-20 text-base font-medium tracking-tight">
+                        {chat.Contact.alias || chat.Contact.identifier}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {new Date(chat.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      </p>
+                    </div>
                   </div>
+                  {getLastChatMessage(chat)}
+                  {chat.unreadMessageCount > 0 && (
+                    <span className="absolute right-3 rounded-full bg-red-500 p-1 text-xs text-white">
+                      {chat.unreadMessageCount}
+                    </span>
+                  )}
                 </div>
-
               ))
             ) : (
               <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">
