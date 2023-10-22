@@ -113,6 +113,11 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
     setMessage(e.target.value)
   }
 
+  const selectChannelToSend = (channelId: string) => {
+    setIsSelectChannelOpen(false)
+    handleSend()
+  }
+
   const handleSend = async () => {
     if (selectedChat) {
       if (!selectedChat.channelId) {
@@ -321,7 +326,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                 {channels.map((channel) => (
                   <CommandItem
                     key={channel.id}
-                    onClick={() => setSelectedChannel(channel.id)}
+                    onClick={() => selectChannelToSend(channel.id)}
                     className='cursor-pointer'
                   >
                     {channel.type === ChannelType.WHATSAPP && (
@@ -342,14 +347,6 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
               </CommandGroup>
             </CommandList>
           </Command>
-          <DialogFooter>
-            <Button onClick={() => {
-              setIsSelectChannelOpen(false)
-              handleSend()
-            }}>
-              Continue
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
