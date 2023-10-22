@@ -75,12 +75,12 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     </p>
                     {getLastChatMessage(chat) ? getLastChatMessage(chat)?.message : null}
                   </div>
-                  <div className='mr-2 flex flex-row-reverse'>
-                    <p className="text-sm text-gray-500">
+                  <div className='flex flex-col items-end justify-start'>
+                    <p className="whitespace-nowrap text-sm text-gray-500">
                       {getLastChatMessage(chat) ? formatTimestamp(getLastChatMessage(chat)?.timestamp) : formatTimestamp()}
                     </p>
                     {chat.unreadMessageCount > 0 && (
-                      <span className="rounded-full bg-red-500 p-1 text-xs text-white">
+                      <span className="rounded-full bg-red-500 text-xs text-white">
                         {chat.unreadMessageCount}
                       </span>
                     )}
