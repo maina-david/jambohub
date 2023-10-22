@@ -172,7 +172,8 @@ model Flow {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
 
-  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company          Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  ConversationFlow ConversationFlow[]
 }
 
 enum ChannelType {
@@ -310,4 +311,18 @@ model ChatMessage {
   externalStatus String?
   internalStatus String?
   timestamp      DateTime         @default(now())
+}
+
+model ConversationFlow {
+  id            String   @id @default(cuid())
+  nodeId        String
+  parentNodeId  String?
+  childNodeId   String?
+  nodeType      String
+  nodeOption    String?
+  nodeData      String
+  flowId        String
+  Flow          Flow     @relation(fields: [flowId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
 }
