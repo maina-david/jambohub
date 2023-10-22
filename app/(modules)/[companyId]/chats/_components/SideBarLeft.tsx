@@ -73,15 +73,17 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     <p className="text-base font-medium tracking-tight">
                       {chat.Contact.alias || chat.Contact.identifier}
                     </p>
-                    {chat.unreadMessageCount > 0 && (
-                      <span className="absolute right-2 top-1 rounded-full bg-red-500 p-1 text-xs text-white">
-                        {chat.unreadMessageCount}
-                      </span>
-                    )}
                     {getLastChatMessage(chat) ? getLastChatMessage(chat)?.message : null}
+                  </div>
+                  <div>
                     <p className="text-sm text-gray-500">
                       {getLastChatMessage(chat) ? formatTimestamp(getLastChatMessage(chat)?.timestamp) : formatTimestamp()}
                     </p>
+                    {chat.unreadMessageCount > 0 && (
+                      <span className="rounded-full bg-red-500 p-1 text-xs text-white">
+                        {chat.unreadMessageCount}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))
