@@ -120,10 +120,11 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
 
   const handleSend = async () => {
     if (selectedChat) {
-      if (!selectedChat.channelId) {
+      if (!selectedChat.channelId && !selectedChannel) {
         setIsSelectChannelOpen(true)
       } else {
         sendMessage()
+        setIsSelectChannelOpen(false)
       }
     }
   }
