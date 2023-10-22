@@ -60,7 +60,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                 <div
                   key={chat.id}
                   className={cn(
-                    "relative flex w-full cursor-pointer flex-row items-center px-3 py-2",
+                    "flex w-full cursor-pointer flex-row items-start rounded-2xl px-3 py-2",
                     chat.contactId === selectedChat?.contactId && "bg-accent"
                   )}
                   onClick={() => setSelectedChat(chat.contactId)}
