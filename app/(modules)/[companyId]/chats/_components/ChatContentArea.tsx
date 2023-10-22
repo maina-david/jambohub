@@ -114,6 +114,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
   }
 
   const selectChannelToSend = (channelId: string) => {
+    setSelectedChannel(channelId)
     setIsSelectChannelOpen(false)
     handleSend()
   }
