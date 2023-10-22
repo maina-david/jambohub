@@ -35,13 +35,13 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
     const chatsWithUnreadCounts = chats.map((chat) => {
       const unreadCount = chat.chatMessages.filter(
         (message) => message.externalStatus === "unread"
-      ).length;
+      ).length
 
       return {
         ...chat,
         unreadMessageCount: unreadCount,
-      };
-    });
+      }
+    })
 
     return new Response(JSON.stringify(chatsWithUnreadCounts))
   } catch (error) {

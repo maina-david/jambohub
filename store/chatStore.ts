@@ -52,6 +52,7 @@ const useChatStore = createWithEqualityFn<ChatState>((set, get) => ({
           externalRef: null,
           status: 'OPEN',
           timestamp: new Date(),
+          unreadMessageCount: 0
         }
 
         set({
