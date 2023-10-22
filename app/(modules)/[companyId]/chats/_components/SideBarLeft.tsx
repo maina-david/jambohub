@@ -8,11 +8,13 @@ import { Separator } from '@/components/ui/separator'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { ChatProps } from '@/types/chat-types'
 import { cn } from '@/lib/utils'
+import { Contact } from '@prisma/client'
 
 interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
   isMdAndAbove: boolean
   leftSidebarOpen: boolean
   handleLeftSidebarToggle: () => void
+  contacts: Contact[]
   chats: ChatProps[]
   setSelectedChat: (contactId: string) => void
   selectedChat: ChatProps | null
@@ -24,6 +26,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
     leftSidebarOpen,
     handleLeftSidebarToggle,
     chats,
+    contacts,
     setSelectedChat,
     selectedChat,
   } = props
@@ -88,7 +91,27 @@ const SideBarLeft = (props: SideBarLeftProps) => {
           <h5 className="mb-3.5 ml-3 scroll-m-20 text-xl font-semibold tracking-tight">
             Contacts
           </h5>
-          {/* ... (Contacts rendering code) */}
+          {contacts.length > 0 ? (
+            contacts.map((contact) => (
+              <div
+                key={contact.id}
+                className="w-full cursor-pointer items-start px-3 py-2 hover:bg-accent"
+                onClick={() => setSelectedChat(contact.id)}
+              >
+                <div className='flex flex-row'>
+                  <UserAvatar
+                    user={{ name: contact.alias || null, image: null }}
+                    className="mr-2 h-8 w-8"
+                  />
+                  <p className="scroll-m-20 text-base font-medium tracking-tight">{contact.alias || contact.identifier}</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-sm leading-7 [&:not(:first-child)]:mt-6">
+              No contacts available
+            </p>
+          )}
         </ScrollArea>
       </>
     )
