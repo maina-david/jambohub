@@ -17,6 +17,7 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
+
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
@@ -26,14 +27,25 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
       },
       include: {
         Contact: true,
-        chatMessages: true
+        chatMessages: true,
       }
     })
 
-    return new Response(JSON.stringify(chats))
+    // Calculate the number of unread messages for each chat
+    const chatsWithUnreadCounts = chats.map((chat) => {
+      const unreadCount = chat.chatMessages.filter(
+        (message) => message.externalStatus === "unread"
+      ).length;
+
+      return {
+        ...chat,
+        unreadMessageCount: unreadCount,
+      };
+    });
+
+    return new Response(JSON.stringify(chatsWithUnreadCounts))
   } catch (error) {
     console.log('[CHATS_GET]', error)
     return new Response(null, { status: 500 })
   }
 }
-
