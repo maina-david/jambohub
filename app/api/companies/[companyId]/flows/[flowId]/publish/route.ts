@@ -44,59 +44,79 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
       },
     })
 
-    if (flowData && flowData.flowData) {
-      // Parse the JSON to access nodes and edges.
-      const { nodes, edges } = JSON.parse(flowData.flowData as string)
+    if (flowData) {
+      if (body.published) {
+        // Parse the JSON to access nodes and edges.
+        const { nodes, edges } = JSON.parse(flowData.flowData as string)
 
-      // Map nodes to the ConversationFlow model.
-      for (const node of nodes) {
-        const data = {
-          value: node.data.value,
-          replyOption: node.data.replyOption || null,
-        }
+        // Map nodes to the ConversationFlow model.
+        for (const node of nodes) {
+          const data = {
+            value: node.data.value,
+            replyOption: node.data.replyOption || null,
+          }
 
-        const conversationFlow = await db.conversationFlow.create({
-          data: {
-            nodeId: node.id,
-            parentNodeId: null,
-            childNodeId: null,
-            nodeType: node.type,
-            nodeOption: data.replyOption,
-            nodeData: data.value,
-            flowId: params.flowId,
-          },
-        })
-      }
-
-      // Map edges to link parent and child nodes.
-      for (const edge of edges) {
-        const sourceNode = nodes.find((node) => node.id === edge.source)
-        const targetNode = nodes.find((node) => node.id === edge.target)
-
-        if (sourceNode && targetNode) {
-          await db.conversationFlow.updateMany({
-            where: {
-              nodeId: sourceNode.id,
-              flowId: params.flowId,
-            },
+          const conversationFlow = await db.conversationFlow.create({
             data: {
-              childNodeId: targetNode.id,
+              nodeId: node.id,
+              parentNodeId: null,
+              childNodeId: null,
+              nodeType: node.type,
+              nodeOption: data.replyOption,
+              nodeData: data.value,
+              flowId: params.flowId,
             },
           })
         }
+
+        // Map edges to link parent and child nodes.
+        for (const edge of edges) {
+          const sourceNode = nodes.find((node) => node.id === edge.source)
+          const targetNode = nodes.find((node) => node.id === edge.target)
+
+          if (sourceNode && targetNode) {
+            await db.conversationFlow.updateMany({
+              where: {
+                nodeId: sourceNode.id,
+                flowId: params.flowId,
+              },
+              data: {
+                childNodeId: targetNode.id,
+              },
+            })
+          }
+        }
+
+        // Update the published status in the Flow model.
+        await db.flow.update({
+          where: {
+            id: params.flowId,
+          },
+          data: {
+            published: true,
+          },
+        })
+
+        return new Response(null, { status: 200 })
+      } else {
+
+        await db.conversationFlow.deleteMany({
+          where: {
+            flowId: params.flowId,
+          }
+        })
+        // Update the published status in the Flow model.
+        await db.flow.update({
+          where: {
+            id: params.flowId,
+          },
+          data: {
+            published: false,
+          },
+        })
+
+        return new Response(null, { status: 200 })
       }
-
-      // Update the published status in the Flow model.
-      await db.flow.update({
-        where: {
-          id: params.flowId,
-        },
-        data: {
-          published: body.published,
-        },
-      })
-
-      return new Response(null, { status: 200 })
     } else {
       return new Response("Flow not found", { status: 404 })
     }
@@ -105,6 +125,7 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
+    console.log("PUBLISH_FLOW_ERROR", error)
     return new Response(null, { status: 500 })
   }
 }
