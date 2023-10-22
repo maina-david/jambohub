@@ -130,7 +130,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
         const response = await axios.post('/api/chats/send-message', {
           chatId: selectedChat.id,
           contactId: selectedChat.contactId,
-          channelId: selectedChat.channelId,
+          channelId: selectedChat.channelId ? selectedChat.channelId : selectedChannel,
           messageType: 'TEXT',
           message,
         })
@@ -313,7 +313,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
       </div>
       <Dialog open={isSelectChannelOpen} onOpenChange={setIsSelectChannelOpen}>
         <DialogContent>
-          <Command className="rounded-lg border shadow-md">
+          <Command className="mt-2 rounded-lg border shadow-md">
             <CommandInput placeholder="Type a channel name to search..." />
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
