@@ -10,7 +10,9 @@ const routeContextSchema = z.object({
   }),
 })
 
-const markMessagesAsReadSchema = z.array(z.string())
+const markMessagesAsReadSchema = z.object({
+  messageIds: z.array(z.string())
+})
 
 export async function POST(
   req: Request,
@@ -25,12 +27,10 @@ export async function POST(
     // Validate route params.
     const { params } = routeContextSchema.parse(context)
 
-    const json = await req.json()
-    console.log('Post req: ', json)
-    const messageIds = markMessagesAsReadSchema.parse(await req.json())
+    const body = markMessagesAsReadSchema.parse(await req.json())
 
     // Update each message in the array
-    for (const messageId of messageIds) {
+    for (const messageId of body.messageIds) {
       await db.chatMessage.updateMany({
         where: {
           chatId: params.chatId,
