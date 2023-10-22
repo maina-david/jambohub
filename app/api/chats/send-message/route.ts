@@ -127,7 +127,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
         },
       })
 
-      console.error("[SEND_MESSAGE]", error)
+      console.error("[SEND_MESSAGE_API]", error)
 
       // Return the message with status 200 (OK)
       return new Response(JSON.stringify(failedMessage), { status: 200 })
@@ -135,7 +135,10 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
   } catch (error) {
     console.log("[SEND_MESSAGE]", error)
 
-    // If there's an error at the server level, you can return an error response with status 500 (Internal Server Error).
-    return new Response("Internal Server Error", { status: 500 })
+    if (error instanceof z.ZodError) {
+      return new Response(JSON.stringify(error.issues), { status: 422 })
+    }
+
+    return new Response(null, { status: 500 })
   }
 }
