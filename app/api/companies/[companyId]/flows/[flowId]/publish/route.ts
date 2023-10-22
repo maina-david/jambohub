@@ -60,7 +60,6 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
             data: {
               nodeId: node.id,
               parentNodeId: null,
-              childNodeId: null,
               nodeType: node.type,
               nodeOption: data.replyOption,
               nodeData: data.value,
@@ -77,11 +76,11 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
           if (sourceNode && targetNode) {
             await db.conversationFlow.updateMany({
               where: {
-                nodeId: sourceNode.id,
+                nodeId: targetNode.id,
                 flowId: params.flowId,
               },
               data: {
-                childNodeId: targetNode.id,
+                parentNodeId: sourceNode.id,
               },
             })
           }

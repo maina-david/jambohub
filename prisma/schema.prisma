@@ -317,7 +317,6 @@ model ConversationFlow {
   id            String   @id @default(cuid())
   nodeId        String
   parentNodeId  String?
-  childNodeId   String?
   nodeType      String
   nodeOption    String?
   nodeData      String

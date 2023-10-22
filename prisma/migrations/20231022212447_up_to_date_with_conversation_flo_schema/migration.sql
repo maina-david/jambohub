@@ -171,7 +171,7 @@ CREATE TABLE `Channel` (
     `description` VARCHAR(191) NOT NULL,
     `status` BOOLEAN NOT NULL DEFAULT true,
     `companyId` VARCHAR(191) NOT NULL,
-    `type` ENUM('WHATSAPP', 'TWITTER', 'FACEBOOK', 'SMS') NOT NULL,
+    `type` ENUM('WHATSAPP', 'TWITTER', 'FACEBOOK_MESSENGER', 'SMS') NOT NULL,
     `identifier` VARCHAR(191) NULL,
     `authDetails` JSON NULL,
     `integrated` BOOLEAN NOT NULL DEFAULT false,
@@ -204,7 +204,7 @@ CREATE TABLE `Contact` (
     `id` VARCHAR(191) NOT NULL,
     `customerId` VARCHAR(191) NULL,
     `companyId` VARCHAR(191) NOT NULL,
-    `channel` ENUM('WHATSAPP', 'TWITTER', 'FACEBOOK', 'SMS') NOT NULL,
+    `channel` ENUM('WHATSAPP', 'TWITTER', 'FACEBOOK_MESSENGER', 'SMS') NOT NULL,
     `identifier` VARCHAR(191) NOT NULL,
     `alias` VARCHAR(191) NULL,
 
@@ -230,11 +230,12 @@ CREATE TABLE `Campaign` (
 -- CreateTable
 CREATE TABLE `Chat` (
     `id` VARCHAR(191) NOT NULL,
-    `type` ENUM('AUTOMATED', 'INTERACTIVE') NOT NULL,
+    `category` ENUM('AUTOMATED', 'INTERACTIVE') NOT NULL,
     `channelId` VARCHAR(191) NOT NULL,
     `companyId` VARCHAR(191) NOT NULL,
     `contactId` VARCHAR(191) NOT NULL,
-    `externalRef` VARCHAR(191) NOT NULL,
+    `externalRef` VARCHAR(191) NULL,
+    `status` ENUM('OPEN', 'CLOSED') NOT NULL DEFAULT 'OPEN',
     `timestamp` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
@@ -248,12 +249,28 @@ CREATE TABLE `ChatMessage` (
     `userId` VARCHAR(191) NULL,
     `message` VARCHAR(191) NOT NULL,
     `direction` ENUM('OUTGOING', 'INCOMING') NOT NULL,
-    `type` ENUM('AUTOMATED', 'INTERACTIVE') NOT NULL,
+    `type` ENUM('TEXT', 'MEDIA', 'CONTACT', 'LOCATION', 'INTERACTIVE', 'TEMPLATE') NOT NULL,
+    `category` ENUM('AUTOMATED', 'INTERACTIVE') NOT NULL,
     `externalStatus` VARCHAR(191) NULL,
     `internalStatus` VARCHAR(191) NULL,
     `timestamp` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `ChatMessage_externalRef_key`(`externalRef`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `ConversationFlow` (
+    `id` VARCHAR(191) NOT NULL,
+    `nodeId` VARCHAR(191) NOT NULL,
+    `parentNodeId` VARCHAR(191) NULL,
+    `nodeType` VARCHAR(191) NOT NULL,
+    `nodeOption` VARCHAR(191) NULL,
+    `nodeData` VARCHAR(191) NOT NULL,
+    `flowId` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -337,6 +354,9 @@ ALTER TABLE `ChatMessage` ADD CONSTRAINT `ChatMessage_chatId_fkey` FOREIGN KEY (
 
 -- AddForeignKey
 ALTER TABLE `ChatMessage` ADD CONSTRAINT `ChatMessage_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `ConversationFlow` ADD CONSTRAINT `ConversationFlow_flowId_fkey` FOREIGN KEY (`flowId`) REFERENCES `Flow`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_UserCompany` ADD CONSTRAINT `_UserCompany_A_fkey` FOREIGN KEY (`A`) REFERENCES `Company`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
