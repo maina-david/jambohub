@@ -46,11 +46,12 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
 
     if (flowData) {
       if (body.published) {
-        // Parse the JSON to access nodes and edges.
-        const { nodes, edges } = JSON.parse(flowData.flowData as string)
+        const jsonString = typeof flowData.flowData === 'string' ? flowData.flowData : JSON.stringify(flowData.flowData)
+        const serializedData = JSON.stringify(jsonString)
 
-        console.log("Fetched nodes: ", nodes)
-        console.log("Fetched edges: ", edges)
+        console.log("Serialized Data: ", serializedData)
+        // Parse the JSON to access nodes and edges.
+
         // // Map nodes to the ConversationFlow model.
         // for (const node of nodes) {
         //   const data = {
