@@ -8,6 +8,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import { CheckIcon, XCircleIcon, MenuIcon, PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
+import { FaWhatsapp, FaXTwitter, FaFacebookMessenger, FaCommentSms } from "react-icons/fa6"
 import { Icons } from '@/components/icons'
 import { cn } from '@/lib/utils'
 import EmojiPicker, { EmojiClickData, EmojiStyle } from 'emoji-picker-react'
@@ -15,7 +16,7 @@ import { SmilePlusIcon } from 'lucide-react'
 import { ChatProps } from '@/types/chat-types'
 import { toast } from '@/components/ui/use-toast'
 import { useQueryClient } from '@tanstack/react-query'
-import { Channel, ChatMessage } from '@prisma/client'
+import { Channel, ChannelType, ChatMessage } from '@prisma/client'
 import {
   Dialog,
   DialogContent,
@@ -319,6 +320,18 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
               <CommandGroup heading="Integrated Channels">
                 {channels.map((channel) => (
                   <CommandItem key={channel.id} onClick={() => setSelectedChannel(channel.id)}>
+                    {channel.type === ChannelType.WHATSAPP && (
+                      <FaWhatsapp className="mr-2 h-4 w-4" />
+                    )}
+                    {channel.type === ChannelType.TWITTER && (
+                      <FaXTwitter className="mr-2 h-4 w-4" />
+                    )}
+                    {channel.type === ChannelType.FACEBOOK_MESSENGER && (
+                      <FaFacebookMessenger className="mr-2 h-4 w-4" />
+                    )}
+                    {channel.type === ChannelType.SMS && (
+                      <FaCommentSms className="mr-2 h-4 w-4" />
+                    )}
                     {channel.name}
                   </CommandItem>
                 ))}
