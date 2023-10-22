@@ -56,7 +56,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                 <div
                   key={chat.id}
                   className={cn(
-                    "relative flex w-full cursor-pointer flex-row items-center px-3 py-2",
+                    "relative flex w-full cursor-pointer flex-row items-center px-3 py-2", // Make the div relative
                     chat.contactId === selectedChat?.contactId && "bg-accent"
                   )}
                   onClick={() => setSelectedChat(chat.contactId)}
@@ -66,19 +66,18 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     className="mr-2 h-8 w-8"
                   />
                   <div className="flex flex-col">
-                    <div className="flex justify-between">
-                      <p className="scroll-m-20 text-base font-medium tracking-tight">
-                        {chat.Contact.alias || chat.Contact.identifier}
-                      </p>
-                      {chat.unreadMessageCount > 0 && (
-                        <span className="absolute right-2 top-1 rounded-full bg-red-500 p-1 text-xs text-white">
-                          {chat.unreadMessageCount}
-                        </span>
-                      )}
-                    </div>
-                    <p className="overflow-hidden text-ellipsis">
-                      {getLastChatMessage(chat)}
+                    <p className="scroll-m-20 text-base font-medium tracking-tight">
+                      {chat.Contact.alias || chat.Contact.identifier}
                     </p>
+                    <p className="text-sm text-gray-500">
+                      {new Date(chat.timestamp).toLocaleString('en-US')}
+                    </p>
+                    {getLastChatMessage(chat)}
+                    {chat.unreadMessageCount > 0 && (
+                      <span className="absolute rounded-full bg-red-500 p-1 text-xs text-white">
+                        {chat.unreadMessageCount}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))
