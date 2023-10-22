@@ -75,7 +75,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     </p>
                     {getLastChatMessage(chat) ? getLastChatMessage(chat)?.message : null}
                   </div>
-                  <div>
+                  <div className='mr-2 flex flex-row-reverse'>
                     <p className="text-sm text-gray-500">
                       {getLastChatMessage(chat) ? formatTimestamp(getLastChatMessage(chat)?.timestamp) : formatTimestamp()}
                     </p>
