@@ -25,7 +25,7 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
     const contacts = await db.contact.findMany({
       where: {
         companyId: params.companyId
-      }
+      },
     })
     return new Response(JSON.stringify(contacts))
   } catch (error) {

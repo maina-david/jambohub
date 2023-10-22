@@ -8,6 +8,7 @@ import {
   MessageDirection,
   MessageType,
   ChatMessage,
+  ChatCategory,
 } from "@prisma/client"
 
 const routeContextSchema = z.object({
@@ -18,6 +19,8 @@ const routeContextSchema = z.object({
 
 const sendMessageSchema = z.object({
   chatId: z.string().min(1),
+  contactId: z.string().min(1),
+  channelId: z.string().min(1),
   messageType: z.enum(["TEXT"]),
   message: z.string().min(1),
 })
@@ -33,6 +36,27 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
     const json = await req.json()
     const body = sendMessageSchema.parse(json)
 
+    let chatId: string
+
+    const channel = await db.channel.findFirst({
+      where: {
+        id: body.channelId
+      }
+    })
+
+    if (!channel) {
+      return new Response("Unable to find selected channel", { status: 422 })
+    }
+
+    const contact = await db.contact.findFirst({
+      where: {
+        id: body.contactId
+      }
+    })
+    if (!contact) {
+      return new Response("Unable to find selected contact", { status: 422 })
+    }
+
     const chat = await db.chat.findFirst({
       where: {
         id: body.chatId,
@@ -44,13 +68,24 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
     })
 
     if (!chat) {
-      return new Response("Unable to find chat", { status: 404 })
+      const newChat = await db.chat.create({
+        data: {
+          category: ChatCategory.INTERACTIVE,
+          channelId: channel.id,
+          companyId: channel.companyId,
+          contactId: contact.id,
+        },
+      })
+
+      chatId = newChat.id
+    } else {
+      chatId = chat.id
     }
 
     // Create a chat message with initial internalStatus "pending"
     const message: ChatMessage = await db.chatMessage.create({
       data: {
-        chatId: chat.id,
+        chatId: chatId, // Use the assigned chatId
         userId: session.user.id,
         message: body.message,
         direction: MessageDirection.OUTGOING,
@@ -62,7 +97,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
 
     try {
       // Attempt to send the message
-      const sentMessageId = await sendMessage(chat.channelId, body.messageType, chat.Contact.identifier, body.message)
+      const sentMessageId = await sendMessage(channel.id, body.messageType, contact.identifier, body.message)
 
       // If the message is successfully sent, update the internalStatus to "sent"
       const sentMessage = await db.chatMessage.update({
