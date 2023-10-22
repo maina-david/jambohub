@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
                 category: MessageCategory.INTERACTIVE,
                 type: getMessageType(messageType),
                 message: messageData.messages[0].text.body,
-                internalStatus: 'Unread'
+                internalStatus: 'unread'
               },
             })
             chat = existingChat
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
                 category: MessageCategory.INTERACTIVE,
                 type: getMessageType(messageType),
                 message: messageData.messages[0].text.body,
-                internalStatus: 'Unread'
+                internalStatus: 'unread'
               },
             })
             chat = newChat
