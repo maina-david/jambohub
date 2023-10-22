@@ -98,7 +98,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             )}
           </div>
           <div className='flex items-center gap-2'>
-            <h5 className="group mb-3.5 ml-3 flex items-center px-3 py-2 text-xl font-semibold">
+            <h5 className="mb-3.5 ml-3 flex items-center px-3 py-2 text-xl font-semibold">
               Contacts
             </h5>
             <div className="grow"></div>
