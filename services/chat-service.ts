@@ -55,25 +55,25 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
       throw new Error("Conversation flows not found")
     }
 
-    let currentConversationFlowId: string | null = null
-
-    // Find the conversation flow with parentId as null
-    for (const conversationFlow of conversationFlows) {
-      if (conversationFlow.parentNodeId === null) {
-        currentConversationFlowId = conversationFlow.id
-        break
+    const conversationFlowLog = await db.conversationFlowLog.findMany({
+      where: {
+        flowId: automatedFlow.Flow.id,
+        chatId: chatMessage.chatId
       }
-    }
+    })
 
-    if (currentConversationFlowId) {
-      const conversationFlowLog = await db.conversationFlowLog.findMany({
-        where: {
-          flowId: automatedFlow.Flow.id,
-          chatId: chatMessage.chatId
+    if (!conversationFlowLog || conversationFlowLog.length === 0) {
+      let currentConversationFlowId: string | null = null
+
+      // Find the conversation flow with parentId as null
+      for (const conversationFlow of conversationFlows) {
+        if (conversationFlow.parentNodeId === null) {
+          currentConversationFlowId = conversationFlow.id
+          break
         }
-      })
+      }
 
-      if (!conversationFlowLog) {
+      if (currentConversationFlowId) {
         await db.conversationFlowLog.create({
           data: {
             flowId: automatedFlow.Flow.id,
@@ -97,15 +97,19 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
           conversationFlow.nodeType === 'sendTextResponse') {
           sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
         }
-
       } else {
-        // Handle the case where conversationFlowLog already exists
-        const lastEntry = conversationFlowLog[conversationFlowLog.length - 1]
+        throw new Error("No conversation flow with parentId as null found")
+      }
+    } else {
+      // Handle the case where conversationFlowLog already exists
+      const lastEntry = conversationFlowLog[conversationFlowLog.length - 1]
+      if (lastEntry && lastEntry.currentConversationFlowId) {
         const currentConversationFlow = await db.conversationFlow.findFirst({
           where: {
             id: lastEntry.currentConversationFlowId
           }
         })
+
         if (!currentConversationFlow) {
           throw new Error("Current Conversation flow not found")
         }
@@ -141,9 +145,8 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
           })
         }
       }
-    } else {
-      throw new Error("No conversation flow with parentId as null found")
     }
+
   } catch (error) {
     console.log("ERROR_HANDLING_AUTOMATED_CHAT", error)
   }
