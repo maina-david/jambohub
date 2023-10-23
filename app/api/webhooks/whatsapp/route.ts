@@ -11,6 +11,7 @@ import {
 } from "@prisma/client"
 import { pusher } from "@/lib/pusher"
 import { handleAutomatedChat } from "@/services/flow-service"
+import { sendMessage } from "@/services/chat-service"
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -110,6 +111,8 @@ export async function POST(request: NextRequest) {
               chatMessage
             })
           }
+        } else {
+          sendMessage(channel.id, 'TEXT', identifier, `${messageType.charAt(0).toUpperCase() + messageType.slice(1).toLowerCase() } messages are not supported.`)
         }
       }
 
@@ -205,11 +208,11 @@ async function findChatByContactId(contactId: string) {
 function isValidMessageType(messageType: string) {
   const validTypes = [
     "text",
-    "media",
-    "contact",
-    "location",
-    "interactive",
-    "template"
+    // "media",
+    // "contact",
+    // "location",
+    // "interactive",
+    // "template"
   ]
   return validTypes.includes(messageType)
 }
