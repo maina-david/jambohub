@@ -81,7 +81,7 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
           throw new Error("Conversation flow not found")
         }
 
-        if (currentConversationFlow.nodeType === 'sendText') {
+        if (currentConversationFlow.nodeType === 'sendText' || currentConversationFlow.nodeType === 'sendTextResponse') {
           await db.conversationFlowLog.create({
             data: {
               flowId: automatedFlow.Flow.id,
@@ -90,17 +90,26 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
             }
           })
           await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
+          const nextChildFlow = await db.conversationFlow.findMany({
+            where: {
+              parentNodeId: currentConversationFlow.nodeId,
+              flowId: automatedFlow.Flow.id
+            }
+          })
+          if (!nextChildFlow || nextChildFlow.length === 0) {
+            await db.conversationFlowLog.updateMany({
+              where: {
+                flowId: automatedFlow.Flow.id,
+                chatId: chat.id,
+                status: conversationFlowStatus.CLOSED
+              },
+              data: {
+                status: conversationFlowStatus.CLOSED
+              }
+            })
+            continueFlow = false
+          }
         } else if (currentConversationFlow.nodeType === 'sendTextWait') {
-          await db.conversationFlowLog.create({
-            data: {
-              flowId: automatedFlow.Flow.id,
-              chatId: chatMessage.chatId,
-              currentConversationFlowId: currentConversationFlow.id
-            }
-          })
-          await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
-          continueFlow = false
-        } else if (currentConversationFlow.nodeType === 'sendTextResponse') {
           await db.conversationFlowLog.create({
             data: {
               flowId: automatedFlow.Flow.id,
