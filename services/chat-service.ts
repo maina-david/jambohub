@@ -58,7 +58,8 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
     const conversationFlowLog = await db.conversationFlowLog.findMany({
       where: {
         flowId: automatedFlow.Flow.id,
-        chatId: chatMessage.chatId
+        chatId: chatMessage.chatId,
+        status: conversationFlowStatus.OPEN
       }
     })
 
