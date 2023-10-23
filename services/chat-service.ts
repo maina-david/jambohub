@@ -92,10 +92,23 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
           throw new Error("Conversation flow not found")
         }
 
-        if (conversationFlow.nodeType === 'sendText' ||
-          conversationFlow.nodeType === 'sendTextWait' ||
-          conversationFlow.nodeType === 'sendTextResponse') {
-          sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+        let continueFlow: boolean = true
+
+        while (continueFlow) {
+          if (conversationFlow.nodeType === 'sendText') {
+            sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+          } else if (conversationFlow.nodeType === 'sendTextWait') {
+            sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+            continueFlow = false
+          } else if (conversationFlow.nodeType === 'sendTextResponse') {
+            sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+          } else if (conversationFlow.nodeType === 'sendTextResponseWait') {
+            sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+            continueFlow = false
+          }else{
+            console.log("Unknown node type:", conversationFlow.nodeType)
+            continueFlow = false
+          }
         }
       } else {
         throw new Error("No conversation flow with parentId as null found")
