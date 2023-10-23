@@ -96,15 +96,15 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
 
         while (continueFlow) {
           if (conversationFlow.nodeType === 'sendText') {
-            sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
           } else if (conversationFlow.nodeType === 'sendTextWait') {
-            sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
             continueFlow = false
           } else if (conversationFlow.nodeType === 'sendTextResponse') {
-            sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
             continueFlow = false
           } else if (conversationFlow.nodeType === 'sendTextResponseWait') {
-            sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
             continueFlow = false
           }else{
             console.log("Unknown node type:", conversationFlow.nodeType)
