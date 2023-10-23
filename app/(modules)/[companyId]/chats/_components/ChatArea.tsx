@@ -64,8 +64,6 @@ export default function ChatArea() {
         const chat = chats.find((chat) => chat.id === selectedChat.id)
         if (chat) {
           selectedChat.chatMessages = chat.chatMessages
-        } else {
-          removeSelectedChat()
         }
       }
     }
