@@ -11,6 +11,7 @@ export type ChatState = {
   setChats: (chats: ChatProps[]) => void
   setContacts: (contacts: Contact[]) => void
   setSelectedChat: (contactId: string) => void
+  removeSelectedChat: () => void
   addMessages: (chatId: string, chatMessage: ChatMessage[]) => void
 }
 

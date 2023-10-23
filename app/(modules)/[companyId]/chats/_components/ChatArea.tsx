@@ -21,6 +21,7 @@ const selector = (state: ChatState) => ({
   setChats: state.setChats,
   setContacts: state.setContacts,
   setSelectedChat: state.setSelectedChat,
+  removeSelectedChat: state.removeSelectedChat,
   addMessages: state.addMessages
 })
 
@@ -32,6 +33,7 @@ export default function ChatArea() {
     setChats,
     setContacts,
     setSelectedChat,
+    removeSelectedChat,
     addMessages
   } = useChatStore(selector)
   const params = useParams()
@@ -62,6 +64,8 @@ export default function ChatArea() {
         const chat = chats.find((chat) => chat.id === selectedChat.id)
         if (chat) {
           selectedChat.chatMessages = chat.chatMessages
+        } else {
+          removeSelectedChat()
         }
       }
     }
@@ -90,7 +94,7 @@ export default function ChatArea() {
       pusher.unsubscribe("chat")
     }
 
-  }, [addMessages, assignedChats.data, chats, companyContacts.data, queryClient, selectedChat, setChats, setContacts])
+  }, [addMessages, assignedChats.data, chats, companyContacts.data, queryClient, removeSelectedChat, selectedChat, setChats, setContacts])
 
   return (
     <>
