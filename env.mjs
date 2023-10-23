@@ -25,6 +25,9 @@ export const env = createEnv({
     MAILGUN_SIGN_IN_TEMPLATE: z.string().min(1),
     FACEBOOK_APP_SECRET: z.string().min(1),
     PUSHER_APP_SECRET: z.string().min(1),
+    EDGE_STORE_ACCESS_KEY: z.string().min(1),
+    EDGE_STORE_SECRET_KEY: z.string().min(1),
+
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().min(1),
@@ -61,5 +64,7 @@ export const env = createEnv({
     NEXT_PUBLIC_PUSHER_APP_ID: process.env.NEXT_PUBLIC_PUSHER_APP_ID,
     NEXT_PUBLIC_PUSHER_APP_KEY: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
     NEXT_PUBLIC_PUSHER_CLUSTER: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
+    EDGE_STORE_ACCESS_KEY: process.env.EDGE_STORE_ACCESS_KEY,
+    EDGE_STORE_SECRET_KEY: process.env.EDGE_STORE_SECRET_KEY,
   },
 })
