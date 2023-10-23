@@ -10,7 +10,7 @@ import {
   ChatMessage
 } from "@prisma/client"
 import { pusher } from "@/lib/pusher"
-import { handleAutomatedChat } from "@/actions/flow-actions"
+import { handleAutomatedChat } from "@/services/chat-service"
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
           }
 
           await handleAutomatedChat(chatMessage.id)
-          
+
           const response = await pusher.trigger("chat", "new-chat-message", {
             chat,
             chatMessage
@@ -133,6 +133,9 @@ async function fetchChannelDetails(phoneNumber: string) {
         type: ChannelType.WHATSAPP,
         identifier: phoneNumber,
       },
+      include: {
+        ChannelToFlow: true
+      }
     })
 
     // Check if a matching channel was found
