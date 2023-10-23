@@ -22,6 +22,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { useChannelModal } from "@/hooks/use-channel-modal"
 import { cn } from "@/lib/utils"
 import { Channel, Flow } from "@prisma/client"
@@ -417,8 +422,8 @@ export function ChannelCard({ channel }: ChannelProps) {
         <div>
           <div className="-mt-px flex">
             <div className="my-1 flex w-0 flex-1">
-              <Dialog open={isLinkChannelFlowOpen || isLinkingChannelFlow} onOpenChange={setIsLinkChannelFlowOpen}>
-                <DialogTrigger asChild>
+              <Popover open={isLinkChannelFlowOpen || isLinkingChannelFlow} onOpenChange={setIsLinkChannelFlowOpen}>
+                <PopoverTrigger asChild>
                   <Button
                     variant={'ghost'}
                     disabled={isLinkingChannelFlow}
@@ -430,8 +435,8 @@ export function ChannelCard({ channel }: ChannelProps) {
                     )}
                     Channel<Link2Icon />Flow
                   </Button>
-                </DialogTrigger>
-                <DialogContent>
+                </PopoverTrigger>
+                <PopoverContent>
                   <Command className="mt-2 rounded-lg border shadow-md">
                     <CommandInput placeholder="Type a flow name to search..." />
                     <CommandList>
@@ -458,7 +463,7 @@ export function ChannelCard({ channel }: ChannelProps) {
                       </CommandGroup>
                     </CommandList>
                   </Command>
-                  <DialogFooter>
+                  <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
                     <Button
                       disabled={!selectedFlow || isLinkingChannelFlow}
                       onClick={() => LinkChannelToFlow()}
@@ -468,9 +473,9 @@ export function ChannelCard({ channel }: ChannelProps) {
                       )}
                       Link Channel to Flow
                     </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
             <div className="my-1 flex w-0 flex-1">
               <Button
