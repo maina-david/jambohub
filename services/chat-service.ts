@@ -155,20 +155,92 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
             // If failed to find the provided message as an option, send a message for invalid input
             sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, "Invalid input")
           } else {
-            // Else send a message with the matching flow's nodeData
-            sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, matchingFlow.nodeData)
-          }
-        } else {
-          await db.conversationFlowLog.updateMany({
-            where: {
-              flowId: currentConversationFlow.id,
-              chatId: chat.id,
-              status: conversationFlowStatus.OPEN
-            },
-            data: {
-              status: conversationFlowStatus.CLOSED
+
+            if (matchingFlow.nodeType === 'sendText' || matchingFlow.nodeType === 'sendTextResponse') {
+
+              sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, matchingFlow.nodeData)
+
+              let currentParentNodeId: string = matchingFlow.nodeId
+
+              let continueFlow: boolean = true
+
+              while (continueFlow) {
+                const nextConversationFlow = await db.conversationFlow.findFirst({
+                  where: {
+                    parentNodeId: currentParentNodeId,
+                    flowId: automatedFlow.Flow.id
+                  }
+                })
+
+                if (nextConversationFlow) {
+                  if (nextConversationFlow.nodeType === 'sendText') {
+                    await db.conversationFlowLog.create({
+                      data: {
+                        flowId: automatedFlow.Flow.id,
+                        chatId: chatMessage.chatId,
+                        currentConversationFlowId: nextConversationFlow.id
+                      }
+                    })
+                    await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, nextConversationFlow.nodeData)
+                  } else if (nextConversationFlow.nodeType === 'sendTextWait') {
+                    await db.conversationFlowLog.create({
+                      data: {
+                        flowId: automatedFlow.Flow.id,
+                        chatId: chatMessage.chatId,
+                        currentConversationFlowId: nextConversationFlow.id
+                      }
+                    })
+                    await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, nextConversationFlow.nodeData)
+                    continueFlow = false
+                  } else if (nextConversationFlow.nodeType === 'sendTextResponse') {
+                    await db.conversationFlowLog.create({
+                      data: {
+                        flowId: automatedFlow.Flow.id,
+                        chatId: chatMessage.chatId,
+                        currentConversationFlowId: nextConversationFlow.id
+                      }
+                    })
+                    await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, nextConversationFlow.nodeData)
+                    continueFlow = false
+                  } else if (nextConversationFlow.nodeType === 'sendTextResponseWait') {
+                    await db.conversationFlowLog.create({
+                      data: {
+                        flowId: automatedFlow.Flow.id,
+                        chatId: chatMessage.chatId,
+                        currentConversationFlowId: nextConversationFlow.id
+                      }
+                    })
+                    await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, nextConversationFlow.nodeData)
+                    continueFlow = false
+                  } else {
+                    console.log("Unknown node type:", nextConversationFlow.nodeType)
+                    continueFlow = false
+                  }
+                  currentParentNodeId = nextConversationFlow.nodeId
+                } else {
+                  await db.conversationFlowLog.updateMany({
+                    where: {
+                      flowId: automatedFlow.Flow.id,
+                      chatId: chat.id,
+                      status: conversationFlowStatus.CLOSED
+                    },
+                    data: {
+                      status: conversationFlowStatus.CLOSED
+                    }
+                  })
+                }
+              }
+            } else if (matchingFlow.nodeType === 'sendTextResponseWait') {
+              await db.conversationFlowLog.create({
+                data: {
+                  flowId: automatedFlow.Flow.id,
+                  chatId: chatMessage.chatId,
+                  currentConversationFlowId: matchingFlow.id
+                }
+              })
+              await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, matchingFlow.nodeData)
             }
-          })
+          }
         }
       }
     }
