@@ -74,14 +74,6 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
       }
 
       if (currentConversationFlowId) {
-        await db.conversationFlowLog.create({
-          data: {
-            flowId: automatedFlow.Flow.id,
-            chatId: chatMessage.chatId,
-            currentConversationFlowId: currentConversationFlowId
-          }
-        })
-
         let continueFlow: boolean = true
 
         while (continueFlow) {
@@ -96,14 +88,42 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
             throw new Error("Conversation flow not found")
           }
           if (currentConversationFlow.nodeType === 'sendText') {
+            await db.conversationFlowLog.create({
+              data: {
+                flowId: automatedFlow.Flow.id,
+                chatId: chatMessage.chatId,
+                currentConversationFlowId: currentConversationFlowId
+              }
+            })
             await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
           } else if (currentConversationFlow.nodeType === 'sendTextWait') {
+            await db.conversationFlowLog.create({
+              data: {
+                flowId: automatedFlow.Flow.id,
+                chatId: chatMessage.chatId,
+                currentConversationFlowId: currentConversationFlowId
+              }
+            })
             await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
             continueFlow = false
           } else if (currentConversationFlow.nodeType === 'sendTextResponse') {
+            await db.conversationFlowLog.create({
+              data: {
+                flowId: automatedFlow.Flow.id,
+                chatId: chatMessage.chatId,
+                currentConversationFlowId: currentConversationFlowId
+              }
+            })
             await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
             continueFlow = false
           } else if (currentConversationFlow.nodeType === 'sendTextResponseWait') {
+            await db.conversationFlowLog.create({
+              data: {
+                flowId: automatedFlow.Flow.id,
+                chatId: chatMessage.chatId,
+                currentConversationFlowId: currentConversationFlowId
+              }
+            })
             await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
             continueFlow = false
           } else {
