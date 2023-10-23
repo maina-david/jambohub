@@ -10,6 +10,7 @@ import {
   ChatMessage
 } from "@prisma/client"
 import { pusher } from "@/lib/pusher"
+import { handleAutomatedChat } from "@/actions/flow-actions"
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
       const channel = await fetchChannelDetails(phoneNumber)
       const identifier = messageData.contacts[0].wa_id
 
-      if (channel) {
+      if (channel && messageData) {
         // Check if the message type is valid
         const messageType = messageData.messages[0].type
         if (isValidMessageType(messageType)) {
@@ -99,6 +100,8 @@ export async function POST(request: NextRequest) {
             chatMessage = newChatMessage
           }
 
+          await handleAutomatedChat(chatMessage.id)
+          
           const response = await pusher.trigger("chat", "new-chat-message", {
             chat,
             chatMessage
