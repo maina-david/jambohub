@@ -58,6 +58,12 @@ export default function ChatArea() {
     }
     if (assignedChats.data) {
       setChats(assignedChats.data)
+      if (selectedChat) {
+        const chat = chats.find((chat) => chat.id === selectedChat.id)
+        if (chat) {
+          selectedChat.chatMessages = chat.chatMessages
+        }
+      }
     }
 
     const pusher = new Pusher(env.NEXT_PUBLIC_PUSHER_APP_KEY, {
@@ -84,7 +90,7 @@ export default function ChatArea() {
       pusher.unsubscribe("chat")
     }
 
-  }, [addMessages, assignedChats.data, companyContacts.data, queryClient, selectedChat, setChats, setContacts])
+  }, [addMessages, assignedChats.data, chats, companyContacts.data, queryClient, selectedChat, setChats, setContacts])
 
   return (
     <>
