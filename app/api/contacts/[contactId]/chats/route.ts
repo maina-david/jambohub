@@ -20,16 +20,22 @@ export async function GET(
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
+
     // Validate route params.
     const { params } = routeContextSchema.parse(context)
 
     const chat = await db.chat.findFirst({
       where: {
-        contactId: params.contactId
+        contactId: params.contactId,
+        category: 'INTERACTIVE'
       },
       include: {
         Contact: true,
-        chatMessages: true
+        chatMessages: {
+          where: {
+            category: 'INTERACTIVE'
+          }
+        }
       }
     })
 
