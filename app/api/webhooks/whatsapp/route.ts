@@ -10,7 +10,7 @@ import {
   ChatMessage
 } from "@prisma/client"
 import { pusher } from "@/lib/pusher"
-import { handleAutomatedChat } from "@/services/chat-service"
+import { handleAutomatedChat } from "@/services/flow-service"
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
