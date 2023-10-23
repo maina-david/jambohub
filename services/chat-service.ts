@@ -1,5 +1,5 @@
 import { db } from "@/lib/db"
-import { ChannelType, MessageType, conversationFlowStatus } from '@prisma/client'
+import { ChannelType, ConversationFlow, MessageType, conversationFlowStatus } from '@prisma/client'
 import axios from 'axios'
 
 type WhatsAppAuthDetails = {
@@ -63,76 +63,67 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
     })
 
     if (!conversationFlowLog || conversationFlowLog.length === 0) {
-      let currentConversationFlowId: string | null = null
+      let currentParentNodeId: string | null = null
 
-      // Find the conversation flow with parentId as null
-      for (const conversationFlow of conversationFlows) {
-        if (conversationFlow.parentNodeId === null) {
-          currentConversationFlowId = conversationFlow.id
-          break
+      let continueFlow: boolean = true
+
+      while (continueFlow) {
+        const currentConversationFlow = await db.conversationFlow.findFirst({
+          where: {
+            parentNodeId: currentParentNodeId,
+            flowId: automatedFlow.Flow.id
+          }
+        })
+
+        if (!currentConversationFlow) {
+          continueFlow = false
+          throw new Error("Conversation flow not found")
         }
-      }
 
-      if (currentConversationFlowId) {
-        let continueFlow: boolean = true
-
-        while (continueFlow) {
-          const currentConversationFlow = await db.conversationFlow.findFirst({
-            where: {
-              id: currentConversationFlowId
+        if (currentConversationFlow.nodeType === 'sendText') {
+          await db.conversationFlowLog.create({
+            data: {
+              flowId: automatedFlow.Flow.id,
+              chatId: chatMessage.chatId,
+              currentConversationFlowId: currentConversationFlow.id
             }
           })
-
-          if (!currentConversationFlow) {
-            continueFlow = false
-            throw new Error("Conversation flow not found")
-          }
-          if (currentConversationFlow.nodeType === 'sendText') {
-            await db.conversationFlowLog.create({
-              data: {
-                flowId: automatedFlow.Flow.id,
-                chatId: chatMessage.chatId,
-                currentConversationFlowId: currentConversationFlowId
-              }
-            })
-            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
-          } else if (currentConversationFlow.nodeType === 'sendTextWait') {
-            await db.conversationFlowLog.create({
-              data: {
-                flowId: automatedFlow.Flow.id,
-                chatId: chatMessage.chatId,
-                currentConversationFlowId: currentConversationFlowId
-              }
-            })
-            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
-            continueFlow = false
-          } else if (currentConversationFlow.nodeType === 'sendTextResponse') {
-            await db.conversationFlowLog.create({
-              data: {
-                flowId: automatedFlow.Flow.id,
-                chatId: chatMessage.chatId,
-                currentConversationFlowId: currentConversationFlowId
-              }
-            })
-            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
-            continueFlow = false
-          } else if (currentConversationFlow.nodeType === 'sendTextResponseWait') {
-            await db.conversationFlowLog.create({
-              data: {
-                flowId: automatedFlow.Flow.id,
-                chatId: chatMessage.chatId,
-                currentConversationFlowId: currentConversationFlowId
-              }
-            })
-            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
-            continueFlow = false
-          } else {
-            console.log("Unknown node type:", currentConversationFlow.nodeType)
-            continueFlow = false
-          }
+          await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
+        } else if (currentConversationFlow.nodeType === 'sendTextWait') {
+          await db.conversationFlowLog.create({
+            data: {
+              flowId: automatedFlow.Flow.id,
+              chatId: chatMessage.chatId,
+              currentConversationFlowId: currentConversationFlow.id
+            }
+          })
+          await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
+          continueFlow = false
+        } else if (currentConversationFlow.nodeType === 'sendTextResponse') {
+          await db.conversationFlowLog.create({
+            data: {
+              flowId: automatedFlow.Flow.id,
+              chatId: chatMessage.chatId,
+              currentConversationFlowId: currentConversationFlow.id
+            }
+          })
+          await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
+          continueFlow = false
+        } else if (currentConversationFlow.nodeType === 'sendTextResponseWait') {
+          await db.conversationFlowLog.create({
+            data: {
+              flowId: automatedFlow.Flow.id,
+              chatId: chatMessage.chatId,
+              currentConversationFlowId: currentConversationFlow.id
+            }
+          })
+          await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
+          continueFlow = false
+        } else {
+          console.log("Unknown node type:", currentConversationFlow.nodeType)
+          continueFlow = false
         }
-      } else {
-        throw new Error("No conversation flow with parentId as null found")
+        currentParentNodeId = currentConversationFlow.nodeId
       }
     } else {
       // Handle the case where conversationFlowLog already exists

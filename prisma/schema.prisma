@@ -323,7 +323,7 @@ model ConversationFlow {
   parentNodeId String?
   nodeType     String
   nodeOption   String?
-  nodeData     String
+  nodeData     String?
   flowId       String
   Flow         Flow     @relation(fields: [flowId], references: [id])
   createdAt    DateTime @default(now())
