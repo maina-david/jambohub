@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
                 chatId: existingChat.id,
                 externalRef: messageData.messages[0].id,
                 direction: MessageDirection.INCOMING,
-                category: MessageCategory.INTERACTIVE,
+                category: existingChat.category === ChatCategory.AUTOMATED ? ChatCategory.AUTOMATED : ChatCategory.INTERACTIVE,
                 type: getMessageType(messageType),
                 message: messageData.messages[0].text.body,
                 internalStatus: 'unread'
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
             // Create a new Chat record to represent the conversation
             const newChat = await db.chat.create({
               data: {
-                category: ChatCategory.INTERACTIVE,
+                category: channel.ChannelToFlow ? ChatCategory.AUTOMATED : ChatCategory.INTERACTIVE,
                 channelId: channel.id,
                 companyId: channel.companyId,
                 contactId: contact.id,
@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
                 chatId: newChat.id,
                 externalRef: messageData.messages[0].id,
                 direction: MessageDirection.INCOMING,
-                category: MessageCategory.INTERACTIVE,
+                category: newChat.category === ChatCategory.AUTOMATED ? MessageCategory.AUTOMATED : ChatCategory.INTERACTIVE,
                 type: getMessageType(messageType),
                 message: messageData.messages[0].text.body,
                 internalStatus: 'unread'
@@ -100,12 +100,16 @@ export async function POST(request: NextRequest) {
             chatMessage = newChatMessage
           }
 
-          await handleAutomatedChat(chatMessage.id)
+          if (chat.category === 'AUTOMATED' && chatMessage.category === 'AUTOMATED') {
+            await handleAutomatedChat(chatMessage.id)
+          }
 
-          const response = await pusher.trigger("chat", "new-chat-message", {
-            chat,
-            chatMessage
-          })
+          if (chat.category === 'INTERACTIVE' && chatMessage.category === 'INTERACTIVE') {
+            await pusher.trigger("chat", "new-chat-message", {
+              chat,
+              chatMessage
+            })
+          }
         }
       }
 
