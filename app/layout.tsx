@@ -11,6 +11,7 @@ import { CompanyModalProvider } from "@/providers/company-modal-provider"
 import { TeamModalProvider } from "@/providers/team-modal-provider"
 import Providers from "@/utils/provider"
 import Script from "next/script"
+import { EdgeStoreProvider } from "@/lib/edgestore"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -74,7 +75,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <CompanyModalProvider />
           <Providers>
             <TeamModalProvider />
-            {children}
+            <EdgeStoreProvider>{children}</EdgeStoreProvider>
           </Providers>
           <Analytics />
           <Toaster />
