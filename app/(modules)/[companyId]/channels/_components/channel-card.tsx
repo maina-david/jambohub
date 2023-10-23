@@ -428,7 +428,7 @@ export function ChannelCard({ channel }: ChannelProps) {
                     {isLinkingChannelFlow && (
                       <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                     )}
-                    Channel <Link2Icon /> Flow
+                    Channel<Link2Icon />Flow
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
