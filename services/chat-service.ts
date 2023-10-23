@@ -102,6 +102,7 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
             continueFlow = false
           } else if (conversationFlow.nodeType === 'sendTextResponse') {
             sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+            continueFlow = false
           } else if (conversationFlow.nodeType === 'sendTextResponseWait') {
             sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
             continueFlow = false
