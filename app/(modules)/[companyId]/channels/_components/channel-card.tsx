@@ -25,7 +25,7 @@ import {
 import { useChannelModal } from "@/hooks/use-channel-modal"
 import { cn } from "@/lib/utils"
 import { Channel, Flow } from "@prisma/client"
-import { CircleEllipsisIcon, PencilIcon, Trash2Icon } from "lucide-react"
+import { CircleEllipsisIcon, Link2Icon, PencilIcon, Trash2Icon } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -428,7 +428,7 @@ export function ChannelCard({ channel }: ChannelProps) {
                     {isLinkingChannelFlow && (
                       <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                     )}
-                    Link Channel To Flow
+                    Channel <Link2Icon /> Flow
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
