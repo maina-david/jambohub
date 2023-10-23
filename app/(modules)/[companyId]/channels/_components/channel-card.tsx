@@ -24,14 +24,28 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useChannelModal } from "@/hooks/use-channel-modal"
 import { cn } from "@/lib/utils"
-import { Channel } from "@prisma/client"
+import { Channel, Flow } from "@prisma/client"
 import { CircleEllipsisIcon, PencilIcon, Trash2Icon } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Icons } from "@/components/icons"
 import { useQueryClient } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command"
+import { Dialog, DialogContent, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
+import { fetchCompanyFlows } from "@/actions/flow-actions"
+import { CheckIcon } from "@radix-ui/react-icons"
+
 interface ChannelProps {
   channel: Channel
 }
@@ -39,14 +53,27 @@ interface ChannelProps {
 export function ChannelCard({ channel }: ChannelProps) {
   const queryClient = useQueryClient()
   const params = useParams()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState<boolean>(false)
   const [isUnlinkDialogOpen, setIsUnlinkDialogOpen] = useState<boolean>(false)
   const [isLinkUnlinkLoading, setIsLinkUnlinkLoading] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const channelModal = useChannelModal()
   const [channelStatus, setChannelStatus] = useState(channel.status)
-  const [isLoadingActivate, setIsLoadingActivate] = useState(false)
-  const [isLoadingDeactivate, setIsLoadingDeactivate] = useState(false)
+  const [isLoadingActivate, setIsLoadingActivate] = useState<boolean>(false)
+  const [isLoadingDeactivate, setIsLoadingDeactivate] = useState<boolean>(false)
+  const [isLinkChannelFlowOpen, setIsLinkChannelFlowOpen] = useState<boolean>(false)
+  const [isLinkingChannelFlow, setIsLinkingChannelFlow] = useState<boolean>(false)
+  const [flows, setFlows] = useState<Flow[]>([])
+  const [selectedFlow, setSelectedFlow] = useState<string>('')
+
+  useEffect(() => {
+    if (params?.companyId) {
+      fetchCompanyFlows(params?.companyId as string).then((flows) => {
+        setFlows(flows)
+      })
+    }
+  }, [params?.companyId])
+
   const openEditModal = () => {
     // Check if there is channel to determine edit or create mode
     if (channel) {
@@ -243,6 +270,46 @@ export function ChannelCard({ channel }: ChannelProps) {
     ring: 'ring-gray-600/20'
   }
 
+  const LinkChannelToFlow = async () => {
+    if (selectedFlow && params?.companyId) {
+      const companyId = params.companyId
+      const channelId = channel.id
+      const flowId = selectedFlow
+
+      try {
+        setIsLinkingChannelFlow(true)
+        const response = await axios.patch(`/api/companies/${companyId}/channels/${channelId}/link-flow`, {
+          flowId
+        })
+
+        if (response.status === 200) {
+          queryClient.invalidateQueries({ queryKey: ['companyChannels'] })
+          toast({
+            title: 'Success',
+            description: 'Channel linked to flow successfully!',
+          })
+          setIsLinkChannelFlowOpen(false)
+        } else {
+          toast({
+            title: 'Error',
+            description: 'Failed to link flow to the channel.',
+            variant: 'destructive'
+          })
+        }
+      } catch (error) {
+        // Handle network or other errors
+        console.error("An error occurred during linking channel to flow:", error)
+        toast({
+          title: 'Error',
+          description: 'Failed to link flow to the channel.',
+          variant: 'destructive'
+        })
+      } finally {
+        setIsLinkingChannelFlow(false)
+      }
+    }
+  }
+
   return (
     <AnimatePresence>
       <motion.li
@@ -259,6 +326,44 @@ export function ChannelCard({ channel }: ChannelProps) {
                 <DropdownMenuContent>
                   <DropdownMenuLabel>Account Actions</DropdownMenuLabel>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={openEditModal}>
+                    <PencilIcon className="mr-2 h-2 w-2" />Edit
+                  </DropdownMenuItem>
+                  {channel.integrated && (
+                    <AlertDialog
+                      open={isUnlinkDialogOpen || isLinkUnlinkLoading}
+                      onOpenChange={setIsUnlinkDialogOpen}
+                    >
+                      <AlertDialogTrigger asChild>
+                        <DropdownMenuItem
+                          onSelect={(event) => {
+                            event.preventDefault()
+                            setIsUnlinkDialogOpen(true)
+                          }}>
+                          Unlink Account
+                        </DropdownMenuItem>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently unlink <span className="font-bold">{channel.name}</span> and remove your saved integration from our servers.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={handleUnlinkChannel}
+                            disabled={isLinkUnlinkLoading}
+                          >
+                            {isLinkUnlinkLoading && (
+                              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                            )}{" "}Continue
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  )}
                   <DropdownMenuItem onClick={openEditModal}>
                     <PencilIcon className="mr-2 h-2 w-2" />Edit
                   </DropdownMenuItem>
@@ -312,39 +417,60 @@ export function ChannelCard({ channel }: ChannelProps) {
         <div>
           <div className="-mt-px flex">
             <div className="my-1 flex w-0 flex-1">
-              {channel.integrated ? (
-                <AlertDialog
-                  open={isUnlinkDialogOpen || isLinkUnlinkLoading}
-                  onOpenChange={setIsUnlinkDialogOpen}
-                >
-                  <AlertDialogTrigger asChild>
-                    <Button variant={'ghost'}>
-                      Unlink Account
+              <Dialog open={isLinkChannelFlowOpen || isLinkingChannelFlow} onOpenChange={setIsLinkChannelFlowOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant={'ghost'}
+                    disabled={isLinkingChannelFlow}
+                    className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold"
+                    onClick={() => setIsLinkChannelFlowOpen(true)}
+                  >
+                    {isLinkingChannelFlow && (
+                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    Link Channel To Flow
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <Command className="mt-2 rounded-lg border shadow-md">
+                    <CommandInput placeholder="Type a flow name to search..." />
+                    <CommandList>
+                      <CommandEmpty>No results found.</CommandEmpty>
+                      <CommandGroup heading="Published Flows">
+                        {flows.map((flow) => (
+                          <CommandItem
+                            key={flow.id}
+                            value={flow.id}
+                            onSelect={(currentValue) => {
+                              setSelectedFlow(currentValue)
+                            }}
+                            className='cursor-pointer'
+                          >
+                            {channel.name}
+                            <CheckIcon
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                selectedFlow === flow.id ? "opacity-100" : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                  <DialogFooter>
+                    <Button
+                      disabled={!selectedFlow || isLinkingChannelFlow}
+                      onClick={() => LinkChannelToFlow()}
+                    >
+                      {isLinkingChannelFlow && (
+                        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      Link Channel to Flow
                     </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will permanently unlink <span className="font-bold">{channel.name}</span> and remove your saved integration from our servers.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={handleUnlinkChannel}
-                        disabled={isLinkUnlinkLoading}
-                      >
-                        {isLinkUnlinkLoading && (
-                          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                        )}{" "}Continue
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              ) : (
-                <p>Link Phone</p>
-              )}
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
             <div className="my-1 flex w-0 flex-1">
               <Button

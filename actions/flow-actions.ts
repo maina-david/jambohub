@@ -6,6 +6,9 @@ import { sendMessage } from '@/services/chat-service'
 export const fetchFlowDetails = (companyId: string, flowId: string): Promise<Flow> =>
   axios.get(`/api/companies/${companyId}/flows/${flowId}`).then((response) => response.data)
 
+export const fetchCompanyFlows = (companyId: string): Promise<Flow[]> =>
+  axios.get(`/api/companies/${companyId}/flows`).then((response) => response.data)
+
 export const handleAutomatedChat = async (chatMessageId: string) => {
   try {
     const chatMessage = await db.chatMessage.findFirst({

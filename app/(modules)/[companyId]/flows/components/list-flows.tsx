@@ -1,13 +1,12 @@
 'use client'
 
 import React from 'react'
-import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
-import { Flow } from '@prisma/client'
 import { FlowItem } from './flow-item'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { FlowCreateButton } from './flow-create-button'
+import { fetchCompanyFlows } from '@/actions/flow-actions'
 
 export default function ListFlows() {
   const params = useParams()
@@ -72,6 +71,3 @@ export default function ListFlows() {
     </div>
   )
 }
-
-const fetchCompanyFlows = (companyId: string): Promise<Flow[]> =>
-  axios.get(`/api/companies/${companyId}/flows`).then((response) => response.data)
