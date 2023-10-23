@@ -82,32 +82,32 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
           }
         })
 
-        const conversationFlow = await db.conversationFlow.findFirst({
-          where: {
-            id: currentConversationFlowId
-          }
-        })
-
-        if (!conversationFlow) {
-          throw new Error("Conversation flow not found")
-        }
-
         let continueFlow: boolean = true
 
         while (continueFlow) {
-          if (conversationFlow.nodeType === 'sendText') {
-            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
-          } else if (conversationFlow.nodeType === 'sendTextWait') {
-            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+          const currentConversationFlow = await db.conversationFlow.findFirst({
+            where: {
+              id: currentConversationFlowId
+            }
+          })
+
+          if (!currentConversationFlow) {
             continueFlow = false
-          } else if (conversationFlow.nodeType === 'sendTextResponse') {
-            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+            throw new Error("Conversation flow not found")
+          }
+          if (currentConversationFlow.nodeType === 'sendText') {
+            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
+          } else if (currentConversationFlow.nodeType === 'sendTextWait') {
+            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
             continueFlow = false
-          } else if (conversationFlow.nodeType === 'sendTextResponseWait') {
-            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, conversationFlow.nodeData)
+          } else if (currentConversationFlow.nodeType === 'sendTextResponse') {
+            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
             continueFlow = false
-          }else{
-            console.log("Unknown node type:", conversationFlow.nodeType)
+          } else if (currentConversationFlow.nodeType === 'sendTextResponseWait') {
+            await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
+            continueFlow = false
+          } else {
+            console.log("Unknown node type:", currentConversationFlow.nodeType)
             continueFlow = false
           }
         }
