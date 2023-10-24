@@ -107,9 +107,7 @@ export default function SideBar() {
           draggable
           onDragStart={(event) => onDragStart(event, 'sendAttachment')}
         >
-          <div
-            className="grid w-full items-center gap-1.5"
-          >
+          <div className="grid w-full items-center gap-1.5">
             <p className="text-sm font-medium leading-none">
               Send Attachment
             </p>
@@ -123,18 +121,59 @@ export default function SideBar() {
           draggable
           onDragStart={(event) => onDragStart(event, 'initiatePayment')}
         >
-          <div
-            className="grid w-full items-center gap-1.5"
-          >
+          <div className="grid w-full items-center gap-1.5">
             <p className="text-sm font-medium leading-none">
               Initiate Payment
             </p>
             <p className="text-sm text-muted-foreground">
-              Drag this to send payment request to the user.
+              Drag this to send a payment request to the user.
+            </p>
+          </div>
+        </div>
+        <div
+          className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
+          draggable
+          onDragStart={(event) => onDragStart(event, 'provideDiscount')}
+        >
+          <div className="grid w-full items-center gap-1.5">
+            <p className="text-sm font-medium leading-none">
+              Provide Discount
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Drag this to offer a discount to the user.
+            </p>
+          </div>
+        </div>
+        <div
+          className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
+          draggable
+          onDragStart={(event) => onDragStart(event, 'sendSurvey')}
+        >
+          <div className="grid w-full items-center gap-1.5">
+            <p className="text-sm font-medium leading-none">
+              Send Survey
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Drag this to send a survey for user feedback.
+            </p>
+          </div>
+        </div>
+        <div
+          className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
+          draggable
+          onDragStart={(event) => onDragStart(event, 'customAction')}
+        >
+          <div className="grid w-full items-center gap-1.5">
+            <p className="text-sm font-medium leading-none">
+              Custom Action
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Drag this to perform a custom action.
             </p>
           </div>
         </div>
       </TabsContent>
+
     </Tabs>
   )
 }
