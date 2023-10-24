@@ -3,7 +3,7 @@ import * as z from "zod"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { markWhatsAppMessageAsRead } from "@/services/chat-service"
+import { markMessageAsRead } from "@/services/chat-service"
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -39,22 +39,14 @@ export async function POST(
         },
         data: {
           internalStatus: 'read'
-        }
-      })
-
-      const chat = await db.chat.findFirst({
-        where: {
-          id: message.chatId
         },
         include: {
-          channel: true
+          chat: true
         }
       })
 
-      if (chat?.channel.type === 'WHATSAPP') {
-        if (message?.externalRef) {
-          await markWhatsAppMessageAsRead(chat?.channel.id, message.externalRef)
-        }
+      if (message && message?.externalRef) {
+        await markMessageAsRead(message.chat.channelId, message.externalRef)
       }
     }
 

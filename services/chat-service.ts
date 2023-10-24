@@ -1,6 +1,11 @@
 import { db } from "@/lib/db"
 import { ChannelType, MessageType } from '@prisma/client'
-import { WhatsAppAuthDetails, isValidWhatsAppAuthDetails, markMessageAsRead, sendWhatsAppTextMessage } from "@/services/whatsapp-service"
+import {
+  WhatsAppAuthDetails,
+  isValidWhatsAppAuthDetails,
+  markWhatsAppMessageAsRead,
+  sendWhatsAppTextMessage
+} from "@/services/whatsapp-service"
 
 export async function sendMessage(
   channelId: string,
@@ -30,7 +35,7 @@ export async function sendMessage(
   }
 }
 
-export async function markWhatsAppMessageAsRead(channelId: string, messageId: string) {
+export async function markMessageAsRead(channelId: string, messageId: string) {
   try {
     // Fetch the channel and ensure it's a WhatsApp channel
     const selectedChannel = await getActiveIntegratedChannel(channelId)
@@ -43,7 +48,7 @@ export async function markWhatsAppMessageAsRead(channelId: string, messageId: st
       }
 
       // Mark the message as read using the provided messageId
-      await markMessageAsRead(authDetails.phoneNumberId, authDetails.accessToken, messageId)
+      await markWhatsAppMessageAsRead(authDetails.phoneNumberId, authDetails.accessToken, messageId)
 
       console.log('WhatsApp message marked as "read".')
     }
