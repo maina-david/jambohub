@@ -21,29 +21,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { toast } from "@/components/ui/use-toast"
-import { Trash2Icon } from "lucide-react"
+import { HistoryIcon, Trash2Icon } from "lucide-react"
 import { Icons } from "@/components/icons"
 
 import { useQueryClient } from "@tanstack/react-query"
 import { useParams, useRouter } from "next/navigation"
+import { Flow } from "@prisma/client"
 
-async function deleteAutomationflow(companyId: string, flowId: string) {
-  const response = await fetch(`/api/companies/${companyId}/flows/${flowId}`, {
-    method: "DELETE",
-  })
-
-  if (!response?.ok) {
-    toast({
-      title: "Something went wrong.",
-      description: "Your flow was not deleted. Please try again.",
-      variant: "destructive",
-    })
-  }
-
-  return true
+interface FlowProps {
+  flow: Flow
 }
 
-export function Actions({flow}) {
+export function Actions({ flow }: FlowProps) {
   const queryClient = useQueryClient()
   const params = useParams()
   const router = useRouter()
@@ -60,11 +49,17 @@ export function Actions({flow}) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem>
+            <HistoryIcon className="mr-2 h-4 w-4" />
+            Revision History
+          </DropdownMenuItem>
           <DropdownMenuItem
+            disabled={flow.published}
             onSelect={() => setShowDeleteAlert(true)}
             className="cursor-pointer"
           >
-            <Trash2Icon className="mr-2 h-4 w-4 text-red-600" /> Delete flow
+            <Trash2Icon className="mr-2 h-4 w-4" />
+            Delete Flow
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -112,4 +107,20 @@ export function Actions({flow}) {
       </AlertDialog>
     </>
   )
+}
+
+async function deleteAutomationflow(companyId: string, flowId: string) {
+  const response = await fetch(`/api/companies/${companyId}/flows/${flowId}`, {
+    method: "DELETE",
+  })
+
+  if (!response?.ok) {
+    toast({
+      title: "Something went wrong.",
+      description: "Your flow was not deleted. Please try again.",
+      variant: "destructive",
+    })
+  }
+
+  return true
 }
