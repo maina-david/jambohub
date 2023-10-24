@@ -3,9 +3,9 @@
 import { Textarea } from '@/components/ui/textarea'
 import React, { useRef, useEffect } from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../../../../../../../store/flowStore'
+import useStore from '@/store/flowStore'
 
-function SendTextNode({ id }: NodeProps) {
+function SendTextNode({ id, data }: NodeProps) {
   const updateSendTextValue = useStore((state) => state.updateSendTextValue)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -24,6 +24,7 @@ function SendTextNode({ id }: NodeProps) {
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className="grid w-full">
         <Textarea
+          value={data.value}
           placeholder='Type your message here'
           onChange={(evt) => {
             updateSendTextValue(id, evt.target.value)
