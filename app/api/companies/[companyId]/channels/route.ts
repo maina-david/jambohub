@@ -10,7 +10,7 @@ const channelCreateSchema = z.object({
   channel: z.enum([
     'WHATSAPP',
     'TWITTER',
-    'FACEBOOK',
+    'FACEBOOK_MESSENGER',
     'SMS'
   ]),
   name: z.string().min(1),
@@ -36,6 +36,9 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
     const channels = await db.channel.findMany({
       where: {
         companyId: params.companyId
+      },
+      include: {
+        ChannelToFlow: true
       }
     })
     return new Response(JSON.stringify(channels))

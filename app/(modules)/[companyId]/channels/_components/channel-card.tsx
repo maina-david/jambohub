@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/popover"
 import { useChannelModal } from "@/hooks/use-channel-modal"
 import { cn } from "@/lib/utils"
-import { Channel, Flow } from "@prisma/client"
+import { Channel, ChannelToFlow, Flow } from "@prisma/client"
 import { CircleEllipsisIcon, Link2Icon, PencilIcon, Trash2Icon } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation"
@@ -47,15 +47,11 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command"
-import { Dialog, DialogContent, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import { fetchCompanyFlows } from "@/actions/flow-actions"
 import { CheckIcon } from "@radix-ui/react-icons"
+import { ChannelProps } from "@/types/channel"
 
-interface ChannelProps {
-  channel: Channel
-}
-
-export function ChannelCard({ channel }: ChannelProps) {
+export function ChannelCard({ channel }: { channel: ChannelProps }) {
   const queryClient = useQueryClient()
   const params = useParams()
   const [open, setOpen] = useState<boolean>(false)
@@ -444,6 +440,7 @@ export function ChannelCard({ channel }: ChannelProps) {
                       <CommandGroup heading="Published Flows">
                         {flows.map((flow) => (
                           <CommandItem
+                            disabled={channel.ChannelToFlow.flowId === flow.id}
                             key={flow.id}
                             value={flow.id}
                             onSelect={(currentValue) => {
@@ -455,7 +452,7 @@ export function ChannelCard({ channel }: ChannelProps) {
                             <CheckIcon
                               className={cn(
                                 "ml-auto h-4 w-4",
-                                selectedFlow === flow.id ? "opacity-100" : "opacity-0"
+                                (selectedFlow === flow.id || channel.ChannelToFlow.flowId === flow.id) ? "opacity-100" : "opacity-0"
                               )}
                             />
                           </CommandItem>
