@@ -58,7 +58,7 @@ export default function CompanySwitcher({ className, companies = [] }: CompanySw
           role="combobox"
           aria-expanded={open}
           aria-label="Select a company"
-          className={cn("w-[200px] justify-between", className)}
+          className={cn("w-[200px] justify-between truncate", className)}
         >
           <Company className="mr-2 h-4 w-4" />
           {currentCompany?.label}
