@@ -23,11 +23,16 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
 
     const chats = await db.chat.findMany({
       where: {
-        companyId: params.companyId
+        companyId: params.companyId,
+        category: 'INTERACTIVE'
       },
       include: {
         Contact: true,
-        chatMessages: true,
+        chatMessages: {
+          where: {
+            category: 'INTERACTIVE'
+          }
+        },
       }
     })
 
