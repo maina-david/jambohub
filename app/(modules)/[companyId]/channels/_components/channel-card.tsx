@@ -29,14 +29,14 @@ import {
 } from "@/components/ui/popover"
 import { useChannelModal } from "@/hooks/use-channel-modal"
 import { cn } from "@/lib/utils"
-import { Channel, ChannelToFlow, Flow } from "@prisma/client"
-import { CircleEllipsisIcon, Link2Icon, PencilIcon, Trash2Icon } from "lucide-react"
+import { Flow } from "@prisma/client"
+import { Link2Icon, PencilIcon, Trash2Icon } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Icons } from "@/components/icons"
 import { useQueryClient } from '@tanstack/react-query'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
   Command,
   CommandEmpty,
@@ -44,8 +44,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command"
 import { fetchCompanyFlows } from "@/actions/flow-actions"
 import { CheckIcon } from "@radix-ui/react-icons"

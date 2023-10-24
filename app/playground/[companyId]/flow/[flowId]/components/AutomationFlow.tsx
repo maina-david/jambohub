@@ -48,6 +48,8 @@ const selector = (state: RFState) => ({
   onConnect: state.onConnect,
   onEdgesDelete: state.onEdgesDelete,
   addDraggedNode: state.addDraggedNode,
+  updateSendTextValue: state.updateSendTextValue,
+  updateReplyOption: state.updateReplyOption
 })
 
 const nodeTypes = {
@@ -79,7 +81,9 @@ function FlowArea({ flowData }) {
     onEdgesChange,
     onConnect,
     onEdgesDelete,
-    addDraggedNode
+    addDraggedNode,
+    updateSendTextValue,
+    updateReplyOption
   } = useFlowStore(selector)
   const store = useStoreApi()
   const reactFlowInstance = useReactFlow()
@@ -119,10 +123,32 @@ function FlowArea({ flowData }) {
       setNodes(flowData.nodes || [])
       setEdges(flowData.edges || [])
       reactFlowInstance.setViewport({ x, y, zoom })
+
+      // Set pre-saved data for sendTextValue and replyOption
+      if (flowData.nodes && Array.isArray(flowData.nodes)) {
+        flowData.nodes.forEach((node) => {
+          if (node.data && node.id) {
+            const { value, replyOption, teamOption, fileOption } = node.data
+            if (value !== undefined) {
+              updateSendTextValue(node.id, value)
+            }
+            if (replyOption !== undefined) {
+              updateReplyOption(node.id, replyOption, 'replyOption')
+            }
+            if (teamOption !== undefined) {
+              updateReplyOption(node.id, teamOption, 'teamOption')
+            }
+            if (fileOption !== undefined) {
+              updateReplyOption(node.id, fileOption, 'fileOption')
+            }
+          }
+        })
+      }
     } else {
-      resetStore
+      resetStore() // Invoke resetStore as a function
     }
-  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes])
+  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes, updateReplyOption, updateSendTextValue])
+
 
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
@@ -136,7 +162,7 @@ function FlowArea({ flowData }) {
       onSave()
     }, 2000)
 
-    return () => clearTimeout(saveTimeout);
+    return () => clearTimeout(saveTimeout)
   }, [
     nodes,
     edges,
@@ -235,7 +261,7 @@ export default function AutomationFlow() {
           description: 'Flow saved successfully',
         })
       } catch (error) {
-        console.error('Error saving flow:', error);
+        console.error('Error saving flow:', error)
         toast({
           title: 'Error',
           description: 'Failed to save flow',
@@ -245,7 +271,7 @@ export default function AutomationFlow() {
         setIsSaving(false)
       }
     } else {
-      console.warn('No flow data available to save.');
+      console.warn('No flow data available to save.')
       toast({
         title: 'Error',
         description: 'No flow data available to save',
