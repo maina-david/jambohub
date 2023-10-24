@@ -125,14 +125,13 @@ export const CompanyModal = () => {
 
   return (
     <Dialog open={companyModal.isOpen} onOpenChange={onChange}>
-      <DialogContent className="md:min-w-[75%]">
+      <DialogContent className="sm:max-w-[425px] md:min-w-[75%]">
         <DialogHeader>
           <DialogTitle>Create company</DialogTitle>
           <DialogDescription>
             Add a new company to manage channels, teams, flows, and campaigns.
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="h-full w-full">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="md:flex md:flex-wrap">
               {/* Name and Email */}
@@ -316,7 +315,6 @@ export const CompanyModal = () => {
               </DialogFooter>
             </form>
           </Form>
-        </ScrollArea>
       </DialogContent>
     </Dialog>
   )
