@@ -114,7 +114,7 @@ export default function SideBar() {
               Send Attachment
             </p>
             <p className="text-sm text-muted-foreground">
-              Drag this to send a file attachment response to the user.
+              Drag this to send a file attachment response.
             </p>
           </div>
         </div>
