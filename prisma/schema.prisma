@@ -186,21 +186,21 @@ enum ChannelType {
 }
 
 model Channel {
-  id            String          @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String
   description   String
-  status        Boolean         @default(true)
+  status        Boolean        @default(true)
   companyId     String
   type          ChannelType
   identifier    String?
   authDetails   Json?
-  integrated    Boolean         @default(false)
-  teams         Team[]          @relation("ChannelToTeams")
+  integrated    Boolean        @default(false)
+  teams         Team[]         @relation("ChannelToTeams")
   chats         Chat[]
-  company       Company         @relation(fields: [companyId], references: [id])
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @default(now())
-  ChannelToFlow ChannelToFlow[]
+  company       Company        @relation(fields: [companyId], references: [id])
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now())
+  ChannelToFlow ChannelToFlow?
 }
 
 model Customer {
@@ -332,7 +332,7 @@ model ConversationFlow {
 
 model ChannelToFlow {
   id        String  @id @default(cuid())
-  channelId String
+  channelId String  @unique
   Channel   Channel @relation(fields: [channelId], references: [id])
   flowId    String
   Flow      Flow    @relation(fields: [flowId], references: [id])
@@ -344,13 +344,13 @@ enum conversationFlowStatus {
 }
 
 model ConversationFlowLog {
-  id                        String   @id @default(cuid())
+  id                        String                 @id @default(cuid())
   flowId                    String
-  Flow                      Flow     @relation(fields: [flowId], references: [id])
+  Flow                      Flow                   @relation(fields: [flowId], references: [id])
   chatId                    String
-  Chat                      Chat     @relation(fields: [chatId], references: [id])
+  Chat                      Chat                   @relation(fields: [chatId], references: [id])
   currentConversationFlowId String
   status                    conversationFlowStatus @default(OPEN)
-  createdAt                 DateTime @default(now())
-  updatedAt                 DateTime @default(now())
+  createdAt                 DateTime               @default(now())
+  updatedAt                 DateTime               @default(now())
 }
