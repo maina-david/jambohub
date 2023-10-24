@@ -30,7 +30,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { Flow } from "@prisma/client"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import SideBar from "./SideBar"
-import useFlowStore, { NodeData, RFState } from "@/store/flowStore"
+import useFlowStore, { RFState } from "@/store/flowStore"
 import SendAttachmentNode from "./flowNodes/sendAttachmentNode"
 import AssignToTeamNode from "./flowNodes/assignToTeam"
 import { toast } from "@/components/ui/use-toast"
@@ -126,15 +126,15 @@ function FlowArea({ flowData }) {
       reactFlowInstance.setViewport({ x, y, zoom })
 
       // Set pre-saved data for nodes
-      if (flowData.nodes && Array.isArray(flowData.nodes)) {
-        flowData.nodes.forEach((nodeData: Node) => {
-          const nodeToUpdate = nodes.find((node) => node.id === nodeData.id)
+      if (flowData.nodes) {
+        flowData.nodes.forEach((savedNode: Node) => {
+          const nodeToUpdate = nodes.find((node) => node.id === savedNode.id)
           if (nodeToUpdate) {
-            const { value } = nodeData.data || {}
+            const { value } = savedNode.data || {}
 
             // Update sendText node data
-            if (nodeData.type === 'sendText' && value !== undefined) {
-              updateSendTextValue(nodeData.id, value)
+            if (savedNode.type === 'sendText' && value !== undefined) {
+              updateSendTextValue(savedNode.id, value)
             }
 
           }
