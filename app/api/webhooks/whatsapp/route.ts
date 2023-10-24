@@ -23,112 +23,106 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    const requestBody = await request.text()
-    const webhookData = JSON.parse(requestBody)
+  const requestBody = await request.text()
+  const webhookData = JSON.parse(requestBody)
 
-    console.log("Received Webhook data: ", webhookData)
-    // Check if the webhook object is WhatsApp Business Account
-    if (webhookData.object === 'whatsapp_business_account') {
-      // Extract the message data from the webhook
-      const messageData = webhookData.entry[0].changes[0].value
-      // Fetch the Channel based on the phone number
-      const phoneNumber = messageData.metadata.display_phone_number
-      const channel = await fetchChannelDetails(phoneNumber)
-      const identifier = messageData.contacts[0].wa_id
+  // Validate  Webhook
+  if (webhookData &&
+    webhookData.object === 'whatsapp_business_account' &&
+    webhookData.entry &&
+    webhookData.entry.length > 0 &&
+    webhookData.entry[0].changes &&
+    webhookData.entry[0].changes.length > 0 &&
+    webhookData.entry[0].changes[0].value) {
+    // Extract the message data from the webhook
+    const messageData = webhookData.entry[0].changes[0].value
+    // Fetch the Channel based on the phone number
+    const phoneNumber = messageData.metadata.display_phone_number
+    const channel = await fetchChannelDetails(phoneNumber)
+    const identifier = messageData.contacts[0].wa_id
 
-      if (channel && messageData) {
-        // Check if the message type is valid
-        const messageType = messageData.messages[0].type
-        if (isValidMessageType(messageType)) {
-          // Save or update the contact
-          const contactData = {
-            companyId: channel.companyId,
-            channel: ChannelType.WHATSAPP,
-            identifier,
-            alias: messageData.contacts[0].profile.name,
-          }
-          const contact = await saveOrUpdateContact(contactData)
-
-          // Check if a chat with the same contact ID exists
-          const existingChat = await findChatByContactId(contact.id)
-
-          let chat: Chat
-          let chatMessage: ChatMessage
-
-          if (existingChat) {
-            // Add a new message to the existing chat
-            const newChatMessage = await db.chatMessage.create({
-              data: {
-                chatId: existingChat.id,
-                externalRef: messageData.messages[0].id,
-                direction: MessageDirection.INCOMING,
-                category: existingChat.category === ChatCategory.AUTOMATED ? ChatCategory.AUTOMATED : ChatCategory.INTERACTIVE,
-                type: getMessageType(messageType),
-                message: messageData.messages[0].text.body,
-                internalStatus: 'unread'
-              },
-            })
-            chat = existingChat
-            chatMessage = newChatMessage
-          } else {
-            // Create a new Chat record to represent the conversation
-            const newChat = await db.chat.create({
-              data: {
-                category: channel.ChannelToFlow ? ChatCategory.AUTOMATED : ChatCategory.INTERACTIVE,
-                channelId: channel.id,
-                companyId: channel.companyId,
-                contactId: contact.id,
-              },
-              include: {
-                Contact: true,
-                chatMessages: true
-              }
-            })
-
-            // Create a new ChatMessage record for the incoming message
-            const newChatMessage = await db.chatMessage.create({
-              data: {
-                chatId: newChat.id,
-                externalRef: messageData.messages[0].id,
-                direction: MessageDirection.INCOMING,
-                category: newChat.category === ChatCategory.AUTOMATED ? MessageCategory.AUTOMATED : ChatCategory.INTERACTIVE,
-                type: getMessageType(messageType),
-                message: messageData.messages[0].text.body,
-                internalStatus: 'unread'
-              },
-            })
-            chat = newChat
-            chatMessage = newChatMessage
-          }
-
-          if (chat.category === 'AUTOMATED' && chatMessage.category === 'AUTOMATED') {
-            await handleAutomatedChat(chatMessage.id)
-          }
-
-          if (chat.category === 'INTERACTIVE' && chatMessage.category === 'INTERACTIVE') {
-            await pusher.trigger("chat", "new-chat-message", {
-              chat,
-              chatMessage
-            })
-          }
-        } else {
-          sendMessage(channel.id, 'TEXT', identifier, `${messageType.charAt(0).toUpperCase() + messageType.slice(1).toLowerCase() } messages are not supported.`)
+    if (channel && messageData) {
+      // Check if the message type is valid
+      const messageType = messageData.messages[0].type
+      if (isValidMessageType(messageType)) {
+        // Save or update the contact
+        const contactData = {
+          companyId: channel.companyId,
+          channel: ChannelType.WHATSAPP,
+          identifier,
+          alias: messageData.contacts[0].profile.name,
         }
-      }
+        const contact = await saveOrUpdateContact(contactData)
 
-      // Send a response to acknowledge the receipt and processing of the webhook data
-      return new Response('Webhook data received and processed.', { status: 200 })
+        // Check if a chat with the same contact ID exists
+        const existingChat = await findChatByContactId(contact.id)
+
+        let chat: Chat
+        let chatMessage: ChatMessage
+
+        if (existingChat) {
+          // Add a new message to the existing chat
+          const newChatMessage = await db.chatMessage.create({
+            data: {
+              chatId: existingChat.id,
+              externalRef: messageData.messages[0].id,
+              direction: MessageDirection.INCOMING,
+              category: existingChat.category === ChatCategory.AUTOMATED ? ChatCategory.AUTOMATED : ChatCategory.INTERACTIVE,
+              type: getMessageType(messageType),
+              message: messageData.messages[0].text.body,
+              internalStatus: 'unread'
+            },
+          })
+          chat = existingChat
+          chatMessage = newChatMessage
+        } else {
+          // Create a new Chat record to represent the conversation
+          const newChat = await db.chat.create({
+            data: {
+              category: channel.ChannelToFlow ? ChatCategory.AUTOMATED : ChatCategory.INTERACTIVE,
+              channelId: channel.id,
+              companyId: channel.companyId,
+              contactId: contact.id,
+            },
+            include: {
+              Contact: true,
+              chatMessages: true
+            }
+          })
+
+          // Create a new ChatMessage record for the incoming message
+          const newChatMessage = await db.chatMessage.create({
+            data: {
+              chatId: newChat.id,
+              externalRef: messageData.messages[0].id,
+              direction: MessageDirection.INCOMING,
+              category: newChat.category === ChatCategory.AUTOMATED ? MessageCategory.AUTOMATED : ChatCategory.INTERACTIVE,
+              type: getMessageType(messageType),
+              message: messageData.messages[0].text.body,
+              internalStatus: 'unread'
+            },
+          })
+          chat = newChat
+          chatMessage = newChatMessage
+        }
+
+        if (chat.category === 'AUTOMATED' && chatMessage.category === 'AUTOMATED') {
+          await handleAutomatedChat(chatMessage.id)
+        }
+
+        if (chat.category === 'INTERACTIVE' && chatMessage.category === 'INTERACTIVE') {
+          await pusher.trigger("chat", "new-chat-message", {
+            chat,
+            chatMessage
+          })
+        }
+      } else {
+        sendMessage(channel.id, 'TEXT', identifier, `${messageType.charAt(0).toUpperCase() + messageType.slice(1).toLowerCase()} messages are not supported.`)
+      }
     }
 
-    // If the webhook data does not match the expected structure, return a generic response
-    return new Response('Invalid webhook data', { status: 400 })
-  } catch (error) {
-    // Log the error for debugging and error tracking
-    console.error('Error handling webhook data:', error)
-
-    // Send a response to indicate an error occurred
-    return new Response('Error handling webhook data', { status: 500 })
+    // Return 200
+    return new Response(null, { status: 200 })
   }
 }
 
