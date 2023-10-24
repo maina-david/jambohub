@@ -122,25 +122,10 @@ function FlowArea({ flowData }) {
       setNodes(flowData.nodes || [])
       setEdges(flowData.edges || [])
       reactFlowInstance.setViewport({ x, y, zoom })
-      if (flowData.nodes) {
-        flowData.nodes.forEach((savedNode: Node) => {
-          const nodeToUpdate = nodes.find((node) => node.id === savedNode.id)
-          if (nodeToUpdate) {
-            const { value } = savedNode.data || {}
-
-            // Update sendText node data
-            if (savedNode.type === 'sendText' && value !== undefined) {
-              updateSendTextValue(savedNode.id, value)
-            }
-
-          }
-        })
-      }
     } else {
       resetStore
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes, updateSendTextValue])
+  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes])
 
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
