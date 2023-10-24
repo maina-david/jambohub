@@ -10,7 +10,6 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { siteConfig } from "@/config/site"
 import CompanySwitcher from "@/components/company-switcher"
 import Notifications from "@/components/notifications"
-import { useMediaQuery } from 'usehooks-ts'
 
 interface CompanyLayoutProps {
   children?: React.ReactNode
@@ -23,7 +22,7 @@ export default async function CompanyLayout({
 }: CompanyLayoutProps) {
   const user = await getCurrentUser()
   const companies = await getCurrentUserCompanies()
-  const mdAndAbove = useMediaQuery('(min-width: 768px)')
+  const mdAndAbove = true
   if (!user) {
     return redirect('/login')
   }
