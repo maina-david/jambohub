@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react'
 import { ConfigurationId, initializeFaceBookSDK } from '@/lib/facebook'
 import { FaWhatsapp, FaXTwitter, FaFacebookMessenger, FaCommentSms } from "react-icons/fa6"
-import { useParams, usePathname } from 'next/navigation'
+import { BiDialpad } from "react-icons/bi"
+import { useParams} from 'next/navigation'
 import { toast } from "@/components/ui/use-toast"
 import axios from 'axios'
 import {
@@ -18,7 +19,6 @@ import { Button } from '@/components/ui/button'
 
 export default function LinkChannelDropdown() {
   const params = useParams()
-  const pathname = usePathname()
   const [sdkInitialized, setSdkInitialized] = useState<boolean>(false)
 
   useEffect(() => {
@@ -79,7 +79,6 @@ export default function LinkChannelDropdown() {
     }
   }
 
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -109,6 +108,13 @@ export default function LinkChannelDropdown() {
           disabled
           className='cursor-not-allowed'
         >
+          <FaXTwitter className='mr-2 h-4 w-4' />
+          Twitter
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          disabled
+          className='cursor-not-allowed'
+        >
           <FaCommentSms className='mr-2 h-4 w-4' />
           SMS
         </DropdownMenuItem>
@@ -116,8 +122,8 @@ export default function LinkChannelDropdown() {
           disabled
           className='cursor-not-allowed'
         >
-          <FaXTwitter className='mr-2 h-4 w-4' />
-          Twitter
+          <BiDialpad className='mr-2 h-4 w-4' />
+          USSD
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
