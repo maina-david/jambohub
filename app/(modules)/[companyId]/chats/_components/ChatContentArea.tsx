@@ -69,18 +69,26 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
         setChannels(channels)
       })
     }
+
     const markChatAsRead = async () => {
       try {
         if (selectedChat) {
-          const messageIds = selectedChat?.chatMessages?.map((message) => message.id)
+          // Filter for incoming messages that are unread
+          const unreadIncomingMessages = selectedChat?.chatMessages?.filter((message) => {
+            return message.direction === 'INCOMING' && message.internalStatus === 'unread'
+          })
 
-          if (messageIds?.length) {
-            const response = await axios.post(`/api/chats/${selectedChat.id}/messages/mark-read`, {
-              messageIds,
-            })
+          if (unreadIncomingMessages) {
+            if (unreadIncomingMessages.length > 0) {
+              const messageIds = unreadIncomingMessages.map((message) => message.id)
 
-            if (response.status === 201) {
-              queryClient.invalidateQueries({ queryKey: ['assignedChats'] })
+              const response = await axios.post(`/api/chats/${selectedChat.id}/messages/mark-read`, {
+                messageIds,
+              })
+
+              if (response.status === 201) {
+                queryClient.invalidateQueries({ queryKey: ['assignedChats'] })
+              }
             }
           }
         }

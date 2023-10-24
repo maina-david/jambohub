@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth"
 import * as z from "zod"
-
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { markMessageAsRead } from "@/services/chat-service"
@@ -12,7 +11,7 @@ const routeContextSchema = z.object({
 })
 
 const markMessagesAsReadSchema = z.object({
-  messageIds: z.array(z.string())
+  messageIds: z.array(z.string()),
 })
 
 export async function POST(
@@ -36,17 +35,24 @@ export async function POST(
         where: {
           chatId: params.chatId,
           id: messageId,
+          internalStatus: 'unread',
+          direction: 'INCOMING',
         },
         data: {
-          internalStatus: 'read'
+          internalStatus: 'read',
         },
         include: {
-          chat: true
-        }
+          chat: {
+            include: {
+              channel: true,
+            },
+          },
+        },
       })
 
       if (message && message?.externalRef) {
-        await markMessageAsRead(message.chat.channelId, message.externalRef)
+        // Only mark messages as read if they have an external reference
+        await markMessageAsRead(message.chat.channel.id, message.externalRef)
       }
     }
 
