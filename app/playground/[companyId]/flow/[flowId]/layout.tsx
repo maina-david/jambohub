@@ -9,6 +9,8 @@ import { UserAccountNav } from "@/components/user-account-nav"
 import { ModeToggle } from "@/components/mode-toggle"
 import { siteConfig } from "@/config/site"
 import CompanySwitcher from "@/components/company-switcher"
+import Notifications from "@/components/notifications"
+import { useMediaQuery } from 'usehooks-ts'
 
 interface CompanyLayoutProps {
   children?: React.ReactNode
@@ -21,6 +23,7 @@ export default async function CompanyLayout({
 }: CompanyLayoutProps) {
   const user = await getCurrentUser()
   const companies = await getCurrentUserCompanies()
+  const mdAndAbove = useMediaQuery('(min-width: 768px)')
   if (!user) {
     return redirect('/login')
   }
@@ -41,11 +44,17 @@ export default async function CompanyLayout({
               {siteConfig.name}
             </span>
           </Link>
-          <CompanySwitcher items={companies} />
+          <CompanySwitcher companies={companies} />
           <div className="ml-auto flex items-center space-x-4">
             <MainNav items={dashboardConfig.mainNav} />
-            <ModeToggle />
+            {mdAndAbove && (
+              <>
+                <ModeToggle />
+              </>
+            )}
+            <Notifications />
             <UserAccountNav
+              mdAndAbove={mdAndAbove}
               user={{
                 name: user.name,
                 image: user.image,
