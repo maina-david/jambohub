@@ -102,7 +102,7 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
         direction: MessageDirection.OUTGOING,
         type: MessageType.TEXT,
         category: MessageCategory.INTERACTIVE,
-        internalStatus: "pending",
+        externalStatus: "pending",
       },
     })
 
@@ -110,14 +110,14 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
       // Attempt to send the message
       const sentMessageId = await sendMessage(channel.id, body.messageType, contact.identifier, body.message)
 
-      // If the message is successfully sent, update the internalStatus to "sent"
+      // If the message is successfully sent, update the externalStatus to "sent"
       const sentMessage = await db.chatMessage.update({
         where: {
           id: message.id,
         },
         data: {
           externalRef: sentMessageId,
-          internalStatus: "sent",
+          externalStatus: "sent",
         },
       })
 
@@ -125,13 +125,13 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
       return new Response(JSON.stringify(sentMessage), { status: 200 })
     } catch (error) {
       // If there is an error in sending the message, you can still return the message
-      // with internalStatus set to "failed" and status 200 (OK) to ensure the UI receives the message.
+      // with externalStatus set to "failed" and status 200 (OK) to ensure the UI receives the message.
       const failedMessage = await db.chatMessage.update({
         where: {
           id: message.id,
         },
         data: {
-          internalStatus: "failed",
+          externalStatus: "failed",
         },
       })
 
