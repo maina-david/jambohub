@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
     const requestBody = await request.text()
     const webhookData = JSON.parse(requestBody)
 
+    console.log("Received Webhook data: ", webhookData)
     // Check if the webhook object is WhatsApp Business Account
     if (webhookData.object === 'whatsapp_business_account') {
       // Extract the message data from the webhook
