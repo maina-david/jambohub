@@ -8,5 +8,5 @@ export enum ChannelType {
 }
 
 export interface ChannelProps extends Channel {
-  ChannelToFlow: ChannelToFlow
+  ChannelToFlow?: ChannelToFlow
 }

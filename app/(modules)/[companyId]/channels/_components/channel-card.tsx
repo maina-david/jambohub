@@ -442,7 +442,7 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
                       <CommandGroup heading="Published Flows">
                         {flows.map((flow) => (
                           <CommandItem
-                            disabled={channel.ChannelToFlow.flowId === flow.id}
+                            disabled={channel.ChannelToFlow?.flowId === flow.id}
                             key={flow.id}
                             value={flow.id}
                             onSelect={(currentValue) => {
@@ -455,7 +455,7 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
                             <CheckIcon
                               className={cn(
                                 "ml-auto h-4 w-4",
-                                (selectedFlow === flow.id || channel.ChannelToFlow.flowId === flow.id) ? "opacity-100" : "opacity-0"
+                                (selectedFlow === flow.id || channel.ChannelToFlow?.flowId === flow.id) ? "opacity-100" : "opacity-0"
                               )}
                             />
                           </CommandItem>
