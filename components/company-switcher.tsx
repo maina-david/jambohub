@@ -34,7 +34,7 @@ export default function CompanySwitcher({ className, companies = [] }: CompanySw
   const params = useParams()
   const router = useRouter()
 
-  if(!companies){
+  if (!companies) {
     return null
   }
   const formattedItems = companies.map((company) => ({
@@ -58,10 +58,10 @@ export default function CompanySwitcher({ className, companies = [] }: CompanySw
           role="combobox"
           aria-expanded={open}
           aria-label="Select a company"
-          className={cn("w-[200px] justify-between truncate", className)}
+          className={cn("w-[220px] justify-between", className)}
         >
           <Company className="mr-2 h-4 w-4" />
-          {currentCompany?.label}
+          <span className="truncate">{currentCompany?.label}</span>
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
