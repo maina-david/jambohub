@@ -143,7 +143,7 @@ function FlowArea({ flowData }) {
     } else {
       resetStore()
     }
-  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes, updateSendTextValue, updateReplyOption, nodes])
+  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes, updateSendTextValue, nodes])
 
 
 
