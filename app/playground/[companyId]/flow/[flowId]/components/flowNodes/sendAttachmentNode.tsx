@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../../../../../../../store/flowStore'
+import useStore from '@/store/flowStore'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 export type SendAttachmentData = {
@@ -17,6 +17,7 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className='grid w-full gap-2'>
         <Select
+          defaultValue={data.replyOption ? data.replyOption : undefined}
           onValueChange={(value) => updateReplyOption(id, value, 'replyOption')}
         >
           <SelectTrigger>
@@ -36,6 +37,7 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
           </SelectContent>
         </Select>
         <Select
+          defaultValue={data.fileOption ? data.fileOption : undefined}
           onValueChange={(value) => updateReplyOption(id, value, 'fileOption')}
         >
           <SelectTrigger>

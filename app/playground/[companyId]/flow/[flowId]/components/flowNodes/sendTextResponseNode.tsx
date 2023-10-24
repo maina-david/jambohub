@@ -10,9 +10,9 @@ import {
 } from '@/components/ui/select'
 import React, { useRef, useEffect } from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../../../../../../../store/flowStore'
+import useStore from '@/store/flowStore'
 
-function SendTextResponseNode({ id }: NodeProps) {
+function SendTextResponseNode({ id, data }: NodeProps) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
   const updateSendTextValue = useStore((state) => state.updateSendTextValue)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -32,6 +32,7 @@ function SendTextResponseNode({ id }: NodeProps) {
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className='grid w-full gap-2'>
         <Select
+          defaultValue={data.replyOption ? data.replyOption : undefined}
           onValueChange={(value) => updateReplyOption(id, value, 'replyOption')}
         >
           <SelectTrigger>
@@ -51,6 +52,7 @@ function SendTextResponseNode({ id }: NodeProps) {
           </SelectContent>
         </Select>
         <Textarea
+          value={data.value}
           placeholder='Type your message here'
           onChange={(evt) => {
             updateSendTextValue(id, evt.target.value)

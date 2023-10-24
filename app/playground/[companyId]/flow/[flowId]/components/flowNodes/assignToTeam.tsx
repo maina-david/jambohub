@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import useStore from '../../../../../../../store/flowStore'
+import useStore from '@/store/flowStore'
 import {
   Select,
   SelectContent,
@@ -23,6 +23,7 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className="grid w-full gap-2">
         <Select
+          defaultValue={data.replyOption ? data.replyOption : undefined}
           onValueChange={(value) => updateReplyOption(id, value, 'replyOption')}
         >
           <SelectTrigger>
@@ -42,6 +43,7 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
           </SelectContent>
         </Select>
         <Select
+          defaultValue={data.teamOption ? data.teamOption : undefined}
           onValueChange={(value) => updateReplyOption(id, value, 'teamOption')}
         >
           <SelectTrigger>
