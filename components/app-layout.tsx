@@ -52,9 +52,14 @@ export function AppLayout({
           <CompanySwitcher companies={companies} />
           <div className="ml-auto flex items-center space-x-4">
             <MainNav items={dashboardConfig.mainNav} />
-            <ModeToggle />
-            <Notifications />
+            {mdAndAbove && (
+              <>
+                <ModeToggle />
+                <Notifications />
+              </>
+            )}
             <UserAccountNav
+              mdAndAbove={mdAndAbove}
               user={{
                 name: user.name,
                 image: user.image,

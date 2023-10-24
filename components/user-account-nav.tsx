@@ -4,7 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { User } from "next-auth"
 import { signOut } from "next-auth/react"
-
+import { Switch } from "@/components/ui/switch"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,13 +14,28 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { UserAvatar } from "@/components/user-avatar"
 import { Icons } from "./icons"
+import { Label } from "./ui/label"
+import { useTheme } from "next-themes"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "image" | "email">
+  mdAndAbove: boolean
 }
 
-export function UserAccountNav({ user }: UserAccountNavProps) {
+export function UserAccountNav({ user, mdAndAbove }: UserAccountNavProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const { theme, setTheme } = useTheme()
+  const [isLightTheme, setIsLightTheme] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    if (theme === 'light') {
+      setIsLightTheme(true)
+    } else {
+      setIsLightTheme(false)
+    }
+  }, [theme])
+
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -48,6 +63,26 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           <Link href="#">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        {!mdAndAbove && (
+          <DropdownMenuItem>
+            <div className="flex items-center space-x-2">
+              <Switch id="theme"
+                checked={isLightTheme}
+                onCheckedChange={() => {
+                  if(isLightTheme){
+                    setTheme('dark')
+                  }else{
+                    setTheme('light')
+                  }
+                }}
+              />
+              <Label htmlFor="theme">
+                <Icons.sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Icons.moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              </Label>
+            </div>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem
           disabled={isLoading}
           className="cursor-pointer"
