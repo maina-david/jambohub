@@ -108,7 +108,7 @@ export default function LinkChannelDropdown() {
         >
           <FaWhatsapp className="mr-2 h-4 w-4" />
           WhatsApp
-          {isInitializing ? <FiLoader className="ml-2 h-4 w-4" /> : sdkInitialized === false && <CiWarning className="ml-2 h-4 w-4" />}
+          {isInitializing ? <FiLoader className="ml-2 h-4 w-4 animate-spin" /> : sdkInitialized === false && <CiWarning className="ml-2 h-4 w-4" />}
         </DropdownMenuItem>
         <DropdownMenuItem
           disabled
