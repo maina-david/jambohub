@@ -8,8 +8,6 @@ import {
   FaFacebookMessenger,
   FaCommentSms
 } from "react-icons/fa6"
-import { FiLoader } from "react-icons/fi"
-import { CiWarning } from "react-icons/ci"
 import { BiDialpad } from "react-icons/bi"
 import { useParams } from 'next/navigation'
 import { toast } from "@/components/ui/use-toast"
@@ -26,21 +24,16 @@ import { Button } from '@/components/ui/button'
 
 export default function LinkChannelDropdown() {
   const params = useParams()
-  const [sdkInitialized, setSdkInitialized] = useState<boolean | null>(null)
-  const [isInitializing, setIsInitializing] = useState<boolean>(false)
+  const [sdkInitialized, setSdkInitialized] = useState<boolean>(false)
 
   useEffect(() => {
     const initializeSDK = async () => {
-      setIsInitializing(true)
-
       try {
         await initializeFaceBookSDK()
         setSdkInitialized(true)
       } catch (error) {
         console.error('Failed to initialize Facebook SDK', error)
         setSdkInitialized(false)
-      } finally {
-        setIsInitializing(false)
       }
     }
     initializeSDK()
@@ -108,7 +101,6 @@ export default function LinkChannelDropdown() {
         >
           <FaWhatsapp className="mr-2 h-4 w-4" />
           WhatsApp
-          {isInitializing ? <FiLoader className="ml-2 h-4 w-4 animate-spin" /> : sdkInitialized === false && <CiWarning className="ml-2 h-4 w-4" />}
         </DropdownMenuItem>
         <DropdownMenuItem
           disabled
