@@ -312,182 +312,182 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
   }
 
   return (
-      <motion.li
-        key={channel.id}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="col-span-1 rounded-lg border-2 shadow-2xl">
+    <motion.li
+      key={channel.id}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="col-span-1 rounded-lg border-2 shadow-2xl">
 
-        <div className="flex w-full items-center justify-between space-x-6 p-6">
-          <div className="flex-1 truncate">
-            <div className="flex items-center space-x-3">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild className="cursor-pointer">
-                  <h3 className="truncate text-sm font-medium">{channel.name}</h3>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Account Actions</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={openEditModal}>
-                    <PencilIcon className="mr-2 h-2 w-2" />Edit
-                  </DropdownMenuItem>
-                  {channel.integrated && (
-                    <AlertDialog
-                      open={isUnlinkDialogOpen || isLinkUnlinkLoading}
-                      onOpenChange={setIsUnlinkDialogOpen}
-                    >
-                      <AlertDialogTrigger asChild>
-                        <DropdownMenuItem
-                          onSelect={(event) => {
-                            event.preventDefault()
-                            setIsUnlinkDialogOpen(true)
-                          }}>
-                          Unlink Account
-                        </DropdownMenuItem>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This action cannot be undone. This will permanently unlink <span className="font-bold">{channel.name}</span> and remove your saved integration from our servers.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={handleUnlinkChannel}
-                            disabled={isLinkUnlinkLoading}
-                          >
-                            {isLinkUnlinkLoading && (
-                              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                            )}{" "}Continue
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  )}
-                  <DropdownMenuItem onClick={openEditModal}>
-                    <PencilIcon className="mr-2 h-2 w-2" />Edit
-                  </DropdownMenuItem>
-                  <AlertDialog open={open || isLoading} onOpenChange={setOpen}>
+      <div className="flex w-full items-center justify-between space-x-6 p-6">
+        <div className="flex-1 truncate">
+          <div className="flex items-center space-x-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild className="cursor-pointer">
+                <h3 className="truncate text-sm font-medium">{channel.name}</h3>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Account Actions</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={openEditModal}>
+                  <PencilIcon className="mr-2 h-2 w-2" />Edit
+                </DropdownMenuItem>
+                {channel.integrated && (
+                  <AlertDialog
+                    open={isUnlinkDialogOpen || isLinkUnlinkLoading}
+                    onOpenChange={setIsUnlinkDialogOpen}
+                  >
                     <AlertDialogTrigger asChild>
                       <DropdownMenuItem
                         onSelect={(event) => {
                           event.preventDefault()
-                          setOpen(true)
+                          setIsUnlinkDialogOpen(true)
                         }}>
-                        <Trash2Icon className="mr-2 h-2 w-2" />Delete
+                        Unlink Account
                       </DropdownMenuItem>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          This action cannot be undone. This will permanently delete <span className="font-bold">{channel.name}</span> and remove your channel data from our servers.
+                          This action cannot be undone. This will permanently unlink <span className="font-bold">{channel.name}</span> and remove your saved integration from our servers.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction
-                          onClick={handleDeleteChannel}
-                          disabled={isLoading}
+                          onClick={handleUnlinkChannel}
+                          disabled={isLinkUnlinkLoading}
                         >
-                          {isLoading && (
+                          {isLinkUnlinkLoading && (
                             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                           )}{" "}Continue
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <span className={`inline-flex shrink-0 items-center rounded-full ${typeColorClasses.text} px-1.5 py-0.5 text-xs ${typeColorClasses.bg} font-medium ring-1 ring-inset ${typeColorClasses.ring} `}>
-                {channel.type.toLowerCase()}
-              </span>
-            </div>
-            <p className="mt-1 truncate text-sm">{channel.description}</p>
-            <p className="mt-1 truncate text-sm font-bold">{channel.identifier ? channel.identifier : 'Not Linked'}</p>
-          </div>
-          <Image
-            className="shrink-0 rounded-full dark:bg-white"
-            src={`/images/icons/${channel.type.toLowerCase()}.svg`}
-            alt={`${channel.type.toLowerCase()}`}
-            width={44}
-            height={44}
-          />
-        </div>
-        <div>
-          <div className="-mt-px flex">
-            <div className="my-1 flex w-0 flex-1">
-              <Popover open={isLinkChannelFlowOpen || isLinkingChannelFlow} onOpenChange={setIsLinkChannelFlowOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={'ghost'}
-                    disabled={isLinkingChannelFlow}
-                    className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold"
-                    onClick={() => setIsLinkChannelFlowOpen(true)}
-                  >
-                    {isLinkingChannelFlow && (
-                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                    )}
-                    Channel<Link2Icon />Flow
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent
-                  onInteractOutside={() => setIsLinkChannelFlowOpen(false)}
-                >
-                  <Command className="mt-2 rounded-lg border shadow-md">
-                    <CommandInput placeholder="Type a flow name to search..." />
-                    <CommandList>
-                      <CommandEmpty>No results found.</CommandEmpty>
-                      <CommandGroup heading="Published Flows">
-                        {flows.map((flow) => (
-                          <CommandItem
-                            disabled={channel.ChannelToFlow?.flowId === flow.id}
-                            key={flow.id}
-                            value={flow.id}
-                            onSelect={(currentValue) => {
-                              setSelectedFlow(currentValue)
-                              LinkChannelToFlow()
-                            }}
-                            className='cursor-pointer'
-                          >
-                            {channel.name}
-                            <CheckIcon
-                              className={cn(
-                                "ml-auto h-4 w-4",
-                                (selectedFlow === flow.id || channel.ChannelToFlow?.flowId === flow.id) ? "opacity-100" : "opacity-0"
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="my-1 flex w-0 flex-1">
-              <Button
-                variant={'ghost'}
-                onClick={
-                  channelStatus
-                    ? handleDeactivateChannel
-                    : handleActivateChannel
-                }
-                disabled={isLoadingActivate || isLoadingDeactivate}
-                className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold"
-              >
-                {isLoadingActivate || isLoadingDeactivate ? (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  channelStatus ? 'Deactivate' : 'Activate'
                 )}
-              </Button>
-            </div>
+                <DropdownMenuItem onClick={openEditModal}>
+                  <PencilIcon className="mr-2 h-2 w-2" />Edit
+                </DropdownMenuItem>
+                <AlertDialog open={open || isLoading} onOpenChange={setOpen}>
+                  <AlertDialogTrigger asChild>
+                    <DropdownMenuItem
+                      onSelect={(event) => {
+                        event.preventDefault()
+                        setOpen(true)
+                      }}>
+                      <Trash2Icon className="mr-2 h-2 w-2" />Delete
+                    </DropdownMenuItem>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete <span className="font-bold">{channel.name}</span> and remove your channel data from our servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={handleDeleteChannel}
+                        disabled={isLoading}
+                      >
+                        {isLoading && (
+                          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                        )}{" "}Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <span className={`inline-flex shrink-0 items-center rounded-full ${typeColorClasses.text} px-1.5 py-0.5 text-xs ${typeColorClasses.bg} font-medium ring-1 ring-inset ${typeColorClasses.ring} `}>
+              {channel.type.toLowerCase()}
+            </span>
           </div>
+          <p className="mt-1 truncate text-sm">{channel.description}</p>
+          <p className="mt-1 truncate text-sm font-bold">{channel.identifier ? channel.identifier : 'Not Linked'}</p>
         </div>
-      </motion.li>
+        <Image
+          className="shrink-0 rounded-full dark:bg-white"
+          src={`/images/icons/${channel.type.toLowerCase()}.svg`}
+          alt={`${channel.type.toLowerCase()}`}
+          width={44}
+          height={44}
+        />
+      </div>
+      <div>
+        <div className="-mt-px flex">
+          <div className="my-1 flex w-0 flex-1">
+            <Popover open={isLinkChannelFlowOpen || isLinkingChannelFlow} onOpenChange={setIsLinkChannelFlowOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={'ghost'}
+                  disabled={isLinkingChannelFlow}
+                  className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold"
+                  onClick={() => setIsLinkChannelFlowOpen(true)}
+                >
+                  {isLinkingChannelFlow && (
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  Channel<Link2Icon />Flow
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                onInteractOutside={() => setIsLinkChannelFlowOpen(false)}
+              >
+                <Command className="mt-2 rounded-lg border shadow-md">
+                  <CommandInput placeholder="Type a flow name to search..." />
+                  <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandGroup heading="Published Flows">
+                      {flows.map((flow) => (
+                        <CommandItem
+                          disabled={channel.ChannelToFlow?.flowId === flow.id}
+                          key={flow.id}
+                          value={flow.id}
+                          onSelect={(currentValue) => {
+                            setSelectedFlow(currentValue)
+                            LinkChannelToFlow()
+                          }}
+                          className={cn(channel.ChannelToFlow?.flowId === flow.id ?'cursor-not-allowed': 'cursor-pointer')}
+                          >
+                      {channel.name}
+                      <CheckIcon
+                        className={cn(
+                          "ml-auto h-4 w-4",
+                          (selectedFlow === flow.id || channel.ChannelToFlow?.flowId === flow.id) ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                    </CommandItem>
+                        ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
+        <div className="my-1 flex w-0 flex-1">
+          <Button
+            variant={'ghost'}
+            onClick={
+              channelStatus
+                ? handleDeactivateChannel
+                : handleActivateChannel
+            }
+            disabled={isLoadingActivate || isLoadingDeactivate}
+            className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold"
+          >
+            {isLoadingActivate || isLoadingDeactivate ? (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              channelStatus ? 'Deactivate' : 'Activate'
+            )}
+          </Button>
+        </div>
+      </div>
+    </div>
+      </motion.li >
   )
 }
