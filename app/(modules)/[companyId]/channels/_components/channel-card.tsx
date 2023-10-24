@@ -67,6 +67,7 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
   const [flows, setFlows] = useState<Flow[]>([])
   const [selectedFlow, setSelectedFlow] = useState<string>('')
 
+  console.log(channel)
   useEffect(() => {
     if (params?.companyId) {
       fetchCompanyFlows(params?.companyId as string).then((flows) => {
