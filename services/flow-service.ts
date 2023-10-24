@@ -96,7 +96,7 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
                             where: {
                                 flowId: automatedFlow.Flow.id,
                                 chatId: chat.id,
-                                status: conversationFlowStatus.CLOSED
+                                status: conversationFlowStatus.OPEN
                             },
                             data: {
                                 status: conversationFlowStatus.CLOSED
@@ -226,7 +226,7 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
                                         where: {
                                             flowId: automatedFlow.Flow.id,
                                             chatId: chat.id,
-                                            status: conversationFlowStatus.CLOSED
+                                            status: conversationFlowStatus.OPEN
                                         },
                                         data: {
                                             status: conversationFlowStatus.CLOSED
