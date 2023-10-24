@@ -89,7 +89,7 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
         }
 
         // Check the type of the current conversation flow
-        if (currentConversationFlow.nodeType === 'sendText' || currentConversationFlow.nodeType === 'sendTextResponse') {
+        if (currentConversationFlow.nodeType === 'sendText') {
           // Create a new entry in the conversation flow log
           await db.conversationFlowLog.create({
             data: {
@@ -126,17 +126,6 @@ export const handleAutomatedChat = async (chatMessageId: string) => {
           }
         } else if (currentConversationFlow.nodeType === 'sendTextWait') {
           // Handle sendTextWait type
-          await db.conversationFlowLog.create({
-            data: {
-              flowId: automatedFlow.Flow.id,
-              chatId: chatMessage.chatId,
-              currentConversationFlowId: currentConversationFlow.id
-            }
-          })
-          await sendMessage(chat.channelId, 'TEXT', chat.Contact.identifier, currentConversationFlow.nodeData)
-          continueFlow = false
-        } else if (currentConversationFlow.nodeType === 'sendTextResponseWait') {
-          // Handle sendTextResponseWait type
           await db.conversationFlowLog.create({
             data: {
               flowId: automatedFlow.Flow.id,

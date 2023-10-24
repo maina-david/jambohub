@@ -59,11 +59,11 @@ type WhatsAppButton = {
   buttonTitle: string
 }
 
-export async function sendWhatsAppReplyButtons(
+export async function sendWhatsAppMessageWithReplyButtons(
   phoneNumberId: string,
   accessToken: string,
   recipient: string,
-  buttonText: string,
+  messageContent: string,
   buttons: WhatsAppButton[]
 ): Promise<string> {
   try {
@@ -85,7 +85,7 @@ export async function sendWhatsAppReplyButtons(
         interactive: {
           type: 'button',
           body: {
-            text: buttonText,
+            text: messageContent,
           },
           action: {
             buttons: formattedButtons,

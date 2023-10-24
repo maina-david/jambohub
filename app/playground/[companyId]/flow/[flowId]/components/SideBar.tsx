@@ -87,22 +87,6 @@ export default function SideBar() {
         <div
           className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
           draggable
-          onDragStart={(event) => onDragStart(event, 'sendAttachment')}
-        >
-          <div
-            className="grid w-full items-center gap-1.5"
-          >
-            <p className="text-sm font-medium leading-none">
-              Send Attachment
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Drag this to send a file attachment response to the user.
-            </p>
-          </div>
-        </div>
-        <div
-          className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
-          draggable
           onDragStart={(event) => onDragStart(event, 'assignToTeam')}
         >
           <div
@@ -118,6 +102,22 @@ export default function SideBar() {
         </div>
       </TabsContent>
       <TabsContent value="pro" className="mt-0 min-h-full border-0 p-0">
+        <div
+          className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
+          draggable
+          onDragStart={(event) => onDragStart(event, 'sendAttachment')}
+        >
+          <div
+            className="grid w-full items-center gap-1.5"
+          >
+            <p className="text-sm font-medium leading-none">
+              Send Attachment
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Drag this to send a file attachment response to the user.
+            </p>
+          </div>
+        </div>
         <div
           className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
           draggable
