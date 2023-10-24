@@ -139,7 +139,8 @@ function FlowArea({ flowData }) {
     } else {
       resetStore
     }
-  }, [flowData, nodes, reactFlowInstance, resetStore, setEdges, setNodes, updateSendTextValue])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes, updateSendTextValue])
 
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
