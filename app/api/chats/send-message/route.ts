@@ -83,6 +83,14 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
 
       chatId = newChat.id
     } else {
+      await db.chat.update({
+        data: {
+          category: ChatCategory.INTERACTIVE,
+        },
+        where: {
+          id: chat.id
+        }
+      })
       chatId = chat.id
     }
 
