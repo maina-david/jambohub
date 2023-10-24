@@ -74,7 +74,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="w-full">
+    <div className="block max-w-full overflow-y-hidden overflow-x-scroll p-2">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter customers by ID..."
