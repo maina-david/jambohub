@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator"
 
 import { Actions } from "./actions"
 import ReactFlow, {
+  Node,
   Controls,
   ReactFlowProvider,
   DefaultEdgeOptions,
@@ -124,30 +125,26 @@ function FlowArea({ flowData }) {
       setEdges(flowData.edges || [])
       reactFlowInstance.setViewport({ x, y, zoom })
 
-      // Set pre-saved data for sendTextValue and replyOption
+      // Set pre-saved data for nodes
       if (flowData.nodes && Array.isArray(flowData.nodes)) {
-        flowData.nodes.forEach((node) => {
-          if (node.data && node.id) {
-            const { value, replyOption, teamOption, fileOption } = node.data
-            if (value !== undefined) {
-              updateSendTextValue(node.id, value)
+        flowData.nodes.forEach((nodeData: Node) => {
+          const nodeToUpdate = nodes.find((node) => node.id === nodeData.id)
+          if (nodeToUpdate) {
+            const { value } = nodeData.data || {}
+
+            // Update sendText node data
+            if (nodeData.type === 'sendText' && value !== undefined) {
+              updateSendTextValue(nodeData.id, value)
             }
-            if (replyOption !== undefined) {
-              updateReplyOption(node.id, replyOption, 'replyOption')
-            }
-            if (teamOption !== undefined) {
-              updateReplyOption(node.id, teamOption, 'teamOption')
-            }
-            if (fileOption !== undefined) {
-              updateReplyOption(node.id, fileOption, 'fileOption')
-            }
+
           }
         })
       }
     } else {
-      resetStore() // Invoke resetStore as a function
+      resetStore()
     }
-  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes, updateReplyOption, updateSendTextValue])
+  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes, updateSendTextValue, updateReplyOption, nodes])
+
 
 
   const onSave = useCallback(() => {
