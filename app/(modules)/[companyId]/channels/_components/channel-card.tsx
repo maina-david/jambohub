@@ -312,11 +312,13 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
   }
 
   return (
-    <AnimatePresence>
       <motion.li
+        key={channel.id}
+        initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="col-span-1 rounded-lg border-2 shadow-2xl">
+
         <div className="flex w-full items-center justify-between space-x-6 p-6">
           <div className="flex-1 truncate">
             <div className="flex items-center space-x-3">
@@ -487,6 +489,5 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
           </div>
         </div>
       </motion.li>
-    </AnimatePresence>
   )
 }

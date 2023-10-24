@@ -7,6 +7,7 @@ import { ChannelCard } from './channel-card'
 import { useParams } from 'next/navigation'
 import ChannelSkeleton from './channel-skeleton'
 import { fetchChannels } from '@/actions/channel-actions'
+import { AnimatePresence } from 'framer-motion'
 
 export default function ListChannels() {
   const params = useParams()
@@ -56,9 +57,11 @@ export default function ListChannels() {
     <>
       {channels.length ? (
         <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence>
           {channels.map((channel, index) => {
             return <ChannelCard key={index} channel={channel} />
           })}
+          </AnimatePresence>
         </ul>
       ) : (
         <EmptyPlaceholder>
