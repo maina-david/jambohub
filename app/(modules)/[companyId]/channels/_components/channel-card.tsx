@@ -432,7 +432,9 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
                     Channel<Link2Icon />Flow
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent>
+                <PopoverContent
+                  onInteractOutside={() => setIsLinkChannelFlowOpen(false)}
+                >
                   <Command className="mt-2 rounded-lg border shadow-md">
                     <CommandInput placeholder="Type a flow name to search..." />
                     <CommandList>
@@ -445,6 +447,7 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
                             value={flow.id}
                             onSelect={(currentValue) => {
                               setSelectedFlow(currentValue)
+                              LinkChannelToFlow()
                             }}
                             className='cursor-pointer'
                           >
@@ -460,17 +463,6 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
                       </CommandGroup>
                     </CommandList>
                   </Command>
-                  <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
-                    <Button
-                      disabled={!selectedFlow || isLinkingChannelFlow}
-                      onClick={() => LinkChannelToFlow()}
-                    >
-                      {isLinkingChannelFlow && (
-                        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                      )}
-                      Link Channel to Flow
-                    </Button>
-                  </div>
                 </PopoverContent>
               </Popover>
             </div>
