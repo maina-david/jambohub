@@ -444,50 +444,52 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
                     <CommandGroup heading="Published Flows">
                       {flows.map((flow) => (
                         <CommandItem
-                          disabled={channel.ChannelToFlow?.flowId === flow.id}
+                          disabled={channel.ChannelToFlow?.flowId === flow.id ||
+                            isLinkingChannelFlow}
                           key={flow.id}
                           value={flow.id}
                           onSelect={(currentValue) => {
                             setSelectedFlow(currentValue)
                             LinkChannelToFlow()
                           }}
-                          className={cn(channel.ChannelToFlow?.flowId === flow.id ?'cursor-not-allowed': 'cursor-pointer')}
-                          >
-                      {channel.name}
-                      <CheckIcon
-                        className={cn(
-                          "ml-auto h-4 w-4",
-                          (selectedFlow === flow.id || channel.ChannelToFlow?.flowId === flow.id) ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                    </CommandItem>
-                        ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div className="my-1 flex w-0 flex-1">
-          <Button
-            variant={'ghost'}
-            onClick={
-              channelStatus
-                ? handleDeactivateChannel
-                : handleActivateChannel
-            }
-            disabled={isLoadingActivate || isLoadingDeactivate}
-            className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold"
-          >
-            {isLoadingActivate || isLoadingDeactivate ? (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              channelStatus ? 'Deactivate' : 'Activate'
-            )}
-          </Button>
+                          className={cn(channel.ChannelToFlow?.flowId === flow.id ||
+                            isLinkingChannelFlow ? 'cursor-not-allowed' : 'cursor-pointer')}
+                        >
+                          {channel.name}
+                          <CheckIcon
+                            className={cn(
+                              "ml-auto h-4 w-4",
+                              (selectedFlow === flow.id || channel.ChannelToFlow?.flowId === flow.id) ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div className="my-1 flex w-0 flex-1">
+            <Button
+              variant={'ghost'}
+              onClick={
+                channelStatus
+                  ? handleDeactivateChannel
+                  : handleActivateChannel
+              }
+              disabled={isLoadingActivate || isLoadingDeactivate}
+              className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold"
+            >
+              {isLoadingActivate || isLoadingDeactivate ? (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                channelStatus ? 'Deactivate' : 'Activate'
+              )}
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
-      </motion.li >
+    </motion.li >
   )
 }
