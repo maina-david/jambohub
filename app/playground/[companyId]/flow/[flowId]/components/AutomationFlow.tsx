@@ -30,7 +30,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { Flow } from "@prisma/client"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import SideBar from "./SideBar"
-import useFlowStore, { RFState } from "@/store/flowStore"
+import useFlowStore, { NodeData, RFState } from "@/store/flowStore"
 import SendAttachmentNode from "./flowNodes/sendAttachmentNode"
 import AssignToTeamNode from "./flowNodes/assignToTeam"
 import { toast } from "@/components/ui/use-toast"
@@ -49,8 +49,7 @@ const selector = (state: RFState) => ({
   onConnect: state.onConnect,
   onEdgesDelete: state.onEdgesDelete,
   addDraggedNode: state.addDraggedNode,
-  updateSendTextValue: state.updateSendTextValue,
-  updateReplyOption: state.updateReplyOption
+  updateSendTextValue: state.updateSendTextValue
 })
 
 const nodeTypes = {
@@ -83,8 +82,7 @@ function FlowArea({ flowData }) {
     onConnect,
     onEdgesDelete,
     addDraggedNode,
-    updateSendTextValue,
-    updateReplyOption
+    updateSendTextValue
   } = useFlowStore(selector)
   const store = useStoreApi()
   const reactFlowInstance = useReactFlow()
@@ -124,8 +122,6 @@ function FlowArea({ flowData }) {
       setNodes(flowData.nodes || [])
       setEdges(flowData.edges || [])
       reactFlowInstance.setViewport({ x, y, zoom })
-
-      // Set pre-saved data for nodes
       if (flowData.nodes) {
         flowData.nodes.forEach((savedNode: Node) => {
           const nodeToUpdate = nodes.find((node) => node.id === savedNode.id)
@@ -141,11 +137,9 @@ function FlowArea({ flowData }) {
         })
       }
     } else {
-      resetStore()
+      resetStore
     }
-  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes, updateSendTextValue, nodes])
-
-
+  }, [flowData, nodes, reactFlowInstance, resetStore, setEdges, setNodes, updateSendTextValue])
 
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
@@ -159,7 +153,7 @@ function FlowArea({ flowData }) {
       onSave()
     }, 2000)
 
-    return () => clearTimeout(saveTimeout)
+    return () => clearTimeout(saveTimeout);
   }, [
     nodes,
     edges,
@@ -258,7 +252,7 @@ export default function AutomationFlow() {
           description: 'Flow saved successfully',
         })
       } catch (error) {
-        console.error('Error saving flow:', error)
+        console.error('Error saving flow:', error);
         toast({
           title: 'Error',
           description: 'Failed to save flow',
@@ -268,7 +262,7 @@ export default function AutomationFlow() {
         setIsSaving(false)
       }
     } else {
-      console.warn('No flow data available to save.')
+      console.warn('No flow data available to save.');
       toast({
         title: 'Error',
         description: 'No flow data available to save',
