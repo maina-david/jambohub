@@ -62,7 +62,7 @@ model Company {
   createdAt            DateTime              @default(now()) @map(name: "created_at")
   updatedAt            DateTime              @default(now()) @map(name: "updated_at")
   ownerId              String
-  owner                User                  @relation("Owner", fields: [ownerId], references: [id])
+  owner                User                  @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
   status               Boolean               @default(true)
   default              Boolean               @default(false)
   email                String                @unique
@@ -97,15 +97,15 @@ model NotificationSettings {
   pushNotifications  Boolean @default(true)
   smsNotifications   Boolean @default(true)
   companyId          String  @unique
-  Company            Company @relation(fields: [companyId], references: [id])
+  Company            Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 }
 
 model UserCompany {
   id        String  @id @default(cuid())
   userId    String
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   companyId String
-  company   Company @relation(fields: [companyId], references: [id])
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 }
 
 enum SubscriptionPlan {
@@ -116,7 +116,7 @@ enum SubscriptionPlan {
 model Subscription {
   id               String           @id @default(cuid())
   userId           String           @unique
-  user             User             @relation(fields: [userId], references: [id])
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   plan             SubscriptionPlan @default(FREE)
   maxCompanies     Int              @default(1)
   maxTeams         Int              @default(1)
@@ -145,7 +145,7 @@ model Team {
   noOfSeats   Int        @default(1)
   companyId   String
   status      Boolean    @default(true)
-  company     Company    @relation(fields: [companyId], references: [id])
+  company     Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
   channels    Channel[]  @relation("ChannelToTeams")
   members     UserTeam[]
 }
@@ -155,8 +155,8 @@ model UserTeam {
   userId String
   teamId String
   status Boolean @default(true)
-  user   User    @relation(fields: [userId], references: [id])
-  team   Team    @relation(fields: [teamId], references: [id])
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team   Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
   @@unique([userId, teamId])
 }
@@ -197,7 +197,7 @@ model Channel {
   integrated    Boolean        @default(false)
   teams         Team[]         @relation("ChannelToTeams")
   chats         Chat[]
-  company       Company        @relation(fields: [companyId], references: [id])
+  company       Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @default(now())
   ChannelToFlow ChannelToFlow?
@@ -213,16 +213,16 @@ model Customer {
   createdAt      DateTime  @default(now()) @map(name: "created_at")
   updatedAt      DateTime  @default(now()) @map(name: "updated_at")
   companyId      String
-  company        Company   @relation(fields: [companyId], references: [id])
+  company        Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
   Contact        Contact[]
 }
 
 model Contact {
   id         String      @id @default(cuid())
   customerId String?
-  customer   Customer?   @relation(fields: [customerId], references: [id])
+  customer   Customer?   @relation(fields: [customerId], references: [id], onDelete: Cascade)
   companyId  String
-  company    Company     @relation(fields: [companyId], references: [id])
+  company    Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
   channel    ChannelType
   identifier String
   alias      String?
@@ -251,7 +251,7 @@ model Campaign {
   audience    CampaignAudience
   status      CampaignStatus
   companyId   String
-  company     Company          @relation(fields: [companyId], references: [id])
+  company     Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @default(now())
 }
@@ -270,11 +270,11 @@ model Chat {
   id                  String                @id @default(cuid())
   category            ChatCategory
   channelId           String
-  channel             Channel               @relation(fields: [channelId], references: [id])
+  channel             Channel               @relation(fields: [channelId], references: [id], onDelete: Cascade)
   companyId           String
-  company             Company               @relation(fields: [companyId], references: [id])
+  company             Company               @relation(fields: [companyId], references: [id], onDelete: Cascade)
   contactId           String
-  Contact             Contact               @relation(fields: [contactId], references: [id])
+  Contact             Contact               @relation(fields: [contactId], references: [id], onDelete: Cascade)
   externalRef         String?
   status              ChatStatus            @default(OPEN)
   timestamp           DateTime              @default(now())
@@ -304,10 +304,10 @@ enum MessageType {
 model ChatMessage {
   id             String           @id @default(cuid())
   chatId         String
-  chat           Chat             @relation(fields: [chatId], references: [id])
+  chat           Chat             @relation(fields: [chatId], references: [id], onDelete: Cascade)
   externalRef    String?          @unique
   userId         String?
-  user           User?            @relation(fields: [userId], references: [id])
+  user           User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
   message        String
   direction      MessageDirection
   type           MessageType
@@ -325,7 +325,7 @@ model ConversationFlow {
   nodeOption   String?
   nodeData     String?
   flowId       String
-  Flow         Flow     @relation(fields: [flowId], references: [id])
+  Flow         Flow     @relation(fields: [flowId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @default(now())
 }
@@ -333,9 +333,9 @@ model ConversationFlow {
 model ChannelToFlow {
   id        String  @id @default(cuid())
   channelId String  @unique
-  Channel   Channel @relation(fields: [channelId], references: [id])
+  Channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
   flowId    String
-  Flow      Flow    @relation(fields: [flowId], references: [id])
+  Flow      Flow    @relation(fields: [flowId], references: [id], onDelete: Cascade)
 }
 
 enum conversationFlowStatus {
@@ -346,9 +346,9 @@ enum conversationFlowStatus {
 model ConversationFlowLog {
   id                        String                 @id @default(cuid())
   flowId                    String
-  Flow                      Flow                   @relation(fields: [flowId], references: [id])
+  Flow                      Flow                   @relation(fields: [flowId], references: [id], onDelete: Cascade)
   chatId                    String
-  Chat                      Chat                   @relation(fields: [chatId], references: [id])
+  Chat                      Chat                   @relation(fields: [chatId], references: [id], onDelete: Cascade)
   currentConversationFlowId String
   status                    conversationFlowStatus @default(OPEN)
   createdAt                 DateTime               @default(now())
