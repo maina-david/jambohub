@@ -55,9 +55,9 @@ export function AppLayout({
             {mdAndAbove && (
               <>
                 <ModeToggle />
-                <Notifications />
               </>
             )}
+            <Notifications />
             <UserAccountNav
               mdAndAbove={mdAndAbove}
               user={{
