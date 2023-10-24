@@ -435,7 +435,7 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
               <PopoverContent
                 onInteractOutside={() => setIsLinkChannelFlowOpen(false)}
               >
-                <Command className="mt-2 rounded-lg border shadow-md">
+                <Command>
                   <CommandInput placeholder="Type a flow name to search..." />
                   <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
