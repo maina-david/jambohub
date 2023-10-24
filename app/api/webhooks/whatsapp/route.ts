@@ -36,6 +36,18 @@ export async function POST(request: NextRequest) {
     webhookData.entry[0].changes[0].value) {
     // Extract the message data from the webhook
     const messageData = webhookData.entry[0].changes[0].value
+
+    // If webhook is for read message
+    if (messageData && messageData.statuses && messageData.statuses[0]) {
+      const status = messageData.statuses[0].status
+      const whatsappMessageId = messageData.statuses[0].id
+
+      if (status === 'read') {
+        // Call the function to mark chatMessage as read
+        await markChatMessageAsRead(whatsappMessageId)
+      }
+    }
+
     // Fetch the Channel based on the phone number
     const phoneNumber = messageData.metadata.display_phone_number
     const channel = await fetchChannelDetails(phoneNumber)
@@ -229,5 +241,26 @@ function getMessageType(messageType: string) {
       return MessageType.TEMPLATE
     default:
       return MessageType.TEXT
+  }
+}
+
+// mark chatMessage as read
+async function markChatMessageAsRead(whatsappMessageId: string) {
+  try {
+    const chatMessage = await db.chatMessage.findFirst({
+      where: {
+        externalRef: whatsappMessageId,
+      },
+    })
+
+    if (chatMessage) {
+      // Update the externalStatus to "read"
+      await db.chatMessage.update({
+        where: { id: chatMessage.id },
+        data: { externalStatus: "read" },
+      })
+    }
+  } catch (error) {
+    console.error('Error marking chatMessage as read:', error)
   }
 }
