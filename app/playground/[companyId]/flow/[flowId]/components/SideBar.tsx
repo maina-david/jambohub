@@ -126,7 +126,7 @@ export default function SideBar() {
               Initiate Payment
             </p>
             <p className="text-sm text-muted-foreground">
-              Drag this to send a payment request to the user.
+              Drag this to send a payment request.
             </p>
           </div>
         </div>
