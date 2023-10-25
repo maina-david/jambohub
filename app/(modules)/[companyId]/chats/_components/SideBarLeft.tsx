@@ -48,7 +48,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
   const renderChatsAndContacts = () => {
     return (
       <>
-        <div className="flex items-center justify-between space-x-2 p-2.5">
+        <div className="flex w-full items-center justify-between space-x-2 p-2.5">
           <Input placeholder="Search for contact..." />
         </div>
         <Separator />
@@ -71,11 +71,11 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     user={{ name: chat.Contact.alias || null, image: null }}
                     className="mr-2 h-8 w-8"
                   />
-                  <div className="flex flex-col">
-                    <span className="truncate text-base font-medium tracking-tight">
+                  <div className="flex-1 truncate">
+                    <p className="truncate text-base font-medium tracking-tight">
                       {chat.Contact.alias || chat.Contact.identifier}
-                    </span>
-                    <p className='overflow-hidden text-ellipsis'>
+                    </p>
+                    <p className='truncate'>
                       {getLastChatMessage(chat) ? getLastChatMessage(chat)?.message : null}
                     </p>
                   </div>
@@ -106,7 +106,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             <Button variant={'ghost'} size={'icon'}>
               <UserPlus2Icon className="h-4 w-4" />
             </Button>
-            </div>
+          </div>
           {contacts.length > 0 ? (
             contacts.map((contact) => (
               <div
