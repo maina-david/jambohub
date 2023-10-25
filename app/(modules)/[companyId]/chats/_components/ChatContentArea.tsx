@@ -173,8 +173,10 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      e.preventDefault()
-      handleSend()
+      if (!isSending && message) {
+        e.preventDefault()
+        handleSend()
+      }
     }
   }
 
@@ -278,6 +280,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
               </ScrollArea>
               <div className="flex border p-3">
                 <Input
+                  readOnly={isSending}
                   value={message}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
