@@ -75,7 +75,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     <span className="truncate text-base font-medium tracking-tight">
                       {chat.Contact.alias || chat.Contact.identifier}
                     </span>
-                    <p className='overflow-hidden'>
+                    <p className='max-w-[10rem] overflow-hidden text-ellipsis'>
                       {getLastChatMessage(chat) ? getLastChatMessage(chat)?.message : null}
                     </p>
                   </div>
@@ -90,6 +90,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     )}
                   </div>
                 </div>
+
               ))
             ) : (
               <p className="mt-6 text-center text-sm">
