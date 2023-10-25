@@ -71,13 +71,13 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     user={{ name: chat.Contact.alias || null, image: null }}
                     className="mr-2 h-8 w-8"
                   />
-                  <div className="flex flex-col">
+                  <div className="flex grow flex-col">
                     <span className="truncate text-base font-medium tracking-tight">
                       {chat.Contact.alias || chat.Contact.identifier}
                     </span>
-                    <span className='truncate'>
+                    <p className='overflow-hidden text-ellipsis'>
                       {getLastChatMessage(chat) ? getLastChatMessage(chat)?.message : null}
-                    </span>
+                    </p>
                   </div>
                   <div className='flex flex-col items-end'>
                     <p className="whitespace-nowrap text-sm text-gray-500">
