@@ -48,11 +48,11 @@ const SideBarLeft = (props: SideBarLeftProps) => {
   const renderChatsAndContacts = () => {
     return (
       <>
-        <div className="flex w-full items-center justify-between space-x-2 p-2.5">
+        <div className="flex items-center justify-between space-x-2 p-2.5">
           <Input placeholder="Search for contact..." />
         </div>
         <Separator />
-        <ScrollArea className="h-[470px] w-full space-y-4">
+        <ScrollArea className="h-[470px] space-y-4">
           <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
             Chats
           </h5>
