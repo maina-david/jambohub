@@ -453,7 +453,7 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
                           className={cn(channel.ChannelToFlow?.flowId === flow.id ||
                             isLinkingChannelFlow ? 'cursor-not-allowed' : 'cursor-pointer')}
                         >
-                          {channel.name}
+                          {flow.name}
                           <CheckIcon
                             className={cn(
                               "ml-auto h-4 w-4",
