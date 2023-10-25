@@ -75,7 +75,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     <p className="truncate text-base font-medium tracking-tight">
                       {chat.Contact.alias || chat.Contact.identifier}
                     </p>
-                    <p className='truncate'>
+                    <p className='w-[200px] truncate'>
                       {getLastChatMessage(chat)?.message}
                     </p>
                   </div>
