@@ -133,28 +133,28 @@ export default function SideBar() {
         <div
           className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
           draggable
-          onDragStart={(event) => onDragStart(event, 'provideDiscount')}
+          onDragStart={(event) => onDragStart(event, 'performDisbursement')}
         >
           <div className="grid w-full items-center gap-1.5">
             <p className="text-sm font-medium leading-none">
-              Provide Discount
+              Perform Disbursement
             </p>
             <p className="text-sm text-muted-foreground">
-              Drag this to offer a discount to the user.
+              Drag this to perform a disbursement transaction.
             </p>
           </div>
         </div>
         <div
           className="flex cursor-grab items-center space-x-4 rounded-md border p-4"
           draggable
-          onDragStart={(event) => onDragStart(event, 'sendSurvey')}
+          onDragStart={(event) => onDragStart(event, 'authenticateUser')}
         >
           <div className="grid w-full items-center gap-1.5">
             <p className="text-sm font-medium leading-none">
-              Send Survey
+              Authenticate User
             </p>
             <p className="text-sm text-muted-foreground">
-              Drag this to send a survey for user feedback.
+              Drag this to authenticate the user.
             </p>
           </div>
         </div>
