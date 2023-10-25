@@ -62,7 +62,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                 <div
                   key={chat.id}
                   className={cn(
-                    "flex w-full cursor-pointer flex-row items-start rounded-2xl px-3 py-2",
+                    "flex cursor-pointer flex-row items-start rounded-2xl px-3 py-2",
                     chat.contactId === selectedChat?.contactId && "bg-accent"
                   )}
                   onClick={() => setSelectedChat(chat.contactId)}
@@ -75,7 +75,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     <span className="truncate text-base font-medium tracking-tight">
                       {chat.Contact.alias || chat.Contact.identifier}
                     </span>
-                    <p className='truncate'>
+                    <p className='overflow-hidden'>
                       {getLastChatMessage(chat) ? getLastChatMessage(chat)?.message : null}
                     </p>
                   </div>
