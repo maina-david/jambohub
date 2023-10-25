@@ -66,7 +66,7 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: false,
 }
 
-const defaultViewport: Viewport = { x: 0, y: 0, zoom: 1.3 }
+const defaultViewport: Viewport = { x: 0, y: 0, zoom: 0.5 }
 
 const proOptions = { hideAttribution: true }
 
@@ -118,7 +118,7 @@ function FlowArea({ flowData }) {
 
   useEffect(() => {
     if (flowData && reactFlowInstance) {
-      const { x = 0, y = 0, zoom = 1.3 } = flowData.viewport || {}
+      const { x = 0, y = 0, zoom = 0.5 } = flowData.viewport || {}
       setNodes(flowData.nodes || [])
       setEdges(flowData.edges || [])
       reactFlowInstance.setViewport({ x, y, zoom })
