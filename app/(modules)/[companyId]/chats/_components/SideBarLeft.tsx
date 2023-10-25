@@ -75,9 +75,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     <p className="truncate text-base font-medium tracking-tight">
                       {chat.Contact.alias || chat.Contact.identifier}
                     </p>
-                    <p className='truncate'>
-                      {getLastChatMessage(chat) ? getLastChatMessage(chat)?.message : null}
-                    </p>
+                    {getLastChatMessage(chat) ? <p className='truncate'>{getLastChatMessage(chat)?.message}</p> : null}
                   </div>
                   <div className='flex flex-col items-end'>
                     <p className="whitespace-nowrap text-sm text-gray-500">
