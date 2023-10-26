@@ -139,7 +139,7 @@ export function SideNav(props: SideNavProps) {
           animate="open"
           className="grid items-start gap-2"
         >
-          <motion.div className="absolute" variants={sidebar} />
+          <motion.div variants={sidebar} />
 
           <motion.ul
             variants={ulVariants}>
@@ -157,7 +157,7 @@ export function SideNav(props: SideNavProps) {
                       href={item.disabled ? "/" : item.href}
                       onClick={handleMobileSidebar}
                     >
-                      <span
+                      <div
                         className={cn(
                           "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
                           path?.startsWith(item.href) ? "bg-accent text-sky-500" : "transparent",
@@ -166,7 +166,7 @@ export function SideNav(props: SideNavProps) {
                       >
                         <Icon className="mr-2 h-4 w-4" />
                         <span>{item.title}</span>
-                      </span>
+                      </div>
                     </Link>
                   </motion.li>
                 )
