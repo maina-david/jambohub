@@ -77,7 +77,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                 chats.map((chat) => (
                   <motion.div
                     key={chat.id}
-                    initial={{ opacity: 0, y: "-100%" }}
+                    initial={{ opacity: 0, y: "100%" }}
                     animate={{ opacity: 1, y: 0 }}
                     className={cn(
                       "flex cursor-pointer flex-row items-start rounded-2xl px-3 py-2",
@@ -125,27 +125,31 @@ const SideBarLeft = (props: SideBarLeftProps) => {
               <UserPlus2Icon className="h-4 w-4" />
             </Button>
           </div>
-          {contacts.length > 0 ? (
-            contacts.map((contact) => (
-              <div
-                key={contact.id}
-                className="w-full cursor-pointer px-3 py-2 hover:bg-accent"
-                onClick={() => setSelectedChat(contact.id)}
-              >
-                <div className='flex flex-row items-start'>
-                  <UserAvatar
-                    user={{ name: contact.alias || null, image: null }}
-                    className="mr-2 h-8 w-8"
-                  />
-                  <p className="text-base font-medium tracking-tight">{contact.alias || contact.identifier}</p>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="mt-6 text-center text-sm">
-              No contacts available
-            </p>
-          )}
+          <AnimatePresence>
+            {contacts.length > 0 ? (
+              contacts.map((contact) => (
+                <motion.div
+                  key={contact.id}
+                  initial={{ opacity: 0, y: "100%" }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="w-full cursor-pointer px-3 py-2 hover:bg-accent"
+                  onClick={() => setSelectedChat(contact.id)}
+                >
+                  <div className='flex flex-row items-start'>
+                    <UserAvatar
+                      user={{ name: contact.alias || null, image: null }}
+                      className="mr-2 h-8 w-8"
+                    />
+                    <p className="text-base font-medium tracking-tight">{contact.alias || contact.identifier}</p>
+                  </div>
+                </motion.div>
+              ))
+            ) : (
+              <p className="mt-6 text-center text-sm">
+                No contacts available
+              </p>
+            )}
+          </AnimatePresence>
         </ScrollArea>
       </>
     )
