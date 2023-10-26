@@ -126,7 +126,7 @@ export default function AddContactDialog() {
             Fill in the contact details to add a new contact.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
@@ -178,20 +178,28 @@ export default function AddContactDialog() {
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="WHATSAPP">
-                          <FaWhatsapp className="mr-2 h-4 w-4" />
-                          WhatsApp
+                          <span className="flex">
+                            <FaWhatsapp className="mr-2 h-4 w-4" />
+                            WhatsApp
+                          </span>
                         </SelectItem>
                         <SelectItem disabled value="TWITTER">
-                          <FaXTwitter className='mr-2 h-4 w-4' />
-                          Twitter
+                          <span className="flex">
+                            <FaXTwitter className='mr-2 h-4 w-4' />
+                            Twitter
+                          </span>
                         </SelectItem>
                         <SelectItem disabled value="FACEBOOK_MESSENGER">
-                          <FaFacebookMessenger className="mr-2 h-4 w-4" />
-                          Messenger
+                          <span className="flex">
+                            <FaFacebookMessenger className="mr-2 h-4 w-4" />
+                            Messenger
+                          </span>
                         </SelectItem>
                         <SelectItem disabled value="SMS">
-                          <FaCommentSms className='mr-2 h-4 w-4' />
-                          SMS
+                          <span className="flex">
+                            <FaCommentSms className='mr-2 h-4 w-4' />
+                            SMS
+                          </span>
                         </SelectItem>
                       </SelectContent>
                     </Select>

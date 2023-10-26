@@ -90,17 +90,26 @@ export function SideNav(props: SideNavProps) {
     return (
       <AnimatePresence>
         <motion.nav
-          initial={{ opacity: 0, x: "-100%" }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ staggerChildren: 0.5 }}
+          transition={{ staggerChildren: 0.07, delayChildren: 0.2 }}
           className="grid items-start gap-2"
         >
           {routes.map((item, index) => {
             const Icon = Icons[item.icon || "arrowRight"]
             return (
               item.href && (
-                <Link onClick={handleMobileSidebar} key={index} href={item.disabled ? "/" : item.href}>
-                  <span
+                <Link
+                  key={index}
+                  href={item.disabled ? "/" : item.href}
+                  onClick={handleMobileSidebar}
+                >
+                  <motion.span
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      y: { stiffness: 1000, velocity: -100 }
+                    }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
                     className={cn(
                       "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
                       path?.startsWith(item.href) ? "bg-accent text-sky-500" : "transparent",
@@ -109,7 +118,7 @@ export function SideNav(props: SideNavProps) {
                   >
                     <Icon className="mr-2 h-4 w-4" />
                     <span>{item.title}</span>
-                  </span>
+                  </motion.span>
                 </Link>
               )
             )
