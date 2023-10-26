@@ -102,7 +102,7 @@ export function SideNav(props: SideNavProps) {
                   href={item.disabled ? "/" : item.href}
                   onClick={handleMobileSidebar}
                 >
-                  <motion.span
+                  <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
@@ -118,7 +118,7 @@ export function SideNav(props: SideNavProps) {
                   >
                     <Icon className="mr-2 h-4 w-4" />
                     <span>{item.title}</span>
-                  </motion.span>
+                  </motion.div>
                 </Link>
               )
             )
