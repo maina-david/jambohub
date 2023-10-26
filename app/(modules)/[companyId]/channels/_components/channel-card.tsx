@@ -237,38 +237,6 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
     }
   }
 
-  const typeColorClasses = {
-    WHATSAPP: {
-      text: 'text-green-700',
-      bg: 'bg-green-50',
-      ring: 'ring-green-600/20'
-    },
-    FACEBOOK: {
-      text: 'text-blue-700',
-      bg: 'bg-blue-50',
-      ring: 'ring-blue-600/20'
-    },
-    TWITTER: {
-      text: 'text-blue-500',
-      bg: 'bg-blue-50',
-      ring: 'ring-blue-600/20'
-    },
-    TIKTOK: {
-      text: 'text-pink-700',
-      bg: 'bg-pink-50',
-      ring: 'ring-pink-600/20'
-    },
-    SMS: {
-      text: 'text-purple-700',
-      bg: 'bg-purple-50',
-      ring: 'ring-purple-600/20'
-    },
-  }[channel.type] || {
-    text: 'text-gray-700',
-    bg: 'bg-gray-50',
-    ring: 'ring-gray-600/20'
-  }
-
   const LinkChannelToFlow = async () => {
     if (selectedFlow && params?.companyId) {
       const companyId = params.companyId
@@ -309,12 +277,46 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
     }
   }
 
+  const typeColorClasses = {
+    WHATSAPP: {
+      text: 'text-green-700',
+      bg: 'bg-green-50',
+      ring: 'ring-green-600/20'
+    },
+    FACEBOOK: {
+      text: 'text-blue-700',
+      bg: 'bg-blue-50',
+      ring: 'ring-blue-600/20'
+    },
+    TWITTER: {
+      text: 'text-blue-500',
+      bg: 'bg-blue-50',
+      ring: 'ring-blue-600/20'
+    },
+    TIKTOK: {
+      text: 'text-pink-700',
+      bg: 'bg-pink-50',
+      ring: 'ring-pink-600/20'
+    },
+    SMS: {
+      text: 'text-purple-700',
+      bg: 'bg-purple-50',
+      ring: 'ring-purple-600/20'
+    },
+  }[channel.type] || {
+    text: 'text-gray-700',
+    bg: 'bg-gray-50',
+    ring: 'ring-gray-600/20'
+  }
+
+  const item = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1 }
+  }
   return (
     <motion.li
       key={channel.id}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 2 }}
-      exit={{ opacity: 0 }}
+      variants={item}
       className="col-span-1 rounded-lg border-2 shadow-2xl">
 
       <div className="flex w-full items-center justify-between space-x-6 p-6">

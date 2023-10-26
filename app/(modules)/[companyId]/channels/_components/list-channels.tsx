@@ -9,15 +9,6 @@ import ChannelSkeleton from './channel-skeleton'
 import { fetchChannels } from '@/actions/channel-actions'
 import { AnimatePresence, motion } from 'framer-motion'
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      delayChildren: 0.5
-    }
-  }
-}
 export default function ListChannels() {
   const params = useParams()
   const companyId = params?.companyId
@@ -61,7 +52,16 @@ export default function ListChannels() {
       )
     }
   }
-
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.5
+      }
+    }
+  }
+  
   return (
     <>
       {channels.length ? (
@@ -70,7 +70,6 @@ export default function ListChannels() {
             variants={container}
             initial="hidden"
             animate="show"
-            role="list"
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
           >
             {channels.map((channel, index) => {
