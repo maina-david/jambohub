@@ -86,43 +86,74 @@ export function SideNav(props: SideNavProps) {
     }
   }
 
+  const variants = {
+    open: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        y: { stiffness: 1000, velocity: -100 }
+      }
+    },
+    closed: {
+      y: 50,
+      opacity: 0,
+      transition: {
+        y: { stiffness: 1000 }
+      }
+    }
+  }
   const renderSideNav = () => {
     return (
       <AnimatePresence>
         <motion.nav
-          transition={{ staggerChildren: 0.07, delayChildren: 0.2 }}
+          transition={{
+            type: "spring",
+            stiffness: 20,
+            restDelta: 2
+          }}
           className="grid items-start gap-2"
         >
-          {routes.map((item, index) => {
-            const Icon = Icons[item.icon || "arrowRight"]
-            return (
-              item.href && (
-                <Link
-                  key={index}
-                  href={item.disabled ? "/" : item.href}
-                  onClick={handleMobileSidebar}
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      y: { stiffness: 1000, velocity: -100 }
-                    }}
+          <motion.ul
+            transition={{ staggerChildren: 0.07, delayChildren: 0.2 }}>
+            {routes.map((item, index) => {
+              const Icon = Icons[item.icon || "arrowRight"]
+              return (
+                item.href && (
+                  <motion.li
+                    variants={variants}
+                    initial="closed"
+                    animate="open"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    className={cn(
-                      "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
-                      path?.startsWith(item.href) ? "bg-accent text-sky-500" : "transparent",
-                      item.disabled && "cursor-not-allowed opacity-80"
-                    )}
                   >
-                    <Icon className="mr-2 h-4 w-4" />
-                    <span>{item.title}</span>
-                  </motion.div>
-                </Link>
+                    <Link
+                      key={index}
+                      href={item.disabled ? "/" : item.href}
+                      onClick={handleMobileSidebar}
+                    >
+                      <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          y: { stiffness: 1000, velocity: -100 }
+                        }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className={cn(
+                          "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
+                          path?.startsWith(item.href) ? "bg-accent text-sky-500" : "transparent",
+                          item.disabled && "cursor-not-allowed opacity-80"
+                        )}
+                      >
+                        <Icon className="mr-2 h-4 w-4" />
+                        <span>{item.title}</span>
+                      </motion.div>
+                    </Link>
+                  </motion.li>
+                )
               )
-            )
-          })}
+            })}
+          </motion.ul>
           <Separator className="my-2" />
           <div className="flex items-center gap-2">
             <span className="flex items-center px-3 py-2 text-sm font-medium">
