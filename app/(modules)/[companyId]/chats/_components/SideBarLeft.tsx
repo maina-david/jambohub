@@ -123,7 +123,10 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                       user={{ name: contact.alias || null, image: null }}
                       className="mr-2 h-8 w-8"
                     />
-                    <p className="text-base font-medium tracking-tight">{contact.alias || contact.identifier}</p>
+                    <div className='flex-1 flex-col'>
+                      <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}</p>
+                      <p className="text-base font-medium tracking-tight">{contact.alias || contact.alias}</p>
+                    </div>
                   </div>
                 </motion.div>
               ))
