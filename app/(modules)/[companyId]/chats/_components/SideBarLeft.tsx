@@ -125,7 +125,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     />
                     <div className='flex-1 flex-col'>
                       <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}</p>
-                      <p className="text-base font-medium tracking-tight">{contact.alias || contact.alias}</p>
+                      <p className="text-sm tracking-tight">{contact.alias || contact.alias}</p>
                     </div>
                   </div>
                 </motion.div>
