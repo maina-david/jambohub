@@ -18,6 +18,7 @@ import { Key } from "react"
 import { Sheet, SheetContent } from "./ui/sheet"
 import { fetchTeams } from "@/actions/team-actions"
 import { getCurrentUserSubscription } from "@/actions/user-actions"
+import { AnimatePresence, motion } from "framer-motion"
 
 interface SideNavProps {
   mdAndAbove: boolean,
@@ -87,89 +88,95 @@ export function SideNav(props: SideNavProps) {
 
   const renderSideNav = () => {
     return (
-      <nav className="grid items-start gap-2">
-        {routes.map((item, index) => {
-          const Icon = Icons[item.icon || "arrowRight"]
-          return (
-            item.href && (
-              <Link onClick={handleMobileSidebar} key={index} href={item.disabled ? "/" : item.href}>
-                <span
-                  className={cn(
-                    "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
-                    path?.startsWith(item.href) ? "bg-accent text-sky-500" : "transparent",
-                    item.disabled && "cursor-not-allowed opacity-80"
-                  )}
-                >
-                  <Icon className="mr-2 h-4 w-4" />
-                  <span>{item.title}</span>
-                </span>
-              </Link>
-            )
-          )
-        })}
-        <Separator className="my-2" />
-        <div className="flex items-center gap-2">
-          <span className="flex items-center px-3 py-2 text-sm font-medium">
-            Teams
-          </span>
-          <div className="grow"></div>
-          <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
-            <PlusIcon className="h-4 w-4" />
-          </Button>
-        </div>
-        {isLoading && (
-          <>
-            <Skeleton className="h-4 w-[150px]" />
-          </>
-        )}
-        {isError && (
-          <div className="flex flex-col items-center justify-center">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-              <Icons.warning className="h-10 w-10" />
-            </div>
-          </div>
-        )}
-        {isSuccess && (
-          teams.map((team: Team, index: Key | null | undefined) => {
+      <AnimatePresence>
+        <motion.nav
+          initial={{ opacity: 0, x: "-100%" }}
+          animate={{ opacity: 1, x: 0 }}
+          className="grid items-start gap-2"
+        >
+          {routes.map((item, index) => {
+            const Icon = Icons[item.icon || "arrowRight"]
             return (
-              <Link key={index} href={`/${companyId}/teams/${team.id}/members`}>
-                <span
-                  className={cn(
-                    "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
-                    path?.startsWith(`/${companyId}/teams/${team.id}`) ? "bg-accent text-sky-500" : "transparent"
-                  )}
-                >
-                  <Users2 className="mr-2 h-4 w-4" />
-                  <span>{team.name}</span>
-                </span>
-              </Link>
-            )
-          })
-        )}
-        <div className="grow"></div>
-        {subscription.isSuccess && (
-          subscription.data.plan === 'FREE' && (
-            <Card className="rounded-lg shadow-2xl">
-              <CardHeader>
-                <CardTitle>
-                  Try {siteConfig.name} Pro
-                </CardTitle>
-                <CardDescription>
-                  Get unlimited teams, automation flows, channels, and more
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex flex-col items-start justify-center">
-                <Link
-                  href={'#'}
-                  className="text-sm font-medium leading-none underline underline-offset-1"
-                >
-                  Upgrade now
+              item.href && (
+                <Link onClick={handleMobileSidebar} key={index} href={item.disabled ? "/" : item.href}>
+                  <span
+                    className={cn(
+                      "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
+                      path?.startsWith(item.href) ? "bg-accent text-sky-500" : "transparent",
+                      item.disabled && "cursor-not-allowed opacity-80"
+                    )}
+                  >
+                    <Icon className="mr-2 h-4 w-4" />
+                    <span>{item.title}</span>
+                  </span>
                 </Link>
-              </CardContent>
-            </Card>
-          )
-        )}
-      </nav>
+              )
+            )
+          })}
+          <Separator className="my-2" />
+          <div className="flex items-center gap-2">
+            <span className="flex items-center px-3 py-2 text-sm font-medium">
+              Teams
+            </span>
+            <div className="grow"></div>
+            <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
+              <PlusIcon className="h-4 w-4" />
+            </Button>
+          </div>
+          {isLoading && (
+            <>
+              <Skeleton className="h-4 w-[150px]" />
+            </>
+          )}
+          {isError && (
+            <div className="flex flex-col items-center justify-center">
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+                <Icons.warning className="h-10 w-10" />
+              </div>
+            </div>
+          )}
+          {isSuccess && (
+            teams.map((team: Team, index: Key | null | undefined) => {
+              return (
+                <Link key={index} href={`/${companyId}/teams/${team.id}/members`}>
+                  <span
+                    className={cn(
+                      "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
+                      path?.startsWith(`/${companyId}/teams/${team.id}`) ? "bg-accent text-sky-500" : "transparent"
+                    )}
+                  >
+                    <Users2 className="mr-2 h-4 w-4" />
+                    <span>{team.name}</span>
+                  </span>
+                </Link>
+              )
+            })
+          )}
+          <div className="grow"></div>
+          {subscription.isSuccess && (
+            subscription.data.plan === 'FREE' && (
+              <Card className="rounded-lg shadow-2xl">
+                <CardHeader>
+                  <CardTitle>
+                    Try {siteConfig.name} Pro
+                  </CardTitle>
+                  <CardDescription>
+                    Get unlimited teams, automation flows, channels, and more
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-col items-start justify-center">
+                  <Link
+                    href={'#'}
+                    className="text-sm font-medium leading-none underline underline-offset-1"
+                  >
+                    Upgrade now
+                  </Link>
+                </CardContent>
+              </Card>
+            )
+          )}
+        </motion.nav>
+      </AnimatePresence>
     )
   }
 
