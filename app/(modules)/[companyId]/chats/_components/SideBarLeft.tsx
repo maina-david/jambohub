@@ -71,22 +71,19 @@ const SideBarLeft = (props: SideBarLeftProps) => {
           <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
             Chats
           </h5>
-          <AnimatePresence>
-            <motion.ul
-              className="mb-5 truncate hover:bg-accent"
-              variants={list}
-              animate="hidden"
-            >
+          <div className="mb-5 truncate hover:bg-accent">
+            <AnimatePresence>
               {chats.length > 0 ? (
                 chats.map((chat) => (
-                  <motion.li
+                  <motion.div
                     key={chat.id}
-                    animate={{ y: 100 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 2 }}
+                    exit={{ opacity: 0 }}
                     className={cn(
                       "flex cursor-pointer flex-row items-start rounded-2xl px-3 py-2",
                       chat.contactId === selectedChat?.contactId && "bg-accent"
                     )}
-                    variants={item}
                     onClick={() => setSelectedChat(chat.contactId)}
                   >
                     <UserAvatar
@@ -111,16 +108,15 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                         </span>
                       )}
                     </div>
-                  </motion.li>
-
+                  </motion.div>
                 ))
               ) : (
                 <p className="mt-6 text-center text-sm">
                   No chats available
                 </p>
               )}
-            </motion.ul>
-          </AnimatePresence>
+            </AnimatePresence>
+          </div>
           <div className='flex items-center gap-2'>
             <h5 className="flex items-center text-xl font-semibold">
               Contacts

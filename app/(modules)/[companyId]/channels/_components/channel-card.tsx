@@ -46,7 +46,7 @@ import {
   CommandList,
 } from "@/components/ui/command"
 import { fetchCompanyFlows } from "@/actions/flow-actions"
-import { CheckIcon } from "@radix-ui/react-icons"
+import { CheckIcon, LinkBreak2Icon } from "@radix-ui/react-icons"
 import { ChannelProps } from "@/types/channel"
 
 export function ChannelCard({ channel }: { channel: ChannelProps }) {
@@ -313,7 +313,7 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
     <motion.li
       key={channel.id}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      animate={{ opacity: 2 }}
       exit={{ opacity: 0 }}
       className="col-span-1 rounded-lg border-2 shadow-2xl">
 
@@ -341,7 +341,7 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
                           event.preventDefault()
                           setIsUnlinkDialogOpen(true)
                         }}>
-                        Unlink Account
+                        <LinkBreak2Icon /> Unlink
                       </DropdownMenuItem>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
@@ -365,9 +365,6 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
                     </AlertDialogContent>
                   </AlertDialog>
                 )}
-                <DropdownMenuItem onClick={openEditModal}>
-                  <PencilIcon className="mr-2 h-2 w-2" />Edit
-                </DropdownMenuItem>
                 <AlertDialog open={open || isLoading} onOpenChange={setOpen}>
                   <AlertDialogTrigger asChild>
                     <DropdownMenuItem
