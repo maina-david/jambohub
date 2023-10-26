@@ -106,6 +106,8 @@ export function SideNav(props: SideNavProps) {
     return (
       <AnimatePresence>
         <motion.nav
+          initial="closed"
+          animate="open"
           transition={{
             type: "spring",
             stiffness: 20,
@@ -121,8 +123,6 @@ export function SideNav(props: SideNavProps) {
                 item.href && (
                   <motion.li
                     variants={variants}
-                    initial="closed"
-                    animate="open"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -131,14 +131,7 @@ export function SideNav(props: SideNavProps) {
                       href={item.disabled ? "/" : item.href}
                       onClick={handleMobileSidebar}
                     >
-                      <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          y: { stiffness: 1000, velocity: -100 }
-                        }}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
+                      <span
                         className={cn(
                           "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
                           path?.startsWith(item.href) ? "bg-accent text-sky-500" : "transparent",
@@ -147,7 +140,7 @@ export function SideNav(props: SideNavProps) {
                       >
                         <Icon className="mr-2 h-4 w-4" />
                         <span>{item.title}</span>
-                      </motion.div>
+                      </span>
                     </Link>
                   </motion.li>
                 )
