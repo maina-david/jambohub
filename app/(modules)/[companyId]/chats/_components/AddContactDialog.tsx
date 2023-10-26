@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import axios from 'axios'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -38,30 +39,81 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-
-const contactSchema = z.object({
-  name: z.string().min(2).max(50),
-  alias: z.string().min(2).max(50).optional(),
-  channel: z.enum(['WHATSAPP']),
-  identifier: z.string().min(1)
-})
+import { createContactSchema } from '@/lib/validations/contact'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { toast } from "@/components/ui/use-toast"
+import { Icons } from '@/components/icons'
 
 export default function AddContactDialog() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const form = useForm<z.infer<typeof contactSchema>>({
-    resolver: zodResolver(contactSchema),
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const queryClient = useQueryClient()
+  const params = useParams()
+
+  const form = useForm<z.infer<typeof createContactSchema>>({
+    resolver: zodResolver(createContactSchema),
     defaultValues: {
       name: "",
       alias: "",
+      identifier: ""
     },
   })
 
-  function onSubmit(values: z.infer<typeof contactSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof createContactSchema>) {
+    if (params?.companyId) {
+      try {
+        setIsLoading(true)
+        const response = await axios.post(`/api/companies/${params.companyId}/contacts`, {
+          ...values
+        })
+
+        if (response.status === 201) {
+          queryClient.invalidateQueries({ queryKey: ['companyContacts'] })
+          toast({
+            title: 'Success',
+            description: 'Contact created successfully!',
+          })
+          setIsOpen(false)
+        } else {
+          toast({
+            title: 'Error',
+            description: 'Failed to create contact!',
+          })
+        }
+      } catch (error) {
+        console.log('Error creating contact: ', error.message)
+        if (error.response) {
+          if (error.response.status === 422 && error.response.data) {
+            // Handle validation errors
+            const validationErrors = error.response.data
+            // Update form field errors
+            form.setError('channel', {
+              type: 'manual',
+              message: validationErrors.channel || '',
+            })
+            form.setError('name', {
+              type: 'manual',
+              message: validationErrors.name || '',
+            })
+            form.setError('alias', {
+              type: 'manual',
+              message: validationErrors.alias || '',
+            })
+            form.setError('identifier', {
+              type: 'manual',
+              message: validationErrors.identifier || '',
+            })
+          }
+        }
+      } finally {
+        setIsLoading(false)
+      }
+    }
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen || isLoading} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button onClick={() => setIsOpen(true)} variant={'ghost'} size={'icon'}>
           <UserPlus2Icon className="h-4 w-4" />
@@ -84,7 +136,7 @@ export default function AddContactDialog() {
                   <FormItem>
                     <FormLabel>Contact Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter contact name" {...field} />
+                      <Input disabled={isLoading} placeholder="Enter contact name" {...field} />
                     </FormControl>
                     <FormDescription>
                       This is the name of the contact.
@@ -100,7 +152,7 @@ export default function AddContactDialog() {
                   <FormItem>
                     <FormLabel>Contact Alias</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter contact alias" {...field} />
+                      <Input disabled={isLoading} placeholder="Enter contact alias" {...field} />
                     </FormControl>
                     <FormDescription>
                       (Optional) An alias for the contact.
@@ -117,6 +169,7 @@ export default function AddContactDialog() {
                     <FormLabel>Channel</FormLabel>
                     <Select
                       onValueChange={field.onChange}
+                      disabled={isLoading}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -156,7 +209,7 @@ export default function AddContactDialog() {
                   <FormItem>
                     <FormLabel>Identifier</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter contact identifier" {...field} />
+                      <Input disabled={isLoading} placeholder="Enter contact identifier" {...field} />
                     </FormControl>
                     <FormDescription>
                       This is the contact&apos;s identifier.
@@ -166,7 +219,15 @@ export default function AddContactDialog() {
                 )}
               />
               <DialogFooter>
-                <Button type="submit">Save contact</Button>
+                <Button
+                  disabled={isLoading}
+                  type="submit"
+                >
+                  {isLoading && (
+                    <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
+                  )}{' '}
+                  {isLoading ? 'Saving contact...' : 'Save contact'}
+                </Button>
               </DialogFooter>
             </form>
           </Form>

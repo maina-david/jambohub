@@ -225,6 +225,7 @@ model Contact {
   company    Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
   channel    ChannelType
   identifier String
+  name       String
   alias      String?
   Chat       Chat[]
 }
