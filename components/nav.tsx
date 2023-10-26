@@ -86,7 +86,36 @@ export function SideNav(props: SideNavProps) {
     }
   }
 
-  const variants = {
+  const sidebar = {
+    open: (height = 1000) => ({
+      clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
+      transition: {
+        type: "spring",
+        stiffness: 20,
+        restDelta: 2
+      }
+    }),
+    closed: {
+      clipPath: "circle(30px at 40px 40px)",
+      transition: {
+        delay: 0.5,
+        type: "spring",
+        stiffness: 400,
+        damping: 40
+      }
+    }
+  }
+
+  const ulVariants = {
+    open: {
+      transition: { staggerChildren: 0.07, delayChildren: 0.2 }
+    },
+    closed: {
+      transition: { staggerChildren: 0.05, staggerDirection: -1 }
+    }
+  }
+
+  const liVariants = {
     open: {
       y: 0,
       opacity: 1,
@@ -108,21 +137,18 @@ export function SideNav(props: SideNavProps) {
         <motion.nav
           initial="closed"
           animate="open"
-          transition={{
-            type: "spring",
-            stiffness: 20,
-            restDelta: 2
-          }}
           className="grid items-start gap-2"
         >
+          <motion.div className="absolute" variants={sidebar} />
+
           <motion.ul
-            transition={{ staggerChildren: 0.07, delayChildren: 0.2 }}>
+            variants={ulVariants}>
             {routes.map((item, index) => {
               const Icon = Icons[item.icon || "arrowRight"]
               return (
                 item.href && (
                   <motion.li
-                    variants={variants}
+                    variants={liVariants}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   >
