@@ -12,20 +12,6 @@ import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { AnimatePresence, motion } from 'framer-motion'
 import AddContactDialog from './AddContactDialog'
 
-const list = {
-  hidden: {
-    opacity: 0,
-    transition: { when: "afterChildren" }
-  }
-}
-
-const item = {
-  hidden: {
-    opacity: 0,
-    transition: { duration: 2 }
-  }
-}
-
 interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
   isMdAndAbove: boolean
   leftSidebarOpen: boolean

@@ -92,6 +92,7 @@ export function SideNav(props: SideNavProps) {
         <motion.nav
           initial={{ opacity: 0, x: "-100%" }}
           animate={{ opacity: 1, x: 0 }}
+          transition={{ staggerChildren: 0.5 }}
           className="grid items-start gap-2"
         >
           {routes.map((item, index) => {
