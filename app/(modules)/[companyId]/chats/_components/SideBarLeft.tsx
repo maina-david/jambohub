@@ -11,6 +11,21 @@ import { Contact } from '@prisma/client'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { UserPlus2Icon } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+
+const list = {
+  hidden: {
+    opacity: 0,
+    transition: { when: "afterChildren" }
+  }
+}
+
+const item = {
+  hidden: {
+    opacity: 0,
+    transition: { duration: 2 }
+  }
+}
 
 interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
   isMdAndAbove: boolean
@@ -56,48 +71,56 @@ const SideBarLeft = (props: SideBarLeftProps) => {
           <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
             Chats
           </h5>
-          <div className="mb-5 hover:bg-accent">
-            {chats.length > 0 ? (
-              chats.map((chat) => (
-                <div
-                  key={chat.id}
-                  className={cn(
-                    "flex cursor-pointer flex-row items-start rounded-2xl px-3 py-2",
-                    chat.contactId === selectedChat?.contactId && "bg-accent"
-                  )}
-                  onClick={() => setSelectedChat(chat.contactId)}
-                >
-                  <UserAvatar
-                    user={{ name: chat.Contact.alias || null, image: null }}
-                    className="mr-2 h-8 w-8"
-                  />
-                  <div className="flex-1 truncate">
-                    <p className="truncate text-base font-medium tracking-tight">
-                      {chat.Contact.alias || chat.Contact.identifier}
-                    </p>
-                    <p className='truncate'>
-                      {getLastChatMessage(chat)?.message}
-                    </p>
-                  </div>
-                  <div className='flex flex-col items-end'>
-                    <p className="whitespace-nowrap text-sm text-gray-500">
-                      {getLastChatMessage(chat) ? formatTimestamp(getLastChatMessage(chat)?.timestamp) : formatTimestamp()}
-                    </p>
-                    {chat.unreadMessageCount > 0 && (
-                      <span className="rounded-full bg-red-500 p-1 text-xs text-white">
-                        {chat.unreadMessageCount}
-                      </span>
+          <AnimatePresence>
+            <motion.ul
+              className="mb-5 truncate hover:bg-accent"
+              variants={list}
+              animate="hidden"
+            >
+              {chats.length > 0 ? (
+                chats.map((chat) => (
+                  <motion.li
+                    key={chat.id}
+                    animate={{ y: 100 }}
+                    className={cn(
+                      "flex cursor-pointer flex-row items-start rounded-2xl px-3 py-2",
+                      chat.contactId === selectedChat?.contactId && "bg-accent"
                     )}
-                  </div>
-                </div>
+                    variants={item}
+                    onClick={() => setSelectedChat(chat.contactId)}
+                  >
+                    <UserAvatar
+                      user={{ name: chat.Contact.alias || null, image: null }}
+                      className="mr-2 h-8 w-8"
+                    />
+                    <div className="flex-1 truncate">
+                      <p className="truncate text-base font-medium tracking-tight">
+                        {chat.Contact.alias || chat.Contact.identifier}
+                      </p>
+                      <p className='truncate'>
+                        {getLastChatMessage(chat)?.message}
+                      </p>
+                    </div>
+                    <div className='flex flex-col items-end'>
+                      <p className="whitespace-nowrap text-sm text-gray-500">
+                        {getLastChatMessage(chat) ? formatTimestamp(getLastChatMessage(chat)?.timestamp) : formatTimestamp()}
+                      </p>
+                      {chat.unreadMessageCount > 0 && (
+                        <span className="rounded-full bg-red-500 p-1 text-xs text-white">
+                          {chat.unreadMessageCount}
+                        </span>
+                      )}
+                    </div>
+                  </motion.li>
 
-              ))
-            ) : (
-              <p className="mt-6 text-center text-sm">
-                No chats available
-              </p>
-            )}
-          </div>
+                ))
+              ) : (
+                <p className="mt-6 text-center text-sm">
+                  No chats available
+                </p>
+              )}
+            </motion.ul>
+          </AnimatePresence>
           <div className='flex items-center gap-2'>
             <h5 className="flex items-center text-xl font-semibold">
               Contacts
