@@ -9,8 +9,6 @@ import { ChatProps } from '@/types/chat-types'
 import { cn } from '@/lib/utils'
 import { Contact } from '@prisma/client'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
-import { Button } from '@/components/ui/button'
-import { UserPlus2Icon } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import AddContactDialog from './AddContactDialog'
 
