@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/command"
 import { fetchChannels } from '@/actions/channel-actions'
 import { useParams } from 'next/navigation'
+import { AnimatePresence, motion } from 'framer-motion'
 
 interface ChatContentAreaProps {
   hidden: boolean
@@ -213,70 +214,79 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
             <Separator />
             <div className="flex h-[470px] flex-col overflow-hidden">
               <ScrollArea ref={scrollAreaRef} className="flex-1 overflow-y-auto">
-                {selectedChat.chatMessages?.map((chatMessage, index) => (
-                  <div
-                    key={index}
-                    className={cn('flex', chatMessage.userId ? 'mr-2 flex-row-reverse' : 'flex-row')}
-                  >
-                    <div className="mb-2 max-w-[70%] p-2">
+                <AnimatePresence>
+                  {selectedChat.chatMessages?.map((chatMessage, index) => (
+                    <motion.div
+                      key={chatMessage.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 20 }}
+                    >
                       <div
-                        className={cn(
-                          chatMessage.userId ? 'bg-green-200 dark:bg-indigo-500' : 'bg-blue-200 dark:bg-blue-600',
-                          'rounded-lg p-2'
-                        )}
+                        key={index}
+                        className={cn('flex', chatMessage.userId ? 'mr-2 flex-row-reverse' : 'flex-row')}
                       >
-                        {chatMessage.message}
-                      </div>
-                      <div className={cn('flex space-x-1 text-sm text-gray-600 dark:text-gray-400', chatMessage.userId ? 'justify-end' : 'justify-start')}>
-                        {chatMessage.userId ? (
-                          <div className="flex">
-                            {chatMessage.internalStatus === 'sent' ? (
-                              <>
-                                <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
-                                <p>
-                                  {new Date(chatMessage.timestamp).toLocaleString('en-US', {
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: true,
-                                  })}
-                                </p>
-                              </>
-                            ) : chatMessage.internalStatus === 'failed' ? (
-                              <>
-                                <XCircleIcon className="h-4 w-4 text-red-500 dark:text-red-300" />
-                                <p>
-                                  {new Date(chatMessage.timestamp).toLocaleString('en-US', {
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: true,
-                                  })}
-                                </p>
-                              </>
+                        <div className="mb-2 max-w-[70%] p-2">
+                          <div
+                            className={cn(
+                              chatMessage.userId ? 'bg-green-200 dark:bg-indigo-500' : 'bg-blue-200 dark:bg-blue-600',
+                              'rounded-lg p-2'
+                            )}
+                          >
+                            {chatMessage.message}
+                          </div>
+                          <div className={cn('flex space-x-1 text-sm text-gray-600 dark:text-gray-400', chatMessage.userId ? 'justify-end' : 'justify-start')}>
+                            {chatMessage.userId ? (
+                              <div className="flex">
+                                {chatMessage.internalStatus === 'sent' ? (
+                                  <>
+                                    <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
+                                    <p>
+                                      {new Date(chatMessage.timestamp).toLocaleString('en-US', {
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        hour12: true,
+                                      })}
+                                    </p>
+                                  </>
+                                ) : chatMessage.internalStatus === 'failed' ? (
+                                  <>
+                                    <XCircleIcon className="h-4 w-4 text-red-500 dark:text-red-300" />
+                                    <p>
+                                      {new Date(chatMessage.timestamp).toLocaleString('en-US', {
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        hour12: true,
+                                      })}
+                                    </p>
+                                  </>
+                                ) : (
+                                  <p>
+                                    {new Date(chatMessage.timestamp).toLocaleString('en-US', {
+                                      hour: 'numeric',
+                                      minute: 'numeric',
+                                      hour12: true,
+                                    })}
+                                  </p>
+                                )}
+                              </div>
                             ) : (
-                              <p>
-                                {new Date(chatMessage.timestamp).toLocaleString('en-US', {
-                                  hour: 'numeric',
-                                  minute: 'numeric',
-                                  hour12: true,
-                                })}
-                              </p>
+                              <div>
+                                <p>
+                                  {new Date(chatMessage.timestamp).toLocaleString('en-US', {
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                    hour12: true,
+                                  })}
+                                </p>
+                              </div>
                             )}
                           </div>
-                        ) : (
-                          <div>
-                            <p>
-                              {new Date(chatMessage.timestamp).toLocaleString('en-US', {
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                hour12: true,
-                              })}
-                            </p>
-                          </div>
-                        )}
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               </ScrollArea>
               <div className="flex border p-3">
                 <Input
