@@ -341,7 +341,7 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
                           event.preventDefault()
                           setIsUnlinkDialogOpen(true)
                         }}>
-                        <LinkBreak2Icon /> Unlink
+                        <LinkBreak2Icon className="mr-2 h-2 w-2" /> Unlink
                       </DropdownMenuItem>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
