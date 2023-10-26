@@ -194,7 +194,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
               <div className="flex cursor-pointer items-center">
                 <div className="flex flex-col">
                   <h6 className="scroll-m-20 text-xl font-semibold tracking-tight">
-                    {selectedChat.Contact.alias || selectedChat.Contact.identifier}
+                    {selectedChat.Contact.name || selectedChat.Contact.identifier}
                   </h6>
                 </div>
               </div>
