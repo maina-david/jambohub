@@ -35,7 +35,7 @@ export async function GET(request: Request, context: z.infer<typeof routeContext
 
     const inspectionResponse = await inspectAccessToken(inputToken)
 
-    return new Response(JSON.stringify(inspectionResponse), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    return new Response(JSON.stringify(inspectionResponse), { status: 200 })
   } catch (error) {
     // Handle errors here
     console.log('VALIDATE_CODE_GET_ERROR', error.message)
