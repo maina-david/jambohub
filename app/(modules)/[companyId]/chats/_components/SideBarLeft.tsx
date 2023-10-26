@@ -77,9 +77,8 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                 chats.map((chat) => (
                   <motion.div
                     key={chat.id}
-                    initial={{ y: 100 }}
-                    animate={{ y: 0 }}
-                    transition={{ duration: 1 }}
+                    initial={{ opacity: 0, x: "-100%" }}
+                    animate={{ opacity: 1, x: 0 }}
                     className={cn(
                       "flex cursor-pointer flex-row items-start rounded-2xl px-3 py-2",
                       chat.contactId === selectedChat?.contactId && "bg-accent"
