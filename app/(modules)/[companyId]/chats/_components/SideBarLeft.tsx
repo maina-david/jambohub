@@ -12,6 +12,7 @@ import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { UserPlus2Icon } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
+import AddContactDialog from './AddContactDialog'
 
 const list = {
   hidden: {
@@ -121,9 +122,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
               Contacts
             </h5>
             <div className="grow"></div>
-            <Button variant={'ghost'} size={'icon'}>
-              <UserPlus2Icon className="h-4 w-4" />
-            </Button>
+            <AddContactDialog />
           </div>
           <AnimatePresence>
             {contacts.length > 0 ? (
