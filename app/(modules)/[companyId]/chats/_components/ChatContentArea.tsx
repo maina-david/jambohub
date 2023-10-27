@@ -103,14 +103,10 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
     }
 
     if (scrollAreaRef.current && selectedChat) {
-      // Scroll to the bottom every time a new message is added
-      scrollAreaRef.current.scrollTo({
-        top: scrollAreaRef.current.scrollHeight,
-        behavior: 'smooth',
-      })
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
       markChatAsRead()
     }
-  }, [params?.companyId, queryClient, selectedChat])
+  }, [params?.companyId, queryClient, selectedChat, selectedChat?.chatMessages])
 
   const handleStartConversation = () => {
     if (!isMdAndAbove) {
