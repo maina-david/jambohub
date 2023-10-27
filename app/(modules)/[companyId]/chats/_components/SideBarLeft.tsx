@@ -71,12 +71,12 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     onClick={() => setSelectedChat(chat.contactId)}
                   >
                     <UserAvatar
-                      user={{ name: chat.Contact.alias || null, image: null }}
+                      user={{ name: chat.Contact.name || null, image: null }}
                       className="mr-2 h-8 w-8"
                     />
                     <div className="flex-1 truncate">
                       <p className="truncate text-base font-medium tracking-tight">
-                        {chat.Contact.alias || chat.Contact.identifier}
+                        {chat.Contact.name || chat.Contact.identifier}
                       </p>
                       <p className='truncate'>
                         {getLastChatMessage(chat)?.message}
