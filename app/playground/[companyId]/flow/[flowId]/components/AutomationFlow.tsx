@@ -180,11 +180,7 @@ export default function AutomationFlow() {
     queryKey: ['flowDetails'],
     queryFn: () => fetchFlowDetails(params?.companyId as string, params?.flowId as string)
   })
-  const [isOpen, setIsOpen] = useState(false)
 
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen)
-  }
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [isPublishing, setIsPublishing] = useState<boolean>(false)
 
@@ -337,20 +333,13 @@ export default function AutomationFlow() {
         </div>
       </div>
       <Separator />
-      <div className="container h-full min-h-full py-4">
-        <div className="grid h-full min-h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-          <div className="hidden h-full min-h-full flex-col space-y-4 sm:flex md:order-2">
-            {/* <SideBar /> */}
-            <div className={`right- fixed top-0${isOpen ? '0' : '-full'} h-screen w-64 border-l bg-white transition-transform duration-300 ease-in-out`}>
-              <button className="p-4" onClick={toggleDrawer}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className={`${isOpen ? 'rotate-180' : ''} transition-transform`}>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
+      <div className="container h-screen min-h-screen py-4">
+        <div className="grid items-stretch gap-6 md:grid-cols-[1fr_200px]">
+          <div className="flex-col space-y-4 sm:flex md:order-2">
+            <SideBar />
           </div>
           <div className="md:order-1">
-            <div className="flex h-full min-h-full flex-col space-y-4">
+            <div className="flex flex-col space-y-4">
               <ReactFlowProvider>
                 <FlowArea flowData={flow.flowData} />
               </ReactFlowProvider>
