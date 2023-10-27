@@ -327,7 +327,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
           </div>
         )}
       </div>
-      {/* <Popover open={isSelectChannelOpen} onOpenChange={setIsSelectChannelOpen}>
+      <Popover open={true}>
         <PopoverContent
           onInteractOutside={() => setIsSelectChannelOpen(false)}
         >
@@ -372,7 +372,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
             </CommandList>
           </Command>
         </PopoverContent>
-      </Popover> */}
+      </Popover>
     </>
   )
 }
