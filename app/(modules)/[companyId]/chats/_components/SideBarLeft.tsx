@@ -80,9 +80,11 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                         {chat.Contact.name || chat.Contact.identifier}
                       </p>
                       <p className="truncate">
-                        {getLastChatMessage(chat)!.message!.length > 20
+                        {getLastChatMessage(chat) &&
+                          getLastChatMessage(chat)!.message!.length > 20
                           ? `${getLastChatMessage(chat)?.message.slice(0, 20)}...`
-                          : getLastChatMessage(chat)?.message}
+                          : getLastChatMessage(chat)?.message
+                        }
                       </p>
                     </div>
                     <div className='flex flex-col items-end'>

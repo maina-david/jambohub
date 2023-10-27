@@ -77,8 +77,8 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
       try {
         if (selectedChat) {
           // Filter for incoming messages that are unread
-          if (selectedChat.chatMessages && selectedChat.chatMessages?.length) {
-            const unreadIncomingMessages = selectedChat?.chatMessages?.filter((message) => {
+          if (selectedChat.chatMessages && selectedChat.chatMessages.length > 0) {
+            const unreadIncomingMessages = selectedChat?.chatMessages.filter((message) => {
               return message.direction === 'INCOMING' && message.internalStatus === 'unread'
             })
 
