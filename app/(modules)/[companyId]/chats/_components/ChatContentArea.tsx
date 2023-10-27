@@ -125,7 +125,6 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value)
   }
-
   const handleSend = async () => {
     if (selectedChat) {
       if (!selectedChat.channelId && !selectedChannel) {
@@ -136,7 +135,6 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
       }
     }
   }
-
   const sendMessage = async () => {
     try {
       if (selectedChat) {
@@ -313,7 +311,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                         disabled={!message || isSending}
                       >
                         <PaperPlaneIcon className="mr-2 h-4 w-4" />
-                        Send
+                        {isSending ? 'Sending...' : 'Send'}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent
@@ -331,7 +329,8 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                                 value={channel.id}
                                 onSelect={(currentValue) => {
                                   setSelectedChannel(currentValue)
-                                  handleSend()
+                                  sendMessage()
+                                  setIsSelectChannelOpen(false)
                                 }}
                                 className='cursor-pointer'
                               >
@@ -361,14 +360,14 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                       </Command>
                     </PopoverContent>
                   </Popover>) : (
-                <Button
-                  className="ml-2"
-                  disabled={!message || isSending}
-                  onClick={handleSend}
-                >
-                  <PaperPlaneIcon className="mr-2 h-4 w-4" />
-                  Send
-                </Button>
+                    <Button
+                      className="ml-2"
+                      disabled={!message || isSending}
+                      onClick={sendMessage}
+                    >
+                      <PaperPlaneIcon className="mr-2 h-4 w-4" />
+                      {isSending ? 'Sending...' : 'Send'}
+                    </Button>
                   )
                 }
 
