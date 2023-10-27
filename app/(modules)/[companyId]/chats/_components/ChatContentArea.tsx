@@ -40,7 +40,7 @@ import { fetchChannels } from '@/actions/channel-actions'
 import { useParams } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { PopoverContent } from '@radix-ui/react-popover'
-import { Popover } from '@/components/ui/popover'
+import { Popover, PopoverTrigger } from '@/components/ui/popover'
 
 interface ChatContentAreaProps {
   hidden: boolean
@@ -305,6 +305,62 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                     />
                   </DialogContent>
                 </Dialog>
+                {!selectedChat.channelId && !selectedChannel ?
+                  (<Popover open={isSelectChannelOpen} onOpenChange={setIsSelectChannelOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        className="ml-2"
+                        disabled={!message || isSending}
+                      >
+                        <PaperPlaneIcon className="mr-2 h-4 w-4" />
+                        Send
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      onInteractOutside={() => setIsSelectChannelOpen(false)}
+                    >
+                      <Command className="mt-2 rounded-lg border shadow-md">
+                        <CommandInput placeholder="Type a channel name to search..." />
+                        <CommandList>
+                          <CommandEmpty>No results found.</CommandEmpty>
+                          <CommandGroup heading="Integrated Channels">
+                            {channels.map((channel) => (
+                              <CommandItem
+                                disabled={isSending}
+                                key={channel.id}
+                                value={channel.id}
+                                onSelect={(currentValue) => {
+                                  setSelectedChannel(currentValue)
+                                  handleSend()
+                                }}
+                                className='cursor-pointer'
+                              >
+                                {channel.type === ChannelType.WHATSAPP && (
+                                  <FaWhatsapp className="mr-2 h-4 w-4" />
+                                )}
+                                {channel.type === ChannelType.TWITTER && (
+                                  <FaXTwitter className="mr-2 h-4 w-4" />
+                                )}
+                                {channel.type === ChannelType.FACEBOOK_MESSENGER && (
+                                  <FaFacebookMessenger className="mr-2 h-4 w-4" />
+                                )}
+                                {channel.type === ChannelType.SMS && (
+                                  <FaCommentSms className="mr-2 h-4 w-4" />
+                                )}
+                                {channel.name}
+                                <CheckIcon
+                                  className={cn(
+                                    "ml-auto h-4 w-4",
+                                    selectedChannel === channel.id ? "opacity-100" : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>) : (
                 <Button
                   className="ml-2"
                   disabled={!message || isSending}
@@ -313,6 +369,9 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                   <PaperPlaneIcon className="mr-2 h-4 w-4" />
                   Send
                 </Button>
+                  )
+                }
+
               </div>
             </div>
           </>
@@ -327,52 +386,6 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
           </div>
         )}
       </div>
-      <Popover open={true}>
-        <PopoverContent
-          onInteractOutside={() => setIsSelectChannelOpen(false)}
-        >
-          <Command className="mt-2 rounded-lg border shadow-md">
-            <CommandInput placeholder="Type a channel name to search..." />
-            <CommandList>
-              <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup heading="Integrated Channels">
-                {channels.map((channel) => (
-                  <CommandItem
-                    disabled={isSending}
-                    key={channel.id}
-                    value={channel.id}
-                    onSelect={(currentValue) => {
-                      setSelectedChannel(currentValue)
-                      handleSend()
-                    }}
-                    className='cursor-pointer'
-                  >
-                    {channel.type === ChannelType.WHATSAPP && (
-                      <FaWhatsapp className="mr-2 h-4 w-4" />
-                    )}
-                    {channel.type === ChannelType.TWITTER && (
-                      <FaXTwitter className="mr-2 h-4 w-4" />
-                    )}
-                    {channel.type === ChannelType.FACEBOOK_MESSENGER && (
-                      <FaFacebookMessenger className="mr-2 h-4 w-4" />
-                    )}
-                    {channel.type === ChannelType.SMS && (
-                      <FaCommentSms className="mr-2 h-4 w-4" />
-                    )}
-                    {channel.name}
-                    <CheckIcon
-                      className={cn(
-                        "ml-auto h-4 w-4",
-                        selectedChannel === channel.id ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
     </>
   )
 }
