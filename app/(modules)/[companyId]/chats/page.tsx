@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function ChatsPage() {
   return (
-    <div className='relative flex w-full shadow-2xl'>
+    <div className='flex shadow-2xl'>
       <ChatArea />
     </div>
   )

@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
         const contact = await saveOrUpdateContact(contactData)
 
         // Check if a chat with the same contact ID exists
-        const existingChat = await findChatByContactId(contact.id)
+        const existingChat = await findChatByContactId(channel.id, contact.id)
 
         let chat: Chat
         let chatMessage: ChatMessage
@@ -198,10 +198,15 @@ async function saveOrUpdateContact(data: { identifier: string, companyId: string
 }
 
 // Function to find a chat by contact ID
-async function findChatByContactId(contactId: string) {
+async function findChatByContactId(channelId: string, contactId: string) {
   const existingChat = await db.chat.findFirst({
     where: {
+      channelId,
       contactId,
+    },
+    include: {
+      Contact: true,
+      chatMessages: true
     }
   })
   return existingChat
