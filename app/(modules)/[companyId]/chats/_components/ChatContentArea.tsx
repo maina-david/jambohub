@@ -7,8 +7,20 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
-import { CheckIcon, XCircleIcon, MenuIcon, PhoneCallIcon, SearchIcon, VideoIcon } from 'lucide-react'
-import { FaWhatsapp, FaXTwitter, FaFacebookMessenger, FaCommentSms } from "react-icons/fa6"
+import {
+  CheckIcon,
+  XCircleIcon,
+  MenuIcon,
+  PhoneCallIcon,
+  SearchIcon,
+  VideoIcon
+} from 'lucide-react'
+import {
+  FaWhatsapp,
+  FaXTwitter,
+  FaFacebookMessenger,
+  FaCommentSms
+} from "react-icons/fa6"
 import { Icons } from '@/components/icons'
 import { cn } from '@/lib/utils'
 import EmojiPicker, { EmojiClickData, EmojiStyle } from 'emoji-picker-react'
@@ -17,15 +29,6 @@ import { ChatProps } from '@/types/chat-types'
 import { toast } from '@/components/ui/use-toast'
 import { useQueryClient } from '@tanstack/react-query'
 import { Channel, ChannelType, ChatMessage } from '@prisma/client'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import {
   Command,
   CommandEmpty,
@@ -284,21 +287,21 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                   onKeyDown={handleKeyDown}
                   placeholder="Type your message..."
                 />
-                <Dialog>
-                  <DialogTrigger asChild>
+                <Popover>
+                  <PopoverTrigger asChild>
                     <Button variant="ghost" size="icon" className="mx-2">
                       <SmilePlusIcon className="h-4 w-4" />
                     </Button>
-                  </DialogTrigger>
-                  <DialogContent>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
                     <EmojiPicker
                       onEmojiClick={onClick}
                       autoFocusSearch={false}
                       emojiStyle={EmojiStyle.NATIVE}
                       width="100%"
                     />
-                  </DialogContent>
-                </Dialog>
+                  </PopoverContent>
+                </Popover>
                 {!selectedChat.channelId && !selectedChannel ?
                   (<Popover open={isChannelPopoverOpen} onOpenChange={setIsChannelPopoverOpen}>
                     <PopoverTrigger asChild>
