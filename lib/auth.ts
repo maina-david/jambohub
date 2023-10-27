@@ -55,12 +55,12 @@ export const authOptions: NextAuthOptions = {
           throw new Error('InvalidCredentials')
         }
 
-        if (!user.emailVerified) {
-          throw new Error('EmailNotVerified', { cause: `${user.email} is not verified` })
-        }
-
         if (!user.approved) {
           throw new Error('AccountNotApproved', { cause: `${user.id} not approved` })
+        }
+
+        if (!user.emailVerified) {
+          throw new Error('EmailNotVerified', { cause: `${user.email} is not verified` })
         }
 
         if (!user.status) {
