@@ -57,7 +57,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
           <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
             Chats
           </h5>
-          <div className="mb-5 truncate hover:bg-accent">
+          <div className="mb-5 truncate">
             <AnimatePresence>
               {chats.length > 0 ? (
                 chats.map((chat) => (
@@ -66,7 +66,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     initial={{ opacity: 0, y: "100%" }}
                     animate={{ opacity: 1, y: 0 }}
                     className={cn(
-                      "flex cursor-pointer flex-row items-start rounded-2xl px-3 py-2",
+                      "flex cursor-pointer flex-row items-start rounded-2xl px-3 py-2 hover:bg-accent",
                       chat.contactId === selectedChat?.contactId && "bg-accent"
                     )}
                     onClick={() => setSelectedChat(chat.contactId)}
