@@ -173,7 +173,8 @@ async function saveOrUpdateContact(data: { identifier: string, companyId: string
     const existingContact = await db.contact.findFirst({
       where: {
         identifier: data.identifier,
-        companyId: data.companyId
+        companyId: data.companyId,
+        channel: ChannelType.WHATSAPP
       },
     })
 
