@@ -148,7 +148,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
 
   if (isMdAndAbove) {
     return (
-      <div className="flex flex-col border-r">
+      <div className="flex w-[320px] flex-col border-r">
         {renderChatsAndContacts()}
       </div>
     )
