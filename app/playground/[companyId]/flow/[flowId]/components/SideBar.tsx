@@ -80,7 +80,7 @@ export default function SideBar() {
               Send Response And Wait
             </p>
             <p className="text-sm text-muted-foreground">
-              Drag this to send response and wait for response.
+              Drag this to send response and wait.
             </p>
           </div>
         </div>
