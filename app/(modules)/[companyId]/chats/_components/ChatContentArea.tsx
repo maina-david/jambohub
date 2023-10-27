@@ -50,17 +50,17 @@ interface ChatContentAreaProps {
   addMessages: (chatId: string, messages: ChatMessage[]) => void
 }
 
-const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
-  const {
-    hidden,
-    isMdAndAbove,
-    handleLeftSidebarToggle,
-    selectedChat,
-    addMessages } = props
+const ChatContentArea: React.FC<ChatContentAreaProps> = ({
+  hidden,
+  isMdAndAbove,
+  handleLeftSidebarToggle,
+  selectedChat,
+  addMessages,
+}) => {
   const queryClient = useQueryClient()
   const [isSending, setIsSending] = useState<boolean>(false)
   const scrollAreaRef = useRef<HTMLDivElement | null>(null)
-  const [isSelectChannelOpen, setIsSelectChannelOpen] = useState<boolean>(false)
+  const [isChannelPopoverOpen, setIsChannelPopoverOpen] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [selectedChannel, setSelectedChannel] = useState<string>('')
   const params = useParams()
@@ -128,10 +128,10 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
   const handleSend = async () => {
     if (selectedChat) {
       if (!selectedChat.channelId && !selectedChannel) {
-        setIsSelectChannelOpen(true)
+        setIsChannelPopoverOpen(true)
       } else {
         sendMessage()
-        setIsSelectChannelOpen(false)
+        setIsChannelPopoverOpen(false)
       }
     }
   }
@@ -304,7 +304,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                   </DialogContent>
                 </Dialog>
                 {!selectedChat.channelId && !selectedChannel ?
-                  (<Popover open={isSelectChannelOpen} onOpenChange={setIsSelectChannelOpen}>
+                  (<Popover open={isChannelPopoverOpen} onOpenChange={setIsChannelPopoverOpen}>
                     <PopoverTrigger asChild>
                       <Button
                         className="ml-2"
@@ -315,7 +315,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent
-                      onInteractOutside={() => setIsSelectChannelOpen(false)}
+                      onInteractOutside={() => setIsChannelPopoverOpen(false)}
                     >
                       <Command className="mt-2 rounded-lg border shadow-md">
                         <CommandInput placeholder="Type a channel name to search..." />
@@ -329,8 +329,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                                 value={channel.id}
                                 onSelect={(currentValue) => {
                                   setSelectedChannel(currentValue)
-                                  sendMessage()
-                                  setIsSelectChannelOpen(false)
+                                  handleSend()
                                 }}
                                 className='cursor-pointer'
                               >
@@ -363,7 +362,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                     <Button
                       className="ml-2"
                       disabled={!message || isSending}
-                      onClick={sendMessage}
+                      onClick={handleSend}
                     >
                       <PaperPlaneIcon className="mr-2 h-4 w-4" />
                       {isSending ? 'Sending...' : 'Send'}
