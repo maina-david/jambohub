@@ -23,7 +23,7 @@ import {
 } from "react-icons/fa6"
 import { Icons } from '@/components/icons'
 import { cn } from '@/lib/utils'
-import EmojiPicker, { EmojiClickData, EmojiStyle } from 'emoji-picker-react'
+import EmojiPicker, { EmojiClickData, EmojiStyle, Theme } from 'emoji-picker-react'
 import { SmilePlusIcon } from 'lucide-react'
 import { ChatProps } from '@/types/chat-types'
 import { toast } from '@/components/ui/use-toast'
@@ -298,6 +298,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                     autoFocusSearch={false}
                     emojiStyle={EmojiStyle.NATIVE}
                     width="100%"
+                    theme={Theme.AUTO}
                   />
                 </PopoverContent>
               </Popover>
