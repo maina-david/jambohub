@@ -38,6 +38,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
     if (messages.length > 0) {
       return messages[messages.length - 1]
     }
+    return null
   }
 
   const formatTimestamp = (timestamp?: Date) => {
@@ -78,8 +79,10 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                       <p className="truncate text-base font-medium tracking-tight">
                         {chat.Contact.name || chat.Contact.identifier}
                       </p>
-                      <p className='truncate'>
-                        {getLastChatMessage(chat)?.message}
+                      <p className="truncate">
+                        {getLastChatMessage(chat)!.message!.length > 20
+                          ? `${getLastChatMessage(chat)?.message.slice(0, 20)}...`
+                          : getLastChatMessage(chat)?.message}
                       </p>
                     </div>
                     <div className='flex flex-col items-end'>
@@ -143,7 +146,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
 
   if (isMdAndAbove) {
     return (
-      <div className="flex max-w-[320px] flex-col border-r">
+      <div className="flex flex-col border-r">
         {renderChatsAndContacts()}
       </div>
     )
