@@ -311,54 +311,54 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                 >
                   <PaperPlaneIcon className="mr-2 h-4 w-4" />
                   Send
-                </Button>
-                <Popover open={isSelectChannelOpen} onOpenChange={setIsSelectChannelOpen}>
-                  <PopoverContent
-                    side={'top'}
-                    onInteractOutside={() => setIsSelectChannelOpen(false)}
-                  >
-                    <Command className="mt-2 rounded-lg border shadow-md">
-                      <CommandInput placeholder="Type a channel name to search..." />
-                      <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup heading="Integrated Channels">
-                          {channels.map((channel) => (
-                            <CommandItem
-                              disabled={isSending}
-                              key={channel.id}
-                              value={channel.id}
-                              onSelect={(currentValue) => {
-                                setSelectedChannel(currentValue)
-                                handleSend()
-                              }}
-                              className='cursor-pointer'
-                            >
-                              {channel.type === ChannelType.WHATSAPP && (
-                                <FaWhatsapp className="mr-2 h-4 w-4" />
-                              )}
-                              {channel.type === ChannelType.TWITTER && (
-                                <FaXTwitter className="mr-2 h-4 w-4" />
-                              )}
-                              {channel.type === ChannelType.FACEBOOK_MESSENGER && (
-                                <FaFacebookMessenger className="mr-2 h-4 w-4" />
-                              )}
-                              {channel.type === ChannelType.SMS && (
-                                <FaCommentSms className="mr-2 h-4 w-4" />
-                              )}
-                              {channel.name}
-                              <CheckIcon
-                                className={cn(
-                                  "ml-auto h-4 w-4",
-                                  selectedChannel === channel.id ? "opacity-100" : "opacity-0"
+                  <Popover open={isSelectChannelOpen} onOpenChange={setIsSelectChannelOpen}>
+                    <PopoverContent
+                      forceMount
+                      onInteractOutside={() => setIsSelectChannelOpen(false)}
+                    >
+                      <Command className="mt-2 rounded-lg border shadow-md">
+                        <CommandInput placeholder="Type a channel name to search..." />
+                        <CommandList>
+                          <CommandEmpty>No results found.</CommandEmpty>
+                          <CommandGroup heading="Integrated Channels">
+                            {channels.map((channel) => (
+                              <CommandItem
+                                disabled={isSending}
+                                key={channel.id}
+                                value={channel.id}
+                                onSelect={(currentValue) => {
+                                  setSelectedChannel(currentValue)
+                                  handleSend()
+                                }}
+                                className='cursor-pointer'
+                              >
+                                {channel.type === ChannelType.WHATSAPP && (
+                                  <FaWhatsapp className="mr-2 h-4 w-4" />
                                 )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+                                {channel.type === ChannelType.TWITTER && (
+                                  <FaXTwitter className="mr-2 h-4 w-4" />
+                                )}
+                                {channel.type === ChannelType.FACEBOOK_MESSENGER && (
+                                  <FaFacebookMessenger className="mr-2 h-4 w-4" />
+                                )}
+                                {channel.type === ChannelType.SMS && (
+                                  <FaCommentSms className="mr-2 h-4 w-4" />
+                                )}
+                                {channel.name}
+                                <CheckIcon
+                                  className={cn(
+                                    "ml-auto h-4 w-4",
+                                    selectedChannel === channel.id ? "opacity-100" : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </Button>
               </div>
             </div>
           </>
