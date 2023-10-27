@@ -23,117 +23,121 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const requestBody = await request.text()
-  const webhookData = JSON.parse(requestBody)
+  try {
+    const requestBody = await request.text()
+    const webhookData = JSON.parse(requestBody)
 
-  // Validate  Webhook
-  if (webhookData &&
-    webhookData.object === 'whatsapp_business_account' &&
-    webhookData.entry &&
-    webhookData.entry.length > 0 &&
-    webhookData.entry[0].changes &&
-    webhookData.entry[0].changes.length > 0 &&
-    webhookData.entry[0].changes[0].value) {
-    // Extract the message data from the webhook
-    const messageData = webhookData.entry[0].changes[0].value
+    // Validate  Webhook
+    if (webhookData &&
+      webhookData.object === 'whatsapp_business_account' &&
+      webhookData.entry &&
+      webhookData.entry.length > 0 &&
+      webhookData.entry[0].changes &&
+      webhookData.entry[0].changes.length > 0 &&
+      webhookData.entry[0].changes[0].value) {
+      // Extract the message data from the webhook
+      const messageData = webhookData.entry[0].changes[0].value
 
-    // If webhook is for read message
-    if (messageData && messageData.statuses && messageData.statuses[0]) {
-      const status = messageData.statuses[0].status
-      const whatsappMessageId = messageData.statuses[0].id
+      // If webhook is for read message
+      if (messageData && messageData.statuses && messageData.statuses[0]) {
+        const status = messageData.statuses[0].status
+        const whatsappMessageId = messageData.statuses[0].id
 
-      if (status === 'read') {
-        // Call the function to mark chatMessage as read
-        await markChatMessageAsRead(whatsappMessageId)
-      }
-    }
-
-    // Fetch the Channel based on the phone number
-    const phoneNumber = messageData.metadata.display_phone_number
-    const channel = await fetchChannelDetails(phoneNumber)
-    const identifier = messageData.contacts[0].wa_id
-
-    if (channel && messageData) {
-      // Check if the message type is valid
-      const messageType = messageData.messages[0].type
-      if (isValidMessageType(messageType)) {
-        // Save or update the contact
-        const contactData = {
-          companyId: channel.companyId,
-          channel: ChannelType.WHATSAPP,
-          identifier,
-          alias: messageData.contacts[0].profile.name,
+        if (status === 'read') {
+          // Call the function to mark chatMessage as read
+          await markChatMessageAsRead(whatsappMessageId)
         }
-        const contact = await saveOrUpdateContact(contactData)
+      }
 
-        // Check if a chat with the same contact ID exists
-        const existingChat = await findChatByContactId(channel.id, contact.id)
+      // Fetch the Channel based on the phone number
+      const phoneNumber = messageData.metadata.display_phone_number
+      const channel = await fetchChannelDetails(phoneNumber)
+      const identifier = messageData.contacts[0].wa_id
 
-        let chat: Chat
-        let chatMessage: ChatMessage
+      if (channel && messageData) {
+        // Check if the message type is valid
+        const messageType = messageData.messages[0].type
+        if (isValidMessageType(messageType)) {
+          // Save or update the contact
+          const contactData = {
+            companyId: channel.companyId,
+            channel: ChannelType.WHATSAPP,
+            identifier,
+            alias: messageData.contacts[0].profile.name,
+          }
+          const contact = await saveOrUpdateContact(contactData)
 
-        if (existingChat) {
-          // Add a new message to the existing chat
-          const newChatMessage = await db.chatMessage.create({
-            data: {
-              chatId: existingChat.id,
-              externalRef: messageData.messages[0].id,
-              direction: MessageDirection.INCOMING,
-              category: existingChat.category === ChatCategory.AUTOMATED ? ChatCategory.AUTOMATED : ChatCategory.INTERACTIVE,
-              type: getMessageType(messageType),
-              message: messageData.messages[0].text.body,
-              internalStatus: 'unread'
-            },
-          })
-          chat = existingChat
-          chatMessage = newChatMessage
+          // Check if a chat with the same contact ID exists
+          const existingChat = await findChatByContactId(channel.id, contact.id)
+
+          let chat: Chat
+          let chatMessage: ChatMessage
+
+          if (existingChat) {
+            // Add a new message to the existing chat
+            const newChatMessage = await db.chatMessage.create({
+              data: {
+                chatId: existingChat.id,
+                externalRef: messageData.messages[0].id,
+                direction: MessageDirection.INCOMING,
+                category: existingChat.category === ChatCategory.AUTOMATED ? ChatCategory.AUTOMATED : ChatCategory.INTERACTIVE,
+                type: getMessageType(messageType),
+                message: messageData.messages[0].text.body,
+                internalStatus: 'unread'
+              },
+            })
+            chat = existingChat
+            chatMessage = newChatMessage
+          } else {
+            // Create a new Chat record to represent the conversation
+            const newChat = await db.chat.create({
+              data: {
+                category: channel.ChannelToFlow ? ChatCategory.AUTOMATED : ChatCategory.INTERACTIVE,
+                channelId: channel.id,
+                companyId: channel.companyId,
+                contactId: contact.id,
+              },
+              include: {
+                Contact: true,
+                chatMessages: true
+              }
+            })
+
+            // Create a new ChatMessage record for the incoming message
+            const newChatMessage = await db.chatMessage.create({
+              data: {
+                chatId: newChat.id,
+                externalRef: messageData.messages[0].id,
+                direction: MessageDirection.INCOMING,
+                category: newChat.category === ChatCategory.AUTOMATED ? MessageCategory.AUTOMATED : ChatCategory.INTERACTIVE,
+                type: getMessageType(messageType),
+                message: messageData.messages[0].text.body,
+                internalStatus: 'unread'
+              },
+            })
+            chat = newChat
+            chatMessage = newChatMessage
+          }
+
+          if (chat.category === 'AUTOMATED' && chatMessage.category === 'AUTOMATED') {
+            await handleAutomatedChat(chatMessage.id)
+          }
+
+          if (chat.category === 'INTERACTIVE' && chatMessage.category === 'INTERACTIVE') {
+            await pusher.trigger("chat", "new-chat-message", {
+              chat,
+              chatMessage
+            })
+          }
         } else {
-          // Create a new Chat record to represent the conversation
-          const newChat = await db.chat.create({
-            data: {
-              category: channel.ChannelToFlow ? ChatCategory.AUTOMATED : ChatCategory.INTERACTIVE,
-              channelId: channel.id,
-              companyId: channel.companyId,
-              contactId: contact.id,
-            },
-            include: {
-              Contact: true,
-              chatMessages: true
-            }
-          })
-
-          // Create a new ChatMessage record for the incoming message
-          const newChatMessage = await db.chatMessage.create({
-            data: {
-              chatId: newChat.id,
-              externalRef: messageData.messages[0].id,
-              direction: MessageDirection.INCOMING,
-              category: newChat.category === ChatCategory.AUTOMATED ? MessageCategory.AUTOMATED : ChatCategory.INTERACTIVE,
-              type: getMessageType(messageType),
-              message: messageData.messages[0].text.body,
-              internalStatus: 'unread'
-            },
-          })
-          chat = newChat
-          chatMessage = newChatMessage
+          sendMessage(channel.id, 'TEXT', identifier, `${messageType.charAt(0).toUpperCase() + messageType.slice(1).toLowerCase()} messages are not supported.`)
         }
-
-        if (chat.category === 'AUTOMATED' && chatMessage.category === 'AUTOMATED') {
-          await handleAutomatedChat(chatMessage.id)
-        }
-
-        if (chat.category === 'INTERACTIVE' && chatMessage.category === 'INTERACTIVE') {
-          await pusher.trigger("chat", "new-chat-message", {
-            chat,
-            chatMessage
-          })
-        }
-      } else {
-        sendMessage(channel.id, 'TEXT', identifier, `${messageType.charAt(0).toUpperCase() + messageType.slice(1).toLowerCase()} messages are not supported.`)
       }
     }
-
     // Return 200
+    return new Response(null, { status: 200 })
+  } catch (error) {
+    // Return 200 even on error to avoid whatsapp webhook to resend
     return new Response(null, { status: 200 })
   }
 }
