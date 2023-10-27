@@ -5,16 +5,6 @@ export type WhatsAppAuthDetails = {
   accessToken: string
 }
 
-type SendMessageResponse = {
-  messaging_product: string
-  contacts: {
-    input: string
-    wa_id: string
-  }[]
-  messages: {
-    id: string
-  }[]
-}
 
 export function isValidWhatsAppAuthDetails(authDetails: WhatsAppAuthDetails): boolean {
   return !!authDetails.phoneNumberId && !!authDetails.accessToken
@@ -22,7 +12,7 @@ export function isValidWhatsAppAuthDetails(authDetails: WhatsAppAuthDetails): bo
 
 export async function sendWhatsAppTextMessage(phoneNumberId: string, accessToken: string, recipient: string, messageContent: string) {
   try {
-    const response = await axios.post<SendMessageResponse>(
+    const response = await axios.post(
       `https://graph.facebook.com/v18.0/${phoneNumberId}/messages`,
       {
         messaging_product: 'whatsapp',
@@ -76,7 +66,7 @@ export async function sendWhatsAppMessageWithReplyButtons(
       },
     }))
 
-    const response = await axios.post<SendMessageResponse>(`https://graph.facebook.com/v18.0/${phoneNumberId}/messages`,
+    const response = await axios.post(`https://graph.facebook.com/v18.0/${phoneNumberId}/messages`,
       {
         messaging_product: 'whatsapp',
         recipient_type: 'individual',
