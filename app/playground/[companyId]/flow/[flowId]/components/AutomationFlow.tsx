@@ -339,7 +339,7 @@ export default function AutomationFlow() {
             <SideBar />
           </div>
           <div className="md:order-1">
-            <div className="flex flex-col space-y-4">
+            <div className="flex h-screen min-h-screen flex-col space-y-4">
               <ReactFlowProvider>
                 <FlowArea flowData={flow.flowData} />
               </ReactFlowProvider>
