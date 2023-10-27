@@ -202,10 +202,6 @@ async function findChatByContactId(contactId: string) {
   const existingChat = await db.chat.findFirst({
     where: {
       contactId,
-    },
-    include: {
-      Contact: true,
-      chatMessages: true
     }
   })
   return existingChat
