@@ -231,7 +231,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                           <div className={cn('flex space-x-1 text-sm text-gray-600 dark:text-gray-400', chatMessage.userId ? 'justify-end' : 'justify-start')}>
                             {chatMessage.userId ? (
                               <div className="flex">
-                                {chatMessage.internalStatus === 'sent' ? (
+                                {chatMessage.externalStatus === 'sent' ? (
                                   <>
                                     <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
                                     <p>
@@ -242,7 +242,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = (props) => {
                                       })}
                                     </p>
                                   </>
-                                ) : chatMessage.internalStatus === 'failed' ? (
+                                ) : chatMessage.externalStatus === 'failed' ? (
                                   <>
                                     <XCircleIcon className="h-4 w-4 text-red-500 dark:text-red-300" />
                                     <p>
