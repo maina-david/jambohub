@@ -171,8 +171,6 @@ function validateFlowData(nodes: Node[], edges: Edge[]) {
     "sendAttachment",
     "assignToTeam"
   ]
-  
-  let hasNullParent = false
 
   const nodeErrors: ValidationError[] = []
   const edgeErrors: ValidationError[] = []
@@ -182,19 +180,6 @@ function validateFlowData(nodes: Node[], edges: Edge[]) {
       if (edges.every((edge) => edge.target !== node.id)) {
         nodeErrors.push({ id: node.id, error: new NodeValidationError("Root node without child node.") })
       }
-    } else if (!node.parentNodeId) {
-      nodeErrors.push({ id: node.id, error: new NodeValidationError("Node with null parentNodeId.") })
-    } else {
-      const parentNode = nodes.find((n) => n.id === node.parentNodeId)
-      if (!parentNode || !nodeTypesWithReplyOption.includes(parentNode.type) || !node.data.replyOption) {
-        nodeErrors.push({ id: node.id, error: new NodeValidationError("Invalid parent node or missing replyOption.") })
-      }
-    }
-    if (node.parentNodeId === null) {
-      if (hasNullParent) {
-        nodeErrors.push({ id: node.id, error: new NodeValidationError("Multiple nodes with null parentNodeId.") })
-      }
-      hasNullParent = true
     }
   }
 
