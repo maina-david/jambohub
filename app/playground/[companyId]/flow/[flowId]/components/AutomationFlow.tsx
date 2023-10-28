@@ -139,7 +139,7 @@ function FlowArea({ flowData }) {
       onSave()
     }, 2000)
 
-    return () => clearTimeout(saveTimeout);
+    return () => clearTimeout(saveTimeout)
   }, [
     nodes,
     edges,
@@ -186,7 +186,9 @@ export default function AutomationFlow() {
 
   if (isLoading) {
     return (
-      <p>loading....</p>
+      <div className="items-center justify-center">
+        <Icons.spinner className="h-10 w-10 animate-spin" />
+      </div>
     )
   }
 
