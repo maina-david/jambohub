@@ -77,15 +77,14 @@ export default function ChatArea() {
 
     // Listen for the "new-chat-message" event
     chatChannel.bind("new-chat-message", function (data: { chat: ChatProps, chatMessage: ChatMessage }) {
+      if (selectedChat && selectedChat.id === data.chat.id) {
+        addMessages(data.chat.id, [data.chatMessage])
+      }
+      queryClient.invalidateQueries(['assignedChats'])
       toast({
         title: 'New Message',
         description: `You have a new message from ${data.chat.Contact.alias}`,
       })
-
-      queryClient.invalidateQueries(['assignedChats'])
-      if (selectedChat && selectedChat.id === data.chat.id) {
-        addMessages(data.chat.id, [data.chatMessage])
-      }
     })
 
     return () => {
