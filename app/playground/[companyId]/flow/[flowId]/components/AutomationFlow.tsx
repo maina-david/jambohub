@@ -267,7 +267,7 @@ export default function AutomationFlow() {
       const flowId = params?.flowId
 
       // Perform the POST request
-      await axios.post(`/api/companies/${flow.companyId}/flows/${flowId}/publish`)
+      await axios.patch(`/api/companies/${flow.companyId}/flows/${flowId}/publish`)
 
       toast({
         title: "Success",

@@ -11,7 +11,7 @@ const routeContextSchema = z.object({
   }),
 })
 
-export async function POST(req: Request, context: z.infer<typeof routeContextSchema>) {
+export async function PATCH(req: Request, context: z.infer<typeof routeContextSchema>) {
   try {
     const session = await getServerSession(authOptions)
 
