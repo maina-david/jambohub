@@ -370,14 +370,16 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center">
-          <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
-            <Icons.chat className="h-16 w-16" />
+          <div className="flex h-full items-center justify-center">
+            <div className="flex flex-col items-center">
+              <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
+                <Icons.chat className="h-16 w-16" />
+              </div>
+              <div onClick={handleStartConversation} className={cn('rounded-md px-6 py-2 shadow-2xl', isMdAndAbove ? 'cursor-default' : 'cursor-pointer')}>
+                <p className="text-lg font-medium leading-normal">Start Conversation</p>
+              </div>
+            </div>
           </div>
-          <div onClick={handleStartConversation} className={cn('rounded-md px-6 py-2 shadow-2xl', isMdAndAbove ? 'cursor-default' : 'cursor-pointer')}>
-            <p className="text-lg font-medium leading-normal">Start Conversation</p>
-          </div>
-        </div>
       )}
     </div>
   )
