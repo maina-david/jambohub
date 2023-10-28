@@ -17,7 +17,7 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className='grid w-full gap-2'>
-        <Input value={data.replyOption} onChange={(evt) => updateReplyOption(id, evt.target.value, 'replyOption')} />
+        <Input placeholder='Enter reply option' value={data.replyOption} onChange={(evt) => updateReplyOption(id, evt.target.value, 'replyOption')} />
         <Select
           defaultValue={data.fileOption ? data.fileOption : undefined}
           onValueChange={(value) => updateReplyOption(id, value, 'fileOption')}

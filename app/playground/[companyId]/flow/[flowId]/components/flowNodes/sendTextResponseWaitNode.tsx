@@ -25,7 +25,7 @@ function SendTextResponseWaitNode({ id, data }: NodeProps) {
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className='grid w-full gap-2'>
-        <Input value={data.replyOption} onChange={(evt) => updateReplyOption(id, evt.target.value, 'replyOption')} />
+        <Input placeholder='Enter reply option' value={data.replyOption} onChange={(evt) => updateReplyOption(id, evt.target.value, 'replyOption')} />
         <Textarea
           value={data.value}
           placeholder='Type your message here'
