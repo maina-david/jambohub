@@ -11,7 +11,19 @@ import { Contact } from '@prisma/client'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { AnimatePresence, motion } from 'framer-motion'
 import AddContactDialog from './AddContactDialog'
+import {
+  FaWhatsapp,
+  FaXTwitter,
+  FaFacebookMessenger,
+  FaCommentSms
+} from "react-icons/fa6"
 
+const chatTypeIcons = {
+  WHATSAPP: FaWhatsapp,
+  TWITTER: FaXTwitter,
+  FACEBOOK_MESSENGER: FaFacebookMessenger,
+  SMS: FaCommentSms,
+};
 interface SideBarLeftProps extends React.HTMLAttributes<HTMLDivElement> {
   isMdAndAbove: boolean
   leftSidebarOpen: boolean
@@ -79,6 +91,12 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                       <div className="flex-1 truncate">
                         <p className="truncate text-base font-medium tracking-tight">
                           {chat.Contact.name || chat.Contact.identifier}
+                          <span className="ml-2">
+                            {chat.channel.type === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
+                            {chat.channel.type === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
+                            {chat.channel.type === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
+                            {chat.channel.type === 'SMS' && <FaCommentSms className='h-4 w-4' />}
+                          </span>
                         </p>
                         <p className="truncate">
                           {getLastChatMessage(chat) &&
@@ -130,7 +148,14 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                         className="mr-2 h-8 w-8"
                       />
                       <div className='flex-1 flex-col'>
-                        <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}</p>
+                        <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}
+                          <span className="ml-2">
+                            {contact.channel === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
+                            {contact.channel === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
+                            {contact.channel === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
+                            {contact.channel === 'SMS' && <FaCommentSms className='h-4 w-4' />}
+                          </span>
+                          </p>
                         <p className="text-sm tracking-tight">{contact.alias}</p>
                       </div>
                     </div>
