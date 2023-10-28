@@ -60,12 +60,12 @@ const SideBarLeft = (props: SideBarLeftProps) => {
 
   const renderChatsAndContacts = () => {
     return (
-      <>
+      <div className='h-[550px]'>
         <div className="flex items-center justify-between space-x-2 p-2.5">
           <Input placeholder="Search for contact..." />
         </div>
         <Separator />
-        <div className="flex h-[85vh] flex-col overflow-hidden">
+        <div className="flex flex-col overflow-hidden">
           <ScrollArea className="flex-1 overflow-y-auto">
             <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
               Chats
@@ -173,7 +173,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             </AnimatePresence>
           </ScrollArea>
         </div>
-      </>
+      </div>
     )
   }
 
