@@ -174,7 +174,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
   }
 
   return (
-    <div className={cn('flex h-[550px] flex-col', isMdAndAbove ? 'w-2/3' : 'w-full')}>
+    <div className={cn('flex h-[75vh] min-h-[75vh] flex-col', isMdAndAbove ? 'w-2/3' : 'w-full')}>
       {selectedChat ? (
         <>
           <div className="flex items-center justify-between px-5 py-2.5">

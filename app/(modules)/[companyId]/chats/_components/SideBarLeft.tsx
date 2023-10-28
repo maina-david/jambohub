@@ -60,7 +60,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
 
   const renderChatsAndContacts = () => {
     return (
-      <div className='h-[550px]'>
+      <div className='h-[75vh] min-h-[75vh]'>
         <div className="flex items-center justify-between space-x-2 p-2.5">
           <Input placeholder="Search for contact..." />
         </div>
