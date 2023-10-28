@@ -16,3 +16,16 @@ export class MaximumPlanResourcesError extends Error {
   }
 }
 
+export class NodeValidationError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = "NodeValidationError"
+  }
+}
+
+export class EdgeValidationError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = "EdgeValidationError"
+  }
+}

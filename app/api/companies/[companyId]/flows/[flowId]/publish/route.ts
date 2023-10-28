@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth"
 import * as z from "zod"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { NodeValidationError } from "@/lib/exceptions"
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -109,11 +110,15 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
         return new Response(null, { status: 200 })
       }
     } else {
-      return new Response("Flow not found", { status: 404 })
+      return new Response("Flow not found", { status: 400 })
     }
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
+    }
+
+    if (error instanceof NodeValidationError) {
+      return new Response(error.message, { status: 400 })
     }
 
     console.log("PUBLISH_FLOW_ERROR", error)
