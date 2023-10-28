@@ -89,15 +89,17 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                         className="mr-2 h-8 w-8"
                       />
                       <div className="flex-1 truncate">
-                        <p className="truncate text-base font-medium tracking-tight">
-                          {chat.Contact.name || chat.Contact.identifier}
+                        <div className='flex'>
+                          <p className="truncate text-base font-medium tracking-tight">
+                            {chat.Contact.name || chat.Contact.identifier}
+                          </p>
                           <span className="ml-2">
                             {chat.channel.type === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
                             {chat.channel.type === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
                             {chat.channel.type === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
                             {chat.channel.type === 'SMS' && <FaCommentSms className='h-4 w-4' />}
                           </span>
-                        </p>
+                        </div>
                         <p className="truncate">
                           {getLastChatMessage(chat) &&
                             getLastChatMessage(chat)!.message!.length > 20
@@ -148,14 +150,16 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                         className="mr-2 h-8 w-8"
                       />
                       <div className='flex-1 flex-col'>
-                        <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}
+                        <div className='flex'>
+                          <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}
+                          </p>
                           <span className="ml-2">
                             {contact.channel === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
                             {contact.channel === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
                             {contact.channel === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
                             {contact.channel === 'SMS' && <FaCommentSms className='h-4 w-4' />}
                           </span>
-                          </p>
+                        </div>
                         <p className="text-sm tracking-tight">{contact.alias}</p>
                       </div>
                     </div>
