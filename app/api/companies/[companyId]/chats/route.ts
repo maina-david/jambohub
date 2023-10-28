@@ -27,6 +27,7 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
         category: 'INTERACTIVE'
       },
       include: {
+        channel: true,
         Contact: true,
         chatMessages: {
           where: {
