@@ -43,7 +43,7 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
         const { nodes, edges } = JSON.parse(jsonString)
 
         // Validate flow data
-        validateFlowData(nodes, edges)
+        await validateFlowData(nodes, edges)
 
         // Map nodes to the ConversationFlow model.
         for (const node of nodes) {
