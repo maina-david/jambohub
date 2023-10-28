@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth"
 import * as z from "zod"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { NodeValidationError } from "@/lib/exceptions"
+import { FlowValidationError } from "@/lib/exceptions"
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -117,8 +117,8 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
-    if (error instanceof NodeValidationError) {
-      return new Response(error.message, { status: 400 })
+    if (error instanceof FlowValidationError) {
+      return new Response(JSON.stringify(error), { status: 400 })
     }
 
     console.log("PUBLISH_FLOW_ERROR", error)

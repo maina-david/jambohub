@@ -279,12 +279,12 @@ export default function AutomationFlow() {
       console.error('Error toggling flow publication:', error)
       if (error.response) {
         const status = error.response.status
-        if (status === 422) {
+        if (status === 400) {
           // Handle validation errors
-          const validationErrors = error.response.data
+          const FlowErrors = error.response.data
           toast({
-            title: "Validation Error",
-            description: "Please correct the following errors: " + validationErrors.join(", "),
+            title: "Flow Error",
+            description: "Please correct the following errors: " + FlowErrors.join(", "),
             variant: "destructive",
           })
         } else {
