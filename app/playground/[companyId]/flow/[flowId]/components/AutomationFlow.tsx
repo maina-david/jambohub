@@ -70,7 +70,7 @@ const defaultViewport: Viewport = { x: 0, y: 0, zoom: 0.5 }
 
 const proOptions = { hideAttribution: true }
 
-function FlowArea({ flowData, setIsSaving }) {
+function FlowArea({ flowData }) {
   const {
     nodes,
     edges,
@@ -131,12 +131,10 @@ function FlowArea({ flowData, setIsSaving }) {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject()
       localStorage.setItem('savedFlow', JSON.stringify(flow))
-      setIsSaving(false)
     }
-  }, [reactFlowInstance, setIsSaving])
+  }, [reactFlowInstance])
 
   useEffect(() => {
-    setIsSaving(true)
     const saveTimeout = setTimeout(() => {
       onSave()
     }, 2000)
@@ -151,7 +149,6 @@ function FlowArea({ flowData, setIsSaving }) {
     onEdgesDelete,
     addDraggedNode,
     onSave,
-    setIsSaving
   ])
 
   return (
@@ -346,7 +343,7 @@ export default function AutomationFlow() {
           <div className="md:order-1">
             <div className="flex h-[85vh] min-h-[85vh] flex-col space-y-4">
               <ReactFlowProvider>
-                <FlowArea flowData={flow.flowData} setIsSaving={setIsSaving}/>
+                <FlowArea flowData={flow.flowData}/>
               </ReactFlowProvider>
             </div>
           </div>
