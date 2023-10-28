@@ -42,61 +42,57 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
         const jsonString = typeof flow.flowData === 'string' ? flow.flowData : JSON.stringify(flow.flowData)
         const { nodes, edges } = JSON.parse(jsonString)
 
-        try {
-          // Validate flow data
-          validateFlowData(nodes, edges)
+        // Validate flow data
+        validateFlowData(nodes, edges)
 
-          // Map nodes to the ConversationFlow model.
-          for (const node of nodes) {
-            const data = {
-              value: node.data.value,
-              replyOption: node.data.replyOption || null,
-            }
+        // Map nodes to the ConversationFlow model.
+        for (const node of nodes) {
+          const data = {
+            value: node.data.value,
+            replyOption: node.data.replyOption || null,
+          }
 
-            await db.conversationFlow.create({
-              data: {
-                nodeId: node.id,
-                parentNodeId: null,
-                nodeType: node.type,
-                nodeOption: data.replyOption,
-                nodeData: data.value,
+          await db.conversationFlow.create({
+            data: {
+              nodeId: node.id,
+              parentNodeId: null,
+              nodeType: node.type,
+              nodeOption: data.replyOption,
+              nodeData: data.value,
+              flowId: params.flowId,
+            },
+          })
+        }
+
+        // Map edges to link parent and child nodes.
+        for (const edge of edges) {
+          const sourceNode = nodes.find((node) => node.id === edge.source)
+          const targetNode = nodes.find((node) => node.id === edge.target)
+
+          if (sourceNode && targetNode) {
+            await db.conversationFlow.updateMany({
+              where: {
+                nodeId: targetNode.id,
                 flowId: params.flowId,
+              },
+              data: {
+                parentNodeId: sourceNode.id,
               },
             })
           }
-
-          // Map edges to link parent and child nodes.
-          for (const edge of edges) {
-            const sourceNode = nodes.find((node) => node.id === edge.source)
-            const targetNode = nodes.find((node) => node.id === edge.target)
-
-            if (sourceNode && targetNode) {
-              await db.conversationFlow.updateMany({
-                where: {
-                  nodeId: targetNode.id,
-                  flowId: params.flowId,
-                },
-                data: {
-                  parentNodeId: sourceNode.id,
-                },
-              })
-            }
-          }
-
-          // Update the published status in the Flow model.
-          await db.flow.update({
-            where: {
-              id: params.flowId,
-            },
-            data: {
-              published: true,
-            },
-          })
-
-          return new Response(null, { status: 200 })
-        } catch (error) {
-          return new Response(error, { status: 400 })
         }
+
+        // Update the published status in the Flow model.
+        await db.flow.update({
+          where: {
+            id: params.flowId,
+          },
+          data: {
+            published: true,
+          },
+        })
+
+        return new Response(null, { status: 200 })
       } else {
         await db.conversationFlow.deleteMany({
           where: {
@@ -121,6 +117,10 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
+    }
+
+    if (error instanceof FlowValidationError) {
+      return new Response(JSON.stringify({ errors: error.errors }), { status: 422 })
     }
 
     console.log("PUBLISH_FLOW_ERROR", error)
@@ -219,6 +219,6 @@ async function validateFlowData(nodes: any[], edges: any[]) {
   }
 
   if (errors.length > 0) {
-    throw errors
+    throw new FlowValidationError(errors)
   }
 }

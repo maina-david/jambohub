@@ -37,6 +37,7 @@ import { toast } from "@/components/ui/use-toast"
 import SendTextResponseNode from "./flowNodes/sendTextResponseNode"
 import SendTextResponseWaitNode from "./flowNodes/sendTextResponseWaitNode"
 import { fetchFlowDetails } from "@/actions/flow-actions"
+import { FlowValidationError } from "@/lib/exceptions"
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,
@@ -276,24 +277,13 @@ export default function AutomationFlow() {
       queryClient.invalidateQueries({ queryKey: ["flowDetails"] })
     } catch (error) {
       console.error("Error toggling flow publication:", error)
-
-      if (error.response) {
-        const status = error.response.status
-        if (status === 400) {
-          // Handle validation errors
-          const flowErrors = JSON.parse(error.response.data)
-          toast({
-            title: "Flow Error",
-            description: "Please correct the following errors: " + flowErrors.join(", "),
-            variant: "destructive",
-          })
-        } else {
-          toast({
-            title: "Error",
-            description: "Failed to publish flow. Please try again.",
-            variant: "destructive",
-          })
-        }
+      if (error instanceof FlowValidationError) {
+        const flowErrors = error.errors
+        toast({
+          title: "Flow Error",
+          description: "Please correct the following errors: " + flowErrors.join(", "),
+          variant: "destructive",
+        })
       } else {
         toast({
           title: "Error",
