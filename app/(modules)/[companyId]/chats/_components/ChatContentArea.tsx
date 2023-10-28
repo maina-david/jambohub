@@ -174,7 +174,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
   }
 
   return (
-    <div className={cn('flex flex-col', isMdAndAbove ? 'w-2/3' : 'w-full')}>
+    <div className={cn('flex h-[85vh] flex-col', isMdAndAbove ? 'w-2/3' : 'w-full')}>
       {selectedChat ? (
         <>
           <div className="flex items-center justify-between px-5 py-2.5">
@@ -203,7 +203,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
             </div>
           </div>
           <Separator />
-          <div className="flex h-[85vh] flex-col overflow-hidden">
+          <div className="flex flex-col overflow-hidden">
             <ScrollArea ref={scrollAreaRef} className="flex-1 overflow-y-auto">
               <AnimatePresence>
                 {selectedChat.chatMessages?.map((chatMessage, index) => (
@@ -278,7 +278,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                 ))}
               </AnimatePresence>
             </ScrollArea>
-            <div className="flex border p-3">
+            <div className="flex border">
               <Input
                 readOnly={isSending}
                 value={message}
@@ -373,7 +373,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
           </div>
         </>
       ) : (
-          <div className="flex h-[85vh] flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
           <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-muted px-7 pb-7 pt-8 shadow-2xl">
             <Icons.chat className="h-16 w-16" />
           </div>
