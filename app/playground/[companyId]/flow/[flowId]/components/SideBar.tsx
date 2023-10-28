@@ -1,6 +1,10 @@
 'use client'
 
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger
+} from '@/components/ui/hover-card'
 import { Label } from '@/components/ui/label'
 import {
   Tabs,
