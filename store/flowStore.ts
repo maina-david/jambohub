@@ -84,13 +84,6 @@ const useFlowStore = createWithEqualityFn<RFState>((set, get) => ({
 
       set({
         edges: [...get().edges, newEdge],
-        nodes: [
-          ...get().nodes,
-          {
-            ...targetNode,
-            parentNode: sourceNode.id,
-          },
-        ],
       })
     }
   },
