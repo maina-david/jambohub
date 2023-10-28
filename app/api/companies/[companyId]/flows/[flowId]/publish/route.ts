@@ -3,6 +3,20 @@ import * as z from "zod"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 
+class NodeValidationError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = "NodeValidationError"
+  }
+}
+
+class EdgeValidationError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = "EdgeValidationError"
+  }
+}
+
 const routeContextSchema = z.object({
   params: z.object({
     companyId: z.string(),
@@ -34,28 +48,28 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
     const json = await req.json()
     const body = flowPatchSchema.parse(json)
 
-    // Fetch the flow data as JSON.
-    const flow = await db.flow.findUnique({
-      where: {
-        id: params.flowId,
-      },
-      select: {
-        flowData: true,
-      },
-    })
+    if (body.published) {
+      const flow = await db.flow.findUnique({
+        where: {
+          id: params.flowId,
+        },
+        select: {
+          flowData: true,
+        },
+      })
 
-    if (flow) {
-      if (body.published && flow.flowData) {
+      if (flow && flow.flowData) {
         const jsonString = typeof flow.flowData === 'string' ? flow.flowData : JSON.stringify(flow.flowData)
         const { nodes, edges } = JSON.parse(jsonString)
 
-        // Map nodes to the ConversationFlow model.
+        validateFlowData(nodes, edges)
+
+        // Map nodes to the ConversationFlow model...
         for (const node of nodes) {
           const data = {
             value: node.data.value,
             replyOption: node.data.replyOption || null,
           }
-
           const conversationFlow = await db.conversationFlow.create({
             data: {
               nodeId: node.id,
@@ -67,8 +81,7 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
             },
           })
         }
-
-        // Map edges to link parent and child nodes.
+        // Map edges to link parent and child nodes...
         for (const edge of edges) {
           const sourceNode = nodes.find((node) => node.id === edge.source)
           const targetNode = nodes.find((node) => node.id === edge.target)
@@ -86,42 +99,30 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
           }
         }
 
-        // Update the published status in the Flow model.
-        await db.flow.update({
-          where: {
-            id: params.flowId,
-          },
-          data: {
-            published: true,
-          },
-        })
-
         return new Response(null, { status: 200 })
       } else {
-
-        await db.conversationFlow.deleteMany({
-          where: {
-            flowId: params.flowId,
-          }
-        })
-        // Update the published status in the Flow model.
-        await db.flow.update({
-          where: {
-            id: params.flowId,
-          },
-          data: {
-            published: false,
-          },
-        })
-
-        return new Response(null, { status: 200 })
+        return new Response("Flow not found", { status: 404 })
       }
     } else {
-      return new Response("Flow not found", { status: 404 })
+      await db.conversationFlow.deleteMany({
+        where: {
+          flowId: params.flowId,
+        }
+      })
+      await db.flow.update({
+        where: {
+          id: params.flowId,
+        },
+        data: {
+          published: false,
+        },
+      })
+
+      return new Response(null, { status: 200 })
     }
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+    if (error instanceof z.ZodError || error instanceof NodeValidationError || error instanceof EdgeValidationError) {
+      return new Response(error.message, { status: 422, headers: { "Content-Type": "application/json" } })
     }
 
     console.log("PUBLISH_FLOW_ERROR", error)
@@ -138,4 +139,44 @@ async function verifyCurrentUserHasAccessToFlow(flowId: string, companyId: strin
   })
 
   return count > 0
+}
+
+function validateFlowData(nodes, edges) {
+  const rootNodeTypes = ["sendText", "sendTextAndWait"]
+  const nodeTypesWithReplyOption = ["sendTextWait", "sendTextResponse", "sendTextResponseWait", "sendAttachment", "assignToTeam"]
+  let hasNullParent = false
+
+  for (const node of nodes) {
+    if (rootNodeTypes.includes(node.type)) {
+      if (edges.every((edge) => edge.target !== node.id)) {
+        throw new NodeValidationError("Root node without child node.")
+      }
+    } else if (!node.parentNodeId) {
+      throw new NodeValidationError("Node with null parentNodeId.")
+    } else {
+      const parentNode = nodes.find((n) => n.id === node.parentNodeId)
+      if (!parentNode || !nodeTypesWithReplyOption.includes(parentNode.type) || !node.data.replyOption) {
+        throw new NodeValidationError("Invalid parent node or missing replyOption.")
+      }
+    }
+    if (node.parentNodeId === null) {
+      if (hasNullParent) {
+        throw new NodeValidationError("Multiple nodes with null parentNodeId.")
+      }
+      hasNullParent = true
+    }
+  }
+
+  // Edge validation
+  const nodesWithEdges = new Set()
+  for (const edge of edges) {
+    nodesWithEdges.add(edge.source)
+    nodesWithEdges.add(edge.target)
+  }
+
+  for (const node of nodes) {
+    if (!nodesWithEdges.has(node.id)) {
+      throw new EdgeValidationError(`Node '${node.id}' is not connected to any edge.`)
+    }
+  }
 }
