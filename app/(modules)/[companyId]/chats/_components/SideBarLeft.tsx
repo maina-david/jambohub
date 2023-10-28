@@ -113,7 +113,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                           {getLastChatMessage(chat) ? formatTimestamp(getLastChatMessage(chat)?.timestamp) : formatTimestamp()}
                         </p>
                         {chat.unreadMessageCount > 0 && (
-                          <div className="mr-2 rounded-full bg-red-500 p-2 text-xs text-white">
+                          <div className="mr-2 rounded-full bg-red-500 p-1.5 text-xs text-white">
                             {chat.unreadMessageCount}
                           </div>
                         )}
