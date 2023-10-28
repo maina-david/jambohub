@@ -188,9 +188,18 @@ export default function SideBar() {
           onDragStart={(event) => onDragStart(event, 'initiatePayment')}
         >
           <div className="grid w-full items-center gap-1.5">
-            <p className="text-sm font-medium leading-none">
-              Initiate Payment
-            </p>
+            <HoverCard openDelay={200}>
+              <HoverCardTrigger asChild>
+                <Label htmlFor="node">Initiate Payment</Label>
+              </HoverCardTrigger>
+              <HoverCardContent
+                align="start"
+                className="w-[260px] text-sm"
+                side="left"
+              >
+                This sends a stk push to user to initiate payment request
+              </HoverCardContent>
+            </HoverCard>
             <p className="text-sm text-muted-foreground">
               Drag this to send a payment request.
             </p>
