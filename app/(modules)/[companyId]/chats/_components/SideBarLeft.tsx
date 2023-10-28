@@ -179,7 +179,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
 
   if (isMdAndAbove) {
     return (
-      <div className="h-[75vh] min-h-[75vh] w-1/3 flex-1 flex-col border-r">
+      <div className="h-[85vh] min-h-[85vh] w-1/3 flex-1 flex-col border-r">
         {renderChatsAndContacts()}
       </div>
     )
