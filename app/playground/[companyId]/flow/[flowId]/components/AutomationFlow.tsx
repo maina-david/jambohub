@@ -277,13 +277,15 @@ export default function AutomationFlow() {
       queryClient.invalidateQueries({ queryKey: ["flowDetails"] })
     } catch (error) {
       console.error("Error toggling flow publication:", error)
-      if (error instanceof FlowValidationError) {
-        const flowErrors = error.errors
-        toast({
-          title: "Flow Error",
-          description: "Please correct the following errors: " + flowErrors.join(", "),
-          variant: "destructive",
-        })
+      if (error.response) {
+        if (error.response.status === 4222) {
+          const flowErrors = error.errors
+          toast({
+            title: "Flow Error",
+            description: "Please correct the following errors: " + flowErrors.join(", "),
+            variant: "destructive",
+          })
+        }
       } else {
         toast({
           title: "Error",
