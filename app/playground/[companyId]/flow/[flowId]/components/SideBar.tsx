@@ -1,5 +1,7 @@
 'use client'
 
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Label } from '@/components/ui/label';
 import {
   Tabs,
   TabsContent,
@@ -34,9 +36,18 @@ export default function SideBar() {
           <div
             className="grid w-full items-center gap-1.5"
           >
-            <p className="text-sm font-medium leading-none">
-              Send Text
-            </p>
+            <HoverCard openDelay={200}>
+              <HoverCardTrigger asChild>
+                <Label htmlFor="node">Send Text</Label>
+              </HoverCardTrigger>
+              <HoverCardContent
+                align="start"
+                className="w-[260px] text-sm"
+                side="left"
+              >
+                {/* Detailed Node description here */}
+              </HoverCardContent>
+            </HoverCard>
             <p className="text-sm text-muted-foreground">
               Drag this to send text to the user.
             </p>
