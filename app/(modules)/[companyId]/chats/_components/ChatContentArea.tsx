@@ -203,7 +203,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
             </div>
           </div>
           <Separator />
-          <ScrollArea ref={scrollAreaRef} className="h-[75vh] min-h-[75vh] flex-1">
+          <ScrollArea ref={scrollAreaRef} className="h-[65vh] min-h-[65vh] flex-1">
             <AnimatePresence>
               {selectedChat.chatMessages?.map((chatMessage, index) => (
                 <motion.div
