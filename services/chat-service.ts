@@ -11,23 +11,27 @@ export async function sendMessage(
   channelId: string,
   messageType: MessageType,
   recipient: string,
-  messageContent: string
+  messageContent: string | null
 ) {
   try {
-    // Fetch the channel and ensure it's active, integrated, and has valid authDetails
-    const selectedChannel = await getActiveIntegratedChannel(channelId)
+    if (messageContent) {
+      // Fetch the channel and ensure it's active, integrated, and has valid authDetails
+      const selectedChannel = await getActiveIntegratedChannel(channelId)
 
-    if (selectedChannel.type === ChannelType.WHATSAPP) {
-      const authDetails = selectedChannel.authDetails as WhatsAppAuthDetails
+      if (selectedChannel.type === ChannelType.WHATSAPP) {
+        const authDetails = selectedChannel.authDetails as WhatsAppAuthDetails
 
-      if (!authDetails || !isValidWhatsAppAuthDetails(authDetails)) {
-        throw new Error('Invalid or missing WhatsApp authDetails.')
+        if (!authDetails || !isValidWhatsAppAuthDetails(authDetails)) {
+          throw new Error('Invalid or missing WhatsApp authDetails.')
+        }
+
+        if (messageType === MessageType.TEXT) {
+          const response = await sendWhatsAppTextMessage(authDetails.phoneNumberId, authDetails.accessToken, recipient, messageContent)
+          return response
+        }
       }
-
-      if (messageType === MessageType.TEXT) {
-        const response = await sendWhatsAppTextMessage(authDetails.phoneNumberId, authDetails.accessToken, recipient, messageContent)
-        return response
-      }
+    } else {
+      throw new Error('null message content')
     }
   } catch (error) {
     console.error('Error sending message:', error)
