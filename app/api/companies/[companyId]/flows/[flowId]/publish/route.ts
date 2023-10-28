@@ -42,6 +42,9 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
         const jsonString = typeof flow.flowData === 'string' ? flow.flowData : JSON.stringify(flow.flowData)
         const { nodes, edges } = JSON.parse(jsonString)
 
+        // validate flow data
+        await validateFlowData(nodes, edges)
+
         // Map nodes to the ConversationFlow model.
         for (const node of nodes) {
           const data = {
@@ -136,3 +139,88 @@ async function verifyCurrentUserHasAccessToFlow(flowId: string, companyId: strin
 
   return count > 0
 }
+
+async function validateFlowData(nodes: any[], edges: any[]) {
+  const errors: string[] = []
+
+  if (nodes.length === 0) {
+    errors.push("Flow missing nodes")
+  }
+  if (edges.length === 0) {
+    errors.push("Flow missing edges")
+  }
+
+  const startNode = nodes[0]
+
+  if (!startNode) {
+    errors.push("Flow missing start node")
+  }
+
+  // Check if the first node is of type "sendText" or "sendTextWait"
+  if (startNode.type !== "sendText" && startNode.type !== "sendTextWait") {
+    errors.push("Start node is of an invalid type")
+  }
+
+  // Find child nodes of the start node based on connected edges
+  const childNodeIds = edges
+    .filter(edge => edge.source === startNode.id)
+    .map(edge => edge.target)
+
+  // Ensure that the start node has children nodes
+  if (nodes.length > 0 && childNodeIds.length === 0) {
+    errors.push("Start node is missing children")
+  }
+
+  for (const childNodeId of childNodeIds) {
+    const childNode = nodes.find(node => node.id === childNodeId)
+    if (!childNode) {
+      errors.push("Invalid node mapped")
+    }
+  }
+
+  // Check for unconnected nodes
+  for (const node of nodes) {
+    if (node.id !== startNode.id && !edges.some(edge => edge.target === node.id)) {
+      errors.push(`Unconnected node with ID ${node.id}`)
+    }
+
+    switch (node.type) {
+      case 'sendText':
+        if (!node.data || !node.data.value) {
+          errors.push("Missing 'value' property for 'sendText' node")
+        }
+        break
+      case 'sendTextWait':
+        if (!node.data || !node.data.replyOption || !node.data.value) {
+          errors.push("Missing 'replyOption' or 'value' property for 'sendTextWait' node")
+        }
+        break
+      case 'sendTextResponse':
+        if (!node.data || !node.data.replyOption) {
+          errors.push("Missing 'replyOption' property for 'sendTextResponse' node")
+        }
+        break
+      case 'sendTextResponseWait':
+        if (!node.data || !node.data.replyOption) {
+          errors.push("Missing 'replyOption' property for 'sendTextResponseWait' node")
+        }
+        break
+      case 'sendAttachment':
+        if (!node.data || !node.data.replyOption) {
+          errors.push("Missing 'replyOption' property for 'sendAttachment' node")
+        }
+        break
+      case 'assignToTeam':
+        if (!node.data || !node.data.replyOption) {
+          errors.push("Missing 'replyOption' property for 'assignToTeam' node")
+        }
+        break
+      // Add more cases for other node types if needed
+    }
+  }
+
+  if (errors.length > 0) {
+    throw new FlowValidationError(JSON.stringify(errors))
+  }
+}
+
