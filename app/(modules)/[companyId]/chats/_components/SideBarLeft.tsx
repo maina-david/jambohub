@@ -113,9 +113,9 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                           {getLastChatMessage(chat) ? formatTimestamp(getLastChatMessage(chat)?.timestamp) : formatTimestamp()}
                         </p>
                         {chat.unreadMessageCount > 0 && (
-                          <span className="mr-2 rounded-full bg-red-500 p-1 text-xs text-white">
+                          <div className="mr-2 rounded-full bg-red-500 text-xs text-white">
                             {chat.unreadMessageCount}
-                          </span>
+                          </div>
                         )}
                       </div>
                     </motion.div>
