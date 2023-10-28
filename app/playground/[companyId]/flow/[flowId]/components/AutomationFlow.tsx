@@ -240,7 +240,7 @@ export default function AutomationFlow() {
           description: 'Flow saved successfully',
         })
       } catch (error) {
-        console.error('Error saving flow:', error);
+        console.error('Error saving flow:', error)
         toast({
           title: 'Error',
           description: 'Failed to save flow',
@@ -250,7 +250,7 @@ export default function AutomationFlow() {
         setIsSaving(false)
       }
     } else {
-      console.warn('No flow data available to save.');
+      console.warn('No flow data available to save.')
       toast({
         title: 'Error',
         description: 'No flow data available to save',
@@ -265,46 +265,47 @@ export default function AutomationFlow() {
 
       const flowId = params?.flowId
 
-      // Perform the PATCH request
+      // Perform the POST request
       await axios.post(`/api/companies/${flow.companyId}/flows/${flowId}/publish`)
 
       toast({
         title: "Success",
-        description: `Flow published successfully`,
+        description: "Flow published successfully",
       })
 
-      queryClient.invalidateQueries({ queryKey: ['flowDetails'] })
-
+      queryClient.invalidateQueries({ queryKey: ["flowDetails"] })
     } catch (error) {
-      console.error('Error toggling flow publication:', error)
+      console.error("Error toggling flow publication:", error)
+
       if (error.response) {
         const status = error.response.status
         if (status === 400) {
           // Handle validation errors
-          const FlowErrors = error.response.data
+          const flowErrors = JSON.parse(error.response.data)
           toast({
             title: "Flow Error",
-            description: "Please correct the following errors: " + FlowErrors.join(", "),
+            description: "Please correct the following errors: " + flowErrors.join(", "),
             variant: "destructive",
           })
         } else {
           toast({
-            title: 'Error',
-            description: 'Failed to publish flow. Please try again.',
-            variant: 'destructive',
+            title: "Error",
+            description: "Failed to publish flow. Please try again.",
+            variant: "destructive",
           })
         }
       } else {
         toast({
-          title: 'Error',
-          description: 'Failed to publish flow. Please try again.',
-          variant: 'destructive',
+          title: "Error",
+          description: "Failed to publish flow. Please try again.",
+          variant: "destructive",
         })
       }
     } finally {
       setIsPublishing(false)
     }
   }
+
 
   return (
     <div className="hidden h-full flex-col md:flex">
