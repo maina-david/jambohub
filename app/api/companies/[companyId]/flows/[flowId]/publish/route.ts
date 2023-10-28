@@ -4,17 +4,37 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 
 class NodeValidationError extends Error {
-  constructor(message) {
+  constructor(message: string) {
     super(message)
     this.name = "NodeValidationError"
   }
 }
 
 class EdgeValidationError extends Error {
-  constructor(message) {
+  constructor(message: string) {
     super(message)
     this.name = "EdgeValidationError"
   }
+}
+
+interface Node {
+  id: string
+  type: string
+  parentNodeId: string | null
+  data: {
+    value: any
+    replyOption: string | null
+  }
+}
+
+interface Edge {
+  source: string
+  target: string
+}
+
+interface ValidationError {
+  id: string
+  error: Error
 }
 
 const routeContextSchema = z.object({
@@ -141,34 +161,45 @@ async function verifyCurrentUserHasAccessToFlow(flowId: string, companyId: strin
   return count > 0
 }
 
-function validateFlowData(nodes, edges) {
-  const rootNodeTypes = ["sendText", "sendTextAndWait"]
-  const nodeTypesWithReplyOption = ["sendTextWait", "sendTextResponse", "sendTextResponseWait", "sendAttachment", "assignToTeam"]
+
+function validateFlowData(nodes: Node[], edges: Edge[]) {
+  const rootNodeTypes = ["sendText", "sendTextWait"]
+  const nodeTypesWithReplyOption = [
+    "sendTextWait",
+    "sendTextResponse",
+    "sendTextResponseWait",
+    "sendAttachment",
+    "assignToTeam"
+  ]
+  
   let hasNullParent = false
+
+  const nodeErrors: ValidationError[] = []
+  const edgeErrors: ValidationError[] = []
 
   for (const node of nodes) {
     if (rootNodeTypes.includes(node.type)) {
       if (edges.every((edge) => edge.target !== node.id)) {
-        throw new NodeValidationError("Root node without child node.")
+        nodeErrors.push({ id: node.id, error: new NodeValidationError("Root node without child node.") })
       }
     } else if (!node.parentNodeId) {
-      throw new NodeValidationError("Node with null parentNodeId.")
+      nodeErrors.push({ id: node.id, error: new NodeValidationError("Node with null parentNodeId.") })
     } else {
       const parentNode = nodes.find((n) => n.id === node.parentNodeId)
       if (!parentNode || !nodeTypesWithReplyOption.includes(parentNode.type) || !node.data.replyOption) {
-        throw new NodeValidationError("Invalid parent node or missing replyOption.")
+        nodeErrors.push({ id: node.id, error: new NodeValidationError("Invalid parent node or missing replyOption.") })
       }
     }
     if (node.parentNodeId === null) {
       if (hasNullParent) {
-        throw new NodeValidationError("Multiple nodes with null parentNodeId.")
+        nodeErrors.push({ id: node.id, error: new NodeValidationError("Multiple nodes with null parentNodeId.") })
       }
       hasNullParent = true
     }
   }
 
   // Edge validation
-  const nodesWithEdges = new Set()
+  const nodesWithEdges = new Set<string>()
   for (const edge of edges) {
     nodesWithEdges.add(edge.source)
     nodesWithEdges.add(edge.target)
@@ -176,7 +207,13 @@ function validateFlowData(nodes, edges) {
 
   for (const node of nodes) {
     if (!nodesWithEdges.has(node.id)) {
-      throw new EdgeValidationError(`Node '${node.id}' is not connected to any edge.`)
+      edgeErrors.push({ id: node.id, error: new EdgeValidationError(`Node '${node.id}' is not connected to any edge.`) })
     }
+  }
+
+  // If there are errors, throw them
+  if (nodeErrors.length > 0 || edgeErrors.length > 0) {
+    const allErrors = nodeErrors.concat(edgeErrors)
+    throw allErrors
   }
 }
