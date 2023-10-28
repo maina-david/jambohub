@@ -65,7 +65,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
           <Input placeholder="Search for contact..." />
         </div>
         <Separator />
-        <div className="flex h-[470px] flex-col overflow-hidden">
+        <div className="flex h-[85vh] flex-col overflow-hidden">
           <ScrollArea className="flex-1 overflow-y-auto">
             <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
               Chats
