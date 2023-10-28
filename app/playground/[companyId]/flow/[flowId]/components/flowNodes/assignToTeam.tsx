@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
 import useStore from '@/store/flowStore'
 import {
@@ -10,6 +10,10 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
+import { fetchTeams } from '@/actions/team-actions'
+import { Team } from '@prisma/client'
+import { useParams } from 'next/navigation'
 
 export type AssignToTeamData = {
   replyOption: string
@@ -18,30 +22,21 @@ export type AssignToTeamData = {
 
 function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
+  const [teams, setTeams] = useState<Team[]>([])
+  const params = useParams()
+
+  useEffect(() => {
+    if (params?.companyId) {
+      fetchTeams(params.companyId as string).then((teams) => {
+        setTeams(teams)
+      })
+    }
+  }, [params?.companyId])
 
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className="grid w-full gap-2">
-        <Select
-          defaultValue={data.replyOption ? data.replyOption : undefined}
-          onValueChange={(value) => updateReplyOption(id, value, 'replyOption')}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select reply option" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={'1'}>1</SelectItem>
-            <SelectItem value={'2'}>2</SelectItem>
-            <SelectItem value={'3'}>3</SelectItem>
-            <SelectItem value={'4'}>4</SelectItem>
-            <SelectItem value={'5'}>5</SelectItem>
-            <SelectItem value={'6'}>6</SelectItem>
-            <SelectItem value={'7'}>7</SelectItem>
-            <SelectItem value={'8'}>8</SelectItem>
-            <SelectItem value={'9'}>9</SelectItem>
-            <SelectItem value={'0'}>0</SelectItem>
-          </SelectContent>
-        </Select>
+        <Input value={data.replyOption} onChange={(evt) => updateReplyOption(id, evt.target.value, 'replyOption')} />
         <Select
           defaultValue={data.teamOption ? data.teamOption : undefined}
           onValueChange={(value) => updateReplyOption(id, value, 'teamOption')}
@@ -50,9 +45,9 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
             <SelectValue placeholder="Select Team to Assign" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={'1'}>Team 1</SelectItem>
-            <SelectItem value={'2'}>Team 2</SelectItem>
-            <SelectItem value={'3'}>Team 3</SelectItem>
+            {teams.map((team) => (
+              <SelectItem value={team.id}>{team.name}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>

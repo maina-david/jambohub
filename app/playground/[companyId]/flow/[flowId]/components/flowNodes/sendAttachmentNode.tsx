@@ -4,6 +4,7 @@ import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
 import useStore from '@/store/flowStore'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
 
 export type SendAttachmentData = {
   replyOption: string
@@ -16,26 +17,7 @@ function SendAttachmentNode({ id, data }: NodeProps<SendAttachmentData>) {
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
       <div className='grid w-full gap-2'>
-        <Select
-          defaultValue={data.replyOption ? data.replyOption : undefined}
-          onValueChange={(value) => updateReplyOption(id, value, 'replyOption')}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select reply option" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={'1'}>1</SelectItem>
-            <SelectItem value={'2'}>2</SelectItem>
-            <SelectItem value={'3'}>3</SelectItem>
-            <SelectItem value={'4'}>4</SelectItem>
-            <SelectItem value={'5'}>5</SelectItem>
-            <SelectItem value={'6'}>6</SelectItem>
-            <SelectItem value={'7'}>7</SelectItem>
-            <SelectItem value={'8'}>8</SelectItem>
-            <SelectItem value={'9'}>9</SelectItem>
-            <SelectItem value={'0'}>0</SelectItem>
-          </SelectContent>
-        </Select>
+        <Input value={data.replyOption} onChange={(evt) => updateReplyOption(id, evt.target.value, 'replyOption')} />
         <Select
           defaultValue={data.fileOption ? data.fileOption : undefined}
           onValueChange={(value) => updateReplyOption(id, value, 'fileOption')}
