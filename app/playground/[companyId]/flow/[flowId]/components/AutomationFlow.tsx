@@ -265,32 +265,42 @@ export default function AutomationFlow() {
 
       const flowId = params?.flowId
 
-      // Determine whether to publish or unpublish based on the current state
-      const isCurrentlyPublished = flow?.published || false // Default to false if not available
-      const newState = !isCurrentlyPublished
-
-      // Create the payload to send in the PATCH request
-      const payload = {
-        published: newState,
-      }
-
       // Perform the PATCH request
-      await axios.patch(`/api/companies/${flow.companyId}/flows/${flowId}/publish`, payload)
+      await axios.post(`/api/companies/${flow.companyId}/flows/${flowId}/publish`)
 
       toast({
         title: "Success",
-        description: `Flow ${newState ? 'published' : 'unpublished'} successfully`,
+        description: `Flow published successfully`,
       })
 
       queryClient.invalidateQueries({ queryKey: ['flowDetails'] })
 
     } catch (error) {
       console.error('Error toggling flow publication:', error)
-      toast({
-        title: 'Error',
-        description: 'Failed to toggle flow publication. Please try again.',
-        variant: 'destructive',
-      })
+      if (error.response) {
+        const status = error.response.status
+        if (status === 422) {
+          // Handle validation errors
+          const validationErrors = error.response.data
+          toast({
+            title: "Validation Error",
+            description: "Please correct the following errors: " + validationErrors.join(", "),
+            variant: "destructive",
+          })
+        } else {
+          toast({
+            title: 'Error',
+            description: 'Failed to publish flow. Please try again.',
+            variant: 'destructive',
+          })
+        }
+      } else {
+        toast({
+          title: 'Error',
+          description: 'Failed to publish flow. Please try again.',
+          variant: 'destructive',
+        })
+      }
     } finally {
       setIsPublishing(false)
     }
@@ -343,7 +353,7 @@ export default function AutomationFlow() {
           <div className="md:order-1">
             <div className="flex h-[85vh] min-h-[85vh] flex-col space-y-4">
               <ReactFlowProvider>
-                <FlowArea flowData={flow.flowData}/>
+                <FlowArea flowData={flow.flowData} />
               </ReactFlowProvider>
             </div>
           </div>
