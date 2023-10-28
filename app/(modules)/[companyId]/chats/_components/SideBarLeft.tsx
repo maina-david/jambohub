@@ -60,7 +60,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
 
   const renderChatsAndContacts = () => {
     return (
-      <div className='h-[75vh] min-h-[75vh]'>
+      <>
         <div className="flex items-center justify-between space-x-2 p-2.5">
           <Input placeholder="Search for contact..." />
         </div>
@@ -173,13 +173,13 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             </AnimatePresence>
           </ScrollArea>
         </div>
-      </div>
+      </>
     )
   }
 
   if (isMdAndAbove) {
     return (
-      <div className="w-1/3 flex-1 flex-col border-r">
+      <div className="h-[75vh] min-h-[75vh] w-1/3 flex-1 flex-col border-r">
         {renderChatsAndContacts()}
       </div>
     )
