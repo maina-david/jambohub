@@ -120,7 +120,7 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
     }
 
     if (error instanceof FlowValidationError) {
-      return new Response(JSON.stringify({ errors: error.errors }), { status: 422 })
+      return new Response(JSON.stringify(error.errors), { status: 422 })
     }
 
     console.log("PUBLISH_FLOW_ERROR", error)
