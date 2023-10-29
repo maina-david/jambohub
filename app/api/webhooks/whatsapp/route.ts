@@ -129,9 +129,10 @@ export async function POST(request: NextRequest) {
               chatMessage
             })
           }
-        } else {
-          sendMessage(channel.id, 'TEXT', identifier, `${messageType.charAt(0).toUpperCase() + messageType.slice(1).toLowerCase()} messages are not supported.`)
         }
+        // else {
+        //   sendMessage(channel.id, 'TEXT', identifier, `${messageType.charAt(0).toUpperCase() + messageType.slice(1).toLowerCase()} messages are not supported.`)
+        // }
       }
     }
     // Return 200

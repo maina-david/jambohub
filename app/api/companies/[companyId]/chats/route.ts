@@ -34,8 +34,12 @@ export async function GET(req: Request, context: z.infer<typeof routeContextSche
             category: 'INTERACTIVE'
           }
         },
+      },
+      orderBy: {
+        timestamp: 'desc',
       }
     })
+
 
     // Calculate the number of unread messages for each chat
     const chatsWithUnreadCounts = chats.map((chat) => {
