@@ -91,27 +91,9 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                       />
                       <div className="flex-1 truncate">
                         <div className='flex'>
-                          <HoverCard>
-                            <HoverCardTrigger>
-                              <p className="truncate text-base font-medium tracking-tight">
-                                {chat.Contact.name || chat.Contact.identifier}
-                              </p>
-                            </HoverCardTrigger>
-                            <HoverCardContent>
-                              <div className="grid grid-cols-2 gap-2">
-                                <span className="mr-2">
-                                  {chat.channel.type === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
-                                  {chat.channel.type === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
-                                  {chat.channel.type === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
-                                  {chat.channel.type === 'SMS' && <FaCommentSms className='h-4 w-4' />}
-                                </span>
-                                <div className='flex flex-col'>
-                                  <span>{chat.channel.name}</span>
-                                  <span>{chat.channel.identifier}</span>
-                                </div>
-                              </div>
-                            </HoverCardContent>
-                          </HoverCard>
+                          <p className="truncate text-base font-medium tracking-tight">
+                            {chat.Contact.name || chat.Contact.identifier}
+                          </p>
                           <span className="ml-2">
                             {chat.channel.type === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
                             {chat.channel.type === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
