@@ -7,7 +7,7 @@ export const metadata = {
   title: "Dashboard",
 }
 
-function DashboardPage() {
+export default function DashboardPage() {
   return (
     <div className='flex flex-col'>
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -125,5 +125,3 @@ function DashboardPage() {
     </div>
   )
 }
-
-export default DashboardPage
