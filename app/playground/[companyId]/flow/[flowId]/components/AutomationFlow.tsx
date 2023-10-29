@@ -279,7 +279,7 @@ export default function AutomationFlow() {
       console.error("Error toggling flow publication:", error)
       if (error.response) {
         if (error.response.status === 422) {
-          const flowErrors = error
+          const flowErrors = error.response.data
           console.log("flowErrors: ", flowErrors)
           toast({
             title: "Flow Error",
