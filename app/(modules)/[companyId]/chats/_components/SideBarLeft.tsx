@@ -71,7 +71,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             Chats
           </h5>
           <div className="mb-5 truncate">
-            <ScrollArea className="flex-1 overflow-y-auto">
+            <ScrollArea className="h-[30vh] min-h-[30vh] flex-1">
               <AnimatePresence>
                 {chats.length > 0 ? (
                   chats.map((chat) => (
@@ -154,7 +154,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             <div className="grow"></div>
             <AddContactDialog />
           </div>
-          <ScrollArea className="flex-1 overflow-y-auto">
+          <ScrollArea className="h-[30vh] min-h-[30vh] flex-1">
             <AnimatePresence>
               {contacts.length > 0 ? (
                 contacts.map((contact) => (
