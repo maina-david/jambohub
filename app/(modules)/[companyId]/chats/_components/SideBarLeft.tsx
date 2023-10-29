@@ -154,7 +154,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             <div className="grow"></div>
             <AddContactDialog />
           </div>
-          <ScrollArea className="h-full flex-1">
+          <ScrollArea className="h-[10vh] min-h-[10vh] flex-1">
             <AnimatePresence>
               {contacts.length > 0 ? (
                 contacts.map((contact) => (
@@ -200,7 +200,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
 
   if (isMdAndAbove) {
     return (
-      <div className="h-[80vh] min-h-[80vh] w-1/3 flex-1 flex-col border-r">
+      <div className="h-[85vh] min-h-[85vh] w-1/3 flex-1 flex-col border-r">
         {renderChatsAndContacts()}
       </div>
     )
