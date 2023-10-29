@@ -280,9 +280,10 @@ export default function AutomationFlow() {
       if (error.response) {
         if (error.response.status === 422) {
           const flowErrors = error.errors
+          console.log("flowErrors: ", flowErrors)
           toast({
             title: "Flow Error",
-            description: "Please correct the following errors: " + flowErrors.join(", "),
+            description: "Please correct the following errors",
             variant: "destructive",
           })
         }
