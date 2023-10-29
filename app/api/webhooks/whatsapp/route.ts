@@ -86,6 +86,14 @@ export async function POST(request: NextRequest) {
                 internalStatus: 'unread'
               },
             })
+            await db.chat.update({
+              where: {
+                id: existingChat.id
+              },
+              data:{
+                timestamp: new Date()
+              }
+            })
             chat = existingChat
             chatMessage = newChatMessage
           } else {
