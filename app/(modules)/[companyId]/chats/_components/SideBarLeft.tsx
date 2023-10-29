@@ -66,11 +66,11 @@ const SideBarLeft = (props: SideBarLeftProps) => {
         </div>
         <Separator />
         <div className="flex flex-col overflow-hidden">
-          <ScrollArea className="flex-1 overflow-y-auto">
-            <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
-              Chats
-            </h5>
-            <div className="mb-5 truncate">
+          <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
+            Chats
+          </h5>
+          <div className="mb-5 truncate">
+            <ScrollArea className="flex-1 overflow-y-auto">
               <AnimatePresence>
                 {chats.length > 0 ? (
                   chats.map((chat) => (
@@ -126,51 +126,53 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                   </p>
                 )}
               </AnimatePresence>
-            </div>
-            <div className='flex items-center gap-2'>
-              <h5 className="flex items-center text-xl font-semibold">
-                Contacts
-              </h5>
-              <div className="grow"></div>
-              <AddContactDialog />
-            </div>
-            <AnimatePresence>
-              {contacts.length > 0 ? (
-                contacts.map((contact) => (
-                  <motion.div
-                    key={contact.id}
-                    initial={{ opacity: 0, y: "100%" }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="w-full cursor-pointer px-3 py-2 hover:bg-accent"
-                    onClick={() => setSelectedChat(contact.id)}
-                  >
-                    <div className='flex flex-row items-start'>
-                      <UserAvatar
-                        user={{ name: contact.alias || null, image: null }}
-                        className="mr-2 h-8 w-8"
-                      />
-                      <div className='flex-1 flex-col'>
-                        <div className='flex'>
-                          <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}
-                          </p>
-                          <span className="ml-2">
-                            {contact.channel === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
-                            {contact.channel === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
-                            {contact.channel === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
-                            {contact.channel === 'SMS' && <FaCommentSms className='h-4 w-4' />}
-                          </span>
-                        </div>
-                        <p className="text-sm tracking-tight">{contact.alias}</p>
+            </ScrollArea>
+          </div>
+          <div className='flex items-center gap-2'>
+            <h5 className="flex items-center text-xl font-semibold">
+              Contacts
+            </h5>
+            <div className="grow"></div>
+            <AddContactDialog />
+          </div>
+          <ScrollArea className="flex-1 overflow-y-auto">
+          <AnimatePresence>
+            {contacts.length > 0 ? (
+              contacts.map((contact) => (
+                <motion.div
+                  key={contact.id}
+                  initial={{ opacity: 0, y: "100%" }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="w-full cursor-pointer px-3 py-2 hover:bg-accent"
+                  onClick={() => setSelectedChat(contact.id)}
+                >
+                  <div className='flex flex-row items-start'>
+                    <UserAvatar
+                      user={{ name: contact.alias || null, image: null }}
+                      className="mr-2 h-8 w-8"
+                    />
+                    <div className='flex-1 flex-col'>
+                      <div className='flex'>
+                        <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}
+                        </p>
+                        <span className="ml-2">
+                          {contact.channel === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
+                          {contact.channel === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
+                          {contact.channel === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
+                          {contact.channel === 'SMS' && <FaCommentSms className='h-4 w-4' />}
+                        </span>
                       </div>
+                      <p className="text-sm tracking-tight">{contact.alias}</p>
                     </div>
-                  </motion.div>
-                ))
-              ) : (
-                <p className="mt-6 text-center text-sm">
-                  No contacts available
-                </p>
-              )}
-            </AnimatePresence>
+                  </div>
+                </motion.div>
+              ))
+            ) : (
+              <p className="mt-6 text-center text-sm">
+                No contacts available
+              </p>
+            )}
+          </AnimatePresence>
           </ScrollArea>
         </div>
       </>
