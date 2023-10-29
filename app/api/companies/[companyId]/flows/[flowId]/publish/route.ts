@@ -140,24 +140,24 @@ async function verifyCurrentUserHasAccessToFlow(flowId: string, companyId: strin
 }
 
 async function validateFlowData(nodes: any[], edges: any[]) {
-  const errors: string[] = []
+  const errors: { id: string, message: string }[] = []
 
   if (nodes.length === 0) {
-    errors.push("Flow missing nodes")
+    errors.push({ id: 'Flow', message: "Flow missing nodes" })
   }
   if (edges.length === 0) {
-    errors.push("Flow missing edges")
+    errors.push({ id: 'Flow', message: "Flow missing edges" })
   }
 
   const startNode = nodes[0]
 
   if (!startNode) {
-    errors.push("Flow missing start node")
+    errors.push({ id: 'Flow', message: "Flow missing start node" })
   }
 
   // Check if the first node is of type "sendText" or "sendTextWait"
   if (startNode.type !== "sendText" && startNode.type !== "sendTextWait") {
-    errors.push("Start node is of an invalid type")
+    errors.push({ id: startNode.id, message: "Start node is of an invalid type" })
   }
 
   // Find child nodes of the start node based on connected edges
@@ -167,50 +167,50 @@ async function validateFlowData(nodes: any[], edges: any[]) {
 
   // Ensure that the start node has children nodes
   if (nodes.length > 0 && childNodeIds.length === 0) {
-    errors.push("Start node is missing children")
+    errors.push({ id: startNode.id, message: "Start node is missing children" })
   }
 
   for (const childNodeId of childNodeIds) {
     const childNode = nodes.find(node => node.id === childNodeId)
     if (!childNode) {
-      errors.push("Invalid node mapped")
+      errors.push({ id: childNodeId, message: "Invalid node mapped" })
     }
 
     // Check for unconnected nodes
     for (const node of nodes) {
       if (node.id !== startNode.id && !edges.some(edge => edge.target === node.id)) {
-        errors.push(`Unconnected node with ID ${node.id}`)
+        errors.push({ id: node.id, message: `Unconnected node with ID ${node.id}` })
       }
 
       switch (node.type) {
         case 'sendText':
           if (!node.data || !node.data.value) {
-            errors.push("Missing 'value' property for 'sendText' node")
+            errors.push({ id: node.id, message: "Missing 'value' property for 'sendText' node" })
           }
           break
         case 'sendTextWait':
           if (!node.data || !node.data.replyOption || !node.data.value) {
-            errors.push("Missing 'replyOption' or 'value' property for 'sendTextWait' node")
+            errors.push({ id: node.id, message: "Missing 'replyOption' or 'value' property for 'sendTextWait' node" })
           }
           break
         case 'sendTextResponse':
           if (!node.data || !node.data.replyOption) {
-            errors.push("Missing 'replyOption' property for 'sendTextResponse' node")
+            errors.push({ id: node.id, message: "Missing 'replyOption' property for 'sendTextResponse' node" })
           }
           break
         case 'sendTextResponseWait':
           if (!node.data || !node.data.replyOption) {
-            errors.push("Missing 'replyOption' property for 'sendTextResponseWait' node")
+            errors.push({ id: node.id, message: "Missing 'replyOption' property for 'sendTextResponseWait' node" })
           }
           break
         case 'sendAttachment':
           if (!node.data || !node.data.replyOption) {
-            errors.push("Missing 'replyOption' property for 'sendAttachment' node")
+            errors.push({ id: node.id, message: "Missing 'replyOption' property for 'sendAttachment' node" })
           }
           break
         case 'assignToTeam':
           if (!node.data || !node.data.replyOption) {
-            errors.push("Missing 'replyOption' property for 'assignToTeam' node")
+            errors.push({ id: node.id, message: "Missing 'replyOption' property for 'assignToTeam' node" })
           }
           break
         // Add more cases for other node types if needed
@@ -219,6 +219,7 @@ async function validateFlowData(nodes: any[], edges: any[]) {
   }
 
   if (errors.length > 0) {
-    throw new FlowValidationError(errors)
+    throw new FlowValidationError(errors);
   }
 }
+

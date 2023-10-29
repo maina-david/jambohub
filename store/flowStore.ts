@@ -39,6 +39,7 @@ export type RFState = {
   addDraggedNode: (type: string, position: XYPosition) => void
   updateSendTextValue: (nodeId: string, value: string) => void
   updateReplyOption: (nodeId: string, option: string, optionType: 'replyOption' | 'teamOption' | 'fileOption') => void
+  updateNodeColor: (nodeId: string, color: string) => void
 }
 
 const useFlowStore = createWithEqualityFn<RFState>((set, get) => ({
@@ -130,6 +131,17 @@ const useFlowStore = createWithEqualityFn<RFState>((set, get) => ({
       ),
     })
   },
+  updateNodeColor: (nodeId: string, color: string) => {
+    set({
+      nodes: get().nodes.map((node) => {
+        if (node.id === nodeId) {
+          node.data = { ...node.data, color }
+        }
+
+        return node
+      })
+    })
+  }
 }), shallow)
 
 export default useFlowStore

@@ -37,7 +37,6 @@ import { toast } from "@/components/ui/use-toast"
 import SendTextResponseNode from "./flowNodes/sendTextResponseNode"
 import SendTextResponseWaitNode from "./flowNodes/sendTextResponseWaitNode"
 import { fetchFlowDetails } from "@/actions/flow-actions"
-import { FlowValidationError } from "@/lib/exceptions"
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,
@@ -50,7 +49,7 @@ const selector = (state: RFState) => ({
   onConnect: state.onConnect,
   onEdgesDelete: state.onEdgesDelete,
   addDraggedNode: state.addDraggedNode,
-  updateSendTextValue: state.updateSendTextValue
+  updateNodeColor: state.updateNodeColor
 })
 
 const nodeTypes = {
@@ -71,7 +70,7 @@ const defaultViewport: Viewport = { x: 0, y: 0, zoom: 0.75 }
 
 const proOptions = { hideAttribution: true }
 
-function FlowArea({ flowData }) {
+function FlowArea({ flowData, flowErrors }) {
   const {
     nodes,
     edges,
@@ -83,7 +82,7 @@ function FlowArea({ flowData }) {
     onConnect,
     onEdgesDelete,
     addDraggedNode,
-    updateSendTextValue
+    updateNodeColor
   } = useFlowStore(selector)
   const store = useStoreApi()
   const reactFlowInstance = useReactFlow()
@@ -123,10 +122,15 @@ function FlowArea({ flowData }) {
       setNodes(flowData.nodes || [])
       setEdges(flowData.edges || [])
       reactFlowInstance.setViewport({ x, y, zoom })
+      if(flowErrors){
+        for(const flowError of flowErrors){
+          updateNodeColor(flowError.id, '#FF0000')
+        }
+      }
     } else {
       resetStore
     }
-  }, [flowData, reactFlowInstance, resetStore, setEdges, setNodes])
+  }, [flowData, flowErrors, reactFlowInstance, resetStore, setEdges, setNodes, updateNodeColor])
 
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
@@ -184,6 +188,7 @@ export default function AutomationFlow() {
 
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [isPublishing, setIsPublishing] = useState<boolean>(false)
+  const [flowErrors, setFlowErrors] = useState([])
 
   if (isLoading) {
     return (
@@ -280,10 +285,10 @@ export default function AutomationFlow() {
       if (error.response) {
         if (error.response.status === 422) {
           const flowErrors = error.response.data
-          console.log("flowErrors: ", flowErrors)
+          setFlowErrors(flowErrors)
           toast({
             title: "Flow Error",
-            description: "Please correct the following errors",
+            description: "Please correct the flow errors",
             variant: "destructive",
           })
         }
@@ -347,7 +352,7 @@ export default function AutomationFlow() {
           <div className="md:order-1">
             <div className="flex h-[85vh] min-h-[85vh] flex-col space-y-4">
               <ReactFlowProvider>
-                <FlowArea flowData={flow.flowData} />
+                <FlowArea flowData={flow.flowData} flowErrors={flowErrors} />
               </ReactFlowProvider>
             </div>
           </div>

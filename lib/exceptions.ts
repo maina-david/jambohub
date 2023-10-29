@@ -17,9 +17,9 @@ export class MaximumPlanResourcesError extends Error {
 }
 
 export class FlowValidationError extends Error {
-  errors: string[]
+  errors: { id: string, message: string }[]
 
-  constructor(errors: string[]) {
+  constructor(errors: { id: string, message: string }[]) {
     super("Flow validation errors")
     this.name = "FlowValidationError"
     this.errors = errors
