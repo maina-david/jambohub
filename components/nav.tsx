@@ -147,7 +147,7 @@ export function SideNav(props: SideNavProps) {
         <motion.nav
           initial="closed"
           animate="open"
-          className="grid items-start gap-3"
+          className="grid items-start"
         >
           <motion.div variants={sidebar} />
 
