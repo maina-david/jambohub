@@ -106,14 +106,17 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
   }
 
   useEffect(() => {
+    scrollToLastMessage()
+    markChatAsRead()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedChat, selectedChat?.chatMessages])
+
+  useEffect(() => {
     if (params?.companyId) {
       fetchChannels(params.companyId as string).then((channels) => {
         setChannels(channels)
       })
     }
-    scrollToLastMessage()
-    markChatAsRead()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.companyId, queryClient])
 
   const handleStartConversation = () => {
