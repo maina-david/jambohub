@@ -44,6 +44,7 @@ import { useParams } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { PopoverContent } from '@radix-ui/react-popover'
 import { Popover, PopoverTrigger } from '@/components/ui/popover'
+import { useTheme } from "next-themes"
 
 interface ChatContentAreaProps {
   hidden: boolean
@@ -60,10 +61,10 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
   selectedChat,
   addMessages,
 }) => {
+  const { theme } = useTheme()
   const queryClient = useQueryClient()
   const [isSending, setIsSending] = useState<boolean>(false)
-  const scrollAreaRef = useRef<any>(null)
-  const bottomRef = useRef<HTMLDivElement | null>(null)
+  const bottomScrollAreaRef = useRef<HTMLDivElement | null>(null)
   const [isChannelPopoverOpen, setIsChannelPopoverOpen] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [selectedChannel, setSelectedChannel] = useState<string>('')
@@ -71,8 +72,8 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
   const [channels, setChannels] = useState<Channel[]>([])
 
   const scrollToLastMessage = () => {
-    if (selectedChat && bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: 'smooth' })
+    if (selectedChat && bottomScrollAreaRef.current) {
+      bottomScrollAreaRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
@@ -213,7 +214,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
           </div>
           <Separator />
           <AnimatePresence>
-            <ScrollArea ref={scrollAreaRef} className="h-[65vh] min-h-[65vh] flex-1">
+            <ScrollArea className="h-[65vh] min-h-[65vh] flex-1">
               {selectedChat.chatMessages?.map((chatMessage, index) => (
                 <motion.div
                   key={chatMessage.id}
@@ -298,7 +299,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                   </div>
                 </motion.div>
               ))}
-              <div ref={bottomRef}></div>
+              <div ref={bottomScrollAreaRef}></div>
             </ScrollArea>
           </AnimatePresence>
           <div className="flex border p-3">
@@ -321,7 +322,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                   autoFocusSearch={false}
                   emojiStyle={EmojiStyle.NATIVE}
                   width="100%"
-                  theme={Theme.AUTO}
+                  theme={theme === 'light' ? Theme.LIGHT : Theme.DARK}
                 />
               </PopoverContent>
             </Popover>
