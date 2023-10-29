@@ -154,7 +154,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             <div className="grow"></div>
             <AddContactDialog />
           </div>
-          <ScrollArea className="h-[30vh] min-h-[30vh] flex-1">
+          <ScrollArea className="h-[25vh] min-h-[25vh] flex-1">
             <AnimatePresence>
               {contacts.length > 0 ? (
                 contacts.map((contact) => (
