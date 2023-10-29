@@ -69,48 +69,52 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
   const params = useParams()
   const [channels, setChannels] = useState<Channel[]>([])
 
+  const scrollToLastMessage = () => {
+    if (scrollAreaRef.current && selectedChat) {
+      const lastChildElement = scrollAreaRef.current.lastElementChild
+      lastChildElement?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  const markChatAsRead = async () => {
+    try {
+      if (selectedChat) {
+        // Filter for incoming messages that are unread
+        if (selectedChat.chatMessages && selectedChat.chatMessages.length > 0) {
+          const unreadIncomingMessages = selectedChat?.chatMessages.filter((message) => {
+            return message.direction === 'INCOMING' && message.internalStatus === 'unread'
+          })
+
+          if (unreadIncomingMessages) {
+            if (unreadIncomingMessages.length > 0) {
+              const messageIds = unreadIncomingMessages.map((message) => message.id)
+
+              const response = await axios.post(`/api/chats/${selectedChat.id}/messages/mark-read`, {
+                messageIds,
+              })
+
+              if (response.status === 201) {
+                queryClient.invalidateQueries({ queryKey: ['assignedChats'] })
+              }
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error marking chat as read:', error.message)
+    }
+  }
+
   useEffect(() => {
     if (params?.companyId) {
       fetchChannels(params.companyId as string).then((channels) => {
         setChannels(channels)
       })
     }
-
-    const markChatAsRead = async () => {
-      try {
-        if (selectedChat) {
-          // Filter for incoming messages that are unread
-          if (selectedChat.chatMessages && selectedChat.chatMessages.length > 0) {
-            const unreadIncomingMessages = selectedChat?.chatMessages.filter((message) => {
-              return message.direction === 'INCOMING' && message.internalStatus === 'unread'
-            })
-
-            if (unreadIncomingMessages) {
-              if (unreadIncomingMessages.length > 0) {
-                const messageIds = unreadIncomingMessages.map((message) => message.id)
-
-                const response = await axios.post(`/api/chats/${selectedChat.id}/messages/mark-read`, {
-                  messageIds,
-                })
-
-                if (response.status === 201) {
-                  queryClient.invalidateQueries({ queryKey: ['assignedChats'] })
-                }
-              }
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error marking chat as read:', error.message)
-      }
-    }
-
-    if (scrollAreaRef.current && selectedChat) {
-      const lastChildElement = scrollAreaRef.current.lastElementChild
-      lastChildElement?.scrollIntoView({ behavior: 'smooth' })
-      markChatAsRead()
-    }
-  }, [params?.companyId, queryClient, selectedChat, selectedChat?.chatMessages])
+    scrollToLastMessage()
+    markChatAsRead()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params?.companyId, queryClient])
 
   const handleStartConversation = () => {
     if (!isMdAndAbove) {
@@ -150,6 +154,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
         if (response.status === 200) {
           addMessages(selectedChat.id, [response.data])
           setMessage('')
+          scrollToLastMessage()
           queryClient.invalidateQueries({ queryKey: ['assignedChats'] })
         }
       }
