@@ -63,6 +63,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
   const queryClient = useQueryClient()
   const [isSending, setIsSending] = useState<boolean>(false)
   const scrollAreaRef = useRef<any>(null)
+  const bottomRef = useRef<HTMLDivElement | null>(null)
   const [isChannelPopoverOpen, setIsChannelPopoverOpen] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [selectedChannel, setSelectedChannel] = useState<string>('')
@@ -70,9 +71,8 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
   const [channels, setChannels] = useState<Channel[]>([])
 
   const scrollToLastMessage = () => {
-    if (selectedChat) {
-      const lastChildElement = scrollAreaRef?.current?.lastElementChild
-      lastChildElement?.scrollIntoView({ behavior: 'smooth' })
+    if (selectedChat && bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
@@ -298,6 +298,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                   </div>
                 </motion.div>
               ))}
+              <div ref={bottomRef}></div>
             </ScrollArea>
           </AnimatePresence>
           <div className="flex border p-3">
