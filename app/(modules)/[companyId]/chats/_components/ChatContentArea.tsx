@@ -62,7 +62,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
 }) => {
   const queryClient = useQueryClient()
   const [isSending, setIsSending] = useState<boolean>(false)
-  const scrollAreaRef = useRef<HTMLDivElement | null>(null)
+  const scrollAreaRef = useRef<any>(null)
   const [isChannelPopoverOpen, setIsChannelPopoverOpen] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [selectedChannel, setSelectedChannel] = useState<string>('')
@@ -70,8 +70,8 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
   const [channels, setChannels] = useState<Channel[]>([])
 
   const scrollToLastMessage = () => {
-    if (scrollAreaRef.current && selectedChat) {
-      const lastChildElement = scrollAreaRef.current.lastElementChild
+    if (selectedChat) {
+      const lastChildElement = scrollAreaRef?.current?.lastElementChild
       lastChildElement?.scrollIntoView({ behavior: 'smooth' })
     }
   }
@@ -117,7 +117,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
         setChannels(channels)
       })
     }
-  }, [params?.companyId, queryClient])
+  }, [params?.companyId])
 
   const handleStartConversation = () => {
     if (!isMdAndAbove) {
