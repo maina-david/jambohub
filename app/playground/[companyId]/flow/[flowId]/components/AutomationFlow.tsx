@@ -278,7 +278,7 @@ export default function AutomationFlow() {
     } catch (error) {
       console.error("Error toggling flow publication:", error)
       if (error.response) {
-        if (error.response.status === 4222) {
+        if (error.response.status === 422) {
           const flowErrors = error.errors
           toast({
             title: "Flow Error",
