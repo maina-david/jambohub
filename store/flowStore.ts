@@ -137,7 +137,7 @@ const useFlowStore = createWithEqualityFn<RFState>((set, get) => ({
         if (node.id === nodeId) {
           node.data = { ...node.data, color }
         }
-
+        console.log("Updated node: ", node)
         return node
       })
     })

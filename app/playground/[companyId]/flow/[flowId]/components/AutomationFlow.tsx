@@ -124,7 +124,6 @@ function FlowArea({ flowData, flowErrors }) {
       reactFlowInstance.setViewport({ x, y, zoom })
       if(flowErrors){
         for(const flowError of flowErrors){
-          console.log("flowError: ", flowError)
           updateNodeColor(flowError.id, '#FF0000')
         }
       }
