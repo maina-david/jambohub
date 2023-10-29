@@ -154,45 +154,47 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             <div className="grow"></div>
             <AddContactDialog />
           </div>
-          <ScrollArea className="h-[10vh] min-h-[10vh] flex-1">
-            <AnimatePresence>
-              {contacts.length > 0 ? (
-                contacts.map((contact) => (
-                  <motion.div
-                    key={contact.id}
-                    initial={{ opacity: 0, y: "100%" }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="w-full cursor-pointer px-3 py-2 hover:bg-accent"
-                    onClick={() => setSelectedChat(contact.id)}
-                  >
-                    <div className='flex flex-row items-start'>
-                      <UserAvatar
-                        user={{ name: contact.alias || null, image: null }}
-                        className="mr-2 h-8 w-8"
-                      />
-                      <div className='flex-1 flex-col'>
-                        <div className='flex'>
-                          <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}
-                          </p>
-                          <span className="ml-2">
-                            {contact.channel === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
-                            {contact.channel === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
-                            {contact.channel === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
-                            {contact.channel === 'SMS' && <FaCommentSms className='h-4 w-4' />}
-                          </span>
+          <div className='truncate'>
+            <ScrollArea className="h-[10vh] min-h-[10vh] flex-1">
+              <AnimatePresence>
+                {contacts.length > 0 ? (
+                  contacts.map((contact) => (
+                    <motion.div
+                      key={contact.id}
+                      initial={{ opacity: 0, y: "100%" }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="w-full cursor-pointer px-3 py-2 hover:bg-accent"
+                      onClick={() => setSelectedChat(contact.id)}
+                    >
+                      <div className='flex flex-row items-start'>
+                        <UserAvatar
+                          user={{ name: contact.alias || null, image: null }}
+                          className="mr-2 h-8 w-8"
+                        />
+                        <div className='flex-1 flex-col'>
+                          <div className='flex'>
+                            <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}
+                            </p>
+                            <span className="ml-2">
+                              {contact.channel === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
+                              {contact.channel === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
+                              {contact.channel === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
+                              {contact.channel === 'SMS' && <FaCommentSms className='h-4 w-4' />}
+                            </span>
+                          </div>
+                          <p className="text-sm tracking-tight">{contact.alias}</p>
                         </div>
-                        <p className="text-sm tracking-tight">{contact.alias}</p>
                       </div>
-                    </div>
-                  </motion.div>
-                ))
-              ) : (
-                <p className="mt-6 text-center text-sm">
-                  No contacts available
-                </p>
-              )}
-            </AnimatePresence>
-          </ScrollArea>
+                    </motion.div>
+                  ))
+                ) : (
+                  <p className="mt-6 text-center text-sm">
+                    No contacts available
+                  </p>
+                )}
+              </AnimatePresence>
+            </ScrollArea>
+          </div>
         </div>
       </>
     )
