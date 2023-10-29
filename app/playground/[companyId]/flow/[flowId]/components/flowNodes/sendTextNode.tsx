@@ -21,7 +21,9 @@ function SendTextNode({ id, data }: NodeProps) {
   }
 
   return (
-    <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
+    <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md"
+      style={{ backgroundColor: data.color, borderRadius: 10 }}
+      >
       <div className="grid w-full">
         <Textarea
           value={data.value}

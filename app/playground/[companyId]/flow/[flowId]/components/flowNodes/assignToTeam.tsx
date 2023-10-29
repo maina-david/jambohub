@@ -15,12 +15,8 @@ import { fetchTeams } from '@/actions/team-actions'
 import { Team } from '@prisma/client'
 import { useParams } from 'next/navigation'
 
-export type AssignToTeamData = {
-  replyOption: string
-  teamOption: string
-}
 
-function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
+function AssignToTeamNode({ id, data }) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
   const [teams, setTeams] = useState<Team[]>([])
   const params = useParams()
@@ -34,7 +30,7 @@ function AssignToTeamNode({ id, data }: NodeProps<AssignToTeamData>) {
   }, [params?.companyId])
 
   return (
-    <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md">
+    <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md" style={{ backgroundColor: data.color, borderRadius: 10 }}>
       <div className="grid w-full gap-2">
         <Input placeholder='Enter reply option' value={data.replyOption} onChange={(evt) => updateReplyOption(id, evt.target.value, 'replyOption')} />
         <Select
