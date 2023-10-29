@@ -106,7 +106,8 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
     }
 
     if (scrollAreaRef.current && selectedChat) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
+      const lastChildElement = scrollAreaRef.current.lastElementChild
+      lastChildElement?.scrollIntoView({ behavior: 'smooth' })
       markChatAsRead()
     }
   }, [params?.companyId, queryClient, selectedChat, selectedChat?.chatMessages])
@@ -203,8 +204,8 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
             </div>
           </div>
           <Separator />
-          <ScrollArea ref={scrollAreaRef} className="h-[65vh] min-h-[65vh] flex-1">
-            <AnimatePresence>
+          <AnimatePresence>
+            <ScrollArea ref={scrollAreaRef} className="h-[65vh] min-h-[65vh] flex-1">
               {selectedChat.chatMessages?.map((chatMessage, index) => (
                 <motion.div
                   key={chatMessage.id}
@@ -289,8 +290,8 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                   </div>
                 </motion.div>
               ))}
-            </AnimatePresence>
-          </ScrollArea>
+            </ScrollArea>
+          </AnimatePresence>
           <div className="flex border p-3">
             <Input
               readOnly={isSending}
