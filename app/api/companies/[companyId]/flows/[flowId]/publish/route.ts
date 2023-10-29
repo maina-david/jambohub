@@ -189,8 +189,8 @@ async function validateFlowData(nodes: any[], edges: any[]) {
           }
           break
         case 'sendTextWait':
-          if (!node.data || !node.data.replyOption || !node.data.value) {
-            errors.push({ id: node.id, message: "Missing 'replyOption' or 'value' property for 'sendTextWait' node" })
+          if (!node.data || !node.data.value) {
+            errors.push({ id: node.id, message: "Missing 'value' property for 'sendTextWait' node" })
           }
           break
         case 'sendTextResponse':
