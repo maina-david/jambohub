@@ -234,7 +234,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                                   {new Date(chatMessage.timestamp).toLocaleString('en-US', {
                                     hour: 'numeric',
                                     minute: 'numeric',
-                                    hour12: true,
+                                    hour12: false,
                                   })}
                                 </p>
                               </>
@@ -248,7 +248,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                                   {new Date(chatMessage.timestamp).toLocaleString('en-US', {
                                     hour: 'numeric',
                                     minute: 'numeric',
-                                    hour12: true,
+                                    hour12: false,
                                   })}
                                 </p>
                               </>
@@ -259,7 +259,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                                   {new Date(chatMessage.timestamp).toLocaleString('en-US', {
                                     hour: 'numeric',
                                     minute: 'numeric',
-                                    hour12: true,
+                                    hour12: false,
                                   })}
                                 </p>
                               </>
@@ -268,7 +268,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                                 {new Date(chatMessage.timestamp).toLocaleString('en-US', {
                                   hour: 'numeric',
                                   minute: 'numeric',
-                                  hour12: true,
+                                  hour12: false,
                                 })}
                               </p>
                             )}
@@ -279,7 +279,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                               {new Date(chatMessage.timestamp).toLocaleString('en-US', {
                                 hour: 'numeric',
                                 minute: 'numeric',
-                                hour12: true,
+                                hour12: false,
                               })}
                             </p>
                           </div>
