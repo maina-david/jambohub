@@ -17,6 +17,7 @@ import {
   FaFacebookMessenger,
   FaCommentSms
 } from "react-icons/fa6"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 
 const chatTypeIcons = {
   WHATSAPP: FaWhatsapp,
@@ -90,9 +91,27 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                       />
                       <div className="flex-1 truncate">
                         <div className='flex'>
-                          <p className="truncate text-base font-medium tracking-tight">
-                            {chat.Contact.name || chat.Contact.identifier}
-                          </p>
+                          <HoverCard>
+                            <HoverCardTrigger>
+                              <p className="truncate text-base font-medium tracking-tight">
+                                {chat.Contact.name || chat.Contact.identifier}
+                              </p>
+                            </HoverCardTrigger>
+                            <HoverCardContent>
+                              <div className="grid grid-cols-2 gap-2">
+                                <span className="mr-2">
+                                  {chat.channel.type === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
+                                  {chat.channel.type === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
+                                  {chat.channel.type === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
+                                  {chat.channel.type === 'SMS' && <FaCommentSms className='h-4 w-4' />}
+                                </span>
+                                <div className='flex flex-col'>
+                                  <span>{chat.channel.name}</span>
+                                  <span>{chat.channel.identifier}</span>
+                                </div>
+                              </div>
+                            </HoverCardContent>
+                          </HoverCard>
                           <span className="ml-2">
                             {chat.channel.type === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
                             {chat.channel.type === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
@@ -136,43 +155,43 @@ const SideBarLeft = (props: SideBarLeftProps) => {
             <AddContactDialog />
           </div>
           <ScrollArea className="flex-1 overflow-y-auto">
-          <AnimatePresence>
-            {contacts.length > 0 ? (
-              contacts.map((contact) => (
-                <motion.div
-                  key={contact.id}
-                  initial={{ opacity: 0, y: "100%" }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="w-full cursor-pointer px-3 py-2 hover:bg-accent"
-                  onClick={() => setSelectedChat(contact.id)}
-                >
-                  <div className='flex flex-row items-start'>
-                    <UserAvatar
-                      user={{ name: contact.alias || null, image: null }}
-                      className="mr-2 h-8 w-8"
-                    />
-                    <div className='flex-1 flex-col'>
-                      <div className='flex'>
-                        <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}
-                        </p>
-                        <span className="ml-2">
-                          {contact.channel === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
-                          {contact.channel === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
-                          {contact.channel === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
-                          {contact.channel === 'SMS' && <FaCommentSms className='h-4 w-4' />}
-                        </span>
+            <AnimatePresence>
+              {contacts.length > 0 ? (
+                contacts.map((contact) => (
+                  <motion.div
+                    key={contact.id}
+                    initial={{ opacity: 0, y: "100%" }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="w-full cursor-pointer px-3 py-2 hover:bg-accent"
+                    onClick={() => setSelectedChat(contact.id)}
+                  >
+                    <div className='flex flex-row items-start'>
+                      <UserAvatar
+                        user={{ name: contact.alias || null, image: null }}
+                        className="mr-2 h-8 w-8"
+                      />
+                      <div className='flex-1 flex-col'>
+                        <div className='flex'>
+                          <p className="text-base font-medium tracking-tight">{contact.name || contact.identifier}
+                          </p>
+                          <span className="ml-2">
+                            {contact.channel === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
+                            {contact.channel === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
+                            {contact.channel === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
+                            {contact.channel === 'SMS' && <FaCommentSms className='h-4 w-4' />}
+                          </span>
+                        </div>
+                        <p className="text-sm tracking-tight">{contact.alias}</p>
                       </div>
-                      <p className="text-sm tracking-tight">{contact.alias}</p>
                     </div>
-                  </div>
-                </motion.div>
-              ))
-            ) : (
-              <p className="mt-6 text-center text-sm">
-                No contacts available
-              </p>
-            )}
-          </AnimatePresence>
+                  </motion.div>
+                ))
+              ) : (
+                <p className="mt-6 text-center text-sm">
+                  No contacts available
+                </p>
+              )}
+            </AnimatePresence>
           </ScrollArea>
         </div>
       </>
