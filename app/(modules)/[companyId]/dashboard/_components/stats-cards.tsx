@@ -52,7 +52,7 @@ export default function DashboardStatsCards() {
               <Skeleton className="h-12 w-12 rounded-full" />
             </CardHeader>
             <CardContent>
-              <Skeleton className="h-4 w-[100px]" />
+              <Skeleton className="mb-2 h-4 w-[100px]" />
               <Skeleton className="h-4 w-[100px]" />
             </CardContent>
           </Card>
