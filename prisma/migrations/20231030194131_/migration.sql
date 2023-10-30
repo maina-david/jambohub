@@ -168,10 +168,9 @@ CREATE TABLE `Flow` (
 CREATE TABLE `Channel` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
     `status` BOOLEAN NOT NULL DEFAULT true,
     `companyId` VARCHAR(191) NOT NULL,
-    `type` ENUM('WHATSAPP', 'TWITTER', 'FACEBOOK_MESSENGER', 'SMS') NOT NULL,
+    `type` ENUM('WHATSAPP', 'TWITTER', 'FACEBOOK_MESSENGER', 'SMS', 'USSD') NOT NULL,
     `identifier` VARCHAR(191) NULL,
     `authDetails` JSON NULL,
     `integrated` BOOLEAN NOT NULL DEFAULT false,
@@ -204,9 +203,9 @@ CREATE TABLE `Contact` (
     `id` VARCHAR(191) NOT NULL,
     `customerId` VARCHAR(191) NULL,
     `companyId` VARCHAR(191) NOT NULL,
-    `channel` ENUM('WHATSAPP', 'TWITTER', 'FACEBOOK_MESSENGER', 'SMS') NOT NULL,
+    `channel` ENUM('WHATSAPP', 'TWITTER', 'FACEBOOK_MESSENGER', 'SMS', 'USSD') NOT NULL,
     `identifier` VARCHAR(191) NOT NULL,
-    `name` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NULL,
     `alias` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)

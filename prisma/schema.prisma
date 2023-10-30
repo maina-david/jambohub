@@ -183,12 +183,12 @@ enum ChannelType {
   TWITTER
   FACEBOOK_MESSENGER
   SMS
+  USSD
 }
 
 model Channel {
   id            String         @id @default(cuid())
   name          String
-  description   String
   status        Boolean        @default(true)
   companyId     String
   type          ChannelType

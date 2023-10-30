@@ -21,6 +21,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from '@/components/ui/button'
+import SmsChannelLinkDialog from './dialogs/sms-dialog'
+import USSDChannelLinkDialog from './dialogs/ussd-dialog'
 
 export default function LinkChannelDropdown() {
   const params = useParams()
@@ -103,6 +105,16 @@ export default function LinkChannelDropdown() {
           WhatsApp
         </DropdownMenuItem>
         <DropdownMenuItem
+          className='cursor-pointer'
+        >
+          <SmsChannelLinkDialog />
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className='cursor-pointer'
+        >
+          <USSDChannelLinkDialog />
+        </DropdownMenuItem>
+        <DropdownMenuItem
           disabled
           className='cursor-not-allowed'
         >
@@ -115,20 +127,6 @@ export default function LinkChannelDropdown() {
         >
           <FaXTwitter className='mr-2 h-4 w-4' />
           Twitter
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          disabled
-          className='cursor-not-allowed'
-        >
-          <FaCommentSms className='mr-2 h-4 w-4' />
-          SMS
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          disabled
-          className='cursor-not-allowed'
-        >
-          <BiDialpad className='mr-2 h-4 w-4' />
-          USSD
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

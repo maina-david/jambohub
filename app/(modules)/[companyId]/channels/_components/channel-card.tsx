@@ -403,7 +403,6 @@ export function ChannelCard({ channel }: { channel: ChannelProps }) {
               {channel.type.toLowerCase()}
             </span>
           </div>
-          <p className="mt-1 truncate text-sm">{channel.description}</p>
           <p className="mt-1 truncate text-sm font-bold">{channel.identifier ? channel.identifier : 'Not Linked'}</p>
         </div>
         <Image
