@@ -176,6 +176,7 @@ model Flow {
   ConversationFlow    ConversationFlow[]
   ChannelToFlow       ChannelToFlow[]
   ConversationFlowLog ConversationFlowLog[]
+  UssdSessionLog      UssdSessionLog[]
 }
 
 enum ChannelType {
@@ -352,6 +353,18 @@ model ConversationFlowLog {
   Chat                      Chat                   @relation(fields: [chatId], references: [id], onDelete: Cascade)
   currentConversationFlowId String
   status                    conversationFlowStatus @default(OPEN)
+  createdAt                 DateTime               @default(now())
+  updatedAt                 DateTime               @default(now())
+}
+
+model UssdSessionLog {
+  id                        String                 @id @default(cuid())
+  flowId                    String
+  Flow                      Flow                   @relation(fields: [flowId], references: [id], onDelete: Cascade)
+  currentConversationFlowId String
+  status                    conversationFlowStatus @default(OPEN)
+  sessionId                 String                 @unique
+  textResponse              String?
   createdAt                 DateTime               @default(now())
   updatedAt                 DateTime               @default(now())
 }

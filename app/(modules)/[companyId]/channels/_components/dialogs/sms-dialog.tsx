@@ -32,6 +32,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Icons } from '@/components/icons'
 import { useParams } from 'next/navigation'
 import { smsChannelSchema } from '@/lib/validations/channel'
+import { Alert } from '@/components/ui/alert'
 
 export default function SmsChannelLinkDialog() {
   const queryClient = useQueryClient()
@@ -134,6 +135,7 @@ export default function SmsChannelLinkDialog() {
           <DialogDescription>
             Add a new sms channel for integration
           </DialogDescription>
+          <Alert>For 2 way sms make sure you put url as callback</Alert>
         </DialogHeader>
         <div className='grid'>
           <Form {...form}>

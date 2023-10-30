@@ -298,6 +298,21 @@ CREATE TABLE `ConversationFlowLog` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `UssdSessionLog` (
+    `id` VARCHAR(191) NOT NULL,
+    `flowId` VARCHAR(191) NOT NULL,
+    `currentConversationFlowId` VARCHAR(191) NOT NULL,
+    `status` ENUM('OPEN', 'CLOSED') NOT NULL DEFAULT 'OPEN',
+    `sessionId` VARCHAR(191) NOT NULL,
+    `textResponse` VARCHAR(191) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    UNIQUE INDEX `UssdSessionLog_sessionId_key`(`sessionId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `_UserCompany` (
     `A` VARCHAR(191) NOT NULL,
     `B` VARCHAR(191) NOT NULL,
@@ -392,6 +407,9 @@ ALTER TABLE `ConversationFlowLog` ADD CONSTRAINT `ConversationFlowLog_flowId_fke
 
 -- AddForeignKey
 ALTER TABLE `ConversationFlowLog` ADD CONSTRAINT `ConversationFlowLog_chatId_fkey` FOREIGN KEY (`chatId`) REFERENCES `Chat`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `UssdSessionLog` ADD CONSTRAINT `UssdSessionLog_flowId_fkey` FOREIGN KEY (`flowId`) REFERENCES `Flow`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_UserCompany` ADD CONSTRAINT `_UserCompany_A_fkey` FOREIGN KEY (`A`) REFERENCES `Company`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
