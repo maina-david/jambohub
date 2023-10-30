@@ -47,13 +47,13 @@ export default function DashboardStatsCards() {
           <Card key={index}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                <Skeleton className="h-4 w-[200px]" />
+                <Skeleton className="h-4 w-[100px]" />
               </CardTitle>
               <Skeleton className="h-12 w-12 rounded-full" />
             </CardHeader>
             <CardContent>
-              <Skeleton className="h-4 w-[250px]" />
-              <Skeleton className="h-4 w-[200px]" />
+              <Skeleton className="h-4 w-[100px]" />
+              <Skeleton className="h-4 w-[100px]" />
             </CardContent>
           </Card>
         ))}
