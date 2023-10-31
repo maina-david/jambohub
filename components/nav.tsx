@@ -192,12 +192,10 @@ export function SideNav(props: SideNavProps) {
             </Button>
           </div>
           {isLoading && (
-            <>
-              <Skeleton className="h-4 w-[150px]" />
-            </>
+            <Skeleton className="h-4 w-[150px]" />
           )}
           {isError && (
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex h-full flex-col items-center justify-center">
               <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
                 <Icons.warning className="h-10 w-10" />
               </div>
@@ -255,5 +253,4 @@ export function SideNav(props: SideNavProps) {
       </SheetContent>
     </Sheet>
   )
-
 }

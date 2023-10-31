@@ -124,10 +124,10 @@ export default function SmsChannelLinkDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setIsOpen(true)} variant={'ghost'}>
+        <div className='flex' onClick={() => setIsOpen(true)}>
           <FaCommentSms className='mr-2 h-4 w-4' />
           SMS
-        </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

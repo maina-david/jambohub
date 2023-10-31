@@ -36,24 +36,25 @@ model Session {
 }
 
 model User {
-  id             String        @id @default(cuid())
+  id             String         @id @default(cuid())
   name           String?
-  email          String?       @unique
+  email          String?        @unique
   emailVerified  DateTime?
   password       String?
   image          String?
-  status         Boolean       @default(true)
-  approved       Boolean       @default(false)
-  createdAt      DateTime      @default(now()) @map(name: "created_at")
-  updatedAt      DateTime      @default(now()) @map(name: "updated_at")
+  status         Boolean        @default(true)
+  approved       Boolean        @default(false)
+  createdAt      DateTime       @default(now()) @map(name: "created_at")
+  updatedAt      DateTime       @default(now()) @map(name: "updated_at")
   accounts       Account[]
   sessions       Session[]
-  ownedCompanies Company[]     @relation("Owner")
+  ownedCompanies Company[]      @relation("Owner")
   teams          UserTeam[]
   chatMessages   ChatMessage[]
-  companies      Company[]     @relation("UserCompany")
+  companies      Company[]      @relation("UserCompany")
   UserCompany    UserCompany[]
   Subscription   Subscription?
+  Notification   Notification[]
 }
 
 model Company {
@@ -367,4 +368,16 @@ model UssdSessionLog {
   textResponse              String?
   createdAt                 DateTime               @default(now())
   updatedAt                 DateTime               @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  level     String
+  data      Json
+  read      Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }

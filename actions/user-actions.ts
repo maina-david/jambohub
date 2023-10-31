@@ -6,3 +6,6 @@ export const getCurrentUserSubscription = (): Promise<Subscription> =>
 
 export const fetchCompanyDetails = (companyId: string): Promise<Company> =>
   axios.get(`/api/companies/${companyId}`).then((response) => response.data)
+
+export const fetchUserNotifications = (): Promise<[]> =>
+  axios.get("/api/users/notifications").then((response) => response.data)

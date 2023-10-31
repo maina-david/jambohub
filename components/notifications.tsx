@@ -6,9 +6,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { BellDotIcon } from "lucide-react"
-import { Button } from "./ui/button"
+import { Button } from "@/components/ui/button"
+import { useParams } from "next/navigation"
 
 export default function Notifications() {
+  const params = useParams()
+  
   return (
     <Popover>
       <PopoverTrigger>

@@ -118,10 +118,10 @@ export default function USSDChannelLinkDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setIsOpen(true)} variant={'ghost'}>
+        <div className='flex' onClick={() => setIsOpen(true)}>
           <BiDialpad className='mr-2 h-4 w-4' />
           USSD
-        </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
