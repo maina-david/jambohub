@@ -46,7 +46,12 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Icons } from '@/components/icons'
 import { useParams } from 'next/navigation'
 import { smsChannelSchema, ussdChannelSchema } from '@/lib/validations/channel'
-import { Alert } from '@/components/ui/alert'
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+import { Link2Icon } from 'lucide-react'
 
 export default function LinkChannelDropdown() {
   const queryClient = useQueryClient()
@@ -295,6 +300,13 @@ export default function LinkChannelDropdown() {
               <DialogTitle>New SMS channel</DialogTitle>
               <DialogDescription>
                 Add a new sms channel for integration
+                <Alert>
+                  <Link2Icon className="h-4 w-4" />
+                  <AlertTitle>Heads up!</AlertTitle>
+                  <AlertDescription>
+                    Only Africa&apos;s Talking integration is supported
+                  </AlertDescription>
+                </Alert>
               </DialogDescription>
             </DialogHeader>
             <Form {...smsForm}>
@@ -410,7 +422,14 @@ export default function LinkChannelDropdown() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>New USSD channel</DialogTitle>
-              <DialogDescription>Add a new ussd channel for integration</DialogDescription>
+              <DialogDescription>Add a new ussd channel for integration
+                <Alert>
+                  <AlertTitle>Heads up!</AlertTitle>
+                  <AlertDescription>
+                    Only Africa&apos;s Talking integration is supported
+                  </AlertDescription>
+                </Alert>
+              </DialogDescription>
             </DialogHeader>
             <Form {...USSDForm}>
               <form onSubmit={USSDForm.handleSubmit(onUSSDFormSubmit)}>
