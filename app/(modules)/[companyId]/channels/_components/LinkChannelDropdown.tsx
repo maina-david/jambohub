@@ -51,13 +51,11 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/alert"
-import { Link2Icon } from 'lucide-react'
+import { Link1Icon } from '@radix-ui/react-icons'
 
 export default function LinkChannelDropdown() {
   const queryClient = useQueryClient()
   const params = useParams()
-  const [isSMSDialogOpen, setIsSMSDialogOpen] = useState<boolean>(false)
-  const [isSMSSubmitting, setIsSMSSubmitting] = useState<boolean>(false)
   const [isUSSDDialogOpen, setIsUSSDDialogOpen] = useState<boolean>(false)
   const [isUSSDLoading, setIsUSSDLoading] = useState<boolean>(false)
   const [sdkInitialized, setSdkInitialized] = useState<boolean>(false)
@@ -79,69 +77,6 @@ export default function LinkChannelDropdown() {
       apiKey: '',
     },
   })
-
-  const onSMSFormSubmit = async (values: z.infer<typeof smsChannelSchema>) => {
-    try {
-      setIsSMSSubmitting(true)
-      await axios.post(`/api/companies/${params?.companyId}/channels/sms`, {
-        ...values
-      })
-      queryClient.invalidateQueries(['companyChannels'])
-      toast({
-        title: 'Success',
-        description: 'Channel created successfully!',
-      })
-    } catch (error) {
-      // Handle specific errors
-      if (error.response) {
-        if (error.response.status === 422 && error.response.data) {
-          // Handle validation errors
-          const validationErrors = error.response.data
-          // Update form field errors
-          smsForm.setError('name', {
-            type: 'manual',
-            message: validationErrors.name || '',
-          })
-          smsForm.setError('shortCode', {
-            type: 'manual',
-            message: validationErrors.shortCode || '',
-          })
-          smsForm.setError('username', {
-            type: 'manual',
-            message: validationErrors.username || '',
-          })
-          smsForm.setError('apiKey', {
-            type: 'manual',
-            message: validationErrors.apiKey || '',
-          })
-        } else if (error.response.status === 402) {
-          // Handle RequiresProPlanError
-          toast({
-            title: 'Requires Pro Plan',
-            description: 'You need a pro plan for this operation.',
-            variant: 'destructive',
-          })
-        } else if (error.response.status === 403) {
-          // Handle RequiresActivePlanError or MaximumPlanResourcesError
-          toast({
-            title: 'Permission Denied',
-            description: 'You do not have permission for this operation.',
-            variant: 'destructive',
-          })
-        }
-      } else {
-        // Handle general errors
-        console.error(error)
-        toast({
-          title: 'Error',
-          description: 'An error occurred. Please try again later.',
-          variant: 'destructive',
-        })
-      }
-    } finally {
-      setIsSMSSubmitting(false)
-    }
-  }
 
   const onUSSDFormSubmit = async (values: z.infer<typeof ussdChannelSchema>) => {
     try {
@@ -282,129 +217,6 @@ export default function LinkChannelDropdown() {
           <FaWhatsapp className="mr-2 h-4 w-4" />
           WhatsApp
         </DropdownMenuItem>
-        <Dialog open={isSMSDialogOpen} onOpenChange={setIsSMSDialogOpen} modal>
-          <DialogTrigger asChild>
-            <DropdownMenuItem
-              className='cursor-pointer'
-              onSelect={(event) => {
-                event.preventDefault()
-                setIsSMSDialogOpen(true)
-              }}
-            >
-              <FaCommentSms className='mr-2 h-4 w-4' />
-              SMS
-            </DropdownMenuItem>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>New SMS channel</DialogTitle>
-              <DialogDescription>
-                <Alert>
-                  <Link2Icon className="h-4 w-4" />
-                  <AlertTitle>Heads up!</AlertTitle>
-                  <AlertDescription>
-                    Only Africa&apos;s Talking integration is supported
-                  </AlertDescription>
-                </Alert>
-              </DialogDescription>
-            </DialogHeader>
-            <Form {...smsForm}>
-              <form onSubmit={smsForm.handleSubmit(onSMSFormSubmit)}>
-                <FormField
-                  control={smsForm.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isSMSSubmitting}
-                          placeholder="Enter account name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Enter a display name to associate with this account.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={smsForm.control}
-                  name="shortCode"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>ShortCode</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isSMSSubmitting}
-                          placeholder="Enter account shortcode"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Enter the shortcode associated with this account.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={smsForm.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Username</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isSMSSubmitting}
-                          placeholder="Enter account username"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Enter the username associated with this account.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={smsForm.control}
-                  name="apiKey"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>API Key</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isSMSSubmitting}
-                          placeholder="Enter API Key"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Enter the API Key associated with this account.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <DialogFooter>
-                  <Button
-                    disabled={isSMSSubmitting}
-                    type='submit'
-                  >
-                    {isSMSSubmitting && (
-                      <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
-                    )}
-                    Continue
-                  </Button>
-                </DialogFooter>
-              </form>
-            </Form>
-          </DialogContent>
-        </Dialog>
         <Dialog open={isUSSDDialogOpen} onOpenChange={setIsUSSDDialogOpen} modal>
           <DialogTrigger asChild>
             <DropdownMenuItem
@@ -423,6 +235,7 @@ export default function LinkChannelDropdown() {
               <DialogTitle>New USSD channel</DialogTitle>
               <DialogDescription>
                 <Alert>
+                  <Link1Icon className="h-4 w-4" />
                   <AlertTitle>Heads up!</AlertTitle>
                   <AlertDescription>
                     Only Africa&apos;s Talking integration is supported

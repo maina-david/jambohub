@@ -35,7 +35,12 @@ export async function POST(req: Request) {
 
       // Check if there are no conversation flows or they are empty, and throw an error
       if (!conversationFlows || conversationFlows.length === 0) {
-        return new Response("END USSD Flow not configured")
+        return new Response("END USSD Flow not configured", {
+          status: 200,
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+        })
       }
 
       if (text == '') {
@@ -54,7 +59,12 @@ export async function POST(req: Request) {
               sessionId,
             }
           })
-          return new Response(`CON ${currentConversationFlow.nodeData}`)
+          return new Response(`CON ${currentConversationFlow.nodeData}`, {
+            status: 200,
+            headers: {
+              'Content-Type': 'text/plain',
+            },
+          })
         }
       } else {
         const currentUssdSession = await db.ussdSessionLog.findMany({
@@ -89,7 +99,12 @@ export async function POST(req: Request) {
                 //find matching flow based on text
                 const matchingFlow = nextConversationFlows.find((flow) => flow.nodeOption === replyOption)
                 if (!matchingFlow) {
-                  return new Response('CON Invalid input')
+                  return new Response('CON Invalid input', {
+                    status: 200,
+                    headers: {
+                      'Content-Type': 'text/plain',
+                    },
+                  })
                 }
                 // get next flow
                 const nextConversationFlowsCount = await db.conversationFlow.count({
@@ -120,7 +135,12 @@ export async function POST(req: Request) {
                       status: 'CLOSED'
                     }
                   })
-                  return new Response(`END ${matchingFlow.nodeData}`)
+                  return new Response(`END ${matchingFlow.nodeData}`, {
+                    status: 200,
+                    headers: {
+                      'Content-Type': 'text/plain',
+                    },
+                  })
                 }
               }
             }
@@ -141,14 +161,29 @@ export async function POST(req: Request) {
                 sessionId,
               }
             })
-            return new Response(`CON ${currentConversationFlow.nodeData}`)
+            return new Response(`CON ${currentConversationFlow.nodeData}`, {
+              status: 200,
+              headers: {
+                'Content-Type': 'text/plain',
+              },
+            })
           }
         }
       }
     } else {
-      return new Response("END USSD not integrated to automated flow")
+      return new Response("END USSD not integrated to automated flow", {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+      })
     }
   } else {
-    return new Response("END USSD service code not integrated")
+    return new Response("END USSD service code not integrated", {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+    })
   }
 }
