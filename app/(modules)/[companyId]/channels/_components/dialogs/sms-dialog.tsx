@@ -128,7 +128,7 @@ export default function SmsChannelLinkDialog({ children }: SMSChannelProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <div className='flex' onClick={() => setIsOpen(true)}>
+        <div onClick={() => setIsOpen(true)}>
           {children}
         </div>
       </DialogTrigger>
