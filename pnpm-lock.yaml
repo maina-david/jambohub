@@ -314,6 +314,9 @@ dependencies:
   zod:
     specifier: ^3.22.2
     version: 3.22.2
+  zod-form-data:
+    specifier: ^2.0.2
+    version: 2.0.2(zod@3.22.2)
   zustand:
     specifier: ^4.4.1
     version: 4.4.1(@types/react@18.0.15)(react@18.2.0)
@@ -14277,6 +14280,14 @@ packages:
 
   /yoga-wasm-web@0.1.2:
     resolution: {integrity: sha512-8SkgawHcA0RUbMrnhxbaQkZDBi8rMed8pQHixkFF9w32zGhAwZ9/cOHWlpYfr6RCx42Yp3siV45/jPEkJxsk6w==}
+    dev: false
+
+  /zod-form-data@2.0.2(zod@3.22.2):
+    resolution: {integrity: sha512-sKTi+k0fvkxdakD0V5rq+9WVJA3cuTQUfEmNqvHrTzPLvjfLmkkBLfR0ed3qOi9MScJXTHIDH/jUNnEJ3CBX4g==}
+    peerDependencies:
+      zod: '>= 3.11.0'
+    dependencies:
+      zod: 3.22.2
     dev: false
 
   /zod@3.22.2:

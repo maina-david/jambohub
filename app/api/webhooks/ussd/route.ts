@@ -1,11 +1,20 @@
 import { db } from "@/lib/db"
+import { zfd } from "zod-form-data"
+
+const ussdSchema = zfd.formData({
+  sessionId: zfd.text(),
+  serviceCode: zfd.text(),
+  phoneNumber: zfd.text(),
+  text: zfd.text(),
+})
 
 export async function POST(request: Request) {
-  const formData = await request.formData()
-  const sessionId = formData.get('sessionId')
-  const serviceCode = formData.get('serviceCode')
-  const phoneNumber = formData.get('phoneNumber')
-  const text = formData.get('text')
+  const {
+    sessionId,
+    serviceCode,
+    phoneNumber,
+    text,
+  } = ussdSchema.parse(await request.formData())
 
   if (sessionId && serviceCode && phoneNumber && text) {
     const channel = await db.channel.findFirst({
