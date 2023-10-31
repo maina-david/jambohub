@@ -293,7 +293,7 @@ export default function LinkChannelDropdown() {
           <FaWhatsapp className="mr-2 h-4 w-4" />
           WhatsApp
         </DropdownMenuItem>
-        <Dialog open={isSMSDialogOpen} onOpenChange={setIsSMSDialogOpen}>
+        <Dialog open={isSMSDialogOpen} onOpenChange={setIsSMSDialogOpen} modal>
           <DialogTrigger asChild>
             <DropdownMenuItem
               className='cursor-pointer'
@@ -460,7 +460,7 @@ export default function LinkChannelDropdown() {
             </div>
           </DialogContent>
         </Dialog>
-        <Dialog open={isUSSDDialogOpen} onOpenChange={setIsUSSDDialogOpen}>
+        <Dialog open={isUSSDDialogOpen} onOpenChange={setIsUSSDDialogOpen} modal>
           <DialogTrigger asChild>
             <DropdownMenuItem
               className='cursor-pointer'
