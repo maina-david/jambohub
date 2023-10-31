@@ -464,6 +464,10 @@ export default function LinkChannelDropdown() {
           <DialogTrigger asChild>
             <DropdownMenuItem
               className='cursor-pointer'
+              onSelect={(event) => {
+                event.preventDefault()
+                setIsUSSDDialogOpen(true)
+              }}
             >
               <BiDialpad className='mr-2 h-4 w-4' />
               USSD
