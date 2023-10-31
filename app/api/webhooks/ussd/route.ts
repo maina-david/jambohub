@@ -186,5 +186,12 @@ export async function POST(request: Request) {
         },
       })
     }
+  } else {
+    return new Response("END Invalid USSD Payload", {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+    })
   }
 }
