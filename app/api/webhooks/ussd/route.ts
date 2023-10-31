@@ -102,7 +102,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
               })
 
               if (currentConversationFlow.nodeType === 'sendTextWait' ||
-                currentConversationFlow.nodeType === 'sendTextResponseWait'
+                currentConversationFlow.nodeType === 'sendTextResponseWait' ||
+                currentConversationFlow.nodeType === 'sendTextResponse'
               ) {
                 //get last characters after '*' from text
                 const replyOption = text
