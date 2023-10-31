@@ -1,12 +1,13 @@
 import { db } from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
 import { zfd } from "zod-form-data"
+import { z } from 'zod'
 
 const ussdSchema = zfd.formData({
   sessionId: zfd.text(),
   serviceCode: zfd.text(),
   phoneNumber: zfd.text(),
-  text: zfd.text().optional(),
+  text: zfd.text(z.string().optional()),
 })
 
 export async function POST(request: NextRequest, response: NextResponse) {
