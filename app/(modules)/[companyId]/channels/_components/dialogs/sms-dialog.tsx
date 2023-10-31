@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { ReactComponentElement, useState } from 'react'
 import * as z from "zod"
 import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -34,7 +34,11 @@ import { useParams } from 'next/navigation'
 import { smsChannelSchema } from '@/lib/validations/channel'
 import { Alert } from '@/components/ui/alert'
 
-export default function SmsChannelLinkDialog() {
+interface SMSChannelProps {
+  children: React.ReactNode
+}
+
+export default function SmsChannelLinkDialog({ children }: SMSChannelProps) {
   const queryClient = useQueryClient()
   const params = useParams()
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -125,8 +129,7 @@ export default function SmsChannelLinkDialog() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <div className='flex' onClick={() => setIsOpen(true)}>
-          <FaCommentSms className='mr-2 h-4 w-4' />
-          SMS
+          {children}
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

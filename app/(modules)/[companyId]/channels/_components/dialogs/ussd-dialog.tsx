@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import * as z from "zod"
 import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -33,7 +33,10 @@ import { useParams } from 'next/navigation'
 import { ussdChannelSchema } from '@/lib/validations/channel'
 import { BiDialpad } from 'react-icons/bi'
 
-export default function USSDChannelLinkDialog() {
+interface USSDChannelProps{
+  children: React.ReactNode
+}
+export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
   const queryClient = useQueryClient()
   const params = useParams()
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -119,8 +122,7 @@ export default function USSDChannelLinkDialog() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <div className='flex' onClick={() => setIsOpen(true)}>
-          <BiDialpad className='mr-2 h-4 w-4' />
-          USSD
+          {children}
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

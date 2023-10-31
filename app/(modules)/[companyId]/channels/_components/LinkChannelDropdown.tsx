@@ -87,7 +87,7 @@ export default function LinkChannelDropdown() {
   }
 
   return (
-    <DropdownMenu modal={false}>
+    <DropdownMenu>
       <DropdownMenuTrigger>
         <Button variant={'outline'}>
           Connect Channel
@@ -104,16 +104,22 @@ export default function LinkChannelDropdown() {
           <FaWhatsapp className="mr-2 h-4 w-4" />
           WhatsApp
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className='cursor-pointer'
-        >
-          <SmsChannelLinkDialog />
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className='cursor-pointer'
-        >
-          <USSDChannelLinkDialog />
-        </DropdownMenuItem>
+        <SmsChannelLinkDialog>
+          <DropdownMenuItem
+            className='cursor-pointer'
+          >
+            <FaCommentSms className='mr-2 h-4 w-4' />
+            SMS
+          </DropdownMenuItem>
+        </SmsChannelLinkDialog>
+        <USSDChannelLinkDialog>
+          <DropdownMenuItem
+            className='cursor-pointer'
+          >
+            <BiDialpad className='mr-2 h-4 w-4' />
+            USSD
+          </DropdownMenuItem>
+        </USSDChannelLinkDialog>
         <DropdownMenuItem
           disabled
           className='cursor-not-allowed'
