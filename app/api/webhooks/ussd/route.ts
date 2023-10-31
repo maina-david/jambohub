@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest, response: NextResponse) {
   const formData = await request.formData()
-  const sessionId = formData.get("sessionId")
-  const serviceCode = formData.get("serviceCode")
-  const phoneNumber = formData.get("phoneNumber")
-  const text = formData.get("text")
+  const sessionId = formData.get('sessionId')
+  const serviceCode = formData.get('serviceCode')
+  const phoneNumber = formData.get('phoneNumber')
+  const text = formData.get('text')
 
   if (sessionId && serviceCode && phoneNumber && text) {
     const channel = await db.channel.findFirst({
