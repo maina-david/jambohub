@@ -1,6 +1,7 @@
 import { db } from "@/lib/db"
+import { NextRequest, NextResponse } from "next/server"
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest, response: NextResponse) {
   const formData = await request.formData()
   const sessionId = formData.get("sessionId")
   const serviceCode = formData.get("serviceCode")
