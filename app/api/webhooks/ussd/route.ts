@@ -8,6 +8,11 @@ export async function POST(request: NextRequest, response: NextResponse) {
   const phoneNumber = formData.get('phoneNumber')
   const text = formData.get('text')
 
+  console.log("sessionId: ", sessionId)
+  console.log("serviceCode: ", serviceCode)
+  console.log("phoneNumber: ", phoneNumber)
+  console.log("text: ", text)
+  
   if (sessionId && serviceCode && phoneNumber && text) {
     const channel = await db.channel.findFirst({
       where: {
