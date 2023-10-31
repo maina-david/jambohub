@@ -37,86 +37,67 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
       },
     })
 
-    if (flow) {
-      if (flow.flowData) {
-        const jsonString = typeof flow.flowData === 'string' ? flow.flowData : JSON.stringify(flow.flowData)
-        const { nodes, edges } = JSON.parse(jsonString)
+    if (flow && flow.flowData) {
+      const jsonString = typeof flow.flowData === 'string' ? flow.flowData : JSON.stringify(flow.flowData)
+      const { nodes, edges } = JSON.parse(jsonString)
 
-        // Validate flow data
-        await validateFlowData(nodes, edges)
+      // Validate flow data
+      await validateFlowData(nodes, edges)
 
-        await db.conversationFlow.deleteMany({
-          where: {
-            flowId: params.flowId
-          }
-        })
-        
-        // Map nodes to the ConversationFlow model.
-        for (const node of nodes) {
-          const data = {
-            value: node.data.value,
-            replyOption: node.data.replyOption || null,
-          }
+      await db.conversationFlow.deleteMany({
+        where: {
+          flowId: params.flowId
+        }
+      })
 
-          await db.conversationFlow.create({
-            data: {
-              nodeId: node.id,
-              parentNodeId: null,
-              nodeType: node.type,
-              nodeOption: data.replyOption,
-              nodeData: data.value,
-              flowId: params.flowId,
-            },
-          })
+      // Map nodes to the ConversationFlow model.
+      for (const node of nodes) {
+        const data = {
+          value: node.data.value,
+          replyOption: node.data.replyOption || null,
         }
 
-        // Map edges to link parent and child nodes.
-        for (const edge of edges) {
-          const sourceNode = nodes.find((node) => node.id === edge.source)
-          const targetNode = nodes.find((node) => node.id === edge.target)
-
-          if (sourceNode && targetNode) {
-            await db.conversationFlow.updateMany({
-              where: {
-                nodeId: targetNode.id,
-                flowId: params.flowId,
-              },
-              data: {
-                parentNodeId: sourceNode.id,
-              },
-            })
-          }
-        }
-
-        // Update the published status in the Flow model.
-        await db.flow.update({
-          where: {
-            id: params.flowId,
-          },
+        await db.conversationFlow.create({
           data: {
-            published: true,
-          },
-        })
-
-        return new Response(null, { status: 200 })
-      } else {
-        await db.conversationFlow.deleteMany({
-          where: {
+            nodeId: node.id,
+            parentNodeId: null,
+            nodeType: node.type,
+            nodeOption: data.replyOption,
+            nodeData: data.value,
             flowId: params.flowId,
           },
         })
-        // Update the published status in the Flow model.
-        await db.flow.update({
-          where: {
-            id: params.flowId,
-          },
-          data: {
-            published: false,
-          },
-        })
-
-        return new Response(null, { status: 200 })
       }
+
+      // Map edges to link parent and child nodes.
+      for (const edge of edges) {
+        const sourceNode = nodes.find((node) => node.id === edge.source)
+        const targetNode = nodes.find((node) => node.id === edge.target)
+
+        if (sourceNode && targetNode) {
+          await db.conversationFlow.updateMany({
+            where: {
+              nodeId: targetNode.id,
+              flowId: params.flowId,
+            },
+            data: {
+              parentNodeId: sourceNode.id,
+            },
+          })
+        }
+      }
+
+      // Update the published status in the Flow model.
+      await db.flow.update({
+        where: {
+          id: params.flowId,
+        },
+        data: {
+          published: true,
+        },
+      })
+
+      return new Response(null, { status: 200 })
     } else {
       return new Response("Flow not found", { status: 400 })
     }
