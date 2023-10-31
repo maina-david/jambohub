@@ -299,7 +299,6 @@ export default function LinkChannelDropdown() {
             <DialogHeader>
               <DialogTitle>New SMS channel</DialogTitle>
               <DialogDescription>
-                Add a new sms channel for integration
                 <Alert>
                   <Link2Icon className="h-4 w-4" />
                   <AlertTitle>Heads up!</AlertTitle>
@@ -422,7 +421,7 @@ export default function LinkChannelDropdown() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>New USSD channel</DialogTitle>
-              <DialogDescription>Add a new ussd channel for integration
+              <DialogDescription>
                 <Alert>
                   <AlertTitle>Heads up!</AlertTitle>
                   <AlertDescription>
