@@ -45,6 +45,12 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
         // Validate flow data
         await validateFlowData(nodes, edges)
 
+        await db.conversationFlow.deleteMany({
+          where: {
+            flowId: params.flowId
+          }
+        })
+        
         // Map nodes to the ConversationFlow model.
         for (const node of nodes) {
           const data = {
