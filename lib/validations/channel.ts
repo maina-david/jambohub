@@ -7,7 +7,6 @@ export const channelPatchSchema = z.object({
 
 export const smsChannelSchema = z.object({
   name: z.string().min(1),
-  provider: z.enum(['AT', 'BONGA']),
   shortCode: z.string().min(1),
   username: z.string().min(1),
   apiKey: z.string().min(1)
@@ -15,7 +14,6 @@ export const smsChannelSchema = z.object({
 
 export const ussdChannelSchema = z.object({
   name: z.string().min(1),
-  provider: z.enum(['AT']),
   serviceCode: z.string().min(1),
   username: z.string().min(1),
   apiKey: z.string().min(1)

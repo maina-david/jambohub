@@ -47,7 +47,6 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
     const json = await req.json()
     const body = smsChannelSchema.parse(json)
     const authDetails = {
-      "provider": body.provider,
       "username": body.username,
       "apiKey": body.apiKey,
     }

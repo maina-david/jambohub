@@ -43,7 +43,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from '@/components/ui/input'
 import { useQueryClient } from '@tanstack/react-query'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Icons } from '@/components/icons'
 import { useParams } from 'next/navigation'
 import { smsChannelSchema, ussdChannelSchema } from '@/lib/validations/channel'
@@ -60,7 +59,6 @@ export default function LinkChannelDropdown() {
   const smsForm = useForm<z.infer<typeof smsChannelSchema>>({
     resolver: zodResolver(smsChannelSchema),
     defaultValues: {
-      provider: 'AT',
       name: '',
       shortCode: '',
       username: '',
@@ -70,7 +68,6 @@ export default function LinkChannelDropdown() {
   const USSDForm = useForm<z.infer<typeof ussdChannelSchema>>({
     resolver: zodResolver(ussdChannelSchema),
     defaultValues: {
-      provider: 'AT',
       name: '',
       serviceCode: '',
       username: '',
@@ -96,10 +93,6 @@ export default function LinkChannelDropdown() {
           // Handle validation errors
           const validationErrors = error.response.data
           // Update form field errors
-          smsForm.setError('provider', {
-            type: 'manual',
-            message: validationErrors.provider || '',
-          })
           smsForm.setError('name', {
             type: 'manual',
             message: validationErrors.name || '',
@@ -163,10 +156,6 @@ export default function LinkChannelDropdown() {
           // Handle validation errors
           const validationErrors = error.response.data
           // Update form field errors
-          USSDForm.setError('provider', {
-            type: 'manual',
-            message: validationErrors.provider || '',
-          })
           USSDForm.setError('name', {
             type: 'manual',
             message: validationErrors.name || '',
@@ -332,33 +321,6 @@ export default function LinkChannelDropdown() {
                 />
                 <FormField
                   control={smsForm.control}
-                  name="provider"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Channel</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        disabled={isSMSSubmitting}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a channel" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="AT">Africa&apos;s Talking</SelectItem>
-                          <SelectItem value="BONGA">Bonga SMS</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormDescription>
-                        Choose the sms provider you want to integrate with.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={smsForm.control}
                   name="shortCode"
                   render={({ field }) => (
                     <FormItem>
@@ -467,33 +429,6 @@ export default function LinkChannelDropdown() {
                       </FormControl>
                       <FormDescription>
                         Enter a display name to associate with this account.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={USSDForm.control}
-                  name="provider"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Channel</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        disabled={isUSSDLoading}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a channel" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="AT">Africa&apos;s Talking</SelectItem>
-                          <SelectItem value="BONGA">Bonga SMS</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormDescription>
-                        Choose the sms provider you want to integrate with.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
