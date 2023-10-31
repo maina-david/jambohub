@@ -52,7 +52,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
         })
       }
 
-      if (text === undefined) {
+      if (!text) {
         const currentConversationFlow = await db.conversationFlow.findFirst({
           where: {
             parentNodeId: null,
