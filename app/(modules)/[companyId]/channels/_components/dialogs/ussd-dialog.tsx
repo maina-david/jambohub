@@ -38,9 +38,9 @@ interface USSDChannelProps{
 export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
   const queryClient = useQueryClient()
   const params = useParams()
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const form = useForm<z.infer<typeof ussdChannelSchema>>({
+  const [isUSSDDialogOpen, setIsUSSDDialogOpen] = useState<boolean>(false)
+  const [isUSSDLoading, setIsUSSDLoading] = useState<boolean>(false)
+  const USSDForm = useForm<z.infer<typeof ussdChannelSchema>>({
     resolver: zodResolver(ussdChannelSchema),
     defaultValues: {
       provider: 'AT',
@@ -51,9 +51,9 @@ export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
     },
   })
 
-  const onSubmit = async (values: z.infer<typeof ussdChannelSchema>) => {
+  const onUSSDFormSubmit = async (values: z.infer<typeof ussdChannelSchema>) => {
     try {
-      setIsLoading(true)
+      setIsUSSDLoading(true)
       await axios.post(`/api/companies/${params?.companyId}/channels/ussd`, {
         ...values
       })
@@ -69,23 +69,23 @@ export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
           // Handle validation errors
           const validationErrors = error.response.data
           // Update form field errors
-          form.setError('provider', {
+          USSDForm.setError('provider', {
             type: 'manual',
             message: validationErrors.provider || '',
           })
-          form.setError('name', {
+          USSDForm.setError('name', {
             type: 'manual',
             message: validationErrors.name || '',
           })
-          form.setError('serviceCode', {
+          USSDForm.setError('serviceCode', {
             type: 'manual',
             message: validationErrors.serviceCode || '',
           })
-          form.setError('username', {
+          USSDForm.setError('username', {
             type: 'manual',
             message: validationErrors.username || '',
           })
-          form.setError('apiKey', {
+          USSDForm.setError('apiKey', {
             type: 'manual',
             message: validationErrors.apiKey || '',
           })
@@ -114,15 +114,13 @@ export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
         })
       }
     } finally {
-      setIsLoading(false)
+      setIsUSSDLoading(false)
     }
   }
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isUSSDDialogOpen} onOpenChange={setIsUSSDDialogOpen}>
       <DialogTrigger asChild>
-        <div onClick={() => setIsOpen(true)}>
-          {children}
-        </div>
+
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -130,17 +128,17 @@ export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
           <DialogDescription>Add a new ussd channel for integration</DialogDescription>
         </DialogHeader>
         <div className='grid'>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Form {...USSDForm}>
+            <form onSubmit={USSDForm.handleSubmit(onUSSDFormSubmit)}>
               <FormField
-                control={form.control}
+                control={USSDForm.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isLoading}
+                        disabled={isUSSDLoading}
                         placeholder="Enter account name"
                         {...field}
                       />
@@ -153,14 +151,14 @@ export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
                 )}
               />
               <FormField
-                control={form.control}
+                control={USSDForm.control}
                 name="provider"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Channel</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      disabled={isLoading}
+                      disabled={isUSSDLoading}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -180,14 +178,14 @@ export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
                 )}
               />
               <FormField
-                control={form.control}
+                control={USSDForm.control}
                 name="serviceCode"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Service Code</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isLoading}
+                        disabled={isUSSDLoading}
                         placeholder="Enter account service code"
                         {...field}
                       />
@@ -200,14 +198,14 @@ export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
                 )}
               />
               <FormField
-                control={form.control}
+                control={USSDForm.control}
                 name="username"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Username</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isLoading}
+                        disabled={isUSSDLoading}
                         placeholder="Enter account username"
                         {...field}
                       />
@@ -220,14 +218,14 @@ export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
                 )}
               />
               <FormField
-                control={form.control}
+                control={USSDForm.control}
                 name="apiKey"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>API Key</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isLoading}
+                        disabled={isUSSDLoading}
                         placeholder="Enter API Key"
                         {...field}
                       />
@@ -241,10 +239,10 @@ export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
               />
               <DialogFooter>
                 <Button
-                  disabled={isLoading}
+                  disabled={isUSSDLoading}
                   type='submit'
                 >
-                  {isLoading && (
+                  {isUSSDLoading && (
                     <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
                   )}
                   Continue
