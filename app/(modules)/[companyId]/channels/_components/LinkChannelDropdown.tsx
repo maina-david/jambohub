@@ -239,9 +239,11 @@ export default function LinkChannelDropdown() {
                   <AlertTitle>Heads up!</AlertTitle>
                   <AlertDescription>
                     Only Africa&apos;s Talking integration is supported.
+                    <br />
                     Make sure you specify callback and events urls as
+                    <br />
                     <code
-                    className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+                      className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
                       https://jambohub.vercel.app/api/webhooks/ussd
                     </code>
                   </AlertDescription>
