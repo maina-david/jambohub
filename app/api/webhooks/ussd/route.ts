@@ -9,14 +9,14 @@ const ussdSchema = zfd.formData({
 })
 
 export async function POST(request: Request) {
-  const requestBody = request.body
+  const requestBody = await request.formData()
   console.log("USSD REQ: ", requestBody)
   // const {
   //   sessionId,
   //   serviceCode,
   //   phoneNumber,
   //   text,
-  // } = JSON.parse(requestBody)
+  // } = requestBody
 
   return new Response('END Webkook working', {
     status: 200,
