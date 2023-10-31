@@ -306,7 +306,7 @@ export default function LinkChannelDropdown() {
               SMS
             </DropdownMenuItem>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] md:max-w-[75%]">
+          <DialogContent className="max-h-[100%] sm:max-w-[425px] md:max-w-[75%]">
             <DialogHeader>
               <DialogTitle>New SMS channel</DialogTitle>
               <DialogDescription>
@@ -473,7 +473,7 @@ export default function LinkChannelDropdown() {
               USSD
             </DropdownMenuItem>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="max-h-[100%] sm:max-w-[425px] md:max-w-[75%]">
             <DialogHeader>
               <DialogTitle>New USSD channel</DialogTitle>
               <DialogDescription>Add a new ussd channel for integration</DialogDescription>

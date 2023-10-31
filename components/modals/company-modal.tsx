@@ -125,7 +125,7 @@ export const CompanyModal = () => {
 
   return (
     <Dialog open={companyModal.isOpen} onOpenChange={onChange}>
-      <DialogContent className="sm:max-w-[425px] md:min-w-[75%]">
+      <DialogContent className="max-h-[100%] sm:max-w-[425px] md:min-w-[75%]">
         <DialogHeader>
           <DialogTitle>Create company</DialogTitle>
           <DialogDescription>
