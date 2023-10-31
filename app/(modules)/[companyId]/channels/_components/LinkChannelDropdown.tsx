@@ -235,7 +235,6 @@ export default function LinkChannelDropdown() {
               <DialogTitle>New USSD channel</DialogTitle>
               <DialogDescription>
                 <Alert>
-                  <Link1Icon className="h-4 w-4" />
                   <AlertTitle>Heads up!</AlertTitle>
                   <AlertDescription>
                     Only Africa&apos;s Talking integration is supported.
