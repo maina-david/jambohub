@@ -9,13 +9,12 @@ const ussdSchema = zfd.formData({
 })
 
 export async function POST(request: Request) {
-  const requestBody = await request.formData()
   const {
     sessionId,
     serviceCode,
     phoneNumber,
     text,
-  } = ussdSchema.parse(requestBody)
+  } = ussdSchema.parse(await request.formData())
 
   const channel = await db.channel.findFirst({
     where: {
