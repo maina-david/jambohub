@@ -87,7 +87,7 @@ export default function LinkChannelDropdown() {
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger>
         <Button variant={'outline'}>
           Connect Channel
