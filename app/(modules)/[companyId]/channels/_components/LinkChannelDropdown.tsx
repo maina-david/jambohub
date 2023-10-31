@@ -314,7 +314,7 @@ export default function LinkChannelDropdown() {
               </DialogDescription>
               <Alert>For 2 way sms make sure you put url as callback</Alert>
             </DialogHeader>
-            <div className='grid'>
+            <div className="grid gap-4 py-4">
               <Form {...smsForm}>
                 <form onSubmit={smsForm.handleSubmit(onSMSFormSubmit)}>
                   <FormField
@@ -474,7 +474,7 @@ export default function LinkChannelDropdown() {
               <DialogTitle>New USSD channel</DialogTitle>
               <DialogDescription>Add a new ussd channel for integration</DialogDescription>
             </DialogHeader>
-            <div className='grid'>
+            <div className="grid gap-4 py-4">
               <Form {...USSDForm}>
                 <form onSubmit={USSDForm.handleSubmit(onUSSDFormSubmit)}>
                   <FormField
