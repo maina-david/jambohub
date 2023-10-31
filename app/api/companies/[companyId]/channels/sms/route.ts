@@ -50,7 +50,6 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
       "provider": body.provider,
       "username": body.username,
       "apiKey": body.apiKey,
-      "apiSecret": body.apiSecret
     }
 
     const channel = await db.channel.create({

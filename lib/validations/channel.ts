@@ -10,8 +10,7 @@ export const smsChannelSchema = z.object({
   provider: z.enum(['AT', 'BONGA']),
   shortCode: z.string().min(1),
   username: z.string().min(1),
-  apiKey: z.string().min(1),
-  apiSecret: z.string().optional()
+  apiKey: z.string().min(1)
 })
 
 export const ussdChannelSchema = z.object({

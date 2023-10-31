@@ -65,7 +65,6 @@ export default function LinkChannelDropdown() {
       shortCode: '',
       username: '',
       apiKey: '',
-      apiSecret: ''
     },
   })
   const USSDForm = useForm<z.infer<typeof ussdChannelSchema>>({
@@ -116,10 +115,6 @@ export default function LinkChannelDropdown() {
           smsForm.setError('apiKey', {
             type: 'manual',
             message: validationErrors.apiKey || '',
-          })
-          smsForm.setError('apiSecret', {
-            type: 'manual',
-            message: validationErrors.apiSecret || '',
           })
         } else if (error.response.status === 402) {
           // Handle RequiresProPlanError
@@ -417,26 +412,6 @@ export default function LinkChannelDropdown() {
                       </FormControl>
                       <FormDescription>
                         Enter the API Key associated with this account.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={smsForm.control}
-                  name="apiSecret"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>API Secret</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isSMSSubmitting}
-                          placeholder="Enter account API secret"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Enter the API secret associated with this account.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
