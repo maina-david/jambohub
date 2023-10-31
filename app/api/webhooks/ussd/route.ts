@@ -9,7 +9,7 @@ const ussdSchema = zfd.formData({
 })
 
 export async function POST(request: Request) {
-  const requestBody = await request.text()
+  const requestBody = request.body
   console.log("USSD REQ: ", requestBody)
   // const {
   //   sessionId,
