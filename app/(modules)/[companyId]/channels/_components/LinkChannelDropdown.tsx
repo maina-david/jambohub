@@ -6,7 +6,6 @@ import {
   FaWhatsapp,
   FaXTwitter,
   FaFacebookMessenger,
-  FaCommentSms
 } from "react-icons/fa6"
 import { BiDialpad } from "react-icons/bi"
 import {
@@ -45,29 +44,18 @@ import { Input } from '@/components/ui/input'
 import { useQueryClient } from '@tanstack/react-query'
 import { Icons } from '@/components/icons'
 import { useParams } from 'next/navigation'
-import { smsChannelSchema, ussdChannelSchema } from '@/lib/validations/channel'
+import { ussdChannelSchema } from '@/lib/validations/channel'
 import {
   Alert,
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/alert"
-import { Link1Icon } from '@radix-ui/react-icons'
-
 export default function LinkChannelDropdown() {
   const queryClient = useQueryClient()
   const params = useParams()
   const [isUSSDDialogOpen, setIsUSSDDialogOpen] = useState<boolean>(false)
   const [isUSSDLoading, setIsUSSDLoading] = useState<boolean>(false)
   const [sdkInitialized, setSdkInitialized] = useState<boolean>(false)
-  const smsForm = useForm<z.infer<typeof smsChannelSchema>>({
-    resolver: zodResolver(smsChannelSchema),
-    defaultValues: {
-      name: '',
-      shortCode: '',
-      username: '',
-      apiKey: '',
-    },
-  })
   const USSDForm = useForm<z.infer<typeof ussdChannelSchema>>({
     resolver: zodResolver(ussdChannelSchema),
     defaultValues: {
@@ -85,6 +73,7 @@ export default function LinkChannelDropdown() {
         ...values
       })
       queryClient.invalidateQueries(['companyChannels'])
+      setIsUSSDDialogOpen(false)
       toast({
         title: 'Success',
         description: 'Channel created successfully!',
@@ -238,7 +227,7 @@ export default function LinkChannelDropdown() {
                   <AlertTitle>Heads up!</AlertTitle>
                   <AlertDescription>
                     Only Africa&apos;s Talking integration is supported.
-                    Make sure you specify callback and events urls as: 
+                    Make sure you specify callback and events urls as:
                     <code
                       className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
                       https://jambohub.vercel.app/api/webhooks/ussd
