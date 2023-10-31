@@ -31,7 +31,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Icons } from '@/components/icons'
 import { useParams } from 'next/navigation'
 import { ussdChannelSchema } from '@/lib/validations/channel'
-import { BiDialpad } from 'react-icons/bi'
 
 interface USSDChannelProps{
   children: React.ReactNode
