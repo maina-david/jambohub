@@ -306,7 +306,7 @@ export default function LinkChannelDropdown() {
               SMS
             </DropdownMenuItem>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[425px] md:max-w-[75%]">
             <DialogHeader>
               <DialogTitle>New SMS channel</DialogTitle>
               <DialogDescription>
