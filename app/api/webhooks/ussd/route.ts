@@ -108,7 +108,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
                 //find matching flow based on text
                 const matchingFlow = nextConversationFlows.find((flow) => flow.nodeOption === replyOption)
                 if (!matchingFlow) {
-                  return new Response('CON Invalid input', {
+                  return new Response(`CON Invalid input. ${currentConversationFlow.nodeData}`, {
                     status: 200,
                     headers: {
                       'Content-Type': 'text/plain',
