@@ -224,7 +224,7 @@ export default function LinkChannelDropdown() {
               <DialogTitle>New USSD channel</DialogTitle>
               <DialogDescription>
                 Only Africa&apos;s Talking integration is supported.
-                Make sure you specify callback and events urls as:
+                Make sure you specify callback url as:
                 <code
                   className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
                   https://jambohub.vercel.app/api/webhooks/ussd
