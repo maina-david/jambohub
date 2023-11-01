@@ -221,6 +221,22 @@ export function SideNav(props: SideNavProps) {
               })
             )}
             <div className="grow"></div>
+            <Card className="rounded-lg shadow-2xl">
+              <CardHeader>
+                <CardTitle>Wallet Balance</CardTitle>
+                <CardDescription>
+                  KES 144,500
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex gap-2">
+                  <FaWallet className='h-8 w-8' />
+                  <Button variant={'outline'}>
+                    Add Funds
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
             {subscription.isSuccess && (
               subscription.data.plan === 'FREE' ? (
                 <Card className="rounded-lg shadow-2xl">
@@ -279,22 +295,6 @@ export function SideNav(props: SideNavProps) {
                 </Card>
               )
             )}
-            <Card className="rounded-lg shadow-2xl">
-              <CardHeader>
-                <CardTitle>Wallet Balance</CardTitle>
-                <CardDescription>
-                  KES 144,500
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex gap-2">
-                  <FaWallet className='h-8 w-8' />
-                  <Button variant={'outline'}>
-                    Add Funds
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </motion.nav>
       </AnimatePresence>
