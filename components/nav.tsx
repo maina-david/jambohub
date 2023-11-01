@@ -241,25 +241,12 @@ export function SideNav(props: SideNavProps) {
                 </CardContent>
               </Card>
             ) : subscription.data.plan === 'PRO' && (
-              <>
-                <Card className=" mb-2 rounded-lg shadow-2xl">
-                  <CardHeader>
-                    <CardTitle>Wallet Balance</CardTitle>
-                    <CardDescription>
-                      KES 144,500
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex gap-2">
-                      <FaWallet className='h-8 w-8' />
-                      <Button variant={'outline'}>
-                        Add Funds
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="rounded-lg shadow-2xl">
-                  <CardContent className="flex flex-col items-start justify-center">
+              <Card className="rounded-lg shadow-2xl">
+                <CardHeader>
+                  <CardTitle>
+                    {subscription.data.plan}
+                  </CardTitle>
+                  <CardDescription>
                     {subscription.data.currentPeriodEnd && (
                       <>
                         Subscription ending on {new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
@@ -269,17 +256,35 @@ export function SideNav(props: SideNavProps) {
                         })}
                       </>
                     )}
-                    <Link
-                      href={'#'}
-                      className="text-sm font-medium leading-none underline underline-offset-1"
-                    >
-                      Renew subscription
-                    </Link>
-                  </CardContent>
-                </Card>
-              </>
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-col items-start justify-center">
+                  <Link
+                    href={'#'}
+                    className="text-sm font-medium leading-none underline underline-offset-1"
+                  >
+                    Renew subscription
+                  </Link>
+                </CardContent>
+              </Card>
             )
           )}
+          <Card className="rounded-lg shadow-2xl">
+            <CardHeader>
+              <CardTitle>Wallet Balance</CardTitle>
+              <CardDescription>
+                KES 144,500
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex gap-2">
+                <FaWallet className='h-8 w-8' />
+                <Button variant={'outline'}>
+                  Add Funds
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </motion.nav>
       </AnimatePresence>
     )
