@@ -19,6 +19,7 @@ import { Sheet, SheetContent } from "./ui/sheet"
 import { fetchTeams } from "@/actions/team-actions"
 import { getCurrentUserSubscription } from "@/actions/user-actions"
 import { AnimatePresence, motion } from "framer-motion"
+import { FaWallet } from "react-icons/fa6"
 
 interface SideNavProps {
   mdAndAbove: boolean,
@@ -268,6 +269,11 @@ export function SideNav(props: SideNavProps) {
               </Card>
             )
           )}
+          <Card>
+            <CardContent>
+              <FaWallet className='h-8 w-8' />
+            </CardContent>
+          </Card>
         </motion.nav>
       </AnimatePresence>
     )
