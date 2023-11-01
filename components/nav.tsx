@@ -244,28 +244,37 @@ export function SideNav(props: SideNavProps) {
               ) : subscription.data.plan === 'PRO' && (
                 <Card className="rounded-lg shadow-2xl">
                   <CardHeader>
-                    <CardTitle>
-                      {subscription.data.plan}
-                    </CardTitle>
+                    <CardTitle>{subscription.data.plan}</CardTitle>
                     <CardDescription>
                       {subscription.data.currentPeriodEnd && (
                         <>
-                          Subscription ending on {new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
-                            month: "long",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
+                          Subscription ending on{' '}
+                          {new Date(subscription.data.currentPeriodEnd) <= new Date() ? (
+                            <>
+                              <span className="text-red-500">
+                                {new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                })}
+                              </span>
+                              (Past Due)
+                            </>
+                          ) : (
+                            new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
+                              month: "long",
+                              day: "numeric",
+                              year: "numeric",
+                            })
+                          )}
                         </>
                       )}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="flex flex-col items-start justify-center">
-                    <Link
-                      href={'#'}
-                      className="text-sm font-medium leading-none underline underline-offset-1"
-                    >
-                      Renew subscription
-                    </Link>
+                  <CardContent>
+                    {subscription.data.currentPeriodEnd && new Date(subscription.data.currentPeriodEnd) <= new Date() ? (
+                      <Button variant="outline">Renew Subscription</Button>
+                    ) : null}
                   </CardContent>
                 </Card>
               )
