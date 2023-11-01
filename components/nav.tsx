@@ -192,99 +192,101 @@ export function SideNav(props: SideNavProps) {
               <PlusIcon className="h-4 w-4" />
             </Button>
           </div>
-          {isLoading && (
-            <Skeleton className="h-4 w-[150px]" />
-          )}
-          {isError && (
-            <div className="flex h-full flex-col items-center justify-center">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-                <Icons.warning className="h-10 w-10" />
+          <div className="flex flex-col">
+            {isLoading && (
+              <Skeleton className="h-4 w-[150px]" />
+            )}
+            {isError && (
+              <div className="flex h-full flex-col items-center justify-center">
+                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+                  <Icons.warning className="h-10 w-10" />
+                </div>
               </div>
-            </div>
-          )}
-          {isSuccess && (
-            teams.map((team: Team, index: Key | null | undefined) => {
-              return (
-                <Link key={index} href={`/${companyId}/teams/${team.id}/members`}>
-                  <span
-                    className={cn(
-                      "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
-                      path?.startsWith(`/${companyId}/teams/${team.id}`) ? "bg-accent text-sky-500" : "transparent"
-                    )}
-                  >
-                    <Users2 className="mr-2 h-4 w-4" />
-                    <span>{team.name}</span>
-                  </span>
-                </Link>
+            )}
+            {isSuccess && (
+              teams.map((team: Team, index: Key | null | undefined) => {
+                return (
+                  <Link key={index} href={`/${companyId}/teams/${team.id}/members`}>
+                    <span
+                      className={cn(
+                        "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
+                        path?.startsWith(`/${companyId}/teams/${team.id}`) ? "bg-accent text-sky-500" : "transparent"
+                      )}
+                    >
+                      <Users2 className="mr-2 h-4 w-4" />
+                      <span>{team.name}</span>
+                    </span>
+                  </Link>
+                )
+              })
+            )}
+            <div className="grow"></div>
+            {subscription.isSuccess && (
+              subscription.data.plan === 'FREE' ? (
+                <Card className="rounded-lg shadow-2xl">
+                  <CardHeader>
+                    <CardTitle>
+                      Try {siteConfig.name} Pro
+                    </CardTitle>
+                    <CardDescription>
+                      Get unlimited teams, automation flows, channels, and more
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex flex-col items-start justify-center">
+                    <Link
+                      href={'#'}
+                      className="text-sm font-medium leading-none underline underline-offset-1"
+                    >
+                      Upgrade now
+                    </Link>
+                  </CardContent>
+                </Card>
+              ) : subscription.data.plan === 'PRO' && (
+                <Card className="rounded-lg shadow-2xl">
+                  <CardHeader>
+                    <CardTitle>
+                      {subscription.data.plan}
+                    </CardTitle>
+                    <CardDescription>
+                      {subscription.data.currentPeriodEnd && (
+                        <>
+                          Subscription ending on {new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric",
+                          })}
+                        </>
+                      )}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex flex-col items-start justify-center">
+                    <Link
+                      href={'#'}
+                      className="text-sm font-medium leading-none underline underline-offset-1"
+                    >
+                      Renew subscription
+                    </Link>
+                  </CardContent>
+                </Card>
               )
-            })
-          )}
-          <div className="grow"></div>
-          {subscription.isSuccess && (
-            subscription.data.plan === 'FREE' ? (
-              <Card className="rounded-lg shadow-2xl">
-                <CardHeader>
-                  <CardTitle>
-                    Try {siteConfig.name} Pro
-                  </CardTitle>
-                  <CardDescription>
-                    Get unlimited teams, automation flows, channels, and more
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex flex-col items-start justify-center">
-                  <Link
-                    href={'#'}
-                    className="text-sm font-medium leading-none underline underline-offset-1"
-                  >
-                    Upgrade now
-                  </Link>
-                </CardContent>
-              </Card>
-            ) : subscription.data.plan === 'PRO' && (
-              <Card className="rounded-lg shadow-2xl">
-                <CardHeader>
-                  <CardTitle>
-                    {subscription.data.plan}
-                  </CardTitle>
-                  <CardDescription>
-                    {subscription.data.currentPeriodEnd && (
-                      <>
-                        Subscription ending on {new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
-                          month: "long",
-                          day: "numeric",
-                          year: "numeric",
-                        })}
-                      </>
-                    )}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex flex-col items-start justify-center">
-                  <Link
-                    href={'#'}
-                    className="text-sm font-medium leading-none underline underline-offset-1"
-                  >
-                    Renew subscription
-                  </Link>
-                </CardContent>
-              </Card>
-            )
-          )}
-          <Card className="rounded-lg shadow-2xl">
-            <CardHeader>
-              <CardTitle>Wallet Balance</CardTitle>
-              <CardDescription>
-                KES 144,500
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex gap-2">
-                <FaWallet className='h-8 w-8' />
-                <Button variant={'outline'}>
-                  Add Funds
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+            )}
+            <Card className="rounded-lg shadow-2xl">
+              <CardHeader>
+                <CardTitle>Wallet Balance</CardTitle>
+                <CardDescription>
+                  KES 144,500
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex gap-2">
+                  <FaWallet className='h-8 w-8' />
+                  <Button variant={'outline'}>
+                    Add Funds
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </motion.nav>
       </AnimatePresence>
     )
