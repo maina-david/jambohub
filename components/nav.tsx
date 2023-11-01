@@ -271,16 +271,18 @@ export function SideNav(props: SideNavProps) {
           )}
           <Card>
             <CardHeader>
-              <CardTitle>Wallet</CardTitle>
+              <CardTitle>Wallet Balance</CardTitle>
               <CardDescription>
-                Total Balance: KES 144,500
+                KES 144,500
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <FaWallet className='h-8 w-8' />
-              <Button variant={'outline'}>
-                Add Funds
-              </Button>
+              <div className="flex gap-2">
+                <FaWallet className='h-8 w-8' />
+                <Button variant={'outline'}>
+                  Add Funds
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </motion.nav>
