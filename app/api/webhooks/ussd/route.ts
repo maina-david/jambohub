@@ -124,7 +124,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
                     flowId: automatedFlow.Flow.id
                   }
                 })
-                const ussdSession = await db.ussdSessionLog.create({
+                await db.ussdSessionLog.create({
                   data: {
                     flowId: automatedFlow.Flow.id,
                     currentConversationFlowId: matchingFlow.id,

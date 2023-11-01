@@ -364,7 +364,7 @@ model UssdSessionLog {
   Flow                      Flow                   @relation(fields: [flowId], references: [id], onDelete: Cascade)
   currentConversationFlowId String
   status                    conversationFlowStatus @default(OPEN)
-  sessionId                 String                 @unique
+  sessionId                 String                 
   textResponse              String?
   createdAt                 DateTime               @default(now())
   updatedAt                 DateTime               @default(now())
