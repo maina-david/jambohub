@@ -225,7 +225,7 @@ export function SideNav(props: SideNavProps) {
               <CardHeader>
                 <CardTitle>Wallet Balance</CardTitle>
                 <CardDescription>
-                  KES 144,500
+                  KES 144,500.00
                 </CardDescription>
               </CardHeader>
               <CardContent>
