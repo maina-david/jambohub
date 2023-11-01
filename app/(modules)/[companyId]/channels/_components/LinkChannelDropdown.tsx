@@ -223,7 +223,7 @@ export default function LinkChannelDropdown() {
             <DialogHeader>
               <DialogTitle>New USSD channel</DialogTitle>
               <DialogDescription>
-                Only Africa&apos;s Talking integration is supported.
+                Only Africa&apos;s Talking integration supported.
                 Make sure you specify callback url as:
                 <code
                   className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
