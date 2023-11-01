@@ -243,12 +243,12 @@ export function SideNav(props: SideNavProps) {
               <Card className="rounded-lg shadow-2xl">
                 <CardHeader>
                   <CardTitle>
-                    Subscribed to {subscription.data.plan.toLocaleLowerCase()}
+                    {subscription.data.plan.toLocaleLowerCase()}
                   </CardTitle>
                   <CardDescription>
                     {subscription.data.currentPeriodEnd && (
                       <>
-                        Ending on {new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
+                        Subscription ending on {new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
                           month: "long",
                           day: "numeric",
                           year: "numeric",
