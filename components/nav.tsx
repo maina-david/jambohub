@@ -220,7 +220,7 @@ export function SideNav(props: SideNavProps) {
           )}
           <div className="grow"></div>
           {subscription.isSuccess && (
-            subscription.data.plan === 'FREE' && (
+            subscription.data.plan === 'FREE' ? (
               <Card className="rounded-lg shadow-2xl">
                 <CardHeader>
                   <CardTitle>
@@ -236,6 +236,33 @@ export function SideNav(props: SideNavProps) {
                     className="text-sm font-medium leading-none underline underline-offset-1"
                   >
                     Upgrade now
+                  </Link>
+                </CardContent>
+              </Card>
+            ) : subscription.data.plan === 'PRO' && (
+              <Card className="rounded-lg shadow-2xl">
+                <CardHeader>
+                  <CardTitle>
+                    Subscribed to {subscription.data.plan.toLocaleLowerCase()}
+                  </CardTitle>
+                  <CardDescription>
+                    {subscription.data.currentPeriodEnd && (
+                      <>
+                        Ending on {new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </>
+                    )}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-col items-start justify-center">
+                  <Link
+                    href={'#'}
+                    className="text-sm font-medium leading-none underline underline-offset-1"
+                  >
+                    Renew subscription
                   </Link>
                 </CardContent>
               </Card>
