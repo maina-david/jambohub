@@ -145,160 +145,162 @@ export function SideNav(props: SideNavProps) {
   }
   const renderSideNav = () => {
     return (
-      <AnimatePresence>
-        <motion.nav
-          initial="closed"
-          animate="open"
-          className="grid items-start"
-        >
-          <motion.div variants={sidebar} />
+      <ScrollArea className="h-72 w-48 rounded-md border">
+        <AnimatePresence>
+          <motion.nav
+            initial="closed"
+            animate="open"
+            className="grid items-start"
+          >
+            <motion.div variants={sidebar} />
 
-          <motion.ul
-            variants={ulVariants}>
-            {routes.map((item, index) => {
-              const Icon = Icons[item.icon || "arrowRight"]
-              return (
-                item.href && (
-                  <motion.li
-                    variants={liVariants}
-                  >
-                    <Link
-                      key={index}
-                      href={item.disabled ? "/" : item.href}
-                      onClick={handleMobileSidebar}
+            <motion.ul
+              variants={ulVariants}>
+              {routes.map((item, index) => {
+                const Icon = Icons[item.icon || "arrowRight"]
+                return (
+                  item.href && (
+                    <motion.li
+                      variants={liVariants}
                     >
-                      <div
+                      <Link
+                        key={index}
+                        href={item.disabled ? "/" : item.href}
+                        onClick={handleMobileSidebar}
+                      >
+                        <div
+                          className={cn(
+                            "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
+                            path?.startsWith(item.href) ? "bg-accent text-sky-500" : "transparent",
+                            item.disabled && "cursor-not-allowed opacity-80"
+                          )}
+                        >
+                          <Icon className="mr-2 h-4 w-4" />
+                          <span>{item.title}</span>
+                        </div>
+                      </Link>
+                    </motion.li>
+                  )
+                )
+              })}
+            </motion.ul>
+            <Separator className="my-2" />
+            <div className="flex items-center gap-2">
+              <span className="flex items-center px-3 py-2 text-sm font-medium">
+                Teams
+              </span>
+              <div className="grow"></div>
+              <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
+                <PlusIcon className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="flex flex-col">
+              {isLoading && (
+                <Skeleton className="h-4 w-[150px]" />
+              )}
+              {isError && (
+                <div className="flex h-full flex-col items-center justify-center">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+                    <Icons.warning className="h-10 w-10" />
+                  </div>
+                </div>
+              )}
+              {isSuccess && (
+                teams.map((team: Team, index: Key | null | undefined) => {
+                  return (
+                    <Link key={index} href={`/${companyId}/teams/${team.id}/members`}>
+                      <span
                         className={cn(
                           "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
-                          path?.startsWith(item.href) ? "bg-accent text-sky-500" : "transparent",
-                          item.disabled && "cursor-not-allowed opacity-80"
+                          path?.startsWith(`/${companyId}/teams/${team.id}`) ? "bg-accent text-sky-500" : "transparent"
                         )}
                       >
-                        <Icon className="mr-2 h-4 w-4" />
-                        <span>{item.title}</span>
-                      </div>
+                        <Users2 className="mr-2 h-4 w-4" />
+                        <span>{team.name}</span>
+                      </span>
                     </Link>
-                  </motion.li>
+                  )
+                })
+              )}
+              <div className="grow"></div>
+              <Card className="rounded-lg shadow-2xl">
+                <CardHeader>
+                  <CardTitle>Wallet Balance</CardTitle>
+                  <CardDescription>
+                    KES 144,500.00
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex gap-2">
+                    <FaWallet className='h-8 w-8' />
+                    <Button variant={'outline'}>
+                      Add Funds
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+              {subscription.isSuccess && (
+                subscription.data.plan === 'FREE' ? (
+                  <Card className="rounded-lg shadow-2xl">
+                    <CardHeader>
+                      <CardTitle>
+                        Try {siteConfig.name} Pro
+                      </CardTitle>
+                      <CardDescription>
+                        Get unlimited teams, automation flows, channels, and more
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-col items-start justify-center">
+                      <Link
+                        href={'#'}
+                        className="text-sm font-medium leading-none underline underline-offset-1"
+                      >
+                        Upgrade now
+                      </Link>
+                    </CardContent>
+                  </Card>
+                ) : subscription.data.plan === 'PRO' && (
+                  <Card className="rounded-lg shadow-2xl">
+                    <CardHeader>
+                      <CardTitle>{subscription.data.plan}</CardTitle>
+                      <CardDescription>
+                        {subscription.data.currentPeriodEnd && (
+                          <>
+                            Subscription ending on{' '}
+                            {new Date(subscription.data.currentPeriodEnd) <= new Date() ? (
+                              <>
+                                <span className="text-red-500">
+                                  {new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
+                                    month: "long",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  })}
+                                </span>
+                                (Past Due)
+                              </>
+                            ) : (
+                              new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric",
+                              })
+                            )}
+                          </>
+                        )}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      {subscription.data.currentPeriodEnd && new Date(subscription.data.currentPeriodEnd) <= new Date() ? (
+                        <Button variant="outline">Renew Subscription</Button>
+                      ) : null}
+                    </CardContent>
+                  </Card>
                 )
-              )
-            })}
-          </motion.ul>
-          <Separator className="my-2" />
-          <div className="flex items-center gap-2">
-            <span className="flex items-center px-3 py-2 text-sm font-medium">
-              Teams
-            </span>
-            <div className="grow"></div>
-            <Button onClick={teamModal.onOpen} variant={'ghost'} size={'icon'}>
-              <PlusIcon className="h-4 w-4" />
-            </Button>
-          </div>
-          <div className="flex flex-col">
-            {isLoading && (
-              <Skeleton className="h-4 w-[150px]" />
-            )}
-            {isError && (
-              <div className="flex h-full flex-col items-center justify-center">
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-                  <Icons.warning className="h-10 w-10" />
-                </div>
-              </div>
-            )}
-            {isSuccess && (
-              teams.map((team: Team, index: Key | null | undefined) => {
-                return (
-                  <Link key={index} href={`/${companyId}/teams/${team.id}/members`}>
-                    <span
-                      className={cn(
-                        "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
-                        path?.startsWith(`/${companyId}/teams/${team.id}`) ? "bg-accent text-sky-500" : "transparent"
-                      )}
-                    >
-                      <Users2 className="mr-2 h-4 w-4" />
-                      <span>{team.name}</span>
-                    </span>
-                  </Link>
-                )
-              })
-            )}
-            <div className="grow"></div>
-            <Card className="rounded-lg shadow-2xl">
-              <CardHeader>
-                <CardTitle>Wallet Balance</CardTitle>
-                <CardDescription>
-                  KES 144,500.00
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex gap-2">
-                  <FaWallet className='h-8 w-8' />
-                  <Button variant={'outline'}>
-                    Add Funds
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-            {subscription.isSuccess && (
-              subscription.data.plan === 'FREE' ? (
-                <Card className="rounded-lg shadow-2xl">
-                  <CardHeader>
-                    <CardTitle>
-                      Try {siteConfig.name} Pro
-                    </CardTitle>
-                    <CardDescription>
-                      Get unlimited teams, automation flows, channels, and more
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex flex-col items-start justify-center">
-                    <Link
-                      href={'#'}
-                      className="text-sm font-medium leading-none underline underline-offset-1"
-                    >
-                      Upgrade now
-                    </Link>
-                  </CardContent>
-                </Card>
-              ) : subscription.data.plan === 'PRO' && (
-                <Card className="rounded-lg shadow-2xl">
-                  <CardHeader>
-                    <CardTitle>{subscription.data.plan}</CardTitle>
-                    <CardDescription>
-                      {subscription.data.currentPeriodEnd && (
-                        <>
-                          Subscription ending on{' '}
-                          {new Date(subscription.data.currentPeriodEnd) <= new Date() ? (
-                            <>
-                              <span className="text-red-500">
-                                {new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
-                                  month: "long",
-                                  day: "numeric",
-                                  year: "numeric",
-                                })}
-                              </span>
-                              (Past Due)
-                            </>
-                          ) : (
-                            new Date(subscription.data.currentPeriodEnd).toLocaleDateString("en-US", {
-                              month: "long",
-                              day: "numeric",
-                              year: "numeric",
-                            })
-                          )}
-                        </>
-                      )}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {subscription.data.currentPeriodEnd && new Date(subscription.data.currentPeriodEnd) <= new Date() ? (
-                      <Button variant="outline">Renew Subscription</Button>
-                    ) : null}
-                  </CardContent>
-                </Card>
-              )
-            )}
-          </div>
-        </motion.nav>
-      </AnimatePresence>
+              )}
+            </div>
+          </motion.nav>
+        </AnimatePresence>
+      </ScrollArea>
     )
   }
 
