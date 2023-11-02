@@ -223,7 +223,7 @@ export function SideNav(props: SideNavProps) {
                 })
               )}
               <div className="grow"></div>
-              <Card className="rounded-lg shadow-2xl">
+              <Card className="mt-2 rounded-lg shadow-2xl">
                 <CardHeader>
                   <CardTitle>Wallet Balance</CardTitle>
                   <CardDescription>
@@ -241,7 +241,7 @@ export function SideNav(props: SideNavProps) {
               </Card>
               {subscription.isSuccess && (
                 subscription.data.plan === 'FREE' ? (
-                  <Card className="rounded-lg shadow-2xl">
+                  <Card className="mt-2 rounded-lg shadow-2xl">
                     <CardHeader>
                       <CardTitle>
                         Try {siteConfig.name} Pro
@@ -260,7 +260,7 @@ export function SideNav(props: SideNavProps) {
                     </CardContent>
                   </Card>
                 ) : subscription.data.plan === 'PRO' && (
-                  <Card className="rounded-lg shadow-2xl">
+                    <Card className="mt-2 rounded-lg shadow-2xl">
                     <CardHeader>
                       <CardTitle>{subscription.data.plan}</CardTitle>
                       <CardDescription>
