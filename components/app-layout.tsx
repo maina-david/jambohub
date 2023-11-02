@@ -78,9 +78,11 @@ export function AppLayout({
               handleSidebarToggle={handleSidebarToggle} />
         </aside>
         <main className="flex w-full flex-1 flex-col overflow-hidden">
+          <ScrollArea className="h-[90vh] w-full">
           <div className="grid items-start gap-8">
             {children}
           </div>
+          </ScrollArea>
         </main>
       </div>
     </div>
