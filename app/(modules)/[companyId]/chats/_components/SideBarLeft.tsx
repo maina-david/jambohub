@@ -66,12 +66,12 @@ const SideBarLeft = (props: SideBarLeftProps) => {
           <Input placeholder="Search for contact..." />
         </div>
         <Separator />
-        <div className="flex flex-col overflow-hidden">
-          <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
-            Chats
-          </h5>
-          <div className="mb-5 truncate">
-            <ScrollArea className="h-[30vh] min-h-[30vh] flex-1">
+        <ScrollArea className="h-[80vh]">
+          <div className="flex flex-col overflow-hidden">
+            <h5 className="mb-3.5 ml-3 text-xl font-semibold tracking-tight">
+              Chats
+            </h5>
+            <div className="mb-5 truncate">
               <AnimatePresence>
                 {chats.length > 0 ? (
                   chats.map((chat) => (
@@ -127,17 +127,15 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                   </p>
                 )}
               </AnimatePresence>
-            </ScrollArea>
-          </div>
-          <div className='flex items-center gap-2'>
-            <h5 className="flex items-center text-xl font-semibold">
-              Contacts
-            </h5>
-            <div className="grow"></div>
-            <AddContactDialog />
-          </div>
-          <div className='truncate'>
-            <ScrollArea className="h-[30vh] min-h-[30vh] flex-1">
+            </div>
+            <div className='flex items-center gap-2'>
+              <h5 className="flex items-center text-xl font-semibold">
+                Contacts
+              </h5>
+              <div className="grow"></div>
+              <AddContactDialog />
+            </div>
+            <div className='truncate'>
               <AnimatePresence>
                 {contacts.length > 0 ? (
                   contacts.map((contact) => (
@@ -175,9 +173,9 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                   </p>
                 )}
               </AnimatePresence>
-            </ScrollArea>
+            </div>
           </div>
-        </div>
+        </ScrollArea>
       </>
     )
   }
