@@ -60,12 +60,12 @@ export function SideNav(props: SideNavProps) {
       href: `/${companyId}/chats`,
       icon: "chat",
     },
-    // {
-    //   title: "Campaigns",
-    //   href: `/${companyId}/campaigns`,
-    //   icon: "campaign",
-    //   disabled: true
-    // },
+    {
+      title: "Campaigns",
+      href: `/${companyId}/campaigns`,
+      icon: "campaign",
+      disabled: true
+    },
     {
       title: "Customers",
       href: `/${companyId}/customers`,
