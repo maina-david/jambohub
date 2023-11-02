@@ -145,7 +145,7 @@ export function SideNav(props: SideNavProps) {
   }
   const renderSideNav = () => {
     return (
-      <ScrollArea className="h-72 w-full">
+      <ScrollArea className="h-[80vh] w-full">
         <AnimatePresence>
           <motion.nav
             initial="closed"
