@@ -94,7 +94,7 @@ export default function ChatArea() {
   }, [addMessages, assignedChats.data, chats, companyContacts.data, queryClient, removeSelectedChat, selectedChat, setChats, setContacts])
 
   return (
-    <div className='flex h-screen'>
+    <div className='h-screen'>
       {/* Sidebar Left */}
       <SideBarLeft
         isMdAndAbove={isMdAndAbove}
