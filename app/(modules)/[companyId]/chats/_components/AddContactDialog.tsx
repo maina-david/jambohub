@@ -126,120 +126,118 @@ export default function AddContactDialog() {
             Fill in the contact details to add a new contact.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Contact Name</FormLabel>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contact Name</FormLabel>
+                  <FormControl>
+                    <Input disabled={isLoading} placeholder="Enter contact name" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This is the name of the contact.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="alias"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contact Alias</FormLabel>
+                  <FormControl>
+                    <Input disabled={isLoading} placeholder="Enter contact alias" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    (Optional) An alias for the contact.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="channel"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Channel</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    disabled={isLoading}
+                  >
                     <FormControl>
-                      <Input disabled={isLoading} placeholder="Enter contact name" {...field} />
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a channel" />
+                      </SelectTrigger>
                     </FormControl>
-                    <FormDescription>
-                      This is the name of the contact.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="alias"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Contact Alias</FormLabel>
-                    <FormControl>
-                      <Input disabled={isLoading} placeholder="Enter contact alias" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      (Optional) An alias for the contact.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="channel"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Channel</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      disabled={isLoading}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a channel" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="WHATSAPP">
-                          <span className="flex">
-                            <FaWhatsapp className="mr-2 h-4 w-4" />
-                            WhatsApp
-                          </span>
-                        </SelectItem>
-                        <SelectItem disabled value="TWITTER">
-                          <span className="flex">
-                            <FaXTwitter className='mr-2 h-4 w-4' />
-                            Twitter
-                          </span>
-                        </SelectItem>
-                        <SelectItem disabled value="FACEBOOK_MESSENGER">
-                          <span className="flex">
-                            <FaFacebookMessenger className="mr-2 h-4 w-4" />
-                            Messenger
-                          </span>
-                        </SelectItem>
-                        <SelectItem disabled value="SMS">
-                          <span className="flex">
-                            <FaCommentSms className='mr-2 h-4 w-4' />
-                            SMS
-                          </span>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>
-                      Select the communication channel.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="identifier"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Identifier</FormLabel>
-                    <FormControl>
-                      <Input disabled={isLoading} placeholder="Enter contact identifier" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      This is the contact&apos;s identifier.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <DialogFooter>
-                <Button
-                  disabled={isLoading}
-                  type="submit"
-                >
-                  {isLoading && (
-                    <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
-                  )}{' '}
-                  {isLoading ? 'Saving contact...' : 'Save contact'}
-                </Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </div>
+                    <SelectContent>
+                      <SelectItem value="WHATSAPP">
+                        <span className="flex">
+                          <FaWhatsapp className="mr-2 h-4 w-4" />
+                          WhatsApp
+                        </span>
+                      </SelectItem>
+                      <SelectItem disabled value="TWITTER">
+                        <span className="flex">
+                          <FaXTwitter className='mr-2 h-4 w-4' />
+                          Twitter
+                        </span>
+                      </SelectItem>
+                      <SelectItem disabled value="FACEBOOK_MESSENGER">
+                        <span className="flex">
+                          <FaFacebookMessenger className="mr-2 h-4 w-4" />
+                          Messenger
+                        </span>
+                      </SelectItem>
+                      <SelectItem disabled value="SMS">
+                        <span className="flex">
+                          <FaCommentSms className='mr-2 h-4 w-4' />
+                          SMS
+                        </span>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Select the communication channel.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="identifier"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Identifier</FormLabel>
+                  <FormControl>
+                    <Input disabled={isLoading} placeholder="Enter contact identifier" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This is the contact&apos;s identifier.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <DialogFooter>
+              <Button
+                disabled={isLoading}
+                type="submit"
+              >
+                {isLoading && (
+                  <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
+                )}{' '}
+                {isLoading ? 'Saving contact...' : 'Save contact'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   )
