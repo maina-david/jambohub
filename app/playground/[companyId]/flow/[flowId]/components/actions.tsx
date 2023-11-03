@@ -25,7 +25,8 @@ import { HistoryIcon, Trash2Icon } from "lucide-react"
 import { Icons } from "@/components/icons"
 
 import { useQueryClient } from "@tanstack/react-query"
-import { useParams, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
+import { useRouter } from 'next-nprogress-bar'
 import { Flow } from "@prisma/client"
 
 interface FlowProps {
@@ -90,7 +91,7 @@ export function Actions({ flow }: FlowProps) {
                     title: "Success",
                     description: "Flow deleted successfully",
                   })
-                  router.push(`/${params?.companyId}/flows`)
+                  router.replace(`/${params?.companyId}/flows`)
                 }
               }}
               className="bg-red-600 focus:ring-red-600 dark:text-white"

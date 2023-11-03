@@ -66,6 +66,12 @@ const SideBarLeft = (props: SideBarLeftProps) => {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
 
+  const handleSelectedChatOrContact = (contactId: string) => {
+    setSelectedChat(contactId)
+    if (!isMdAndAbove) {
+      handleLeftSidebarToggle()
+    }
+  }
 
   const renderChatsAndContacts = () => {
     return (
@@ -90,7 +96,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                       "flex cursor-pointer flex-row items-start rounded-2xl px-3 py-2 hover:bg-accent",
                       chat.contactId === selectedChat?.contactId && "bg-accent"
                     )}
-                    onClick={() => setSelectedChat(chat.contactId)}
+                    onClick={() => handleSelectedChatOrContact(chat.contactId)}
                   >
                     <UserAvatar
                       user={{ name: chat.Contact.name || null, image: null }}
@@ -150,7 +156,7 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                     initial={{ opacity: 0, y: "100%" }}
                     animate={{ opacity: 1, y: 0 }}
                     className="w-full cursor-pointer px-3 py-2 hover:bg-accent"
-                    onClick={() => setSelectedChat(contact.id)}
+                    onClick={() => handleSelectedChatOrContact(contact.id)}
                   >
                     <div className='flex flex-row items-start'>
                       <UserAvatar

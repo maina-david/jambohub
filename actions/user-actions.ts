@@ -1,4 +1,4 @@
-import { Company, Subscription } from '@prisma/client'
+import { Company, Notification, Subscription } from '@prisma/client'
 import axios from 'axios'
 
 export const getCurrentUserSubscription = (): Promise<Subscription> =>
@@ -7,5 +7,5 @@ export const getCurrentUserSubscription = (): Promise<Subscription> =>
 export const fetchCompanyDetails = (companyId: string): Promise<Company> =>
   axios.get(`/api/companies/${companyId}`).then((response) => response.data)
 
-export const fetchUserNotifications = (): Promise<[]> =>
+export const fetchUserNotifications = (): Promise<Notification[]> =>
   axios.get("/api/users/notifications").then((response) => response.data)

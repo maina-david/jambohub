@@ -364,7 +364,7 @@ model UssdSessionLog {
   Flow                      Flow                   @relation(fields: [flowId], references: [id], onDelete: Cascade)
   currentConversationFlowId String
   status                    conversationFlowStatus @default(OPEN)
-  sessionId                 String                 
+  sessionId                 String
   textResponse              String?
   createdAt                 DateTime               @default(now())
   updatedAt                 DateTime               @default(now())
@@ -376,7 +376,7 @@ model Notification {
   User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   type      String
   level     String
-  data      Json
+  data      String
   read      Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())

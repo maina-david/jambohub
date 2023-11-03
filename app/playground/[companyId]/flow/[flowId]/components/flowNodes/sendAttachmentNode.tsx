@@ -3,16 +3,22 @@
 import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
 import useStore from '@/store/flowStore'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 
-function SendAttachmentNode({ id, data }) {
+function SendAttachmentNode({ id, data }: NodeProps) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
 
   return (
     <div className="flex w-64 rounded border border-stone-400 p-2 shadow-md"
       style={{ backgroundColor: data.color, borderRadius: 10 }}
-      >
+    >
       <div className='grid w-full gap-2'>
         <Input placeholder='Enter reply option' value={data.replyOption} onChange={(evt) => updateReplyOption(id, evt.target.value, 'replyOption')} />
         <Select

@@ -15,8 +15,7 @@ import { fetchTeams } from '@/actions/team-actions'
 import { Team } from '@prisma/client'
 import { useParams } from 'next/navigation'
 
-
-function AssignToTeamNode({ id, data }) {
+function AssignToTeamNode({ id, data }: NodeProps) {
   const updateReplyOption = useStore((state) => state.updateReplyOption)
   const [teams, setTeams] = useState<Team[]>([])
   const params = useParams()

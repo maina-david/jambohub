@@ -35,7 +35,7 @@ const formSchema = z.object({
   name: z.string().min(1)
 })
 
-export const FlowCreateButton = () => {
+export const FlowCreateDialog = () => {
   const queryClient = useQueryClient()
   const params = useParams()
   const [loading, setLoading] = useState(false)

@@ -101,9 +101,6 @@ export default function ChatArea() {
         if (chatIndex !== -1) {
           chats[chatIndex] = updatedChat
         }
-      } else {
-        // If the chat is not found in the chats array, you can handle it as needed
-        console.log(`Chat with ID ${data.chat.id} not found in chats array.`)
       }
 
       toast({

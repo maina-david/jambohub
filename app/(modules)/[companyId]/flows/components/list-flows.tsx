@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { FlowItem } from './flow-item'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
-import { FlowCreateButton } from './flow-create-button'
+import { FlowCreateButton } from './flow-create-dialog'
 import { fetchCompanyFlows } from '@/actions/flow-actions'
 
 export default function ListFlows() {
@@ -27,7 +27,7 @@ export default function ListFlows() {
   }
 
   if (isError) {
-    if(error instanceof Error){
+    if (error instanceof Error) {
       return (
         <EmptyPlaceholder>
           <EmptyPlaceholder.Icon name="warning" />
@@ -37,7 +37,7 @@ export default function ListFlows() {
           </EmptyPlaceholder.Description>
         </EmptyPlaceholder>
       )
-    }else{
+    } else {
       return (
         <EmptyPlaceholder>
           <EmptyPlaceholder.Icon name="warning" />
