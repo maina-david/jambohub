@@ -91,6 +91,9 @@ export default function ChatArea() {
         // Update the chat's chatMessages array with the new message
         updatedChat.chatMessages = [...(updatedChat.chatMessages || []), data.chatMessage]
 
+        // Update the chat's unread messages count with the additional message
+        updatedChat.unreadMessageCount = updatedChat.unreadMessageCount + 1
+
         // Find the index of the chat in the chats array
         const chatIndex = chats.findIndex((chat) => chat.id === data.chat.id)
 
