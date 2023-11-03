@@ -214,7 +214,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
           </div>
           <Separator />
           <AnimatePresence>
-            <ScrollArea className="h-[70vh] flex-1">
+            <ScrollArea className="h-[80vh] flex-1">
               {selectedChat.chatMessages?.map((chatMessage, index) => (
                 <motion.div
                   key={chatMessage.id}
