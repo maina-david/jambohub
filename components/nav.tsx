@@ -223,7 +223,7 @@ export function SideNav(props: SideNavProps) {
                 })
               )}
               <div className="grow"></div>
-              <Card className="mr-4 mt-2 rounded-lg shadow-2xl">
+              <Card className="mr-4 mt-2 rounded-lg text-center shadow-2xl">
                 <CardHeader>
                   <CardTitle>Wallet Balance</CardTitle>
                   <CardDescription>
@@ -233,7 +233,11 @@ export function SideNav(props: SideNavProps) {
                 <CardContent>
                   <div className="flex gap-2">
                     <FaWallet className='h-8 w-8' />
-                    <Button variant={'outline'}>
+                    <Button
+                      className="whitespace-nowrap"
+                      variant={'outline'}
+                      size={'sm'}
+                    >
                       Add Funds
                     </Button>
                   </div>
@@ -260,7 +264,7 @@ export function SideNav(props: SideNavProps) {
                     </CardContent>
                   </Card>
                 ) : subscription.data.plan === 'PRO' && (
-                    <Card className="mr-4 mt-2 rounded-lg shadow-2xl">
+                  <Card className="mr-4 mt-2 rounded-lg shadow-2xl">
                     <CardHeader>
                       <CardTitle>{subscription.data.plan}</CardTitle>
                       <CardDescription>
