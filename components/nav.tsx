@@ -143,6 +143,7 @@ export function SideNav(props: SideNavProps) {
       }
     }
   }
+  
   const renderSideNav = () => {
     return (
       <ScrollArea className="h-[85vh] w-full">
