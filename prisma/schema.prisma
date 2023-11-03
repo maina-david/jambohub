@@ -376,7 +376,8 @@ model Notification {
   User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   type      String
   level     String
-  data      String
+  title     String
+  content   String
   read      Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())

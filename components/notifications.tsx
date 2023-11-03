@@ -38,17 +38,24 @@ export default function Notifications() {
                   animate={{ opacity: 1, y: 0 }}
                   className="flex cursor-pointer flex-row items-start py-2 hover:bg-accent"
                 >
-                  {userNotification.type === 'message' ? (
-                    <MessageSquarePlusIcon className="mr-2 h-4 w-4" />
-                  ) : userNotification.type === 'app' ? (
-                    <BiSolidNotification className="mr-2 h-4 w-4" />
-                  ) : (
-                    <BiSolidNotification className="mr-2 h-4 w-4" />
-                  )
-                  }
-                  <p className="truncate whitespace-nowrap">
-                    {userNotification.data}
-                  </p>
+                  <div>
+                    {userNotification.type === 'message' ? (
+                      <MessageSquarePlusIcon className="mr-2 h-4 w-4" />
+                    ) : userNotification.type === 'app' ? (
+                      <BiSolidNotification className="mr-2 h-4 w-4" />
+                    ) : (
+                      <BiSolidNotification className="mr-2 h-4 w-4" />
+                    )
+                    }
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="truncate whitespace-nowrap text-base font-medium">
+                      {userNotification.title}
+                    </p>
+                    <p className="truncate whitespace-nowrap">
+                      {userNotification.content}
+                    </p>
+                  </div>
                 </motion.div>
               )
             })
