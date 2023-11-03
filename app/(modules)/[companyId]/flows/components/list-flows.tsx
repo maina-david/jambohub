@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { FlowItem } from './flow-item'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
-import { FlowCreateButton } from './flow-create-dialog'
+import { FlowCreateDialog } from './flow-create-dialog'
 import { fetchCompanyFlows } from '@/actions/flow-actions'
 
 export default function ListFlows() {
@@ -65,7 +65,7 @@ export default function ListFlows() {
           <EmptyPlaceholder.Description>
             You don&apos;t have any automation flows yet. Start creating flows.
           </EmptyPlaceholder.Description>
-          <FlowCreateButton />
+          <FlowCreateDialog />
         </EmptyPlaceholder>
       )}
     </div>
