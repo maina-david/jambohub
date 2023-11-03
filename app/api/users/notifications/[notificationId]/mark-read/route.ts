@@ -25,7 +25,7 @@ export async function PATCH(
     }
 
     const { user } = session
-    
+
     await db.notification.update({
       where: {
         userId: user.id,
@@ -36,7 +36,7 @@ export async function PATCH(
       }
     })
 
-    return new Response(null, { status: 201 })
+    return new Response(null, { status: 200 })
   } catch (error) {
     return new Response(null, { status: 500 })
   }
