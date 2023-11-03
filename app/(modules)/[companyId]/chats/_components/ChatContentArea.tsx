@@ -299,7 +299,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                   </div>
                 </motion.div>
               ))}
-              <div ref={bottomScrollAreaRef} className='fixed bottom-0 left-0 w-full'></div>
+              <div ref={bottomScrollAreaRef}></div>
             </ScrollArea>
           </AnimatePresence>
           <div className="flex border p-3">
