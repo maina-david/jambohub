@@ -234,7 +234,7 @@ export function SideNav(props: SideNavProps) {
                   <div className="flex gap-2">
                     <FaWallet className='h-8 w-8' />
                     <Button
-                      className="whitespace-nowrap"
+                      className="whitespace-nowrap text-sm"
                       variant={'outline'}
                       size={'sm'}
                     >
