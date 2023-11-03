@@ -10,7 +10,7 @@ export type SendMsgParamsType = {
 }
 
 export interface ChatProps extends Chat {
-  channel: Channel
+  channel?: Channel
   Contact: Contact
   chatMessages?: ChatMessage[] | null
   unreadMessageCount: number

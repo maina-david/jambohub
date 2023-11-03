@@ -73,14 +73,36 @@ export default function ChatArea() {
     })
 
     // Subscribe to the "chat" channel to receive new chat messages
-    const chatChannel = pusher.subscribe("chat");
+    const chatChannel = pusher.subscribe("chat")
 
     // Listen for the "new-chat-message" event
     chatChannel.bind("new-chat-message", function (data: { chat: ChatProps, chatMessage: ChatMessage }) {
       if (selectedChat && selectedChat.id === data.chat.id) {
+        // If the selected chat matches the chat with the new message, add the message to it
         addMessages(data.chat.id, [data.chatMessage])
       }
-      queryClient.invalidateQueries(['assignedChats'])
+
+      // Update the chat in the chats array
+      const chat = chats.find((chat) => chat.id === data.chat.id)
+      if (chat) {
+        // Clone the chat to avoid directly modifying the original array
+        const updatedChat = { ...chat }
+
+        // Update the chat's chatMessages array with the new message
+        updatedChat.chatMessages = [...(updatedChat.chatMessages || []), data.chatMessage]
+
+        // Find the index of the chat in the chats array
+        const chatIndex = chats.findIndex((chat) => chat.id === data.chat.id)
+
+        // Replace the chat at that index with the updated chat
+        if (chatIndex !== -1) {
+          chats[chatIndex] = updatedChat
+        }
+      } else {
+        // If the chat is not found in the chats array, you can handle it as needed
+        console.log(`Chat with ID ${data.chat.id} not found in chats array.`)
+      }
+
       toast({
         title: 'New Message',
         description: `You have a new message from ${data.chat.Contact.alias}`,

@@ -102,10 +102,10 @@ const SideBarLeft = (props: SideBarLeftProps) => {
                           {chat.Contact.name || chat.Contact.identifier}
                         </p>
                         <span className="ml-2">
-                          {chat.channel.type === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
-                          {chat.channel.type === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
-                          {chat.channel.type === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
-                          {chat.channel.type === 'SMS' && <FaCommentSms className='h-4 w-4' />}
+                          {chat.channel?.type === 'WHATSAPP' && <FaWhatsapp className='h-4 w-4' />}
+                          {chat.channel?.type === 'TWITTER' && <FaXTwitter className='h-4 w-4' />}
+                          {chat.channel?.type === 'FACEBOOK_MESSENGER' && <FaFacebookMessenger className='h-4 w-4' />}
+                          {chat.channel?.type === 'SMS' && <FaCommentSms className='h-4 w-4' />}
                         </span>
                       </div>
                       <p className="truncate">
