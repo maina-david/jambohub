@@ -237,12 +237,12 @@ export default function LinkChannelDropdown() {
                         <FormControl>
                           <Input
                             disabled={isWhatsAppLoading}
-                            placeholder="Enter channel name"
+                            placeholder="Enter Name"
                             {...field}
                           />
                         </FormControl>
                         <FormDescription>
-
+                          Enter the name for the WhatsApp channel
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
