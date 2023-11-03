@@ -115,7 +115,7 @@ export default function AddContactDialog() {
   return (
     <Dialog open={isOpen || isLoading} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setIsOpen(true)} variant={'ghost'} size={'icon'}>
+        <Button variant={'ghost'} size={'icon'} onClick={() => setIsOpen(true)}>
           <UserPlus2Icon className="h-4 w-4" />
         </Button>
       </DialogTrigger>
