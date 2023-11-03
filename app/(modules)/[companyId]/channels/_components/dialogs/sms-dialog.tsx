@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ReactComponentElement, useState } from 'react'
+import React, { useState } from 'react'
 import * as z from "zod"
 import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -46,12 +46,10 @@ export default function SmsChannelLinkDialog({ children }: SMSChannelProps) {
   const form = useForm<z.infer<typeof smsChannelSchema>>({
     resolver: zodResolver(smsChannelSchema),
     defaultValues: {
-      provider: 'AT',
       name: '',
       shortCode: '',
       username: '',
       apiKey: '',
-      apiSecret: ''
     },
   })
 
@@ -73,10 +71,6 @@ export default function SmsChannelLinkDialog({ children }: SMSChannelProps) {
           // Handle validation errors
           const validationErrors = error.response.data
           // Update form field errors
-          form.setError('provider', {
-            type: 'manual',
-            message: validationErrors.provider || '',
-          })
           form.setError('name', {
             type: 'manual',
             message: validationErrors.name || '',
@@ -92,10 +86,6 @@ export default function SmsChannelLinkDialog({ children }: SMSChannelProps) {
           form.setError('apiKey', {
             type: 'manual',
             message: validationErrors.apiKey || '',
-          })
-          form.setError('apiSecret', {
-            type: 'manual',
-            message: validationErrors.apiSecret || '',
           })
         } else if (error.response.status === 402) {
           // Handle RequiresProPlanError
@@ -165,33 +155,6 @@ export default function SmsChannelLinkDialog({ children }: SMSChannelProps) {
               />
               <FormField
                 control={form.control}
-                name="provider"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Channel</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      disabled={isLoading}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a channel" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="AT">Africa&apos;s Talking</SelectItem>
-                        <SelectItem value="BONGA">Bonga SMS</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>
-                      Choose the sms provider you want to integrate with.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="shortCode"
                 render={({ field }) => (
                   <FormItem>
@@ -245,26 +208,6 @@ export default function SmsChannelLinkDialog({ children }: SMSChannelProps) {
                     </FormControl>
                     <FormDescription>
                       Enter the API Key associated with this account.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="apiSecret"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>API Secret</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isLoading}
-                        placeholder="Enter account API secret"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Enter the API secret associated with this account.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

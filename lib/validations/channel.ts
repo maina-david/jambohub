@@ -18,3 +18,10 @@ export const ussdChannelSchema = z.object({
   username: z.string().min(1),
   apiKey: z.string().min(1)
 })
+
+export const whatsAppChannelSchema = z.object({
+  name: z.string().min(1),
+  phoneNumber: z.string().min(1),
+  phoneNumberId: z.string().min(1),
+  accessToken: z.string().min(1)
+})

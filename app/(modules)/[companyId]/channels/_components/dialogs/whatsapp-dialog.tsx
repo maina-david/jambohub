@@ -27,33 +27,32 @@ import {
 } from "@/components/ui/form"
 import { Input } from '@/components/ui/input'
 import { useQueryClient } from '@tanstack/react-query'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Icons } from '@/components/icons'
 import { useParams } from 'next/navigation'
-import { ussdChannelSchema } from '@/lib/validations/channel'
+import { whatsAppChannelSchema } from '@/lib/validations/channel'
 
-interface USSDChannelProps{
+interface WhatsAppChannelProps {
   children: React.ReactNode
 }
-export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
+export default function WhatsAppChannelLinkDialog({ children }: WhatsAppChannelProps) {
   const queryClient = useQueryClient()
   const params = useParams()
-  const [isUSSDDialogOpen, setIsUSSDDialogOpen] = useState<boolean>(false)
-  const [isUSSDLoading, setIsUSSDLoading] = useState<boolean>(false)
-  const USSDForm = useForm<z.infer<typeof ussdChannelSchema>>({
-    resolver: zodResolver(ussdChannelSchema),
+  const [isWhatsAppDialogOpen, setIsWhatsAppDialogOpen] = useState<boolean>(false)
+  const [isWhatsAppLoading, setIsWhatsAppLoading] = useState<boolean>(false)
+  const WhatsAppForm = useForm<z.infer<typeof whatsAppChannelSchema>>({
+    resolver: zodResolver(whatsAppChannelSchema),
     defaultValues: {
       name: '',
-      serviceCode: '',
-      username: '',
-      apiKey: '',
+      phoneNumber: '',
+      phoneNumberId: '',
+      accessToken: '',
     },
   })
 
-  const onUSSDFormSubmit = async (values: z.infer<typeof ussdChannelSchema>) => {
+  const onWhatsAppFormSubmit = async (values: z.infer<typeof whatsAppChannelSchema>) => {
     try {
-      setIsUSSDLoading(true)
-      await axios.post(`/api/companies/${params?.companyId}/channels/ussd`, {
+      setIsWhatsAppLoading(true)
+      await axios.post(`/api/companies/${params?.companyId}/channels/whatsapp`, {
         ...values
       })
       queryClient.invalidateQueries(['companyChannels'])
@@ -68,21 +67,21 @@ export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
           // Handle validation errors
           const validationErrors = error.response.data
           // Update form field errors
-          USSDForm.setError('name', {
+          WhatsAppForm.setError('name', {
             type: 'manual',
             message: validationErrors.name || '',
           })
-          USSDForm.setError('serviceCode', {
+          WhatsAppForm.setError('phoneNumber', {
             type: 'manual',
-            message: validationErrors.serviceCode || '',
+            message: validationErrors.phoneNumber || '',
           })
-          USSDForm.setError('username', {
+          WhatsAppForm.setError('phoneNumberId', {
             type: 'manual',
-            message: validationErrors.username || '',
+            message: validationErrors.phoneNumberId || '',
           })
-          USSDForm.setError('apiKey', {
+          WhatsAppForm.setError('accessToken', {
             type: 'manual',
-            message: validationErrors.apiKey || '',
+            message: validationErrors.accessToken || '',
           })
         } else if (error.response.status === 402) {
           // Handle RequiresProPlanError
@@ -109,108 +108,102 @@ export default function USSDChannelLinkDialog({children}: USSDChannelProps) {
         })
       }
     } finally {
-      setIsUSSDLoading(false)
+      setIsWhatsAppLoading(false)
     }
   }
   return (
-    <Dialog open={isUSSDDialogOpen} onOpenChange={setIsUSSDDialogOpen}>
+    <Dialog open={isWhatsAppDialogOpen} onOpenChange={setIsWhatsAppDialogOpen}>
       <DialogTrigger asChild>
-
+        {children}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>New USSD channel</DialogTitle>
-          <DialogDescription>Add a new ussd channel for integration</DialogDescription>
+          <DialogTitle>New WhatsApp Channel</DialogTitle>
+          <DialogDescription>Add a new WhatsApp channel for integration</DialogDescription>
         </DialogHeader>
         <div className='grid'>
-          <Form {...USSDForm}>
-            <form onSubmit={USSDForm.handleSubmit(onUSSDFormSubmit)}>
+          <Form {...WhatsAppForm}>
+            <form onSubmit={WhatsAppForm.handleSubmit(onWhatsAppFormSubmit)}>
               <FormField
-                control={USSDForm.control}
+                control={WhatsAppForm.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isUSSDLoading}
-                        placeholder="Enter account name"
+                        disabled={isWhatsAppLoading}
+                        placeholder="Enter channel name"
                         {...field}
                       />
                     </FormControl>
                     <FormDescription>
-                      Enter a display name to associate with this account.
+
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <FormField
-                control={USSDForm.control}
-                name="serviceCode"
+                control={WhatsAppForm.control}
+                name="phoneNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Service Code</FormLabel>
+                    <FormLabel>Phone Number</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isUSSDLoading}
-                        placeholder="Enter account service code"
+                        disabled={isWhatsAppLoading}
+                        placeholder="Enter Phone Number"
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      Enter the service code associated with this account.
-                    </FormDescription>
+                    <FormDescription>Enter the Phone Number associated with your WhatsApp account.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <FormField
-                control={USSDForm.control}
-                name="username"
+                control={WhatsAppForm.control}
+                name="phoneNumberId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Phone Number ID</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isUSSDLoading}
-                        placeholder="Enter account username"
+                        disabled={isWhatsAppLoading}
+                        placeholder="Enter Phone Number ID"
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      Enter the username associated with this account.
-                    </FormDescription>
+                    <FormDescription>Enter the Phone Number ID associated with your WhatsApp account.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <FormField
-                control={USSDForm.control}
-                name="apiKey"
+                control={WhatsAppForm.control}
+                name="accessToken"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>API Key</FormLabel>
+                    <FormLabel>Access Token</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isUSSDLoading}
-                        placeholder="Enter API Key"
+                        disabled={isWhatsAppLoading}
+                        placeholder="Enter Access Token"
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      Enter the API Key associated with this account.
-                    </FormDescription>
+                    <FormDescription>Enter the Access Token associated with your WhatsApp account.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <DialogFooter>
                 <Button
-                  disabled={isUSSDLoading}
+                  disabled={isWhatsAppLoading}
                   type='submit'
                 >
-                  {isUSSDLoading && (
+                  {isWhatsAppLoading && (
                     <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
                   )}
                   Continue
