@@ -86,11 +86,20 @@ export async function POST(request: NextRequest) {
                 internalStatus: 'unread'
               },
             })
+            await db.notification.create({
+              data: {
+                userId: 'clo7o8iq20000l308989rbunn',
+                type: 'chat',
+                level: 'notify',
+                title: 'New Message',
+                content: `You have a new message from ${existingChat.Contact.name || existingChat.Contact.identifier}`
+              }
+            })
             await db.chat.update({
               where: {
                 id: existingChat.id
               },
-              data:{
+              data: {
                 timestamp: new Date()
               }
             })
@@ -123,6 +132,17 @@ export async function POST(request: NextRequest) {
                 internalStatus: 'unread'
               },
             })
+
+            await db.notification.create({
+              data: {
+                userId: 'clo7o8iq20000l308989rbunn',
+                type: 'chat',
+                level: 'notify',
+                title: 'New Message',
+                content: `You have a new message from ${newChat.Contact.name || newChat.Contact.identifier}`
+              }
+            })
+
             chat = newChat
             chatMessage = newChatMessage
           }

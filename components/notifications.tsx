@@ -69,7 +69,7 @@ export default function Notifications() {
                     className="flex cursor-pointer flex-row items-start py-2 hover:bg-accent"
                   >
                     <div>
-                      {userNotification.type === 'message' ? (
+                      {userNotification.type === 'chat' ? (
                         <MessageSquarePlusIcon className="mr-2 h-4 w-4" />
                       ) : userNotification.type === 'app' ? (
                         <BiSolidNotification className="mr-2 h-4 w-4" />
