@@ -67,6 +67,15 @@ export function SideNav(props: SideNavProps) {
       disabled: true
     },
     {
+      title: "Transactions",
+      href: "#",
+      icon: "billing",
+      disabled: true
+    },
+  ]
+
+  const setupRoutes: SidebarNavItem[] = [
+    {
       title: "Customers",
       href: `/${companyId}/customers`,
       icon: "users",
@@ -143,7 +152,7 @@ export function SideNav(props: SideNavProps) {
       }
     }
   }
-  
+
   const renderSideNav = () => {
     return (
       <ScrollArea className="h-[85vh] w-full">
@@ -158,6 +167,37 @@ export function SideNav(props: SideNavProps) {
             <motion.ul
               variants={ulVariants}>
               {routes.map((item, index) => {
+                const Icon = Icons[item.icon || "arrowRight"]
+                return (
+                  item.href && (
+                    <motion.li
+                      variants={liVariants}
+                    >
+                      <Link
+                        key={index}
+                        href={item.disabled ? "/" : item.href}
+                        onClick={handleMobileSidebar}
+                      >
+                        <div
+                          className={cn(
+                            "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-sky-500",
+                            path?.startsWith(item.href) ? "bg-accent text-sky-500" : "transparent",
+                            item.disabled && "cursor-not-allowed opacity-80"
+                          )}
+                        >
+                          <Icon className="mr-2 h-4 w-4" />
+                          <span>{item.title}</span>
+                        </div>
+                      </Link>
+                    </motion.li>
+                  )
+                )
+              })}
+            </motion.ul>
+            <Separator className="my-2" />
+            <motion.ul
+              variants={ulVariants}>
+              {setupRoutes.map((item, index) => {
                 const Icon = Icons[item.icon || "arrowRight"]
                 return (
                   item.href && (

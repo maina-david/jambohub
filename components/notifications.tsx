@@ -19,14 +19,14 @@ import { DotFilledIcon } from '@radix-ui/react-icons'
 
 export default function Notifications() {
   const queryClient = useQueryClient()
-  const { isLoading, isSuccess, isError, data } = useQuery({
+  const { isLoading, isError, data } = useQuery({
     queryKey: ['userNotifications'],
     queryFn: () => fetchUserNotifications()
   })
 
   const markNotificationAsRead = async (notificationId: string) => {
     try {
-      await axios.put(`/api/users/notifications/${notificationId}/mark-read`)
+      await axios.patch(`/api/users/notifications/${notificationId}/mark-read`)
       queryClient.invalidateQueries({ queryKey: ['userNotifications'] })
     } catch (error) {
       console.log("Error marking notification as read: ", error)
@@ -57,7 +57,7 @@ export default function Notifications() {
             </div>
           </div>
         )}
-        {isSuccess && (
+        {data && (
           data.length > 0 ? (
             data.map((userNotification: Notification) => {
               return (
