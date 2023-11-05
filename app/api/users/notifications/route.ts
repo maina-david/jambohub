@@ -12,7 +12,7 @@ export async function GET() {
     }
 
     const { user } = session
-    const notifications = await db.notification.findFirst({
+    const notifications = await db.notification.findMany({
       where: {
         userId: user.id,
       },
