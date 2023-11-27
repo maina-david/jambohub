@@ -50,6 +50,7 @@ interface ChatContentAreaProps {
   hidden: boolean
   isMdAndAbove: boolean
   handleLeftSidebarToggle: () => void
+  setSelectedChat: (contactId: string) => void
   selectedChat: ChatProps | null
   addMessages: (chatId: string, messages: ChatMessage[]) => void
 }
@@ -58,6 +59,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
   hidden,
   isMdAndAbove,
   handleLeftSidebarToggle,
+  setSelectedChat,
   selectedChat,
   addMessages,
 }) => {
@@ -156,7 +158,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
         })
 
         if (response.status === 200) {
-          addMessages(selectedChat.id, [response.data])
+          setSelectedChat(selectedChat.id)
           setMessage('')
           scrollToLastMessage()
           queryClient.invalidateQueries({ queryKey: ['assignedChats'] })

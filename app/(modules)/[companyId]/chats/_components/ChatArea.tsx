@@ -134,6 +134,7 @@ export default function ChatArea() {
         hidden={hidden}
         isMdAndAbove={isMdAndAbove}
         handleLeftSidebarToggle={handleLeftSidebarToggle}
+        setSelectedChat={setSelectedChat}
         selectedChat={selectedChat}
         addMessages={addMessages} />
       {/* ChatContent */}
