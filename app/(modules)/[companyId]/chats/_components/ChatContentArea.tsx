@@ -248,7 +248,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                                   <a
                                     {...attributes}
                                     className={cn(
-                                      'text-blue-500 underline dark:text-blue-300'
+                                      'text-blue-500 underline hover:underline-offset-4 dark:text-blue-300'
                                     )}
                                   >
                                     {content}
