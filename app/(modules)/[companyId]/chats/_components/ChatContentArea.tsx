@@ -184,10 +184,6 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
     }
   }
 
-  const options = {
-    target: "_blank",
-  }
-
   return (
     <div className={cn('flex h-[85vh] flex-col', isMdAndAbove ? 'w-2/3' : 'w-full')}>
       {selectedChat ? (
@@ -237,7 +233,16 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                           'rounded-lg p-2'
                         )}
                       >
-                        <Linkify as="p" options={options}>
+                        <Linkify
+                          as="p"
+                          options={{
+                            target: "_blank",
+                            render: {
+                              url: ({ attributes, content }) => {
+                                return <a {...attributes}>{content}</a>
+                              }
+                            }
+                          }}>
                           {chatMessage.message}
                         </Linkify>
                       </div>
