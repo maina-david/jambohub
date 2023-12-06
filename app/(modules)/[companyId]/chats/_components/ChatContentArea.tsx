@@ -184,8 +184,10 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
     }
   }
 
-  const options = {}
-  
+  const options = {
+    target: "_blank",
+  }
+
   return (
     <div className={cn('flex h-[85vh] flex-col', isMdAndAbove ? 'w-2/3' : 'w-full')}>
       {selectedChat ? (
