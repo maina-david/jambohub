@@ -224,65 +224,94 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                 >
                   <div
                     key={index}
-                    className={cn('flex', chatMessage.userId ? 'mr-2 flex-row-reverse' : 'flex-row')}
+                    className={cn(
+                      'flex',
+                      chatMessage.userId ? 'mr-2 flex-row-reverse' : 'flex-row'
+                    )}
                   >
                     <div className="mb-2 max-w-[70%] p-2">
                       <div
                         className={cn(
-                          chatMessage.userId ? 'bg-green-200 dark:bg-indigo-500' : 'bg-blue-200 dark:bg-blue-600',
+                          chatMessage.userId
+                            ? 'bg-green-200 dark:bg-indigo-500'
+                            : 'bg-blue-200 dark:bg-blue-600',
                           'rounded-lg p-2'
                         )}
                       >
                         <Linkify
                           as="p"
                           options={{
-                            target: "_blank",
+                            target: '_blank',
                             render: {
                               url: ({ attributes, content }) => {
-                                return <a {...attributes}>{content}</a>
-                              }
-                            }
-                          }}>
+                                return (
+                                  <a
+                                    {...attributes}
+                                    className={cn(
+                                      'text-blue-500 underline dark:text-blue-300'
+                                    )}
+                                  >
+                                    {content}
+                                  </a>
+                                );
+                              },
+                            },
+                          }}
+                        >
                           {chatMessage.message}
                         </Linkify>
                       </div>
-                      <div className={cn('flex space-x-1 text-sm text-gray-600 dark:text-gray-400', chatMessage.userId ? 'justify-end' : 'justify-start')}>
+                      <div
+                        className={cn(
+                          'flex space-x-1 text-sm text-gray-600 dark:text-gray-400',
+                          chatMessage.userId ? 'justify-end' : 'justify-start'
+                        )}
+                      >
                         {chatMessage.userId ? (
                           <div className="flex">
                             {chatMessage.externalStatus === 'sent' ? (
                               <>
                                 <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
                                 <p>
-                                  {new Date(chatMessage.timestamp).toLocaleString('en-US', {
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: false,
-                                  })}
+                                  {new Date(chatMessage.timestamp).toLocaleString(
+                                    'en-US',
+                                    {
+                                      hour: 'numeric',
+                                      minute: 'numeric',
+                                      hour12: false,
+                                    }
+                                  )}
                                 </p>
                               </>
                             ) : chatMessage.externalStatus === 'read' ? (
                               <>
-                                <div className='flex'>
+                                <div className="flex">
                                   <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
                                   <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
                                 </div>
                                 <p>
-                                  {new Date(chatMessage.timestamp).toLocaleString('en-US', {
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: false,
-                                  })}
+                                  {new Date(chatMessage.timestamp).toLocaleString(
+                                    'en-US',
+                                    {
+                                      hour: 'numeric',
+                                      minute: 'numeric',
+                                      hour12: false,
+                                    }
+                                  )}
                                 </p>
                               </>
                             ) : chatMessage.externalStatus === 'failed' ? (
                               <>
                                 <XCircleIcon className="h-4 w-4 text-red-500 dark:text-red-300" />
                                 <p>
-                                  {new Date(chatMessage.timestamp).toLocaleString('en-US', {
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: false,
-                                  })}
+                                  {new Date(chatMessage.timestamp).toLocaleString(
+                                    'en-US',
+                                    {
+                                      hour: 'numeric',
+                                      minute: 'numeric',
+                                      hour12: false,
+                                    }
+                                  )}
                                 </p>
                               </>
                             ) : (
@@ -311,6 +340,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                   </div>
                 </motion.div>
               ))}
+
               <div ref={bottomScrollAreaRef}></div>
             </ScrollArea>
           </AnimatePresence>
