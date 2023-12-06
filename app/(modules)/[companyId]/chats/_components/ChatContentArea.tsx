@@ -36,8 +36,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command"
 import { fetchChannels } from '@/actions/channel-actions'
 import { useParams } from 'next/navigation'
@@ -45,6 +43,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { PopoverContent } from '@radix-ui/react-popover'
 import { Popover, PopoverTrigger } from '@/components/ui/popover'
 import { useTheme } from "next-themes"
+import Linkify from "linkify-react"
 
 interface ChatContentAreaProps {
   hidden: boolean
@@ -185,6 +184,8 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
     }
   }
 
+  const options = {}
+  
   return (
     <div className={cn('flex h-[85vh] flex-col', isMdAndAbove ? 'w-2/3' : 'w-full')}>
       {selectedChat ? (
@@ -234,7 +235,9 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                           'rounded-lg p-2'
                         )}
                       >
-                        {chatMessage.message}
+                        <Linkify as="p" options={options}>
+                          {chatMessage.message}
+                        </Linkify>
                       </div>
                       <div className={cn('flex space-x-1 text-sm text-gray-600 dark:text-gray-400', chatMessage.userId ? 'justify-end' : 'justify-start')}>
                         {chatMessage.userId ? (
