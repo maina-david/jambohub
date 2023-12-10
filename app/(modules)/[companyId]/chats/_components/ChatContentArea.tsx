@@ -241,6 +241,9 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                         <Linkify
                           as="p"
                           options={{
+                            format: {
+                              url: (value) => (value.length > 50 ? value.slice(0, 50) + "…" : value),
+                            },
                             target: '_blank',
                             render: {
                               url: ({ attributes, content }) => {
