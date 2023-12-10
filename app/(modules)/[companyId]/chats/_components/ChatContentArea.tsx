@@ -232,7 +232,7 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                     animate={{ opacity: 1, y: 0 }}
                   >
                     {showDateDivider && (
-                      <div className="my-2 text-center text-gray-500">
+                      <div className="my-2 text-center text-sm text-gray-500">
                         {isToday(messageDate)
                           ? 'Today'
                           : format(messageDate, 'MMMM d, yyyy')}
