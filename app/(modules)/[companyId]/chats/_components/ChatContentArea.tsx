@@ -44,6 +44,7 @@ import { PopoverContent } from '@radix-ui/react-popover'
 import { Popover, PopoverTrigger } from '@/components/ui/popover'
 import { useTheme } from "next-themes"
 import Linkify from "linkify-react"
+import { format, isToday } from 'date-fns'
 
 interface ChatContentAreaProps {
   hidden: boolean
@@ -216,106 +217,132 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
           <Separator />
           <AnimatePresence>
             <ScrollArea className="relative h-[80vh] flex-1">
-              {selectedChat.chatMessages?.map((chatMessage, index) => (
-                <motion.div
-                  key={chatMessage.id}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <div
-                    key={index}
-                    className={cn(
-                      'flex',
-                      chatMessage.userId ? 'mr-2 flex-row-reverse' : 'flex-row'
-                    )}
+              {selectedChat.chatMessages && selectedChat.chatMessages?.map((chatMessage, index) => {
+                const messageDate = new Date(chatMessage.timestamp);
+                const currentMessageDate = messageDate.toLocaleDateString();
+                const previousMessageDate =
+                  index > 0 ? new Date(selectedChat.chatMessages[index - 1].timestamp).toLocaleDateString() : null;
+
+                const showDateDivider = currentMessageDate !== previousMessageDate;
+
+                return (
+                  <motion.div
+                    key={chatMessage.id}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
                   >
-                    <div className="mb-2 max-w-[70%] p-2">
-                      <div
-                        className={cn(
-                          chatMessage.userId
-                            ? 'bg-green-200 dark:bg-indigo-500'
-                            : 'bg-blue-200 dark:bg-blue-600',
-                          'rounded-lg p-2'
-                        )}
-                      >
-                        <Linkify
-                          as="p"
-                          options={{
-                            format: {
-                              url: (value) => (value.length > 50 ? value.slice(0, 50) + "…" : value),
-                            },
-                            target: '_blank',
-                            render: {
-                              url: ({ attributes, content }) => {
-                                return (
-                                  <a
-                                    {...attributes}
-                                    className="text-blue-500 underline hover:underline-offset-4 dark:text-blue-300"
-                                  >
-                                    {content}
-                                  </a>
-                                )
-                              },
-                            },
-                          }}
-                        >
-                          {chatMessage.message}
-                        </Linkify>
+                    {showDateDivider && (
+                      <div className="my-2 text-center text-gray-500">
+                        {isToday(messageDate)
+                          ? 'Today'
+                          : format(messageDate, 'MMMM d, yyyy')}
                       </div>
-                      <div
-                        className={cn(
-                          'flex space-x-1 text-sm text-gray-600 dark:text-gray-400',
-                          chatMessage.userId ? 'justify-end' : 'justify-start'
-                        )}
-                      >
-                        {chatMessage.userId ? (
-                          <div className="flex">
-                            {chatMessage.externalStatus === 'sent' ? (
-                              <>
-                                <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
-                                <p>
-                                  {new Date(chatMessage.timestamp).toLocaleString(
-                                    'en-US',
-                                    {
-                                      hour: 'numeric',
-                                      minute: 'numeric',
-                                      hour12: false,
-                                    }
-                                  )}
-                                </p>
-                              </>
-                            ) : chatMessage.externalStatus === 'read' ? (
-                              <>
-                                <div className="flex">
+                    )}
+                    <div
+                      key={index}
+                      className={cn(
+                        'flex',
+                        chatMessage.userId ? 'mr-2 flex-row-reverse' : 'flex-row'
+                      )}
+                    >
+                      <div className="mb-2 max-w-[70%] p-2">
+                        <div
+                          className={cn(
+                            chatMessage.userId
+                              ? 'bg-green-200 dark:bg-indigo-500'
+                              : 'bg-blue-200 dark:bg-blue-600',
+                            'rounded-lg p-2'
+                          )}
+                        >
+                          <Linkify
+                            as="p"
+                            options={{
+                              format: {
+                                url: (value) => (value.length > 50 ? value.slice(0, 50) + "…" : value),
+                              },
+                              target: '_blank',
+                              render: {
+                                url: ({ attributes, content }) => {
+                                  return (
+                                    <a
+                                      {...attributes}
+                                      className="text-blue-500 underline hover:underline-offset-4 dark:text-blue-300"
+                                    >
+                                      {content}
+                                    </a>
+                                  )
+                                },
+                              },
+                            }}
+                          >
+                            {chatMessage.message}
+                          </Linkify>
+                        </div>
+                        <div
+                          className={cn(
+                            'flex space-x-1 text-sm text-gray-600 dark:text-gray-400',
+                            chatMessage.userId ? 'justify-end' : 'justify-start'
+                          )}
+                        >
+                          {chatMessage.userId ? (
+                            <div className="flex">
+                              {chatMessage.externalStatus === 'sent' ? (
+                                <>
                                   <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
-                                  <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
-                                </div>
+                                  <p>
+                                    {new Date(chatMessage.timestamp).toLocaleString(
+                                      'en-US',
+                                      {
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        hour12: false,
+                                      }
+                                    )}
+                                  </p>
+                                </>
+                              ) : chatMessage.externalStatus === 'read' ? (
+                                <>
+                                  <div className="flex">
+                                    <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
+                                    <CheckIcon className="h-4 w-4 text-green-500 dark:text-green-300" />
+                                  </div>
+                                  <p>
+                                    {new Date(chatMessage.timestamp).toLocaleString(
+                                      'en-US',
+                                      {
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        hour12: false,
+                                      }
+                                    )}
+                                  </p>
+                                </>
+                              ) : chatMessage.externalStatus === 'failed' ? (
+                                <>
+                                  <XCircleIcon className="h-4 w-4 text-red-500 dark:text-red-300" />
+                                  <p>
+                                    {new Date(chatMessage.timestamp).toLocaleString(
+                                      'en-US',
+                                      {
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        hour12: false,
+                                      }
+                                    )}
+                                  </p>
+                                </>
+                              ) : (
                                 <p>
-                                  {new Date(chatMessage.timestamp).toLocaleString(
-                                    'en-US',
-                                    {
-                                      hour: 'numeric',
-                                      minute: 'numeric',
-                                      hour12: false,
-                                    }
-                                  )}
+                                  {new Date(chatMessage.timestamp).toLocaleString('en-US', {
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                    hour12: false,
+                                  })}
                                 </p>
-                              </>
-                            ) : chatMessage.externalStatus === 'failed' ? (
-                              <>
-                                <XCircleIcon className="h-4 w-4 text-red-500 dark:text-red-300" />
-                                <p>
-                                  {new Date(chatMessage.timestamp).toLocaleString(
-                                    'en-US',
-                                    {
-                                      hour: 'numeric',
-                                      minute: 'numeric',
-                                      hour12: false,
-                                    }
-                                  )}
-                                </p>
-                              </>
-                            ) : (
+                              )}
+                            </div>
+                          ) : (
+                            <div>
                               <p>
                                 {new Date(chatMessage.timestamp).toLocaleString('en-US', {
                                   hour: 'numeric',
@@ -323,24 +350,14 @@ const ChatContentArea: React.FC<ChatContentAreaProps> = ({
                                   hour12: false,
                                 })}
                               </p>
-                            )}
-                          </div>
-                        ) : (
-                          <div>
-                            <p>
-                              {new Date(chatMessage.timestamp).toLocaleString('en-US', {
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                hour12: false,
-                              })}
-                            </p>
-                          </div>
-                        )}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                )
+              })}
 
               <div ref={bottomScrollAreaRef}></div>
             </ScrollArea>
